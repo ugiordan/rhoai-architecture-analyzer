@@ -1,0 +1,66 @@
+name: Analyze All Components
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # Weekly on Monday at 06:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout analyzer
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Read scan config
+        id: repos
+        run: |
+          REPOS=$(python3 -c "
+          import yaml, json
+          with open('scan-config.yaml') as f:
+              data = yaml.safe_load(f)
+          print(json.dumps(data['repos']))
+          ")
+          echo "repos=${REPOS}" >> "$GITHUB_OUTPUT"
+
+      - name: Analyze all repositories
+        run: |
+          mkdir -p results
+          REPOS='${{ steps.repos.outputs.repos }}'
+          echo "${REPOS}" | python3 -c "
+          import json, sys
+          repos = json.loads(sys.stdin.read())
+          for r in repos:
+              print(r)
+          " | while read -r repo; do
+            echo "=== Analyzing ${repo} ==="
+            bash scripts/analyze-repo.sh "${repo}" results || echo "[!] Failed: ${repo}"
+          done
+
+      - name: Aggregate platform architecture
+        run: python3 analyze.py aggregate results --output-dir platform-output
+
+      - name: Upload component results
+        uses: actions/upload-artifact@v4
+        with:
+          name: component-results
+          path: results/
+          retention-days: 90
+
+      - name: Upload platform results
+        uses: actions/upload-artifact@v4
+        with:
+          name: platform-results
+          path: platform-output/
+          retention-days: 90

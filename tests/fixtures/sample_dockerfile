@@ -1,0 +1,18 @@
+FROM golang:1.22 AS builder
+
+WORKDIR /workspace
+
+COPY go.mod go.sum ./
+RUN go mod download
+
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o manager main.go
+
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.4
+
+WORKDIR /
+COPY --from=builder /workspace/manager .
+USER 65532:65532
+EXPOSE 8443 8080
+
+ENTRYPOINT ["/manager"]

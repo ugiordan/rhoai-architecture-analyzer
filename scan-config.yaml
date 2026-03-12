@@ -1,0 +1,26 @@
+repos:
+  - opendatahub-io/opendatahub-operator
+  - opendatahub-io/mlflow-operator
+  - opendatahub-io/kserve
+  - opendatahub-io/odh-dashboard
+  - opendatahub-io/model-registry
+  - opendatahub-io/model-registry-operator
+  - opendatahub-io/data-science-pipelines
+  - opendatahub-io/data-science-pipelines-operator
+  - opendatahub-io/kubeflow
+  - opendatahub-io/notebooks
+  - opendatahub-io/training-operator
+  - opendatahub-io/modelmesh-serving
+  - opendatahub-io/odh-model-controller
+  - opendatahub-io/trustyai-explainability
+  - opendatahub-io/trustyai-service-operator
+  - opendatahub-io/distributed-workloads
+  - opendatahub-io/kueue
+  - opendatahub-io/kuberay
+  - opendatahub-io/kube-auth-proxy
+  - opendatahub-io/spark-operator
+  - opendatahub-io/trainer
+  - opendatahub-io/feast
+  - opendatahub-io/models-as-a-service
+  - opendatahub-io/llama-stack-k8s-operator
+  - opendatahub-io/odh-ide-extensions

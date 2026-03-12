@@ -1,0 +1,65 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: datascienceclusters.datasciencecluster.opendatahub.io
+spec:
+  group: datasciencecluster.opendatahub.io
+  names:
+    kind: DataScienceCluster
+    listKind: DataScienceClusterList
+    plural: datascienceclusters
+    singular: datasciencecluster
+  scope: Cluster
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            apiVersion:
+              type: string
+            kind:
+              type: string
+            metadata:
+              type: object
+            spec:
+              type: object
+              properties:
+                components:
+                  type: object
+                  properties:
+                    dashboard:
+                      type: object
+                      properties:
+                        managementState:
+                          type: string
+                          enum: ["Managed", "Removed"]
+                    workbenches:
+                      type: object
+                      properties:
+                        managementState:
+                          type: string
+                    modelserving:
+                      type: object
+                      properties:
+                        managementState:
+                          type: string
+              x-kubernetes-validations:
+                - rule: "has(self.components)"
+                  message: "components must be specified"
+            status:
+              type: object
+              properties:
+                phase:
+                  type: string
+                conditions:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                      status:
+                        type: string

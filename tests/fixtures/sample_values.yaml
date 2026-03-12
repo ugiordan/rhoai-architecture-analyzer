@@ -1,0 +1,34 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/opendatahub/operator
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: operator-sa
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  capabilities:
+    drop:
+      - ALL
+
+podSecurityContext:
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault
+
+tls:
+  enabled: true
+  certManager: true
+  secretName: webhook-server-cert
+
+networkPolicy:
+  enabled: true
+  ingressPorts:
+    - 8443
+    - 8080

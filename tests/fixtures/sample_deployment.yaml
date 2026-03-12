@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opendatahub-operator-controller-manager
+  namespace: opendatahub-operator-system
+  labels:
+    app: opendatahub-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opendatahub-operator
+  template:
+    metadata:
+      labels:
+        app: opendatahub-operator
+    spec:
+      serviceAccountName: opendatahub-operator
+      automountServiceAccountToken: true
+      containers:
+        - name: manager
+          image: quay.io/opendatahub/opendatahub-operator:v2.20.0
+          ports:
+            - name: https
+              containerPort: 8443
+              protocol: TCP
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+            - name: CONFIG_DATA
+              valueFrom:
+                configMapKeyRef:
+                  name: operator-config
+                  key: data
+          envFrom:
+            - secretRef:
+                name: extra-secrets
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: tls-certs
+              mountPath: /tmp/k8s-webhook-server/serving-certs
+              readOnly: true
+            - name: config-volume
+              mountPath: /etc/config
+      volumes:
+        - name: tls-certs
+          secret:
+            secretName: webhook-server-cert
+        - name: config-volume
+          configMap:
+            name: operator-config

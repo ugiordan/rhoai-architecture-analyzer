@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: opendatahub-operator-netpol
+  namespace: opendatahub-operator-system
+spec:
+  podSelector:
+    matchLabels:
+      app: opendatahub-operator
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - ports:
+        - port: 8443
+          protocol: TCP
+        - port: 8080
+          protocol: TCP
+      from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: openshift-monitoring
+  egress:
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - port: 6443
+          protocol: TCP
