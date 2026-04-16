@@ -145,6 +145,46 @@
          <lastmod>2026-04-16</lastmod>
     </url>
     <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_auth_proxy/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_auth_proxy/dataflow/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_auth_proxy/network/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_auth_proxy/rbac/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_auth_proxy/security/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/dataflow/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/network/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/rbac/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/security/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kuberay/</loc>
          <lastmod>2026-04-16</lastmod>
     </url>
@@ -202,6 +242,46 @@
     </url>
     <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/notebooks/security/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_dashboard/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_dashboard/dataflow/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_dashboard/network/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_dashboard/rbac/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_dashboard/security/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_model_controller/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_model_controller/dataflow/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_model_controller/network/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_model_controller/rbac/</loc>
+         <lastmod>2026-04-16</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_model_controller/security/</loc>
          <lastmod>2026-04-16</lastmod>
     </url>
     <url>
