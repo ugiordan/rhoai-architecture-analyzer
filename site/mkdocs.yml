@@ -1,0 +1,85 @@
+site_name: RHOAI Architecture Analyzer
+site_url: https://ugiordan.github.io/rhoai-architecture-analyzer
+repo_url: https://github.com/ugiordan/rhoai-architecture-analyzer
+repo_name: ugiordan/rhoai-architecture-analyzer
+edit_uri: edit/main/site/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Scan Configuration: getting-started/scan-config.md
+  - Guides:
+    - Analyzing Repositories: guides/analyzing-repos.md
+    - Security Scanning: guides/security-scanning.md
+    - CRD Contract Validation: guides/crd-validation.md
+    - Platform Aggregation: guides/platform-aggregation.md
+    - CI Integration: guides/ci-integration.md
+  - Reference:
+    - CLI Commands: reference/cli-commands.md
+    - Extractors: reference/extractors.md
+    - Renderers: reference/renderers.md
+    - Domains: reference/domains.md
+    - Output Format: reference/output-format.md
+  - Architecture:
+    - Design Overview: architecture/overview.md
+    - Code Property Graph: architecture/cpg.md
+    - Domain Framework: architecture/domain-framework.md
+    - Cache Analysis: architecture/cache-analysis.md
+  - Contributing:
+    - Development Setup: contributing/development-setup.md
+    - Adding Extractors: contributing/adding-extractors.md

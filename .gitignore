@@ -1,0 +1,9 @@
+output/
+results/
+platform-output/
+*.json
+!contracts/schemas/**/*.json
+.DS_Store
+
+# Binary
+/rhoai-analyzer

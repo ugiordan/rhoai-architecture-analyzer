@@ -1,0 +1,48 @@
+contracts:
+  - provider: opendatahub-operator
+    resource: datasciencecluster.v1
+    consumers:
+      - repo: odh-dashboard
+        usage: reads/updates DSC state via API for UI display and management
+      - repo: odh-model-controller
+        usage: reads DSC to determine component management state
+
+  - provider: opendatahub-operator
+    resource: dsciinitialization.v1
+    consumers:
+      - repo: odh-dashboard
+        usage: reads DSCI for cluster-level config and monitoring namespace
+
+  - provider: kserve
+    resource: inferenceservice.v1beta1
+    consumers:
+      - repo: odh-model-controller
+        usage: watches, creates, updates status on InferenceService CRs
+      - repo: opendatahub-operator
+        usage: manages lifecycle via DSC component reconciliation
+      - repo: odh-dashboard
+        usage: reads via API for model serving UI
+
+  - provider: kserve
+    resource: servingruntime.v1alpha1
+    consumers:
+      - repo: odh-model-controller
+        usage: creates/manages ServingRuntime CRs for model deployments
+      - repo: odh-dashboard
+        usage: reads for runtime selection in UI
+
+  - provider: model-registry-operator
+    resource: modelregistry.v1alpha1
+    consumers:
+      - repo: opendatahub-operator
+        usage: manages lifecycle via DSC component reconciliation
+      - repo: odh-dashboard
+        usage: reads for model registry UI
+
+  - provider: data-science-pipelines-operator
+    resource: datasciencepipelinesapplication.v1alpha1
+    consumers:
+      - repo: opendatahub-operator
+        usage: manages lifecycle via DSC component reconciliation
+      - repo: odh-dashboard
+        usage: reads for pipelines UI integration

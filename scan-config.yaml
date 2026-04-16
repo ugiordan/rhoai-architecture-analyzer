@@ -1,0 +1,60 @@
+orgs:
+  opendatahub-io:
+    repos:
+      # Operators
+      - opendatahub-operator
+      - data-science-pipelines-operator
+      - kserve
+      - model-registry-operator
+      - trustyai-service-operator
+      - kuberay
+      - training-operator
+      - trainer
+      - feast
+      - llama-stack-k8s-operator
+      - mlflow-operator
+      - spark-operator
+      - kubeflow
+      # Core services
+      - odh-dashboard
+      - data-science-pipelines
+      - model-registry
+      - trustyai-explainability
+      - models-as-a-service
+      - notebooks
+      # Inference
+      - modelmesh-serving
+      - odh-model-controller
+      # Infrastructure
+      - kube-auth-proxy
+      - distributed-workloads
+      - kueue
+      - odh-ide-extensions
+      # AI Safety / Guardrails
+      - fms-guardrails-orchestrator
+      - guardrails-detectors
+      # LLM Infrastructure
+      - llm-d-inference-scheduler
+      - llm-d-kv-cache
+      # Evaluation
+      - lm-evaluation-harness
+      # Batch
+      - argo-workflows
+  red-hat-data-services:
+    repos:
+      # Downstream-only repos
+      - rhods-operator
+      - vllm-cpu
+      - eval-hub
+      - batch-gateway
+      - model-metadata-collection
+      - guardrails-regex-detector
+      - NeMo-Guardrails
+      - vllm-orchestrator-gateway
+      - MLServer
+      - vllm-gaudi
+      - openvino_model_server
+      - workload-variant-autoscaler
+      - llama-stack-distribution
+      - llama-stack-provider-ragas
+      - llama-stack-provider-trustyai-garak

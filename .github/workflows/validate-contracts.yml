@@ -1,0 +1,84 @@
+name: Validate Contracts
+
+on:
+  push:
+    paths:
+      - 'contracts/schemas/**'
+  pull_request:
+    paths:
+      - 'contracts/schemas/**'
+      - 'contracts/dependency-graph.yaml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Build analyzer
+        run: go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+
+      - name: Detect changed schemas
+        id: detect
+        run: |
+          git diff --name-only HEAD~1 -- contracts/schemas/ | \
+            sed 's|contracts/schemas/||' | cut -d'/' -f1 | sort -u > /tmp/changed_repos.txt
+          if [ ! -s /tmp/changed_repos.txt ]; then
+            echo "No schema changes detected"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Changed repos:"
+            cat /tmp/changed_repos.txt
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate each changed repo
+        if: steps.detect.outputs.has_changes == 'true'
+        run: |
+          exit_code=0
+          while IFS= read -r repo; do
+            # Validate repo name to prevent injection
+            if ! echo "$repo" | grep -qE '^[a-zA-Z0-9_.-]+$'; then
+              echo "[!] Skipping invalid repo name: $repo"
+              continue
+            fi
+            echo "=== Validating $repo ==="
+            # Compare current schemas against previous commit
+            for schema_file in contracts/schemas/${repo}/*.json; do
+              [ -f "$schema_file" ] || continue
+              resource_key=$(basename "$schema_file" .json)
+
+              old_content=$(git show "HEAD~1:${schema_file}" 2>/dev/null) || {
+                echo "  [NEW] ${resource_key}: first version, no baseline"
+                continue
+              }
+
+              # Write old schema to temp file for comparison
+              old_file=$(mktemp)
+              echo "$old_content" > "$old_file"
+
+              # Use the Go binary's validate-diff subcommand or diff inline
+              new_schema=$(cat "$schema_file")
+              old_schema=$(cat "$old_file")
+              rm -f "$old_file"
+
+              # Simple JSON comparison via Go
+              ./rhoai-analyzer validate "contracts/schemas/${repo}" \
+                --contracts-dir contracts \
+                --repo-name "$repo" && {
+                echo "  [PASS] ${repo}: compatible"
+              } || {
+                echo "  [FAIL] ${repo}: breaking changes detected"
+                exit_code=1
+              }
+              break  # validate checks all schemas for the repo at once
+            done
+          done < /tmp/changed_repos.txt
+          exit $exit_code

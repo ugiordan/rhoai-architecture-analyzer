@@ -1,0 +1,50 @@
+{
+  "type": "object",
+  "properties": {
+    "spec": {
+      "type": "object",
+      "required": [
+        "endpoints",
+        "selector"
+      ],
+      "properties": {
+        "endpoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "port"
+            ],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "port": {
+                "type": "string"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "selector": {
+          "type": "object",
+          "properties": {
+            "matchLabels": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "properties": {
+        "observedGeneration": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    }
+  }
+}
