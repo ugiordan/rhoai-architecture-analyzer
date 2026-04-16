@@ -51,8 +51,10 @@ func (a *GoAnnotator) annotateCallSite(g *graph.CPG, cs *graph.Node) {
 		g.SetAnnotation(cs.ID, AnnotVersionCheck, true)
 	}
 
-	// upgrade:deprecated_api
+	// upgrade:pre_release_api — flags pre-release API version usage.
+	// Note: pre-release (alpha/beta) is not the same as deprecated. A project's
+	// own v1alpha1 types that are the current and only version are not deprecated.
 	if strings.Contains(name, "v1alpha1.") || strings.Contains(name, "v1beta1.") {
-		g.SetAnnotation(cs.ID, AnnotDeprecatedAPI, true)
+		g.SetAnnotation(cs.ID, AnnotPreReleaseAPI, true)
 	}
 }

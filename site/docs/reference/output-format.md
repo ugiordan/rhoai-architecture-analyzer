@@ -2,7 +2,7 @@
 
 ## component-architecture.json
 
-The core output format. Contains all data extracted by the 16 extractors.
+The core output format. Contains all data extracted by the 17 extractors.
 
 ### Top-level structure
 
@@ -27,6 +27,7 @@ The core output format. Contains all data extracted by the 16 extractors.
   "http_endpoints": [],
   "ingress_routing": [],
   "external_connections": [],
+  "feature_gates": [],
   "cache_config": {}
 }
 ```
@@ -135,6 +136,31 @@ The core output format. Contains all data extracted by the 16 extractors.
     "target": "",
     "source": "pkg/events/producer.go:18",
     "function": "InitProducer"
+  }
+]
+```
+
+#### Feature Gates
+
+```json
+[
+  {
+    "name": "PipelineReuse",
+    "default": true,
+    "pre_release": "Beta",
+    "source": "pkg/features/gates.go:15"
+  },
+  {
+    "name": "ExperimentalAPI",
+    "default": false,
+    "pre_release": "Alpha",
+    "source": "pkg/features/gates.go:16"
+  },
+  {
+    "name": "DebugMode",
+    "default": true,
+    "source": "cmd/main.go:42",
+    "runtime_set": true
   }
 ]
 ```

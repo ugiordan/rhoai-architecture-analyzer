@@ -1,6 +1,6 @@
 # Extractors
 
-The analyzer includes 16 extractors that parse Kubernetes manifests, Go source code, Dockerfiles, and Helm charts.
+The analyzer includes 17 extractors that parse Kubernetes manifests, Go source code, Dockerfiles, and Helm charts.
 
 ## Extractor reference
 
@@ -21,7 +21,8 @@ The analyzer includes 16 extractors that parse Kubernetes manifests, Go source c
 | 13 | HTTP Endpoints | Go source (`http.HandleFunc`, `mux.Route`, `gin.Engine`) | Method, path, handler, middleware |
 | 14 | Ingress | `**/ingress*`, `**/virtualservice*`, `**/httproute*` | Gateway API, Istio, K8s Ingress resources |
 | 15 | External Connections | Go source (`sql.Open`, `redis.NewClient`, `grpc.Dial`, `sarama.New*`) | Database, object storage, gRPC, messaging references with credential redaction |
-| 16 | Cache Config | Go source (`ctrl.NewManager`, `cache.Options`) | Cache scope, filtered types, disabled types, implicit informers, GOMEMLIMIT |
+| 16 | Feature Gates | Go source (`DefaultMutableFeatureGate.Add`, `featuregate.Feature` consts) | Gate name, default state, pre-release stage, source location |
+| 17 | Cache Config | Go source (`ctrl.NewManager`, `cache.Options`) | Cache scope, filtered types, disabled types, implicit informers, GOMEMLIMIT |
 
 ## YAML extractors
 
@@ -69,7 +70,7 @@ Scans deployments and services for secret references. Extracts secret names and 
 
 ## Go source extractors
 
-Extractors 6, 13, 15, and 16 parse Go source code.
+Extractors 6, 13, 15, 16, and 17 parse Go source code.
 
 ### Controller Watches extractor
 
@@ -104,6 +105,26 @@ Scans Go source files for references to external services. Detects four categori
 Connection strings are automatically redacted: credentials are stripped from URIs (`postgres://***@host:5432/db`), sensitive query parameters are masked, and `user:pass@` patterns are replaced in non-URI targets. Environment variable references (`os.Getenv`, `${}`) are preserved as-is.
 
 Each match includes the enclosing function name (via brace-counting heuristic) and source location.
+
+### Feature Gates extractor
+
+Scans Go source for feature gate definitions and registrations. Detects:
+
+- **Gate registrations**: `DefaultMutableFeatureGate.Add()`, `MutableFeatureGate.Add()`, `featuregate.NewFeatureGate()`
+- **Gate constants**: `const MyFeature featuregate.Feature = "MyFeature"` declarations
+- **Runtime overrides**: `DefaultMutableFeatureGate.Set("GateName=true")` calls
+
+For each gate, extracts:
+
+- Gate name (resolved from constant if defined)
+- Default enabled/disabled state
+- Pre-release stage (Alpha, Beta, GA, Deprecated)
+- Source file and line number
+- Whether the gate is set via runtime `Set()` rather than static `Add()`
+
+Deduplicates gates by name across files. Test files and vendor directories are skipped.
+
+This data feeds into the CPG upgrade domain query **CGA-U03** (ungated-feature), which detects functions that check unregistered gates or feature-related functions that lack gate checks entirely.
 
 ### Cache Config extractor
 

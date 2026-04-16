@@ -53,6 +53,11 @@ func setupTestRepo(t *testing.T) string {
 	mustMkdirAll(t, chartDir)
 	mustWriteFile(t, filepath.Join(chartDir, "values.yaml"), sampleValues)
 
+	// Feature gate fixture
+	featureDir := filepath.Join(root, "pkg", "features")
+	mustMkdirAll(t, featureDir)
+	mustWriteFile(t, filepath.Join(featureDir, "gates.go"), sampleFeatureGates)
+
 	return root
 }
 
@@ -284,6 +289,26 @@ EXPOSE 8443 8080
 ENTRYPOINT ["/manager"]
 `
 
+const sampleFeatureGates = `package features
+
+import (
+	"k8s.io/component-base/featuregate"
+	utilfeature "k8s.io/apiserver/pkg/util/feature"
+)
+
+const (
+	ModelServingV2 featuregate.Feature = "ModelServingV2"
+	PipelineReuse  featuregate.Feature = "PipelineReuse"
+)
+
+func init() {
+	utilfeature.DefaultMutableFeatureGate.Add(map[featuregate.Feature]featuregate.FeatureSpec{
+		ModelServingV2: {Default: true, PreRelease: featuregate.Beta},
+		PipelineReuse:  {Default: false, PreRelease: featuregate.Alpha},
+	})
+}
+`
+
 const sampleValues = `replicaCount: 1
 
 securityContext:
@@ -352,6 +377,9 @@ func TestExtractAll(t *testing.T) {
 	}
 	if len(arch.Dockerfiles) == 0 {
 		t.Error("expected at least one Dockerfile")
+	}
+	if len(arch.FeatureGates) == 0 {
+		t.Error("expected at least one feature gate")
 	}
 }
 

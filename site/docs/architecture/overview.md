@@ -6,7 +6,7 @@ The RHOAI Architecture Analyzer is a deterministic static analysis tool. No LLM 
 
 ```mermaid
 flowchart TB
-    REPO["Git Repository"] --> EXTRACT["Extractors (16)"]
+    REPO["Git Repository"] --> EXTRACT["Extractors (17)"]
     EXTRACT --> JSON["component-architecture.json"]
     JSON --> RENDER["Renderers (7)"]
     JSON --> AGG["Aggregator"]
@@ -69,7 +69,7 @@ The CPG provides:
 
 ```
 pkg/
-  extractor/      # 16 architecture extractors
+  extractor/      # 17 architecture extractors
   renderer/       # 7 diagram/report renderers
   aggregator/     # Platform-wide aggregation
   validator/      # CRD contract validation

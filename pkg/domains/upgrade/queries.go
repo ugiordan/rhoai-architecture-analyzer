@@ -11,9 +11,9 @@ import (
 func upgradeQueries() []query.Rule {
 	return []query.Rule{
 		{ID: "CGA-U01", Name: "unconverted-crd", Domain: "upgrade", Severity: "medium", Run: queryUnconvertedCRD},
-		{ID: "CGA-U02", Name: "deprecated-api-usage", Domain: "upgrade", Severity: "low", Run: queryDeprecatedAPIUsage},
+		{ID: "CGA-U02", Name: "pre-release-api-usage", Domain: "upgrade", Severity: "low", Run: queryDeprecatedAPIUsage},
 		{ID: "CGA-U03", Name: "ungated-feature", Domain: "upgrade", Severity: "medium", Run: queryUngatedFeature},
-		{ID: "CGA-U04", Name: "unchecked-version-access", Domain: "upgrade", Severity: "high", Run: queryUncheckedVersionAccess},
+		{ID: "CGA-U04", Name: "unchecked-version-access", Domain: "upgrade", Severity: "low", Run: queryUncheckedVersionAccess},
 	}
 }
 
@@ -85,11 +85,14 @@ func extractReceiverType(receiver string) string {
 	return typeName
 }
 
-// CGA-U02: Deprecated API usage in non-test files
+// CGA-U02: Pre-release API usage in non-test files.
+// Flags v1alpha1/v1beta1 API references. These are pre-release versions that
+// may change or be removed. Not necessarily deprecated: a project's own
+// v1alpha1 types that are the current and only version are not deprecated.
 func queryDeprecatedAPIUsage(g *graph.CPG) []query.Finding {
 	var findings []query.Finding
 	for _, cs := range g.NodesByKind(graph.NodeCallSite) {
-		if !cs.Annotations[AnnotDeprecatedAPI] {
+		if !cs.Annotations[AnnotPreReleaseAPI] {
 			continue
 		}
 		if strings.HasSuffix(cs.File, "_test.go") || strings.Contains(cs.File, "vendor/") {
@@ -98,7 +101,7 @@ func queryDeprecatedAPIUsage(g *graph.CPG) []query.Finding {
 		findings = append(findings, query.Finding{
 			RuleID:   "CGA-U02",
 			Severity: "low",
-			Message:  fmt.Sprintf("Deprecated API usage: %s at %s:%d", cs.Name, cs.File, cs.Line),
+			Message:  fmt.Sprintf("Pre-release API usage: %s at %s:%d (v1alpha1/v1beta1 may change between versions)", cs.Name, cs.File, cs.Line),
 			File:     cs.File,
 			Line:     cs.Line,
 			NodeID:   cs.ID,
@@ -107,14 +110,148 @@ func queryDeprecatedAPIUsage(g *graph.CPG) []query.Finding {
 	return findings
 }
 
-// CGA-U03: Functions without feature gate checks.
-// TODO: Implement once architecture data provides feature gate inventory.
-// Requires matching function names against feature-gated component list from arch data.
+// CGA-U03: Functions that check feature gates at runtime, but the gate they
+// reference is not registered in the architecture extraction's feature gate
+// inventory. This catches typos, removed gates, and gates defined in external
+// packages that may not be available at runtime.
+//
+// Additionally, detects functions that contain feature-related naming patterns
+// (e.g., "enableFeatureX", "handleNewCapability") but lack any feature gate
+// check, suggesting the feature may be ungated.
 func queryUngatedFeature(g *graph.CPG) []query.Finding {
-	return nil
+	if g.ArchData == nil {
+		return nil
+	}
+
+	// Build set of registered gate names
+	registeredGates := make(map[string]bool)
+	for _, fg := range g.ArchData.FeatureGates {
+		registeredGates[fg.Name] = true
+	}
+
+	// If no gates are registered at all, skip: the project likely doesn't use feature gates
+	if len(registeredGates) == 0 {
+		return nil
+	}
+
+	var findings []query.Finding
+
+	// Check 1: Find feature gate Enabled() calls referencing unregistered gates.
+	// The annotator marks call sites with AnnotFeatureGate when they call
+	// featuregate.Enabled / DefaultFeatureGate.Enabled.
+	for _, cs := range g.NodesByKind(graph.NodeCallSite) {
+		if !cs.Annotations[AnnotFeatureGate] {
+			continue
+		}
+		if strings.HasSuffix(cs.File, "_test.go") || strings.Contains(cs.File, "vendor/") {
+			continue
+		}
+
+		// Extract the gate name from the call. The call site name looks like:
+		// "utilfeature.DefaultFeatureGate.Enabled" with the argument being
+		// the gate constant. We check if the function's enclosing context
+		// references any registered gate name.
+		gateReferenced := false
+		for gateName := range registeredGates {
+			if strings.Contains(cs.Name, gateName) {
+				gateReferenced = true
+				break
+			}
+		}
+
+		// If none of the registered gates appear in the call, check surrounding
+		// lines for the gate constant. This is a best-effort heuristic since
+		// the CPG doesn't carry argument details for call sites.
+		if !gateReferenced {
+			// Look for any registered gate name in the properties
+			for _, prop := range cs.Properties {
+				for gateName := range registeredGates {
+					if strings.Contains(prop, gateName) {
+						gateReferenced = true
+						break
+					}
+				}
+				if gateReferenced {
+					break
+				}
+			}
+		}
+
+		// If we still can't confirm a registered gate is referenced, flag it
+		if !gateReferenced {
+			findings = append(findings, query.Finding{
+				RuleID:   "CGA-U03",
+				Severity: "medium",
+				Message:  fmt.Sprintf("Feature gate check at %s:%d references a gate not found in the registered feature gate inventory", cs.File, cs.Line),
+				File:     cs.File,
+				Line:     cs.Line,
+				NodeID:   cs.ID,
+			})
+		}
+	}
+
+	// Check 2: Find functions whose names suggest feature-gating but that
+	// contain no feature gate check call within their body.
+	gatedFunctions := make(map[string]bool)
+	for _, cs := range g.NodesByKind(graph.NodeCallSite) {
+		if !cs.Annotations[AnnotFeatureGate] {
+			continue
+		}
+		// Find the parent function via incoming edges
+		for _, edge := range g.InEdges(cs.ID) {
+			fn := g.GetNode(edge.From)
+			if fn != nil && fn.Kind == graph.NodeFunction {
+				gatedFunctions[fn.ID] = true
+			}
+		}
+	}
+
+	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		if strings.HasSuffix(fn.File, "_test.go") || strings.Contains(fn.File, "vendor/") {
+			continue
+		}
+		if gatedFunctions[fn.ID] {
+			continue
+		}
+		nameLower := strings.ToLower(fn.Name)
+		if isFeatureRelatedFunction(nameLower) {
+			findings = append(findings, query.Finding{
+				RuleID:   "CGA-U03",
+				Severity: "medium",
+				Message:  fmt.Sprintf("Function %s appears feature-related but contains no feature gate check (project has %d registered gates)", fn.Name, len(registeredGates)),
+				File:     fn.File,
+				Line:     fn.Line,
+				NodeID:   fn.ID,
+			})
+		}
+	}
+
+	return findings
 }
 
-// CGA-U04: Version check functions that may access slices without bounds check
+// isFeatureRelatedFunction checks if a function name suggests it implements
+// a feature that should be gated.
+func isFeatureRelatedFunction(nameLower string) bool {
+	featurePatterns := []string{
+		"enablefeature", "disablefeature",
+		"setupfeature", "initfeature",
+		"togglefeature", "activatefeature",
+		"configurefeature", "registerfeature",
+		"turnonfeature", "turnofffeature",
+		"withfeature", "handlefeature",
+		"featureflag", "featuregate",
+	}
+	for _, p := range featurePatterns {
+		if strings.Contains(nameLower, p) {
+			return true
+		}
+	}
+	return false
+}
+
+// CGA-U04: Advisory rule. Flags version comparison call sites for manual review.
+// No structural verification is performed: the finding indicates a version check
+// exists, not that a bounds check is necessarily missing. Severity is low (informational).
 func queryUncheckedVersionAccess(g *graph.CPG) []query.Finding {
 	var findings []query.Finding
 	for _, cs := range g.NodesByKind(graph.NodeCallSite) {
@@ -128,8 +265,8 @@ func queryUncheckedVersionAccess(g *graph.CPG) []query.Finding {
 			}
 			findings = append(findings, query.Finding{
 				RuleID:   "CGA-U04",
-				Severity: "high",
-				Message:  fmt.Sprintf("Version check in %s: verify slice access has bounds check", fn.Name),
+				Severity: "low",
+				Message:  fmt.Sprintf("Advisory: version comparison in %s may need bounds check on subsequent slice access (manual review)", fn.Name),
 				File:     fn.File,
 				Line:     cs.Line,
 				NodeID:   cs.ID,

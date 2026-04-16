@@ -9,7 +9,7 @@ hide:
 <div style="text-align: center; padding: 40px 0;">
   <p style="font-size: 1.4em; color: #666;">
     Static analysis for Kubernetes/OpenShift architecture.<br>
-    16 extractors. 7 renderers. Code property graph with security queries.
+    17 extractors. 7 renderers. Code property graph with security queries.
   </p>
   <p>
     <a href="getting-started/installation/" class="md-button md-button--primary">Get Started</a>
@@ -31,7 +31,7 @@ graph LR
         REPO[Git Repository]
     end
 
-    subgraph "Extractors (16)"
+    subgraph "Extractors (17)"
         E1[CRDs]
         E2[RBAC]
         E3[Services]
@@ -47,7 +47,8 @@ graph LR
         E13[HTTP Endpoints]
         E14[Ingress]
         E15[External Connections]
-        E16[Cache Config]
+        E16[Feature Gates]
+        E17[Cache Config]
     end
 
     subgraph Data
@@ -73,8 +74,8 @@ graph LR
         AGG[Platform Aggregator]
     end
 
-    REPO --> E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16
-    E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 --> JSON
+    REPO --> E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17
+    E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17 --> JSON
     JSON --> R1 & R2 & R3 & R4 & R5 & R6 & R7
     JSON --> AGG
     REPO --> CPG --> SEC
@@ -85,7 +86,7 @@ graph LR
     classDef agg fill:#f39c12,stroke:#e67e22,color:#fff
     classDef cpg fill:#9b59b6,stroke:#8e44ad,color:#fff
 
-    class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,E14,E15,E16 extractor
+    class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,E14,E15,E16,E17 extractor
     class R1,R2,R3,R4,R5,R6,R7 renderer
     class JSON data
     class AGG agg
@@ -96,11 +97,11 @@ graph LR
 
 <div class="grid cards" markdown>
 
-- **16 Architecture Extractors**
+- **17 Architecture Extractors**
 
     ---
 
-    CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, ConfigMaps, HTTP endpoints, ingress, external connections (database, gRPC, messaging), and cache architecture.
+    CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, ConfigMaps, HTTP endpoints, ingress, external connections (database, gRPC, messaging), feature gates, and cache architecture.
 
     [:octicons-arrow-right-24: Extractors reference](reference/extractors.md)
 

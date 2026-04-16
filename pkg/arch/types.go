@@ -8,7 +8,8 @@ type Data struct {
 	RBAC      RBAC        `json:"rbac"`
 	Webhooks  []Webhook   `json:"webhooks"`
 	Secrets   []Secret    `json:"secrets_referenced"`
-	Cache     CacheConfig `json:"cache_config"`
+	Cache        CacheConfig  `json:"cache_config"`
+	FeatureGates []FeatureGate `json:"feature_gates"`
 }
 
 // CRD represents a CustomResourceDefinition from the architecture extraction.
@@ -85,6 +86,16 @@ type Secret struct {
 type CacheConfig struct {
 	FilteredTypes []CacheFilteredType `json:"filtered_types"`
 	Issues        []string            `json:"issues"`
+}
+
+// FeatureGate represents a feature gate definition from the architecture extraction.
+type FeatureGate struct {
+	Name          string `json:"name"`
+	Default       bool   `json:"default"`
+	PreRelease    string `json:"pre_release,omitempty"`
+	LockToDefault bool   `json:"lock_to_default,omitempty"`
+	Source        string `json:"source"`
+	RuntimeSet    bool   `json:"runtime_set,omitempty"`
 }
 
 // CacheFilteredType is a type with a cache filter (label, field, or namespace).

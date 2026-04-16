@@ -4,7 +4,7 @@ package upgrade
 const (
 	AnnotVersionConversion = "upgrade:version_conversion"
 	AnnotFeatureGate       = "upgrade:feature_gate"
-	AnnotDeprecatedAPI     = "upgrade:deprecated_api"
+	AnnotPreReleaseAPI     = "upgrade:pre_release_api"
 	AnnotMigration         = "upgrade:migration"
 	AnnotVersionCheck      = "upgrade:version_check"
 )

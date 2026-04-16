@@ -61,6 +61,7 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 		HTTPEndpoints:   extractHTTPEndpoints(absPath),
 		IngressRouting:      extractIngress(absPath),
 		ExternalConnections: extractExternalConnections(absPath),
+		FeatureGates:        extractFeatureGates(absPath),
 	}
 
 	// Cache analysis runs after watches and deployments are extracted
@@ -72,6 +73,10 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 // detectOrg tries to determine the GitHub organization from the repo's go.mod
 // module path, then from .git/config remote origin, then falls back to
 // "opendatahub-io".
+//
+// Note: The detected org name is embedded in output artifacts (ComponentArchitecture.Repo).
+// When analyzing internal/private forks, use ExtractOptions.Org to override
+// auto-detection and avoid disclosing internal organization names.
 func detectOrg(repoPath string) string {
 	// Try go.mod first
 	goModPath := filepath.Join(repoPath, "go.mod")

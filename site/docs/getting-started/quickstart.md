@@ -8,7 +8,7 @@ After [installing](installation.md) the analyzer, here's how to analyze your fir
 rhoai-analyzer analyze /path/to/your/repo --output-dir output/
 ```
 
-This runs all 16 extractors and all 7 renderers, producing:
+This runs all 17 extractors and all 7 renderers, producing:
 
 ```
 output/

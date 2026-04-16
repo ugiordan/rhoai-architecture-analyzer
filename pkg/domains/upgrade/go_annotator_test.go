@@ -71,7 +71,7 @@ func TestGoAnnotatorNoFalsePositives(t *testing.T) {
 	}
 
 	n := g.GetNode("fn1")
-	for _, ann := range []string{AnnotVersionConversion, AnnotFeatureGate, AnnotDeprecatedAPI, AnnotMigration, AnnotVersionCheck} {
+	for _, ann := range []string{AnnotVersionConversion, AnnotFeatureGate, AnnotPreReleaseAPI, AnnotMigration, AnnotVersionCheck} {
 		if n.Annotations[ann] {
 			t.Errorf("unexpected annotation %q on regular function", ann)
 		}

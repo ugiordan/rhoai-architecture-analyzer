@@ -38,6 +38,7 @@ type ComponentArchitecture struct {
 	HTTPEndpoints   []HTTPEndpoint     `json:"http_endpoints"`
 	IngressRouting      []IngressResource  `json:"ingress_routing"`
 	ExternalConnections []ExternalConnection `json:"external_connections,omitempty"`
+	FeatureGates        []FeatureGate        `json:"feature_gates,omitempty"`
 	CacheConfig         *CacheConfig       `json:"cache_config,omitempty"`
 }
 
@@ -302,6 +303,16 @@ type ExternalConnection struct {
 	Target   string `json:"target"`              // redacted connection target
 	Source   string `json:"source"`              // file:line
 	Function string `json:"function,omitempty"`   // enclosing function name
+}
+
+// FeatureGate represents a feature gate definition found in Go source.
+type FeatureGate struct {
+	Name          string `json:"name"`                      // feature gate name (string value)
+	Default       bool   `json:"default"`                   // default enabled state
+	PreRelease    string `json:"pre_release,omitempty"`     // Alpha, Beta, GA, Deprecated
+	LockToDefault bool   `json:"lock_to_default,omitempty"` // locked to default value
+	Source        string `json:"source"`                    // file:line of registration
+	RuntimeSet    bool   `json:"runtime_set,omitempty"`     // set via Set() at runtime rather than Add()
 }
 
 // IngressResource represents a Gateway API, Istio, or Kubernetes ingress resource.

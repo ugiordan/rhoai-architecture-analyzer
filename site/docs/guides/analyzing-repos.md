@@ -10,7 +10,7 @@ rhoai-analyzer analyze /path/to/repo --output-dir output/
 
 This is the most common operation. It:
 
-1. Runs all 16 extractors against the repository
+1. Runs all 17 extractors against the repository
 2. Produces `component-architecture.json` with all extracted data
 3. Renders all 7 diagram/report formats
 

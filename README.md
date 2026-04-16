@@ -6,10 +6,11 @@ A static analysis tool that extracts architecture data from Kubernetes/OpenShift
 
 ## Features
 
-- **16 extractors** covering CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, configmaps, HTTP endpoints, ingress, external connections, and cache architecture
+- **17 extractors** covering CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, configmaps, HTTP endpoints, ingress, external connections, feature gates, and cache architecture
 - **7 renderers** producing Mermaid diagrams, Structurizr C4 DSL, ASCII security views, and structured markdown reports
 - **Cache architecture analysis** detecting OOM risks by cross-referencing controller-runtime cache config against watches and deployment memory limits
 - **External connection detection** scanning Go source for database, object storage, gRPC, and messaging service references with automatic credential redaction
+- **Feature gate inventory** extracting registered gates with default state, pre-release stage, and source location for upgrade safety analysis
 - **Code property graph** with security queries (taint analysis, SQL injection, hardcoded secrets, missing auth)
 - **CRD contract validation** detecting breaking schema changes across repos
 - **Platform aggregation** merging multiple component analyses into a cross-repo view
@@ -22,7 +23,7 @@ graph LR
         REPO[Git Repository]
     end
 
-    subgraph "Extractors (16)"
+    subgraph "Extractors (17)"
         E1[CRDs]
         E2[RBAC]
         E3[Services]
@@ -38,7 +39,8 @@ graph LR
         E13[HTTP Endpoints]
         E14[Ingress]
         E15[External Connections]
-        E16[Cache Config]
+        E16[Feature Gates]
+        E17[Cache Config]
     end
 
     subgraph Data
@@ -64,8 +66,8 @@ graph LR
         AGG[Platform Aggregator]
     end
 
-    REPO --> E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16
-    E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 --> JSON
+    REPO --> E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17
+    E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17 --> JSON
     JSON --> R1 & R2 & R3 & R4 & R5 & R6 & R7
     JSON --> AGG
     REPO --> CPG --> SEC
@@ -76,7 +78,7 @@ graph LR
     classDef agg fill:#f39c12,stroke:#e67e22,color:#fff
     classDef cpg fill:#9b59b6,stroke:#8e44ad,color:#fff
 
-    class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,E14,E15,E16 extractor
+    class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,E14,E15,E16,E17 extractor
     class R1,R2,R3,R4,R5,R6,R7 renderer
     class JSON data
     class AGG agg
@@ -176,6 +178,7 @@ Produces:
 | HTTP Endpoints | Go source (`http.HandleFunc`, `mux.Route`, `gin.Engine`) | Method, path, handler, middleware |
 | Ingress | `**/ingress*`, `**/virtualservice*`, `**/httproute*` | Gateway API, Istio, K8s Ingress resources |
 | External Connections | Go source (`sql.Open`, `redis.NewClient`, `grpc.Dial`, `sarama.New*`) | Database, object storage, gRPC, messaging references with credential redaction |
+| Feature Gates | Go source (`DefaultMutableFeatureGate.Add`, `featuregate.Feature` consts) | Gate name, default state, pre-release stage, source location |
 | Cache Config | Go source (`ctrl.NewManager`, `cache.Options`) | Cache scope, filtered types, disabled types, implicit informers, GOMEMLIMIT |
 
 ### Cache Architecture Analysis
@@ -210,7 +213,7 @@ rhoai-architecture-analyzer/
   cmd/rhoai-analyzer/
     main.go              # CLI entry point with 11 subcommands
   pkg/
-    extractor/           # 16 architecture extractors
+    extractor/           # 17 architecture extractors
     renderer/            # 7 diagram/report renderers
     aggregator/          # Platform-wide aggregation
     validator/           # CRD contract validation
