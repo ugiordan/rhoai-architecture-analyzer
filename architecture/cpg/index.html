@@ -3602,6 +3602,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-is-a-cpg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a CPG?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3926,6 +3937,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-is-a-cpg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a CPG?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#structure" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4052,6 +4074,10 @@
 
 <h1 id="code-property-graph">Code Property Graph<a class="headerlink" href="#code-property-graph" title="Permanent link">&para;</a></h1>
 <p>The code property graph (CPG) is a unified representation of Go source code that supports cross-function analysis and security queries.</p>
+<h2 id="what-is-a-cpg">What is a CPG?<a class="headerlink" href="#what-is-a-cpg" title="Permanent link">&para;</a></h2>
+<p>When you write Go code like <code>func main() { fmt.Println("hello") }</code>, the compiler first turns it into an <strong>Abstract Syntax Tree (AST)</strong>: a tree structure where each node represents a syntactic element (function declaration, call expression, string literal, etc.). The AST captures the structure of the code but not the relationships between different parts of the program.</p>
+<p>A <strong>Code Property Graph</strong> goes further: it takes the AST and adds cross-references, data flow edges, and semantic annotations. This means you can ask questions like "which functions call <code>exec.Command</code> with user-supplied input?" or "does any controller watch a CRD it doesn't own?" by traversing the graph rather than doing text search.</p>
+<p>The analyzer builds its CPG using <a href="https://tree-sitter.github.io/tree-sitter/">tree-sitter</a>, a fast incremental parsing library, via the Go binding <a href="https://github.com/smacker/go-tree-sitter"><code>go-tree-sitter</code></a>. Tree-sitter produces a concrete syntax tree for each Go source file, which the builder then transforms into the CPG by resolving cross-file references and adding semantic edges.</p>
 <h2 id="structure">Structure<a class="headerlink" href="#structure" title="Permanent link">&para;</a></h2>
 <pre class="mermaid"><code>graph TD
     FILE["File Node"] --&gt; FUNC["Function Node"]
@@ -4136,32 +4162,35 @@
 <li>Write operations (adding nodes/edges) are serialized</li>
 </ul>
 <h2 id="building-the-cpg">Building the CPG<a class="headerlink" href="#building-the-cpg" title="Permanent link">&para;</a></h2>
+<p>The CPG is built in two stages: parse, then assemble.</p>
 <pre class="mermaid"><code>flowchart LR
     SRC["*.go files"] --&gt; TS["Tree-sitter\nParser"]
-    TS --&gt; PR["ParseResult\n(functions, calls,\nparams, literals)"]
-    PR --&gt; BUILD["Builder"]
+    TS --&gt; AST["Syntax Trees\n(per file)"]
+    AST --&gt; EXT["Extractor\n(functions, calls,\nparams, literals)"]
+    EXT --&gt; PR["ParseResult"]
+    PR --&gt; BUILD["Builder\n(cross-file\nresolution)"]
     BUILD --&gt; CPG["Code Property\nGraph"]
 
     classDef parse fill:#3498db,stroke:#2980b9,color:#fff
     classDef build fill:#2ecc71,stroke:#27ae60,color:#fff
-    class TS,PR parse
+    class TS,AST,EXT,PR parse
     class BUILD build</code></pre>
 <ol>
 <li>
-<p><strong>Parser</strong> (<code>pkg/parser/go_parser.go</code>): Tree-sitter parses each Go file, extracting:</p>
+<p><strong>Parser</strong> (<code>pkg/parser/go_parser.go</code>): Tree-sitter parses each <code>.go</code> file into a syntax tree, then the parser walks the tree extracting:</p>
 <ul>
 <li>Function declarations with parameters and return types</li>
-<li>Function call expressions with arguments</li>
-<li>Composite literals (struct instantiation)</li>
-<li>Switch/case statements</li>
+<li>Function call expressions with arguments (including detecting sensitive sinks like <code>exec.Command</code>, <code>sql.Query</code>)</li>
+<li>Composite literals (struct instantiation with field values)</li>
+<li>Switch/case statements (used for detecting unhandled CRD versions)</li>
 </ul>
 </li>
 <li>
-<p><strong>Builder</strong> (<code>pkg/builder/builder.go</code>): Assembles parse results into the CPG:</p>
+<p><strong>Builder</strong> (<code>pkg/builder/builder.go</code>): Assembles per-file parse results into the unified CPG:</p>
 <ul>
 <li>Creates nodes for each function, parameter, call, literal</li>
 <li>Creates edges (calls, contains, aliases)</li>
-<li>Resolves cross-file references</li>
+<li>Resolves cross-file references (function A in file X calls function B in file Y)</li>
 </ul>
 </li>
 </ol>
@@ -4224,7 +4253,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 09:07:28 UTC">April 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 16:09:00 UTC">April 16, 2026</span>
   </span>
 
     
