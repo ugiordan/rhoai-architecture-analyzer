@@ -109,6 +109,10 @@
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/cache/</loc>
+         <lastmod>2026-04-17</lastmod>
+    </url>
+    <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/dataflow/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
@@ -126,6 +130,10 @@
     </url>
     <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kserve/</loc>
+         <lastmod>2026-04-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/kserve/cache/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
@@ -209,6 +217,10 @@
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/model_registry_operator/cache/</loc>
+         <lastmod>2026-04-17</lastmod>
+    </url>
+    <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/model_registry_operator/dataflow/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
@@ -269,6 +281,10 @@
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_model_controller/cache/</loc>
+         <lastmod>2026-04-17</lastmod>
+    </url>
+    <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/odh_model_controller/dataflow/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
@@ -289,6 +305,10 @@
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/opendatahub_operator/cache/</loc>
+         <lastmod>2026-04-17</lastmod>
+    </url>
+    <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/opendatahub_operator/dataflow/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
@@ -306,6 +326,10 @@
     </url>
     <url>
          <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/trustyai_service_operator/</loc>
+         <lastmod>2026-04-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ugiordan.github.io/rhoai-architecture-analyzer/rhoai-platform/components/trustyai_service_operator/cache/</loc>
          <lastmod>2026-04-17</lastmod>
     </url>
     <url>
