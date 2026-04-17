@@ -6,30 +6,62 @@
 
 Each bar shows the widest role (by resource type count). Scope: 🔴 wide (>30), 🟠 medium (10-30), 🟢 narrow (<10).
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '12px'}, 'xyChart': {'width': 900, 'height': 400, 'plotReservedSpacePercent': 60}}}%%
-xychart-beta
-    title "Widest Role Scope (resource types)"
-    x-axis ["DSPO", "KSR", "MR-OP", "ODH-DB", "ODH-MC", "ODH-OP", "TRUST"]
-    y-axis "Resource types" 0 --> 60
-    bar [55, 45, 27, 40, 41, 2, 44]
-```
+<div markdown class="bar-chart-container" style="margin: 1em 0; padding: 1em; border: 1px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
 
+**Widest Role Scope (resource types)**
 
-<details markdown>
-<summary>Component abbreviations</summary>
-
-| Code | Component |
-|------|-----------|
-| DSPO | data-science-pipelines-operator |
-| KSR | kserve |
-| MR-OP | model-registry-operator |
-| ODH-DB | odh-dashboard |
-| ODH-MC | odh-model-controller |
-| ODH-OP | opendatahub-operator |
-| TRUST | trustyai-service-operator |
-
-</details>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">data-science-pipelines-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 100%; background: #e74c3c; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">55</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kserve</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 81%; background: #e74c3c; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">45</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">model-registry-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 49%; background: #f39c12; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">27</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">odh-dashboard</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 72%; background: #e74c3c; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">40</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">odh-model-controller</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 74%; background: #e74c3c; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">41</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">opendatahub-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 3%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">trustyai-service-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 80%; background: #e74c3c; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">44</span>
+</div>
+</div>
+</div>
 
 ## RBAC Binding Graph
 

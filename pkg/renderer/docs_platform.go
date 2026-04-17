@@ -6,50 +6,43 @@ import (
 	"strings"
 )
 
-// abbreviateComponent creates a short code from a component name for chart labels.
-// e.g. "data-science-pipelines-operator" -> "DSPO", "kserve" -> "KSR"
-func abbreviateComponent(name string) string {
-	// Known abbreviations for common RHOAI components
-	abbrevs := map[string]string{
-		"data-science-pipelines-operator": "DSPO",
-		"opendatahub-operator":            "ODH-OP",
-		"odh-model-controller":            "ODH-MC",
-		"odh-dashboard":                   "ODH-DB",
-		"model-registry-operator":         "MR-OP",
-		"trustyai-service-operator":       "TRUST",
-		"kserve":                           "KSR",
-		"kuberay":                          "KRAY",
-		"kube-auth-proxy":                  "KAUTH",
-		"modelmesh-serving":                "MMESH",
-		"codeflare-operator":               "CFLR",
-		"training-operator":                "TRAIN",
-	}
-	if abbr, ok := abbrevs[name]; ok {
-		return abbr
-	}
-	// Fallback: take first letter of each word (split on -)
-	parts := strings.Split(name, "-")
-	code := ""
-	for _, p := range parts {
-		if len(p) > 0 {
-			code += strings.ToUpper(p[:1])
-		}
-	}
-	if len(code) > 5 {
-		code = code[:5]
-	}
-	return code
+// chartItem holds a label-value pair for bar chart rendering.
+type chartItem struct {
+	name  string
+	value int
 }
 
-// renderChartLegend writes a markdown table mapping abbreviations to full component names.
-func renderChartLegend(b *strings.Builder, owners []string) {
-	b.WriteString("\n<details markdown>\n<summary>Component abbreviations</summary>\n\n")
-	b.WriteString("| Code | Component |\n")
-	b.WriteString("|------|-----------|\n")
-	for _, owner := range owners {
-		b.WriteString(fmt.Sprintf("| %s | %s |\n", abbreviateComponent(owner), owner))
+// renderHTMLBarChart generates an HTML horizontal bar chart with full component names.
+// Uses inline styles so it renders in any markdown processor with md_in_html support.
+func renderHTMLBarChart(b *strings.Builder, title string, items []chartItem, maxVal int) {
+	if maxVal == 0 {
+		maxVal = 1
 	}
-	b.WriteString("\n</details>\n\n")
+	b.WriteString(fmt.Sprintf("<div markdown class=\"bar-chart-container\" style=\"margin: 1em 0; padding: 1em; border: 1px solid var(--md-default-fg-color--lightest); border-radius: 8px;\">\n\n"))
+	b.WriteString(fmt.Sprintf("**%s**\n\n", title))
+	b.WriteString("<div style=\"display: flex; flex-direction: column; gap: 6px;\">\n")
+	for _, item := range items {
+		pct := item.value * 100 / maxVal
+		if pct < 2 {
+			pct = 2
+		}
+		// Color based on value thresholds
+		color := "#27ae60" // green
+		if item.value > 30 {
+			color = "#e74c3c" // red
+		} else if item.value > 10 {
+			color = "#f39c12" // orange
+		}
+		b.WriteString(fmt.Sprintf("<div style=\"display: flex; align-items: center; gap: 8px;\">\n", ))
+		b.WriteString(fmt.Sprintf("  <span style=\"min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;\">%s</span>\n", item.name))
+		b.WriteString(fmt.Sprintf("  <div style=\"flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;\">\n"))
+		b.WriteString(fmt.Sprintf("    <div style=\"width: %d%%; background: %s; height: 100%%; border-radius: 4px; min-width: 20px;\"></div>\n", pct, color))
+		b.WriteString(fmt.Sprintf("  </div>\n"))
+		b.WriteString(fmt.Sprintf("  <span style=\"min-width: 30px; font-size: 0.85em; font-weight: 600;\">%d</span>\n", item.value))
+		b.WriteString("</div>\n")
+	}
+	b.WriteString("</div>\n")
+	b.WriteString("</div>\n\n")
 }
 
 // renderPlatformDocs generates a complete docs site from aggregated platform data.
@@ -558,19 +551,9 @@ func renderPlatformRBACDocPage(data map[string]interface{}) string {
 		b.WriteString("## Permission Scope by Component\n\n")
 		b.WriteString("Each bar shows the widest role (by resource type count). Scope: ")
 		b.WriteString("\U0001F534 wide (>30), \U0001F7E0 medium (10-30), \U0001F7E2 narrow (<10).\n\n")
-		// Chart width scales with number of components (100px per bar + margins)
-		chartWidth := len(owners)*100 + 200
-		if chartWidth < 500 {
-			chartWidth = 500
-		}
-		b.WriteString("```mermaid\n")
-		b.WriteString(fmt.Sprintf("%%%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '12px'}, 'xyChart': {'width': %d, 'height': 400, 'plotReservedSpacePercent': 60}}}%%%%\n", chartWidth))
-		b.WriteString("xychart-beta\n")
-		b.WriteString("    title \"Widest Role Scope (resource types)\"\n")
-		b.WriteString("    x-axis [")
 
-		labels := make([]string, 0, len(owners))
-		values := make([]int, 0, len(owners))
+		var chartItems []chartItem
+		maxVal := 0
 		for _, owner := range owners {
 			roles := ownerRoles[owner]
 			maxRes := 0
@@ -579,28 +562,12 @@ func renderPlatformRBACDocPage(data map[string]interface{}) string {
 					maxRes = r.ResourceCount
 				}
 			}
-			labels = append(labels, fmt.Sprintf("\"%s\"", abbreviateComponent(owner)))
-			values = append(values, maxRes)
-		}
-		b.WriteString(strings.Join(labels, ", "))
-		b.WriteString("]\n")
-		b.WriteString("    y-axis \"Resource types\" 0 --> ")
-		maxVal := 0
-		for _, v := range values {
-			if v > maxVal {
-				maxVal = v
+			chartItems = append(chartItems, chartItem{owner, maxRes})
+			if maxRes > maxVal {
+				maxVal = maxRes
 			}
 		}
-		b.WriteString(fmt.Sprintf("%d\n", maxVal+5))
-		b.WriteString("    bar [")
-		valStrs := make([]string, len(values))
-		for i, v := range values {
-			valStrs[i] = fmt.Sprintf("%d", v)
-		}
-		b.WriteString(strings.Join(valStrs, ", "))
-		b.WriteString("]\n")
-		b.WriteString("```\n\n")
-		renderChartLegend(&b, owners)
+		renderHTMLBarChart(&b, "Widest Role Scope (resource types)", chartItems, maxVal)
 
 		// RBAC graph: ServiceAccount -> Role bindings across the platform
 		b.WriteString("## RBAC Binding Graph\n\n")
@@ -657,41 +624,18 @@ func renderPlatformSecretsDocPage(data map[string]interface{}) string {
 		}
 		sort.Strings(owners)
 
-		// Compact bar chart: secrets per component
-		chartWidth := len(owners)*100 + 200
-		if chartWidth < 500 {
-			chartWidth = 500
-		}
+		// Bar chart: secrets per component
 		b.WriteString("## Secret Distribution\n\n")
-		b.WriteString("```mermaid\n")
-		b.WriteString(fmt.Sprintf("%%%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '12px'}, 'xyChart': {'width': %d, 'height': 400, 'plotReservedSpacePercent': 60}}}%%%%\n", chartWidth))
-		b.WriteString("xychart-beta\n")
-		b.WriteString("    title \"Secrets per Component\"\n")
-		b.WriteString("    x-axis [")
-		labels := make([]string, 0, len(owners))
-		totalVals := make([]int, 0, len(owners))
+		var secretItems []chartItem
+		secretMax := 0
 		for _, owner := range owners {
-			labels = append(labels, fmt.Sprintf("\"%s\"", abbreviateComponent(owner)))
-			totalVals = append(totalVals, len(ownerSecrets[owner]))
-		}
-		b.WriteString(strings.Join(labels, ", "))
-		b.WriteString("]\n")
-		maxVal := 0
-		for _, v := range totalVals {
-			if v > maxVal {
-				maxVal = v
+			count := len(ownerSecrets[owner])
+			secretItems = append(secretItems, chartItem{owner, count})
+			if count > secretMax {
+				secretMax = count
 			}
 		}
-		b.WriteString(fmt.Sprintf("    y-axis \"Secrets\" 0 --> %d\n", maxVal+2))
-		b.WriteString("    bar [")
-		valStrs := make([]string, len(totalVals))
-		for i, v := range totalVals {
-			valStrs[i] = fmt.Sprintf("%d", v)
-		}
-		b.WriteString(strings.Join(valStrs, ", "))
-		b.WriteString("]\n")
-		b.WriteString("```\n\n")
-		renderChartLegend(&b, owners)
+		renderHTMLBarChart(&b, "Secrets per Component", secretItems, secretMax)
 
 		// Summary table
 		b.WriteString("## Secrets by Component\n\n")

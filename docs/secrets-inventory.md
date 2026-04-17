@@ -4,31 +4,69 @@
 
 ## Secret Distribution
 
-```mermaid
-%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '12px'}, 'xyChart': {'width': 1000, 'height': 400, 'plotReservedSpacePercent': 60}}}%%
-xychart-beta
-    title "Secrets per Component"
-    x-axis ["DSPO", "KSR", "KAUTH", "KRAY", "MR-OP", "ODH-DB", "ODH-MC", "ODH-OP"]
-    y-axis "Secrets" 0 --> 12
-    bar [4, 3, 2, 1, 2, 2, 1, 10]
-```
+<div markdown class="bar-chart-container" style="margin: 1em 0; padding: 1em; border: 1px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
 
+**Secrets per Component**
 
-<details markdown>
-<summary>Component abbreviations</summary>
-
-| Code | Component |
-|------|-----------|
-| DSPO | data-science-pipelines-operator |
-| KSR | kserve |
-| KAUTH | kube-auth-proxy |
-| KRAY | kuberay |
-| MR-OP | model-registry-operator |
-| ODH-DB | odh-dashboard |
-| ODH-MC | odh-model-controller |
-| ODH-OP | opendatahub-operator |
-
-</details>
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">data-science-pipelines-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 40%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">4</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kserve</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 30%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">3</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kube-auth-proxy</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 20%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kuberay</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 10%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">model-registry-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 20%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">odh-dashboard</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 20%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">odh-model-controller</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 10%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">opendatahub-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 100%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">10</span>
+</div>
+</div>
+</div>
 
 ## Secrets by Component
 

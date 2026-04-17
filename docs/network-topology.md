@@ -144,9 +144,9 @@ graph LR
     odh_dashboard["odh-dashboard"]:::comp
     opendatahub_operator["opendatahub-operator"]:::comp
 
+    opendatahub_operator -.->|"kserve-controller-manager-service"| kserve
     opendatahub_operator -.->|"kuberay-operator"| kuberay
     opendatahub_operator -.->|"odh-dashboard"| odh_dashboard
-    opendatahub_operator -.->|"kserve-controller-manager-service"| kserve
 ```
 
 ## Services by Component
