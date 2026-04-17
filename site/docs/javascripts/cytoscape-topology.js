@@ -5,7 +5,6 @@
     component: { bg: "#3498db", border: "#2980b9", text: "#fff" },
     service: { bg: "#2ecc71", border: "#27ae60", text: "#fff" },
     external: { bg: "#e74c3c", border: "#c0392b", text: "#fff" },
-    netpol: { bg: "#f39c12", border: "#d68910", text: "#fff" },
   };
 
   var EDGE_COLORS = {
@@ -13,24 +12,34 @@
     sidecar: "#9b59b6",
     module: "#95a5a6",
     external: "#e67e22",
-    service: "#2ecc71",
   };
 
-  function initGraph(container) {
-    var dataEl = container.querySelector("script[type='application/json']");
+  function initGraph(wrapper) {
+    var dataEl = wrapper.querySelector("script[type='application/json']");
     if (!dataEl) return;
 
     var data;
     try {
       data = JSON.parse(dataEl.textContent);
     } catch (e) {
+      console.error("Cytoscape topology: invalid JSON", e);
       return;
     }
 
+    // Remove the script tag and create a clean render container
+    var container = document.createElement("div");
+    container.style.cssText = "width:100%;height:100%;";
+    wrapper.innerHTML = "";
+    wrapper.appendChild(container);
+
     var elements = [];
+
+    // Build a set of known node IDs to filter edges
+    var knownNodes = {};
 
     // Add component nodes (parents)
     data.components.forEach(function (comp) {
+      knownNodes[comp.id] = true;
       elements.push({
         data: {
           id: comp.id,
@@ -44,7 +53,8 @@
     });
 
     // Add service nodes as children of components
-    data.services.forEach(function (svc) {
+    (data.services || []).forEach(function (svc) {
+      knownNodes[svc.id] = true;
       elements.push({
         data: {
           id: svc.id,
@@ -57,7 +67,8 @@
     });
 
     // Add external nodes
-    data.externals.forEach(function (ext) {
+    (data.externals || []).forEach(function (ext) {
+      knownNodes[ext.id] = true;
       elements.push({
         data: {
           id: ext.id,
@@ -67,8 +78,9 @@
       });
     });
 
-    // Add edges
-    data.edges.forEach(function (edge) {
+    // Add edges (only if both endpoints exist)
+    (data.edges || []).forEach(function (edge) {
+      if (!knownNodes[edge.from] || !knownNodes[edge.to]) return;
       elements.push({
         data: {
           id: edge.from + "-" + edge.to + "-" + edge.type,
@@ -84,9 +96,7 @@
     var isDark =
       document.body.getAttribute("data-md-color-scheme") === "slate";
     var bgColor = isDark ? "#1e1e1e" : "#fafafa";
-    var textColor = isDark ? "#e0e0e0" : "#333";
     var parentBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)";
-    var parentBorder = isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.1)";
 
     var cy = cytoscape({
       container: container,
@@ -96,7 +106,7 @@
       wheelSensitivity: 0.3,
 
       style: [
-        // Compound (parent) nodes
+        // Compound (parent) nodes: components that have services
         {
           selector: 'node[nodeType="component"]',
           style: {
@@ -117,7 +127,7 @@
             "min-height": "40px",
           },
         },
-        // Leaf component nodes (no services) get filled style
+        // Leaf component nodes (no services): filled circles
         {
           selector: "node[nodeType='component']:childless",
           style: {
@@ -170,7 +180,7 @@
             "text-wrap": "wrap",
           },
         },
-        // Edges
+        // Edges base
         {
           selector: "edge",
           style: {
@@ -196,7 +206,6 @@
             width: 3,
             "line-color": EDGE_COLORS.watches,
             "target-arrow-color": EDGE_COLORS.watches,
-            "line-style": "solid",
           },
         },
         {
@@ -205,7 +214,6 @@
             width: 2,
             "line-color": EDGE_COLORS.sidecar,
             "target-arrow-color": EDGE_COLORS.sidecar,
-            "line-style": "solid",
           },
         },
         {
@@ -226,7 +234,7 @@
             "line-style": "dotted",
           },
         },
-        // Hover effects
+        // Selection highlight
         {
           selector: "node:active, node:selected",
           style: {
@@ -237,10 +245,7 @@
         },
         {
           selector: "edge:active, edge:selected",
-          style: {
-            width: 4,
-            "overlay-opacity": 0,
-          },
+          style: { width: 4, "overlay-opacity": 0 },
         },
       ],
 
@@ -292,8 +297,7 @@
         var edges = cy.edges().filter(function (e) {
           return e.data("source") === d.id || e.data("target") === d.id;
         });
-        if (edges.length > 0)
-          html += "<br>Connections: " + edges.length;
+        if (edges.length > 0) html += "<br>Connections: " + edges.length;
       } else if (d.nodeType === "service" && d.ports) {
         html += "<br>Ports: " + d.ports;
       }
@@ -331,7 +335,7 @@
     });
 
     // Store reference for toolbar
-    container._cy = cy;
+    wrapper._cy = cy;
   }
 
   function initAll() {
@@ -354,16 +358,23 @@
       var cy = container._cy;
       var action = btn.dataset.action;
 
-      if (action === "fit") cy.animate({ fit: { padding: 30 }, duration: 400 });
-      if (action === "zoom-in") cy.animate({ zoom: cy.zoom() * 1.3, duration: 200 });
-      if (action === "zoom-out") cy.animate({ zoom: cy.zoom() / 1.3, duration: 200 });
+      if (action === "fit")
+        cy.animate({ fit: { padding: 30 }, duration: 400 });
+      if (action === "zoom-in")
+        cy.animate({ zoom: cy.zoom() * 1.3, duration: 200 });
+      if (action === "zoom-out")
+        cy.animate({ zoom: cy.zoom() / 1.3, duration: 200 });
       if (action === "relayout") {
         cy.layout({
           name: "cose",
           animate: true,
           animationDuration: 800,
-          nodeRepulsion: function () { return 8000; },
-          idealEdgeLength: function () { return 120; },
+          nodeRepulsion: function () {
+            return 8000;
+          },
+          idealEdgeLength: function () {
+            return 120;
+          },
           nestingFactor: 1.2,
           gravity: 0.25,
           numIter: 1000,
@@ -376,26 +387,26 @@
     true
   );
 
-  // Wait for Cytoscape to load
-  function waitForCytoscape() {
+  // Wait for Cytoscape library to load, then init
+  function waitAndInit() {
     if (typeof cytoscape !== "undefined") {
       initAll();
     } else {
-      setTimeout(waitForCytoscape, 200);
+      setTimeout(waitAndInit, 200);
     }
   }
 
-  // Poll for containers
+  // Start initialization
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", waitForCytoscape);
+    document.addEventListener("DOMContentLoaded", waitAndInit);
   } else {
-    waitForCytoscape();
+    waitAndInit();
   }
 
   // mkdocs-material instant navigation
   if (typeof document$ !== "undefined") {
     document$.subscribe(function () {
-      setTimeout(waitForCytoscape, 300);
+      setTimeout(waitAndInit, 300);
     });
   }
 })();

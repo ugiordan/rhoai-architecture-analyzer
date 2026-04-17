@@ -66,12 +66,23 @@
 
     // MOVE (not clone) the div so the closed shadow DOM stays attached
     mermaidDiv.style.cssText =
-      "max-width:none; max-height:none; width:auto; height:auto; overflow:visible; zoom:1;";
+      "max-width:none; max-height:none; overflow:visible; zoom:1;";
     container.appendChild(mermaidDiv);
     overlay.appendChild(container);
     document.body.appendChild(overlay);
 
-    var olZoom = 1;
+    // Auto-scale to fill the viewport
+    var naturalW = mermaidDiv.scrollWidth || mermaidDiv.offsetWidth;
+    var naturalH = mermaidDiv.scrollHeight || mermaidDiv.offsetHeight;
+    var availW = container.clientWidth - 64;
+    var availH = container.clientHeight - 32;
+    var fitZoom = 1;
+    if (naturalW > 0 && naturalH > 0) {
+      fitZoom = Math.min(availW / naturalW, availH / naturalH, 3);
+      fitZoom = Math.max(fitZoom, 0.5);
+    }
+    mermaidDiv.style.zoom = fitZoom;
+    var olZoom = fitZoom;
 
     function close() {
       mermaidDiv.style.cssText = origStyle;
