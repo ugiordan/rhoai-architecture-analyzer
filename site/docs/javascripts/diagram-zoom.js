@@ -19,11 +19,20 @@
     div._hasControls = true;
     div._zoomLevel = 1;
 
-    // Wrap in scrollable container so zoom doesn't overflow into page
+    // Wrap in clipping container (overflow:hidden by default, fullscreen for detail)
     var wrapper = document.createElement("div");
     wrapper.className = "diagram-wrapper";
     div.parentNode.insertBefore(wrapper, div);
     wrapper.appendChild(div);
+
+    // Detect if content is clipped and add fade-out hint
+    requestAnimationFrame(function () {
+      setTimeout(function () {
+        if (div.scrollHeight > wrapper.clientHeight + 10) {
+          wrapper.classList.add("clipped");
+        }
+      }, 2000); // Wait for mermaid render
+    });
 
     var bar = document.createElement("div");
     bar.className = "diagram-actions";
@@ -157,6 +166,15 @@
       // CSS zoom affects layout (unlike transform:scale which causes overlap)
       mermaidDiv.style.zoom =
         mermaidDiv._zoomLevel === 1 ? "" : mermaidDiv._zoomLevel;
+
+      // Switch to scrollable when zoomed, back to clipped when reset
+      if (mermaidDiv._zoomLevel === 1) {
+        wrapper.style.overflow = "";
+        wrapper.classList.toggle("clipped", mermaidDiv.scrollHeight > wrapper.clientHeight + 10);
+      } else {
+        wrapper.style.overflow = "auto";
+        wrapper.classList.remove("clipped");
+      }
     },
     true
   );

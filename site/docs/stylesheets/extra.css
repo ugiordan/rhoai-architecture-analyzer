@@ -1,9 +1,22 @@
-/* Wrapper: scrollable container that prevents zoom overflow into page */
+/* Wrapper: clips oversized diagrams, use fullscreen for detail */
 .diagram-wrapper {
-  overflow: auto;
+  overflow: hidden;
   max-width: 100%;
-  max-height: 500px;
+  max-height: 350px;
   margin-bottom: 0 !important;
+  position: relative;
+}
+
+/* Fade-out hint when content is clipped */
+.diagram-wrapper.clipped::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(transparent, var(--md-default-bg-color));
+  pointer-events: none;
 }
 
 /* Mermaid div inside wrapper: no constraints (wrapper handles containment) */
