@@ -43,6 +43,8 @@ extra_css:
   - stylesheets/extra.css
 
 extra_javascript:
+  - https://unpkg.com/cytoscape@3.30.4/dist/cytoscape.min.js
+  - javascripts/cytoscape-topology.js
   - javascripts/diagram-zoom.js
 
 markdown_extensions:

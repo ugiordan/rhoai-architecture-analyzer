@@ -1,6 +1,7 @@
 package renderer
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"strings"
@@ -767,8 +768,43 @@ func renderPlatformRBACGraph(b *strings.Builder, rbacRoles []map[string]interfac
 	b.WriteString("```\n\n")
 }
 
-// renderPlatformNetworkTopologyGraph generates a Kiali-style network topology
-// showing components, their services, external dependencies, and traffic flows.
+// topologyGraphData holds the JSON structure for Cytoscape.js rendering.
+type topologyGraphData struct {
+	Components []topologyComponent `json:"components"`
+	Services   []topologyService   `json:"services"`
+	Externals  []topologyExternal  `json:"externals"`
+	Edges      []topologyEdge      `json:"edges"`
+}
+
+type topologyComponent struct {
+	ID           string `json:"id"`
+	Name         string `json:"name"`
+	ServiceCount int    `json:"serviceCount"`
+	NetpolCount  int    `json:"netpolCount"`
+	HasIngress   bool   `json:"hasIngress"`
+}
+
+type topologyService struct {
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Parent string `json:"parent"`
+	Ports  string `json:"ports"`
+}
+
+type topologyExternal struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"`
+}
+
+type topologyEdge struct {
+	From string `json:"from"`
+	To   string `json:"to"`
+	Type string `json:"type"`
+}
+
+// renderPlatformNetworkTopologyGraph generates an interactive Cytoscape.js
+// network topology (Kiali-style) with a mermaid fallback in a collapsible section.
 func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]interface{}) {
 	componentData := getSlice(data, "component_data")
 	if len(componentData) == 0 {
@@ -776,24 +812,14 @@ func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]inte
 	}
 
 	b.WriteString("## Network Topology Graph\n\n")
-	b.WriteString("Service mesh view of the platform. Components are grouped with their services. ")
-	b.WriteString("Arrows show inter-component dependencies (CRD watches, Go module imports, sidecar injection) and external service connections.\n\n")
-
-	b.WriteString("```mermaid\n")
-	b.WriteString("%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 20, 'rankSpacing': 40, 'curve': 'basis'}}}%%\n")
-	b.WriteString("graph TB\n")
-	b.WriteString("    classDef comp fill:#3498db,stroke:#2980b9,color:#fff\n")
-	b.WriteString("    classDef svc fill:#2ecc71,stroke:#27ae60,color:#fff,font-size:10px\n")
-	b.WriteString("    classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff\n")
-	b.WriteString("    classDef netpol fill:#f39c12,stroke:#d68910,color:#fff,font-size:10px\n")
-	b.WriteString("    classDef webhook fill:#9b59b6,stroke:#8e44ad,color:#fff,font-size:10px\n\n")
+	b.WriteString("Interactive service mesh view of the platform. Drag nodes to rearrange, hover to highlight connections, click for details. ")
+	b.WriteString("Double-click background to fit all.\n\n")
 
 	// Collect per-component data
 	type compInfo struct {
 		name       string
 		services   []map[string]interface{}
 		extConns   []map[string]interface{}
-		webhooks   []map[string]interface{}
 		netPols    []map[string]interface{}
 		hasIngress bool
 	}
@@ -808,23 +834,23 @@ func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]inte
 			name:     name,
 			services: getSlice(cd, "services"),
 			extConns: getSlice(cd, "external_connections"),
-			webhooks: getSlice(cd, "webhooks"),
 			netPols:  getSlice(cd, "network_policies"),
 		}
 		ci.hasIngress = len(getSlice(cd, "ingress_routing")) > 0
 		components = append(components, ci)
 	}
 
-	// Sort by name for stable output
 	sort.Slice(components, func(i, j int) bool {
 		return components[i].name < components[j].name
 	})
 
-	// Render each component as a subgraph with its services
+	// Build graph data structure
+	graphData := topologyGraphData{}
+
 	for _, comp := range components {
 		compID := sanitizeID(comp.name)
 
-		// Dedup services by name
+		// Dedup services
 		type svcKey struct{ name, svcType string }
 		seen := make(map[svcKey]bool)
 		var uniqueSvcs []map[string]interface{}
@@ -838,54 +864,33 @@ func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]inte
 			}
 		}
 
-		if len(uniqueSvcs) > 0 || len(comp.extConns) > 0 {
-			b.WriteString(fmt.Sprintf("    subgraph %s_sub[\"%s\"]\n", compID, escapeLabel(comp.name)))
-			b.WriteString(fmt.Sprintf("        %s([\"%s\"]):::%s\n", compID, escapeLabel(comp.name), "comp"))
+		graphData.Components = append(graphData.Components, topologyComponent{
+			ID:           compID,
+			Name:         comp.name,
+			ServiceCount: len(uniqueSvcs),
+			NetpolCount:  len(comp.netPols),
+			HasIngress:   comp.hasIngress,
+		})
 
-			// Services (limit to 5 per component to keep graph readable)
-			displaySvcs := uniqueSvcs
-			if len(displaySvcs) > 5 {
-				displaySvcs = displaySvcs[:5]
-			}
-			for i, svc := range displaySvcs {
-				svcName := getStr(svc, "name", "")
-				ports := getSlice(svc, "ports")
-				var portStr string
-				if len(ports) > 0 {
-					portParts := make([]string, 0)
-					for _, p := range ports {
-						portParts = append(portParts, fmt.Sprintf("%d", getInt(p, "port")))
-					}
-					portStr = strings.Join(portParts, ",")
+		for i, svc := range uniqueSvcs {
+			svcName := getStr(svc, "name", "")
+			ports := getSlice(svc, "ports")
+			var portStr string
+			if len(ports) > 0 {
+				portParts := make([]string, 0)
+				for _, p := range ports {
+					portParts = append(portParts, fmt.Sprintf("%d", getInt(p, "port")))
 				}
-				svcID := fmt.Sprintf("%s_svc_%d", compID, i)
-				label := escapeLabel(svcName)
-				if portStr != "" {
-					label += "\\n:" + portStr
-				}
-				b.WriteString(fmt.Sprintf("        %s[\"%s\"]:::svc\n", svcID, label))
-				b.WriteString(fmt.Sprintf("        %s --- %s\n", compID, svcID))
+				portStr = strings.Join(portParts, ",")
 			}
-			if len(uniqueSvcs) > 5 {
-				moreID := fmt.Sprintf("%s_svc_more", compID)
-				b.WriteString(fmt.Sprintf("        %s[\"+%d more\"]:::svc\n", moreID, len(uniqueSvcs)-5))
-			}
-
-			// Network policy indicator
-			if len(comp.netPols) > 0 {
-				npID := fmt.Sprintf("%s_np", compID)
-				b.WriteString(fmt.Sprintf("        %s{{\"%d NetworkPolicies\"}}:::netpol\n", npID, len(comp.netPols)))
-				b.WriteString(fmt.Sprintf("        %s -.- %s\n", npID, compID))
-			}
-
-			b.WriteString("    end\n")
-		} else {
-			// Component with no services
-			b.WriteString(fmt.Sprintf("    %s([\"%s\"]):::%s\n", compID, escapeLabel(comp.name), "comp"))
+			graphData.Services = append(graphData.Services, topologyService{
+				ID:     fmt.Sprintf("%s_svc_%d", compID, i),
+				Name:   svcName,
+				Parent: compID,
+				Ports:  portStr,
+			})
 		}
 	}
-
-	b.WriteString("\n")
 
 	// External services (deduplicated)
 	extSeen := make(map[string]bool)
@@ -896,12 +901,14 @@ func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]inte
 			key := ecType + "/" + service
 			if !extSeen[key] && service != "" {
 				extSeen[key] = true
-				extID := sanitizeID("ext_" + service)
-				b.WriteString(fmt.Sprintf("    %s[[\"%s\\n%s\"]]:::ext\n", extID, escapeLabel(service), ecType))
+				graphData.Externals = append(graphData.Externals, topologyExternal{
+					ID:   sanitizeID("ext_" + service),
+					Name: service,
+					Type: ecType,
+				})
 			}
 		}
 	}
-	b.WriteString("\n")
 
 	// Inter-component dependency edges
 	depGraph := getSlice(data, "dependency_graph")
@@ -923,11 +930,7 @@ func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]inte
 	}
 
 	for _, pair := range edgeOrder {
-		fromID := sanitizeID(pair.from)
-		toID := sanitizeID(pair.to)
 		labels := edgeLabels[pair]
-
-		// Classify edge type
 		hasWatch := false
 		hasSidecar := false
 		for _, l := range labels {
@@ -938,14 +941,17 @@ func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]inte
 				hasSidecar = true
 			}
 		}
-
+		edgeType := "module"
 		if hasWatch {
-			b.WriteString(fmt.Sprintf("    %s ==>|watches| %s\n", fromID, toID))
+			edgeType = "watches"
 		} else if hasSidecar {
-			b.WriteString(fmt.Sprintf("    %s -->|sidecar| %s\n", fromID, toID))
-		} else {
-			b.WriteString(fmt.Sprintf("    %s -.->|module| %s\n", fromID, toID))
+			edgeType = "sidecar"
 		}
+		graphData.Edges = append(graphData.Edges, topologyEdge{
+			From: sanitizeID(pair.from),
+			To:   sanitizeID(pair.to),
+			Type: edgeType,
+		})
 	}
 
 	// External connection edges
@@ -958,10 +964,41 @@ func renderPlatformNetworkTopologyGraph(b *strings.Builder, data map[string]inte
 				continue
 			}
 			extConnSeen[service] = true
-			extID := sanitizeID("ext_" + service)
-			b.WriteString(fmt.Sprintf("    %s -.-> %s\n", compID, extID))
+			graphData.Edges = append(graphData.Edges, topologyEdge{
+				From: compID,
+				To:   sanitizeID("ext_" + service),
+				Type: "external",
+			})
 		}
 	}
 
-	b.WriteString("```\n\n")
+	// Serialize JSON
+	jsonBytes, err := json.Marshal(graphData)
+	if err != nil {
+		b.WriteString("*Error generating topology data.*\n\n")
+		return
+	}
+
+	// Render interactive Cytoscape container
+	b.WriteString("<div class=\"topology-toolbar\">\n")
+	b.WriteString("  <button data-action=\"fit\" title=\"Fit to view\">Fit</button>\n")
+	b.WriteString("  <button data-action=\"zoom-in\" title=\"Zoom in\">+</button>\n")
+	b.WriteString("  <button data-action=\"zoom-out\" title=\"Zoom out\">&minus;</button>\n")
+	b.WriteString("  <button data-action=\"relayout\" title=\"Re-run layout\">Relayout</button>\n")
+	b.WriteString("</div>\n")
+	b.WriteString("<div class=\"cytoscape-topology\">\n")
+	b.WriteString("  <script type=\"application/json\">\n")
+	b.WriteString("  ")
+	b.Write(jsonBytes)
+	b.WriteString("\n  </script>\n")
+	b.WriteString("</div>\n")
+	b.WriteString("<div class=\"topology-legend\">\n")
+	b.WriteString("  <span><span class=\"swatch\" style=\"background:#3498db\"></span> Component</span>\n")
+	b.WriteString("  <span><span class=\"swatch\" style=\"background:#2ecc71\"></span> Service</span>\n")
+	b.WriteString("  <span><span class=\"swatch\" style=\"background:#e74c3c\"></span> External</span>\n")
+	b.WriteString("  <span><span class=\"line-swatch\" style=\"background:#e74c3c\"></span> CRD Watch</span>\n")
+	b.WriteString("  <span><span class=\"line-swatch\" style=\"background:#9b59b6\"></span> Sidecar</span>\n")
+	b.WriteString("  <span><span class=\"line-swatch\" style=\"background:#95a5a6;border-top:2px dashed #95a5a6;height:0\"></span> Module</span>\n")
+	b.WriteString("  <span><span class=\"line-swatch\" style=\"background:#e67e22;border-top:2px dotted #e67e22;height:0\"></span> External Conn</span>\n")
+	b.WriteString("</div>\n\n")
 }

@@ -4,132 +4,28 @@
 
 ## Network Topology Graph
 
-Service mesh view of the platform. Components are grouped with their services. Arrows show inter-component dependencies (CRD watches, Go module imports, sidecar injection) and external service connections.
+Interactive service mesh view of the platform. Drag nodes to rearrange, hover to highlight connections, click for details. Double-click background to fit all.
 
-```mermaid
-%%{init: {'theme': 'base', 'flowchart': {'nodeSpacing': 20, 'rankSpacing': 40, 'curve': 'basis'}}}%%
-graph TB
-    classDef comp fill:#3498db,stroke:#2980b9,color:#fff
-    classDef svc fill:#2ecc71,stroke:#27ae60,color:#fff,font-size:10px
-    classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
-    classDef netpol fill:#f39c12,stroke:#d68910,color:#fff,font-size:10px
-    classDef webhook fill:#9b59b6,stroke:#8e44ad,color:#fff,font-size:10px
-
-    subgraph data_science_pipelines_operator_sub["data-science-pipelines-operator"]
-        data_science_pipelines_operator(["data-science-pipelines-operator"]):::comp
-        data_science_pipelines_operator_svc_0["mariadb\n:3306"]:::svc
-        data_science_pipelines_operator --- data_science_pipelines_operator_svc_0
-        data_science_pipelines_operator_svc_1["minio\n:9000,9001"]:::svc
-        data_science_pipelines_operator --- data_science_pipelines_operator_svc_1
-        data_science_pipelines_operator_svc_2["pypi-server\n:8080"]:::svc
-        data_science_pipelines_operator --- data_science_pipelines_operator_svc_2
-    end
-    subgraph kserve_sub["kserve"]
-        kserve(["kserve"]):::comp
-        kserve_svc_0["llmisvc-controller-manager-service\n:8443"]:::svc
-        kserve --- kserve_svc_0
-        kserve_svc_1["kserve-controller-manager-service\n:8443"]:::svc
-        kserve --- kserve_svc_1
-        kserve_svc_2["llmisvc-webhook-server-service\n:443"]:::svc
-        kserve --- kserve_svc_2
-        kserve_svc_3["localmodel-webhook-server-service\n:443"]:::svc
-        kserve --- kserve_svc_3
-        kserve_svc_4["kserve-webhook-server-service\n:443"]:::svc
-        kserve --- kserve_svc_4
-        kserve_svc_more["+1 more"]:::svc
-        kserve_np{{"1 NetworkPolicies"}}:::netpol
-        kserve_np -.- kserve
-    end
-    subgraph kube_auth_proxy_sub["kube-auth-proxy"]
-        kube_auth_proxy(["kube-auth-proxy"]):::comp
-    end
-    subgraph kube_rbac_proxy_sub["kube-rbac-proxy"]
-        kube_rbac_proxy(["kube-rbac-proxy"]):::comp
-        kube_rbac_proxy_svc_0["kube-rbac-proxy\n:8443"]:::svc
-        kube_rbac_proxy --- kube_rbac_proxy_svc_0
-    end
-    subgraph kuberay_sub["kuberay"]
-        kuberay(["kuberay"]):::comp
-        kuberay_svc_0["kuberay-operator\n:8080"]:::svc
-        kuberay --- kuberay_svc_0
-        kuberay_svc_1["webhook-service\n:443"]:::svc
-        kuberay --- kuberay_svc_1
-    end
-    subgraph model_registry_operator_sub["model-registry-operator"]
-        model_registry_operator(["model-registry-operator"]):::comp
-        model_registry_operator_svc_0["webhook-service\n:443"]:::svc
-        model_registry_operator --- model_registry_operator_svc_0
-    end
-    subgraph notebooks_sub["notebooks"]
-        notebooks(["notebooks"]):::comp
-        notebooks_svc_0["notebook\n:8888"]:::svc
-        notebooks --- notebooks_svc_0
-    end
-    subgraph odh_dashboard_sub["odh-dashboard"]
-        odh_dashboard(["odh-dashboard"]):::comp
-        odh_dashboard_svc_0["odh-dashboard\n:8443"]:::svc
-        odh_dashboard --- odh_dashboard_svc_0
-        odh_dashboard_svc_1["workspaces-backend\n:4000"]:::svc
-        odh_dashboard --- odh_dashboard_svc_1
-        odh_dashboard_svc_2["workspaces-webhook-service\n:443"]:::svc
-        odh_dashboard --- odh_dashboard_svc_2
-        odh_dashboard_svc_3["workspaces-controller-metrics-service\n:8080"]:::svc
-        odh_dashboard --- odh_dashboard_svc_3
-        odh_dashboard_svc_4["workspaces-frontend\n:8080"]:::svc
-        odh_dashboard --- odh_dashboard_svc_4
-        odh_dashboard_np{{"5 NetworkPolicies"}}:::netpol
-        odh_dashboard_np -.- odh_dashboard
-    end
-    subgraph odh_model_controller_sub["odh-model-controller"]
-        odh_model_controller(["odh-model-controller"]):::comp
-        odh_model_controller_svc_0["odh-model-controller-webhook-service\n:443"]:::svc
-        odh_model_controller --- odh_model_controller_svc_0
-    end
-    subgraph opendatahub_operator_sub["opendatahub-operator"]
-        opendatahub_operator(["opendatahub-operator"]):::comp
-        opendatahub_operator_svc_0["webhook-service\n:443"]:::svc
-        opendatahub_operator --- opendatahub_operator_svc_0
-        opendatahub_operator_svc_1["odh-dashboard\n:8443"]:::svc
-        opendatahub_operator --- opendatahub_operator_svc_1
-        opendatahub_operator_svc_2["kserve-controller-manager-service\n:8443"]:::svc
-        opendatahub_operator --- opendatahub_operator_svc_2
-        opendatahub_operator_svc_3["kserve-webhook-server-service\n:443"]:::svc
-        opendatahub_operator --- opendatahub_operator_svc_3
-        opendatahub_operator_svc_4["odh-model-controller-webhook-service\n:443"]:::svc
-        opendatahub_operator --- opendatahub_operator_svc_4
-        opendatahub_operator_svc_more["+3 more"]:::svc
-        opendatahub_operator_np{{"2 NetworkPolicies"}}:::netpol
-        opendatahub_operator_np -.- opendatahub_operator
-    end
-    trustyai_service_operator(["trustyai-service-operator"]):::comp
-
-    ext_mysql[["mysql\ndatabase"]]:::ext
-    ext_minio[["minio\nobject-storage"]]:::ext
-    ext_azure_blob[["azure-blob\nobject-storage"]]:::ext
-    ext_gcs[["gcs\nobject-storage"]]:::ext
-    ext_s3[["s3\nobject-storage"]]:::ext
-    ext_redis[["redis\ndatabase"]]:::ext
-    ext_grpc[["grpc\ngrpc"]]:::ext
-
-    odh_dashboard -.->|module| llama_stack_k8s_operator
-    odh_dashboard -.->|module| mlflow_go
-    odh_model_controller ==>|watches| kserve
-    opendatahub_operator -.->|module| models_as_a_service
-    kserve -->|sidecar| kube_rbac_proxy
-    kube_auth_proxy -->|sidecar| kube_rbac_proxy
-    odh_dashboard -->|sidecar| kube_rbac_proxy
-    opendatahub_operator -->|sidecar| kube_rbac_proxy
-    opendatahub_operator -->|sidecar| kserve
-    data_science_pipelines_operator -.-> ext_mysql
-    data_science_pipelines_operator -.-> ext_minio
-    kserve -.-> ext_azure_blob
-    kserve -.-> ext_gcs
-    kserve -.-> ext_s3
-    kube_auth_proxy -.-> ext_redis
-    kuberay -.-> ext_grpc
-    odh_dashboard -.-> ext_s3
-    opendatahub_operator -.-> ext_s3
-```
+<div class="topology-toolbar">
+  <button data-action="fit" title="Fit to view">Fit</button>
+  <button data-action="zoom-in" title="Zoom in">+</button>
+  <button data-action="zoom-out" title="Zoom out">&minus;</button>
+  <button data-action="relayout" title="Re-run layout">Relayout</button>
+</div>
+<div class="cytoscape-topology">
+  <script type="application/json">
+  {"components":[{"id":"data_science_pipelines_operator","name":"data-science-pipelines-operator","serviceCount":3,"netpolCount":0,"hasIngress":false},{"id":"kserve","name":"kserve","serviceCount":6,"netpolCount":1,"hasIngress":true},{"id":"kube_auth_proxy","name":"kube-auth-proxy","serviceCount":0,"netpolCount":0,"hasIngress":false},{"id":"kube_rbac_proxy","name":"kube-rbac-proxy","serviceCount":1,"netpolCount":0,"hasIngress":false},{"id":"kuberay","name":"kuberay","serviceCount":2,"netpolCount":0,"hasIngress":true},{"id":"model_registry_operator","name":"model-registry-operator","serviceCount":1,"netpolCount":0,"hasIngress":false},{"id":"notebooks","name":"notebooks","serviceCount":1,"netpolCount":0,"hasIngress":false},{"id":"odh_dashboard","name":"odh-dashboard","serviceCount":5,"netpolCount":5,"hasIngress":true},{"id":"odh_model_controller","name":"odh-model-controller","serviceCount":1,"netpolCount":0,"hasIngress":false},{"id":"opendatahub_operator","name":"opendatahub-operator","serviceCount":8,"netpolCount":2,"hasIngress":true},{"id":"trustyai_service_operator","name":"trustyai-service-operator","serviceCount":0,"netpolCount":0,"hasIngress":false}],"services":[{"id":"data_science_pipelines_operator_svc_0","name":"mariadb","parent":"data_science_pipelines_operator","ports":"3306"},{"id":"data_science_pipelines_operator_svc_1","name":"minio","parent":"data_science_pipelines_operator","ports":"9000,9001"},{"id":"data_science_pipelines_operator_svc_2","name":"pypi-server","parent":"data_science_pipelines_operator","ports":"8080"},{"id":"kserve_svc_0","name":"llmisvc-controller-manager-service","parent":"kserve","ports":"8443"},{"id":"kserve_svc_1","name":"kserve-controller-manager-service","parent":"kserve","ports":"8443"},{"id":"kserve_svc_2","name":"llmisvc-webhook-server-service","parent":"kserve","ports":"443"},{"id":"kserve_svc_3","name":"localmodel-webhook-server-service","parent":"kserve","ports":"443"},{"id":"kserve_svc_4","name":"kserve-webhook-server-service","parent":"kserve","ports":"443"},{"id":"kserve_svc_5","name":"webhook-service","parent":"kserve","ports":"443"},{"id":"kube_rbac_proxy_svc_0","name":"kube-rbac-proxy","parent":"kube_rbac_proxy","ports":"8443"},{"id":"kuberay_svc_0","name":"kuberay-operator","parent":"kuberay","ports":"8080"},{"id":"kuberay_svc_1","name":"webhook-service","parent":"kuberay","ports":"443"},{"id":"model_registry_operator_svc_0","name":"webhook-service","parent":"model_registry_operator","ports":"443"},{"id":"notebooks_svc_0","name":"notebook","parent":"notebooks","ports":"8888"},{"id":"odh_dashboard_svc_0","name":"odh-dashboard","parent":"odh_dashboard","ports":"8443"},{"id":"odh_dashboard_svc_1","name":"workspaces-backend","parent":"odh_dashboard","ports":"4000"},{"id":"odh_dashboard_svc_2","name":"workspaces-webhook-service","parent":"odh_dashboard","ports":"443"},{"id":"odh_dashboard_svc_3","name":"workspaces-controller-metrics-service","parent":"odh_dashboard","ports":"8080"},{"id":"odh_dashboard_svc_4","name":"workspaces-frontend","parent":"odh_dashboard","ports":"8080"},{"id":"odh_model_controller_svc_0","name":"odh-model-controller-webhook-service","parent":"odh_model_controller","ports":"443"},{"id":"opendatahub_operator_svc_0","name":"webhook-service","parent":"opendatahub_operator","ports":"443"},{"id":"opendatahub_operator_svc_1","name":"odh-dashboard","parent":"opendatahub_operator","ports":"8443"},{"id":"opendatahub_operator_svc_2","name":"kserve-controller-manager-service","parent":"opendatahub_operator","ports":"8443"},{"id":"opendatahub_operator_svc_3","name":"kserve-webhook-server-service","parent":"opendatahub_operator","ports":"443"},{"id":"opendatahub_operator_svc_4","name":"odh-model-controller-webhook-service","parent":"opendatahub_operator","ports":"443"},{"id":"opendatahub_operator_svc_5","name":"kuberay-operator","parent":"opendatahub_operator","ports":"8080"},{"id":"opendatahub_operator_svc_6","name":"training-operator","parent":"opendatahub_operator","ports":"8080,443"},{"id":"opendatahub_operator_svc_7","name":"service","parent":"opendatahub_operator","ports":"443"}],"externals":[{"id":"ext_mysql","name":"mysql","type":"database"},{"id":"ext_minio","name":"minio","type":"object-storage"},{"id":"ext_azure_blob","name":"azure-blob","type":"object-storage"},{"id":"ext_gcs","name":"gcs","type":"object-storage"},{"id":"ext_s3","name":"s3","type":"object-storage"},{"id":"ext_redis","name":"redis","type":"database"},{"id":"ext_grpc","name":"grpc","type":"grpc"}],"edges":[{"from":"odh_dashboard","to":"llama_stack_k8s_operator","type":"module"},{"from":"odh_dashboard","to":"mlflow_go","type":"module"},{"from":"odh_model_controller","to":"kserve","type":"watches"},{"from":"opendatahub_operator","to":"models_as_a_service","type":"module"},{"from":"kserve","to":"kube_rbac_proxy","type":"sidecar"},{"from":"kube_auth_proxy","to":"kube_rbac_proxy","type":"sidecar"},{"from":"odh_dashboard","to":"kube_rbac_proxy","type":"sidecar"},{"from":"opendatahub_operator","to":"kube_rbac_proxy","type":"sidecar"},{"from":"opendatahub_operator","to":"kserve","type":"sidecar"},{"from":"data_science_pipelines_operator","to":"ext_mysql","type":"external"},{"from":"data_science_pipelines_operator","to":"ext_minio","type":"external"},{"from":"kserve","to":"ext_azure_blob","type":"external"},{"from":"kserve","to":"ext_gcs","type":"external"},{"from":"kserve","to":"ext_s3","type":"external"},{"from":"kube_auth_proxy","to":"ext_redis","type":"external"},{"from":"kuberay","to":"ext_grpc","type":"external"},{"from":"odh_dashboard","to":"ext_s3","type":"external"},{"from":"opendatahub_operator","to":"ext_s3","type":"external"}]}
+  </script>
+</div>
+<div class="topology-legend">
+  <span><span class="swatch" style="background:#3498db"></span> Component</span>
+  <span><span class="swatch" style="background:#2ecc71"></span> Service</span>
+  <span><span class="swatch" style="background:#e74c3c"></span> External</span>
+  <span><span class="line-swatch" style="background:#e74c3c"></span> CRD Watch</span>
+  <span><span class="line-swatch" style="background:#9b59b6"></span> Sidecar</span>
+  <span><span class="line-swatch" style="background:#95a5a6;border-top:2px dashed #95a5a6;height:0"></span> Module</span>
+  <span><span class="line-swatch" style="background:#e67e22;border-top:2px dotted #e67e22;height:0"></span> External Conn</span>
+</div>
 
 ## Cross-Component Service References
 
@@ -144,9 +40,9 @@ graph LR
     odh_dashboard["odh-dashboard"]:::comp
     opendatahub_operator["opendatahub-operator"]:::comp
 
-    opendatahub_operator -.->|"odh-dashboard"| odh_dashboard
-    opendatahub_operator -.->|"kuberay-operator"| kuberay
     opendatahub_operator -.->|"kserve-controller-manager-service"| kserve
+    opendatahub_operator -.->|"kuberay-operator"| kuberay
+    opendatahub_operator -.->|"odh-dashboard"| odh_dashboard
 ```
 
 ## Services by Component
