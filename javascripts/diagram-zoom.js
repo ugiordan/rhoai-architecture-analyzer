@@ -1,15 +1,18 @@
-// Diagram controls: zoom in/out, fullscreen overlay
-// Strategy: don't wrap or modify mermaid elements before rendering.
-// Wait for SVGs to appear, then insert a sibling action bar AFTER each diagram.
-// Fullscreen uses a modal overlay (no CSS position:fixed on the pre).
+// Diagram controls for mkdocs-material mermaid diagrams.
+//
+// mkdocs-material replaces <pre class="mermaid"> with <div class="mermaid">
+// containing a CLOSED shadow DOM with the SVG inside. We cannot access the
+// SVG directly, so we operate on the outer <div> element for zoom/fullscreen.
 (function () {
   var ZOOM_STEP = 0.25;
   var MIN_SCALE = 0.5;
   var MAX_SCALE = 5;
 
-  function addControls(pre) {
-    if (pre.nextElementSibling && pre.nextElementSibling.classList.contains("diagram-actions")) return;
-    if (!pre.querySelector("svg")) return;
+  function addControls(div) {
+    // Skip if already has controls
+    if (div.nextElementSibling && div.nextElementSibling.classList.contains("diagram-actions")) return;
+    // Only target rendered divs (not unprocessed pre elements)
+    if (div.tagName !== "DIV") return;
 
     var bar = document.createElement("div");
     bar.className = "diagram-actions";
@@ -18,15 +21,16 @@
       '<button data-action="zoom-out" title="Zoom out">&#8722;</button>' +
       '<button data-action="reset" title="Reset zoom">1:1</button>' +
       '<button data-action="fullscreen" title="View full screen">&#9974;</button>';
-    pre.after(bar);
-    pre._zoomScale = 1;
+    div.after(bar);
+    div._zoomScale = 1;
   }
 
   function scanAll() {
-    document.querySelectorAll("pre.mermaid").forEach(addControls);
+    // After mkdocs-material renders, the element is <div class="mermaid">
+    document.querySelectorAll("div.mermaid").forEach(addControls);
   }
 
-  function openFullscreen(svg) {
+  function openFullscreen(mermaidDiv) {
     var overlay = document.createElement("div");
     overlay.className = "diagram-overlay";
 
@@ -41,13 +45,10 @@
 
     var container = document.createElement("div");
     container.className = "diagram-overlay-content";
-    var svgClone = svg.cloneNode(true);
-    svgClone.removeAttribute("style");
-    svgClone.style.maxWidth = "none";
-    svgClone.style.maxHeight = "none";
-    svgClone.style.width = "auto";
-    svgClone.style.height = "auto";
-    container.appendChild(svgClone);
+    // Clone the entire div (the closed shadow DOM renders visually within it)
+    var clone = mermaidDiv.cloneNode(true);
+    clone.style.cssText = "max-width:none; max-height:none; width:auto; height:auto; overflow:visible;";
+    container.appendChild(clone);
     overlay.appendChild(container);
 
     document.body.appendChild(overlay);
@@ -71,12 +72,12 @@
       if (action === "ol-zoom-in") overlay._scale = Math.min(overlay._scale + ZOOM_STEP, MAX_SCALE);
       if (action === "ol-zoom-out") overlay._scale = Math.max(overlay._scale - ZOOM_STEP, MIN_SCALE);
       if (action === "ol-reset") overlay._scale = 1;
-      svgClone.style.transform = overlay._scale === 1 ? "" : "scale(" + overlay._scale + ")";
-      svgClone.style.transformOrigin = "top left";
+      clone.style.transform = overlay._scale === 1 ? "" : "scale(" + overlay._scale + ")";
+      clone.style.transformOrigin = "top left";
     });
   }
 
-  // Click delegation for inline action bars (capture phase)
+  // Click delegation (capture phase to beat other handlers)
   document.addEventListener("click", function (e) {
     var btn = e.target.closest(".diagram-actions button");
     if (!btn) return;
@@ -85,35 +86,33 @@
     e.stopImmediatePropagation();
 
     var bar = btn.closest(".diagram-actions");
-    var pre = bar.previousElementSibling;
-    if (!pre) return;
-    var svg = pre.querySelector("svg");
+    var mermaidDiv = bar.previousElementSibling;
+    if (!mermaidDiv) return;
     var action = btn.dataset.action;
 
     if (action === "fullscreen") {
-      if (svg) openFullscreen(svg);
+      openFullscreen(mermaidDiv);
       return;
     }
 
-    if (!svg) return;
-    if (!pre._zoomScale) pre._zoomScale = 1;
+    // Zoom: transform the outer div (shadow DOM content scales with it)
+    if (!mermaidDiv._zoomScale) mermaidDiv._zoomScale = 1;
+    if (action === "zoom-in") mermaidDiv._zoomScale = Math.min(mermaidDiv._zoomScale + ZOOM_STEP, MAX_SCALE);
+    if (action === "zoom-out") mermaidDiv._zoomScale = Math.max(mermaidDiv._zoomScale - ZOOM_STEP, MIN_SCALE);
+    if (action === "reset") mermaidDiv._zoomScale = 1;
 
-    if (action === "zoom-in") pre._zoomScale = Math.min(pre._zoomScale + ZOOM_STEP, MAX_SCALE);
-    if (action === "zoom-out") pre._zoomScale = Math.max(pre._zoomScale - ZOOM_STEP, MIN_SCALE);
-    if (action === "reset") pre._zoomScale = 1;
-
-    svg.style.transform = pre._zoomScale === 1 ? "" : "scale(" + pre._zoomScale + ")";
-    svg.style.transformOrigin = "top left";
+    mermaidDiv.style.transform = mermaidDiv._zoomScale === 1 ? "" : "scale(" + mermaidDiv._zoomScale + ")";
+    mermaidDiv.style.transformOrigin = "top left";
   }, true);
 
-  // Poll for rendered SVGs (mermaid renders asynchronously)
+  // Poll for rendered diagrams (mkdocs-material renders asynchronously)
   var pollCount = 0;
   var pollId = setInterval(function () {
     scanAll();
     if (++pollCount > 30) clearInterval(pollId);
   }, 1000);
 
-  // Also catch dynamic renders via MutationObserver (throttled)
+  // Catch dynamic renders via MutationObserver (throttled)
   var raf = false;
   new MutationObserver(function () {
     if (raf) return;
