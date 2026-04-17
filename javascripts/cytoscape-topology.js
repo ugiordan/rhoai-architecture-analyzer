@@ -1,19 +1,7 @@
 // Kiali-style interactive network topology using Cytoscape.js
-// Renders force-directed graph from JSON data embedded in the page.
+// Components shown as single nodes (not expanded subgraphs).
+// Services visible on click as tooltip detail.
 (function () {
-  var COLORS = {
-    component: { bg: "#3498db", border: "#2980b9", text: "#fff" },
-    service: { bg: "#2ecc71", border: "#27ae60", text: "#fff" },
-    external: { bg: "#e74c3c", border: "#c0392b", text: "#fff" },
-  };
-
-  var EDGE_COLORS = {
-    watches: "#e74c3c",
-    sidecar: "#9b59b6",
-    module: "#95a5a6",
-    external: "#e67e22",
-  };
-
   function initGraph(wrapper) {
     var dataEl = wrapper.querySelector("script[type='application/json']");
     if (!dataEl) return;
@@ -22,63 +10,58 @@
     try {
       data = JSON.parse(dataEl.textContent);
     } catch (e) {
-      console.error("Cytoscape topology: invalid JSON", e);
       return;
     }
 
-    // Remove the script tag and create a clean render container
+    // Build service lookup for tooltips
+    var servicesByComp = {};
+    (data.services || []).forEach(function (svc) {
+      if (!servicesByComp[svc.parent]) servicesByComp[svc.parent] = [];
+      servicesByComp[svc.parent].push(svc);
+    });
+
+    // Create clean render container
     var container = document.createElement("div");
     container.style.cssText = "width:100%;height:100%;";
     wrapper.innerHTML = "";
     wrapper.appendChild(container);
 
     var elements = [];
-
-    // Build a set of known node IDs to filter edges
     var knownNodes = {};
 
-    // Add component nodes (parents)
+    // Components as single nodes (NOT compound parents)
     data.components.forEach(function (comp) {
       knownNodes[comp.id] = true;
+      var svcCount = comp.serviceCount || 0;
+      var label = comp.name;
+      if (svcCount > 0) label += "\n(" + svcCount + " svc)";
       elements.push({
         data: {
           id: comp.id,
-          label: comp.name,
+          label: label,
+          shortLabel: comp.name,
           nodeType: "component",
-          serviceCount: comp.serviceCount || 0,
+          serviceCount: svcCount,
           netpolCount: comp.netpolCount || 0,
           hasIngress: comp.hasIngress || false,
         },
       });
     });
 
-    // Add service nodes as children of components
-    (data.services || []).forEach(function (svc) {
-      knownNodes[svc.id] = true;
-      elements.push({
-        data: {
-          id: svc.id,
-          label: svc.name + (svc.ports ? "\n:" + svc.ports : ""),
-          nodeType: "service",
-          parent: svc.parent,
-          ports: svc.ports || "",
-        },
-      });
-    });
-
-    // Add external nodes
+    // External nodes
     (data.externals || []).forEach(function (ext) {
       knownNodes[ext.id] = true;
       elements.push({
         data: {
           id: ext.id,
-          label: ext.name + "\n" + ext.type,
+          label: ext.name,
           nodeType: "external",
+          extType: ext.type,
         },
       });
     });
 
-    // Add edges (only if both endpoints exist)
+    // Edges (skip dangling)
     (data.edges || []).forEach(function (edge) {
       if (!knownNodes[edge.from] || !knownNodes[edge.to]) return;
       elements.push({
@@ -92,11 +75,9 @@
       });
     });
 
-    // Detect dark mode
     var isDark =
       document.body.getAttribute("data-md-color-scheme") === "slate";
     var bgColor = isDark ? "#1e1e1e" : "#fafafa";
-    var parentBg = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.03)";
 
     var cy = cytoscape({
       container: container,
@@ -106,78 +87,78 @@
       wheelSensitivity: 0.3,
 
       style: [
-        // Compound (parent) nodes: components that have services
+        // Component nodes: filled circles like Kiali
         {
           selector: 'node[nodeType="component"]',
           style: {
-            shape: "round-rectangle",
-            "background-color": parentBg,
-            "border-width": 2,
-            "border-color": COLORS.component.bg,
-            "border-opacity": 0.7,
-            label: "data(label)",
-            "text-valign": "top",
-            "text-halign": "center",
-            "font-size": "12px",
-            "font-weight": "bold",
-            color: COLORS.component.bg,
-            "text-margin-y": -6,
-            padding: "16px",
-            "min-width": "60px",
-            "min-height": "40px",
-          },
-        },
-        // Leaf component nodes (no services): filled circles
-        {
-          selector: "node[nodeType='component']:childless",
-          style: {
-            "background-color": COLORS.component.bg,
-            "border-color": COLORS.component.border,
-            color: COLORS.component.text,
-            "text-valign": "center",
-            "text-margin-y": 0,
-            padding: "10px",
             shape: "ellipse",
-            width: "label",
-            height: "label",
-          },
-        },
-        // Service nodes
-        {
-          selector: 'node[nodeType="service"]',
-          style: {
-            shape: "round-rectangle",
-            "background-color": COLORS.service.bg,
-            "border-width": 1,
-            "border-color": COLORS.service.border,
+            width: 70,
+            height: 70,
+            "background-color": "#3498db",
+            "border-width": 3,
+            "border-color": "#2980b9",
             label: "data(label)",
-            "text-valign": "center",
+            "text-valign": "bottom",
             "text-halign": "center",
-            "font-size": "9px",
-            color: COLORS.service.text,
-            width: "label",
-            height: "label",
-            padding: "6px",
+            "font-size": "11px",
+            "font-weight": "600",
+            color: isDark ? "#ccc" : "#333",
+            "text-margin-y": 8,
             "text-wrap": "wrap",
-            "text-max-width": "120px",
+            "text-max-width": "140px",
+            "text-background-color": bgColor,
+            "text-background-opacity": 0.7,
+            "text-background-padding": "2px",
+            "text-background-shape": "round-rectangle",
           },
         },
-        // External nodes
+        // Components with network policies: orange ring
+        {
+          selector: "node[netpolCount > 0]",
+          style: {
+            "border-color": "#f39c12",
+            "border-width": 4,
+          },
+        },
+        // Components with ingress: green fill
+        {
+          selector: "node[hasIngress]",
+          style: {
+            "background-color": "#27ae60",
+            "border-color": "#1e8449",
+          },
+        },
+        // Components with both netpol + ingress: green fill, orange ring
+        {
+          selector: "node[hasIngress][netpolCount > 0]",
+          style: {
+            "background-color": "#27ae60",
+            "border-color": "#f39c12",
+            "border-width": 4,
+          },
+        },
+        // External nodes: smaller diamonds
         {
           selector: 'node[nodeType="external"]',
           style: {
             shape: "diamond",
-            "background-color": COLORS.external.bg,
+            width: 45,
+            height: 45,
+            "background-color": "#e74c3c",
             "border-width": 2,
-            "border-color": COLORS.external.border,
+            "border-color": "#c0392b",
             label: "data(label)",
-            "text-valign": "center",
+            "text-valign": "bottom",
             "text-halign": "center",
             "font-size": "10px",
-            color: COLORS.external.text,
-            width: 50,
-            height: 50,
+            color: isDark ? "#ccc" : "#555",
+            "text-margin-y": 6,
             "text-wrap": "wrap",
+            "text-max-width": "100px",
+            "text-background-color": bgColor,
+            "text-background-opacity": 0.7,
+            "text-background-padding": "2px",
+            "text-background-shape": "round-rectangle",
           },
         },
         // Edges base
@@ -191,37 +172,38 @@
             "curve-style": "bezier",
             "arrow-scale": 0.8,
             label: "data(label)",
-            "font-size": "8px",
-            color: isDark ? "#aaa" : "#666",
+            "font-size": "9px",
+            color: isDark ? "#999" : "#777",
             "text-rotation": "autorotate",
-            "text-margin-y": -8,
+            "text-margin-y": -10,
             "text-background-color": bgColor,
-            "text-background-opacity": 0.8,
-            "text-background-padding": "2px",
+            "text-background-opacity": 0.85,
+            "text-background-padding": "3px",
+            "text-background-shape": "round-rectangle",
           },
         },
         {
           selector: 'edge[edgeType="watches"]',
           style: {
             width: 3,
-            "line-color": EDGE_COLORS.watches,
-            "target-arrow-color": EDGE_COLORS.watches,
+            "line-color": "#e74c3c",
+            "target-arrow-color": "#e74c3c",
           },
         },
         {
           selector: 'edge[edgeType="sidecar"]',
           style: {
-            width: 2,
-            "line-color": EDGE_COLORS.sidecar,
-            "target-arrow-color": EDGE_COLORS.sidecar,
+            width: 2.5,
+            "line-color": "#9b59b6",
+            "target-arrow-color": "#9b59b6",
           },
         },
         {
           selector: 'edge[edgeType="module"]',
           style: {
             width: 1.5,
-            "line-color": EDGE_COLORS.module,
-            "target-arrow-color": EDGE_COLORS.module,
+            "line-color": "#95a5a6",
+            "target-arrow-color": "#95a5a6",
             "line-style": "dashed",
           },
         },
@@ -229,112 +211,174 @@
           selector: 'edge[edgeType="external"]',
           style: {
             width: 1.5,
-            "line-color": EDGE_COLORS.external,
-            "target-arrow-color": EDGE_COLORS.external,
+            "line-color": "#e67e22",
+            "target-arrow-color": "#e67e22",
             "line-style": "dotted",
           },
         },
-        // Selection highlight
+        // Hover/select
         {
-          selector: "node:active, node:selected",
+          selector: "node:selected",
           style: {
-            "border-width": 3,
+            "border-width": 5,
             "border-color": "#f1c40f",
             "overlay-opacity": 0,
           },
         },
+        // Dimmed state for non-hovered
         {
-          selector: "edge:active, edge:selected",
-          style: { width: 4, "overlay-opacity": 0 },
+          selector: ".dimmed",
+          style: { opacity: 0.15 },
+        },
+        {
+          selector: ".highlighted",
+          style: { opacity: 1 },
         },
       ],
 
       layout: {
         name: "cose",
         animate: true,
-        animationDuration: 800,
+        animationDuration: 1000,
+        animationEasing: "ease-out",
         nodeRepulsion: function () {
-          return 8000;
+          return 12000;
         },
         idealEdgeLength: function () {
-          return 120;
+          return 180;
         },
         edgeElasticity: function () {
           return 100;
         },
-        nestingFactor: 1.2,
-        gravity: 0.25,
-        numIter: 1000,
+        gravity: 0.4,
+        numIter: 1500,
         randomize: false,
-        componentSpacing: 80,
+        componentSpacing: 100,
         nodeDimensionsIncludeLabels: true,
-        padding: 30,
+        padding: 40,
       },
     });
 
-    // Tooltip on tap
+    // Tooltip
     var tooltip = document.createElement("div");
+    tooltip.className = "topology-tooltip";
     tooltip.style.cssText =
       "position:absolute;display:none;background:" +
-      (isDark ? "#333" : "#fff") +
+      (isDark ? "#2d2d2d" : "#fff") +
       ";color:" +
       (isDark ? "#eee" : "#333") +
       ";border:1px solid " +
-      (isDark ? "#555" : "#ddd") +
-      ";border-radius:6px;padding:8px 12px;font-size:12px;" +
-      "pointer-events:none;z-index:100;max-width:300px;box-shadow:0 2px 8px rgba(0,0,0,0.15);";
+      (isDark ? "#555" : "#ccc") +
+      ";border-radius:8px;padding:10px 14px;font-size:12px;line-height:1.5;" +
+      "pointer-events:none;z-index:100;max-width:350px;" +
+      "box-shadow:0 4px 12px rgba(0,0,0,0.2);";
     container.style.position = "relative";
     container.appendChild(tooltip);
 
     cy.on("tap", "node", function (evt) {
       var node = evt.target;
       var d = node.data();
-      var html = "<strong>" + d.label.replace(/\n/g, " ") + "</strong>";
+      var html = '<strong style="font-size:13px;">' + d.shortLabel + "</strong>";
+
       if (d.nodeType === "component") {
-        html += "<br>Services: " + d.serviceCount;
-        if (d.netpolCount > 0) html += "<br>NetworkPolicies: " + d.netpolCount;
-        if (d.hasIngress) html += "<br>Has ingress routing";
-        var edges = cy.edges().filter(function (e) {
+        html += "<br><br>";
+        var badges = [];
+        if (d.serviceCount > 0) badges.push(d.serviceCount + " services");
+        if (d.netpolCount > 0)
+          badges.push(d.netpolCount + " network policies");
+        if (d.hasIngress) badges.push("ingress routing");
+        html += badges.join(" &middot; ");
+
+        // List services
+        var svcs = servicesByComp[d.id];
+        if (svcs && svcs.length > 0) {
+          html +=
+            '<div style="margin-top:6px;padding-top:6px;border-top:1px solid ' +
+            (isDark ? "#444" : "#eee") +
+            ';font-size:11px;">';
+          svcs.forEach(function (svc) {
+            html +=
+              '<div style="padding:1px 0;"><span style="color:#2ecc71;font-weight:600;">&#9679;</span> ' +
+              svc.name;
+            if (svc.ports) html += ' <span style="opacity:0.6;">:' + svc.ports + "</span>";
+            html += "</div>";
+          });
+          html += "</div>";
+        }
+
+        // List connections
+        var conns = cy.edges().filter(function (e) {
           return e.data("source") === d.id || e.data("target") === d.id;
         });
-        if (edges.length > 0) html += "<br>Connections: " + edges.length;
-      } else if (d.nodeType === "service" && d.ports) {
-        html += "<br>Ports: " + d.ports;
+        if (conns.length > 0) {
+          html +=
+            '<div style="margin-top:6px;padding-top:6px;border-top:1px solid ' +
+            (isDark ? "#444" : "#eee") +
+            ';font-size:11px;">';
+          conns.forEach(function (e) {
+            var other =
+              e.data("source") === d.id ? e.data("target") : e.data("source");
+            var dir = e.data("source") === d.id ? "&rarr;" : "&larr;";
+            var typeColors = {
+              watches: "#e74c3c",
+              sidecar: "#9b59b6",
+              module: "#95a5a6",
+              external: "#e67e22",
+            };
+            var c = typeColors[e.data("edgeType")] || "#999";
+            html +=
+              '<div style="padding:1px 0;"><span style="color:' +
+              c +
+              ';">' +
+              dir +
+              "</span> " +
+              other.replace(/_/g, "-") +
+              ' <span style="opacity:0.5;">(' +
+              e.data("edgeType") +
+              ")</span></div>";
+          });
+          html += "</div>";
+        }
+      } else if (d.nodeType === "external") {
+        html += "<br>Type: " + d.extType;
       }
+
       tooltip.innerHTML = html;
       tooltip.style.display = "block";
       var pos = evt.renderedPosition;
-      tooltip.style.left = pos.x + 15 + "px";
-      tooltip.style.top = pos.y + 15 + "px";
+      var tLeft = pos.x + 15;
+      var tTop = pos.y + 15;
+      // Keep tooltip in bounds
+      if (tLeft + 350 > container.clientWidth) tLeft = pos.x - 360;
+      if (tTop + 200 > container.clientHeight) tTop = pos.y - 200;
+      tooltip.style.left = Math.max(0, tLeft) + "px";
+      tooltip.style.top = Math.max(0, tTop) + "px";
     });
 
     cy.on("tap", function (evt) {
       if (evt.target === cy) tooltip.style.display = "none";
     });
 
-    // Highlight connected edges on node hover
+    // Hover: highlight connected, dim rest
     cy.on("mouseover", "node", function (evt) {
       var node = evt.target;
-      var connected = node.connectedEdges();
-      cy.edges().not(connected).style("opacity", 0.15);
-      connected.style("opacity", 1);
-      var connectedNodes = connected.connectedNodes();
-      cy.nodes().not(connectedNodes).not(node).style("opacity", 0.3);
+      var neighborhood = node.closedNeighborhood();
+      cy.elements().addClass("dimmed");
+      neighborhood.removeClass("dimmed").addClass("highlighted");
     });
 
     cy.on("mouseout", "node", function () {
-      cy.elements().style("opacity", 1);
+      cy.elements().removeClass("dimmed").removeClass("highlighted");
       tooltip.style.display = "none";
     });
 
-    // Fit on double-click
+    // Fit on double-click background
     cy.on("dbltap", function (evt) {
       if (evt.target === cy) {
-        cy.animate({ fit: { padding: 30 }, duration: 400 });
+        cy.animate({ fit: { padding: 40 }, duration: 400 });
       }
     });
 
-    // Store reference for toolbar
     wrapper._cy = cy;
   }
 
@@ -345,7 +389,7 @@
     });
   }
 
-  // Toolbar click handler
+  // Toolbar handler
   document.addEventListener(
     "click",
     function (e) {
@@ -353,33 +397,59 @@
       if (!btn) return;
       e.preventDefault();
       var toolbar = btn.closest(".topology-toolbar");
-      var container = toolbar.nextElementSibling;
-      if (!container || !container._cy) return;
-      var cy = container._cy;
+      var graphEl = toolbar.nextElementSibling;
+      if (!graphEl) return;
       var action = btn.dataset.action;
 
-      if (action === "fit")
-        cy.animate({ fit: { padding: 30 }, duration: 400 });
+      // Fullscreen toggle
+      if (action === "fullscreen") {
+        if (graphEl.classList.contains("topology-fullscreen")) {
+          graphEl.classList.remove("topology-fullscreen");
+          toolbar.classList.remove("topology-toolbar-fullscreen");
+          var legend = graphEl.nextElementSibling;
+          if (legend && legend.classList.contains("topology-legend"))
+            legend.classList.remove("topology-legend-fullscreen");
+          document.body.style.overflow = "";
+          btn.textContent = "Fullscreen";
+        } else {
+          graphEl.classList.add("topology-fullscreen");
+          toolbar.classList.add("topology-toolbar-fullscreen");
+          var legend = graphEl.nextElementSibling;
+          if (legend && legend.classList.contains("topology-legend"))
+            legend.classList.add("topology-legend-fullscreen");
+          document.body.style.overflow = "hidden";
+          btn.textContent = "Exit";
+        }
+        if (graphEl._cy)
+          setTimeout(function () {
+            graphEl._cy.resize();
+            graphEl._cy.fit(null, 40);
+          }, 100);
+        return;
+      }
+
+      if (!graphEl._cy) return;
+      var cy = graphEl._cy;
+      if (action === "fit") cy.animate({ fit: { padding: 40 }, duration: 400 });
       if (action === "zoom-in")
-        cy.animate({ zoom: cy.zoom() * 1.3, duration: 200 });
+        cy.animate({ zoom: cy.zoom() * 1.4, duration: 200 });
       if (action === "zoom-out")
-        cy.animate({ zoom: cy.zoom() / 1.3, duration: 200 });
+        cy.animate({ zoom: cy.zoom() / 1.4, duration: 200 });
       if (action === "relayout") {
         cy.layout({
           name: "cose",
           animate: true,
           animationDuration: 800,
           nodeRepulsion: function () {
-            return 8000;
+            return 12000;
           },
           idealEdgeLength: function () {
-            return 120;
+            return 180;
           },
-          nestingFactor: 1.2,
-          gravity: 0.25,
-          numIter: 1000,
+          gravity: 0.4,
+          numIter: 1500,
           randomize: true,
-          componentSpacing: 80,
+          componentSpacing: 100,
           nodeDimensionsIncludeLabels: true,
         }).run();
       }
@@ -387,7 +457,27 @@
     true
   );
 
-  // Wait for Cytoscape library to load, then init
+  // ESC to exit fullscreen
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      var fs = document.querySelector(".topology-fullscreen");
+      if (fs) {
+        fs.classList.remove("topology-fullscreen");
+        var toolbar = fs.previousElementSibling;
+        if (toolbar) toolbar.classList.remove("topology-toolbar-fullscreen");
+        var legend = fs.nextElementSibling;
+        if (legend) legend.classList.remove("topology-legend-fullscreen");
+        document.body.style.overflow = "";
+        var btn = toolbar && toolbar.querySelector('[data-action="fullscreen"]');
+        if (btn) btn.textContent = "Fullscreen";
+        if (fs._cy) {
+          fs._cy.resize();
+          fs._cy.fit(null, 40);
+        }
+      }
+    }
+  });
+
   function waitAndInit() {
     if (typeof cytoscape !== "undefined") {
       initAll();
@@ -396,14 +486,12 @@
     }
   }
 
-  // Start initialization
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", waitAndInit);
   } else {
     waitAndInit();
   }
 
-  // mkdocs-material instant navigation
   if (typeof document$ !== "undefined") {
     document$.subscribe(function () {
       setTimeout(waitAndInit, 300);
