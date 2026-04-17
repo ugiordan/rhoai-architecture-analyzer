@@ -4,7 +4,7 @@
 
 ## Permission Scope by Component
 
-Each bar shows the widest role (by resource type count). Scope: 🔴 wide (>30), 🟠 medium (10-30), 🟢 narrow (<10).
+How many distinct Kubernetes resource types can each component's most powerful ClusterRole access? A wider scope means the component can read/write more types of resources, which increases its blast radius if compromised. Color: 🔴 wide (>30 types), 🟠 medium (10-30), 🟢 narrow (<10).
 
 <div markdown class="bar-chart-container" style="margin: 1em 0; padding: 1em; border: 1px solid var(--md-default-fg-color--lightest); border-radius: 8px;">
 

@@ -1,24 +1,18 @@
 // Diagram toolbar: zoom in/out, fullscreen, and reset controls
-// Uses event delegation and polling to work with mkdocs-material's lazy mermaid rendering
+// Wraps mermaid containers in a div so the toolbar survives mermaid's innerHTML replacement
 (function () {
   var ZOOM_STEP = 0.25;
   var MIN_SCALE = 0.5;
   var MAX_SCALE = 3;
 
-  function getState(container) {
-    if (!container._diagramState) {
-      container._diagramState = { scale: 1, fullscreen: false };
-    }
-    return container._diagramState;
-  }
+  function wrapAndAddToolbar(pre) {
+    // Already wrapped
+    if (pre.parentElement && pre.parentElement.classList.contains("diagram-wrapper")) return;
 
-  function createToolbar(container) {
-    if (container.querySelector(".diagram-toolbar")) return;
-
-    var svg = container.querySelector("svg");
-    if (!svg) return;
-
-    container.style.position = "relative";
+    var wrapper = document.createElement("div");
+    wrapper.className = "diagram-wrapper";
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
 
     var toolbar = document.createElement("div");
     toolbar.className = "diagram-toolbar";
@@ -27,101 +21,81 @@
       '<button data-action="zoom-out" title="Zoom out">\u2212</button>' +
       '<button data-action="reset" title="Reset zoom">1:1</button>' +
       '<button data-action="fullscreen" title="Fullscreen">\u26F6</button>';
-
-    container.appendChild(toolbar);
+    wrapper.appendChild(toolbar);
   }
 
-  // Event delegation: handle all toolbar clicks from document
+  function initAll() {
+    document.querySelectorAll("pre.mermaid").forEach(function (pre) {
+      wrapAndAddToolbar(pre);
+    });
+  }
+
+  // Event delegation for all toolbar clicks
   document.addEventListener("click", function (e) {
     var btn = e.target.closest(".diagram-toolbar button");
     if (!btn) return;
-
     e.stopPropagation();
     e.preventDefault();
 
-    var container = btn.closest("pre.mermaid, .mermaid");
-    if (!container) return;
-
-    var svg = container.querySelector("svg");
+    var wrapper = btn.closest(".diagram-wrapper");
+    if (!wrapper) return;
+    var svg = wrapper.querySelector("svg");
     if (!svg) return;
 
-    var state = getState(container);
+    if (!wrapper._zoomState) wrapper._zoomState = { scale: 1, fs: false };
+    var st = wrapper._zoomState;
     var action = btn.getAttribute("data-action");
 
     if (action === "zoom-in") {
-      state.scale = Math.min(state.scale + ZOOM_STEP, MAX_SCALE);
-      svg.style.transform = "scale(" + state.scale + ")";
-      svg.style.transformOrigin = "top left";
+      st.scale = Math.min(st.scale + ZOOM_STEP, MAX_SCALE);
     } else if (action === "zoom-out") {
-      state.scale = Math.max(state.scale - ZOOM_STEP, MIN_SCALE);
-      svg.style.transform = "scale(" + state.scale + ")";
-      svg.style.transformOrigin = "top left";
+      st.scale = Math.max(st.scale - ZOOM_STEP, MIN_SCALE);
     } else if (action === "reset") {
-      state.scale = 1;
+      st.scale = 1;
+    } else if (action === "fullscreen") {
+      st.fs = !st.fs;
+      wrapper.classList.toggle("fullscreen", st.fs);
+      btn.textContent = st.fs ? "\u2715" : "\u26F6";
+      btn.title = st.fs ? "Exit fullscreen" : "Fullscreen";
+      if (!st.fs) st.scale = 1;
+    }
+
+    if (st.scale === 1) {
       svg.style.transform = "";
       svg.style.transformOrigin = "";
-    } else if (action === "fullscreen") {
-      state.fullscreen = !state.fullscreen;
-      container.classList.toggle("fullscreen", state.fullscreen);
-      btn.textContent = state.fullscreen ? "\u2715" : "\u26F6";
-      btn.title = state.fullscreen ? "Exit fullscreen" : "Fullscreen";
-      if (!state.fullscreen) {
-        state.scale = 1;
-        svg.style.transform = "";
-        svg.style.transformOrigin = "";
-      }
+    } else {
+      svg.style.transform = "scale(" + st.scale + ")";
+      svg.style.transformOrigin = "top left";
     }
   });
 
   // ESC exits fullscreen
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
-      document.querySelectorAll(".fullscreen").forEach(function (el) {
-        el.classList.remove("fullscreen");
-        var btn = el.querySelector('[data-action="fullscreen"]');
-        if (btn) {
-          btn.textContent = "\u26F6";
-          btn.title = "Fullscreen";
-        }
-        var svg = el.querySelector("svg");
-        if (svg) {
-          svg.style.transform = "";
-          svg.style.transformOrigin = "";
-        }
-        var state = getState(el);
-        state.scale = 1;
-        state.fullscreen = false;
+      document.querySelectorAll(".diagram-wrapper.fullscreen").forEach(function (w) {
+        w.classList.remove("fullscreen");
+        var btn = w.querySelector('[data-action="fullscreen"]');
+        if (btn) { btn.textContent = "\u26F6"; btn.title = "Fullscreen"; }
+        var svg = w.querySelector("svg");
+        if (svg) { svg.style.transform = ""; svg.style.transformOrigin = ""; }
+        if (w._zoomState) { w._zoomState.scale = 1; w._zoomState.fs = false; }
       });
     }
   });
 
-  // Poll for rendered mermaid SVGs (robust against timing issues)
-  function initToolbars() {
-    document.querySelectorAll("pre.mermaid, .mermaid").forEach(function (el) {
-      if (el.querySelector("svg") && !el.querySelector(".diagram-toolbar")) {
-        createToolbar(el);
-      }
-    });
+  // Run immediately (pre.mermaid exists in static HTML before mermaid JS runs)
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initAll);
+  } else {
+    initAll();
   }
 
-  // Poll every 500ms for 10 seconds after page load, then stop
-  var attempts = 0;
-  var maxAttempts = 20;
-  var pollId = setInterval(function () {
-    initToolbars();
-    attempts++;
-    if (attempts >= maxAttempts) clearInterval(pollId);
-  }, 500);
-
-  // Also re-init on mkdocs-material instant navigation
+  // Re-init on mkdocs-material instant navigation
   if (typeof document$ !== "undefined") {
-    document$.subscribe(function () {
-      attempts = 0;
-      pollId = setInterval(function () {
-        initToolbars();
-        attempts++;
-        if (attempts >= maxAttempts) clearInterval(pollId);
-      }, 500);
-    });
+    document$.subscribe(function () { setTimeout(initAll, 100); });
   }
+
+  // Fallback: watch for new pre.mermaid elements added dynamically
+  new MutationObserver(function () { initAll(); })
+    .observe(document.body, { childList: true, subtree: true });
 })();

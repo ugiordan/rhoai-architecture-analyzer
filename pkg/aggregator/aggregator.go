@@ -101,7 +101,9 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 			crdWithOwner["owner"] = compName
 			allCRDs = append(allCRDs, crdWithOwner)
 			if kind != "" {
-				crdOwners[kind] = compName
+				if _, exists := crdOwners[kind]; !exists {
+					crdOwners[kind] = compName
+				}
 			}
 		}
 

@@ -1,20 +1,24 @@
-/* Make mermaid diagrams scrollable and zoomable */
-.mermaid,
-pre.mermaid {
+/* Diagram wrapper: contains the mermaid pre and the toolbar */
+.diagram-wrapper {
+  position: relative;
   overflow: auto;
   max-width: 100%;
   max-height: 500px;
-  cursor: grab;
-  position: relative;
+  margin: 1em 0;
 }
 
-.mermaid svg,
+/* Make mermaid diagrams scrollable */
+pre.mermaid {
+  overflow: visible;
+  max-width: 100%;
+}
+
 pre.mermaid svg {
   max-height: 480px;
   width: auto;
 }
 
-/* Diagram toolbar: zoom in/out, reset, fullscreen */
+/* Diagram toolbar: appears on hover over the wrapper */
 .diagram-toolbar {
   position: absolute;
   top: 6px;
@@ -31,9 +35,7 @@ pre.mermaid svg {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
-.mermaid:hover .diagram-toolbar,
-pre.mermaid:hover .diagram-toolbar,
-.diagram-toolbar:hover {
+.diagram-wrapper:hover .diagram-toolbar {
   opacity: 1;
 }
 
@@ -60,9 +62,8 @@ pre.mermaid:hover .diagram-toolbar,
   color: var(--md-default-fg-color);
 }
 
-/* Fullscreen mode for diagrams */
-.mermaid.fullscreen,
-pre.mermaid.fullscreen {
+/* Fullscreen mode: applied to the wrapper, not the pre */
+.diagram-wrapper.fullscreen {
   position: fixed;
   top: 0;
   left: 0;
@@ -73,11 +74,9 @@ pre.mermaid.fullscreen {
   background: var(--md-default-bg-color);
   overflow: auto;
   padding: 2rem;
-  cursor: default;
 }
 
-.mermaid.fullscreen .diagram-toolbar,
-pre.mermaid.fullscreen .diagram-toolbar {
+.diagram-wrapper.fullscreen .diagram-toolbar {
   opacity: 1;
   position: fixed;
   top: 12px;
@@ -85,8 +84,7 @@ pre.mermaid.fullscreen .diagram-toolbar {
   z-index: 10000;
 }
 
-.mermaid.fullscreen svg,
-pre.mermaid.fullscreen svg {
+.diagram-wrapper.fullscreen pre.mermaid svg {
   max-width: none;
   max-height: none;
   width: auto;

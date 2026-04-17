@@ -2,15 +2,16 @@
 
 ## CRD Ownership Map
 
-The platform defines 50 CRDs. Each CRD is owned by exactly one component.
+The platform defines 50 CRDs. Each CRD is owned by the component that declares it.
 
-| Owner | CRDs |
-|-------|------|
-| **data-science-pipelines-operator** | DataSciencePipelinesApplication, Pipeline, PipelineVersion, ScheduledWorkflow |
-| **kserve** | ClusterServingRuntime, ClusterStorageContainer, InferenceGraph, InferenceService, LLMInferenceService, LLMInferenceServiceConfig, LocalModelCache, LocalModelNamespaceCache, LocalModelNode, LocalModelNodeGroup, ServingRuntime, TrainedModel |
-| **odh-model-controller** | Account |
-| **opendatahub-operator** | Auth, AzureKubernetesEngine, CoreWeaveKubernetesEngine, Dashboard, DataSciencePipelines, FeastOperator, GatewayConfig, HardwareProfile, Kserve, Kueue, LlamaStackOperator, MLflowOperator, ModelController, ModelRegistry, ModelsAsService, Monitoring, Ray, SparkOperator, Trainer, TrainingOperator, TrustyAI, Workbenches |
-| **trustyai-service-operator** | EvalHub, GuardrailsOrchestrator, LMEvalJob, NemoGuardrails, TrustyAIService |
+| Owner | CRDs | Count |
+|-------|------|-------|
+| **data-science-pipelines-operator** | DataSciencePipelinesApplication, Pipeline, PipelineVersion, ScheduledWorkflow | 4 |
+| **kserve** | ClusterServingRuntime, ClusterStorageContainer, InferenceGraph, InferenceService, LLMInferenceService, LLMInferenceServiceConfig, LocalModelCache, LocalModelNamespaceCache, LocalModelNode, LocalModelNodeGroup, ServingRuntime, TrainedModel | 12 |
+| **model-registry-operator** | ModelRegistry | 1 |
+| **odh-model-controller** | Account | 1 |
+| **opendatahub-operator** | Auth, AzureKubernetesEngine, CoreWeaveKubernetesEngine, Dashboard, DataSciencePipelines, FeastOperator, GatewayConfig, HardwareProfile, Kserve, Kueue, LlamaStackOperator, MLflowOperator, ModelController, ModelRegistry, ModelsAsService, Monitoring, Ray, SparkOperator, Trainer, TrainingOperator, TrustyAI, Workbenches | 22 |
+| **trustyai-service-operator** | EvalHub, GuardrailsOrchestrator, LMEvalJob, NemoGuardrails, TrustyAIService | 5 |
 
 ## Cross-Component Dependencies
 

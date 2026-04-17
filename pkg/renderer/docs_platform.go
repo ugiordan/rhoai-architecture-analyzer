@@ -275,37 +275,42 @@ func renderPlatformArchDocPage(data map[string]interface{}) string {
 
 	b.WriteString("# Platform Architecture\n\n")
 
-	// CRD Ownership Map
+	// CRD Ownership Map: derive from crds array (not crd_ownership which is lossy)
 	crds := getSlice(data, "crds")
-	crdOwnership := getMap(data, "crd_ownership")
 
 	b.WriteString("## CRD Ownership Map\n\n")
-	b.WriteString(fmt.Sprintf("The platform defines %d CRDs. Each CRD is owned by exactly one component.\n\n", len(crds)))
+	b.WriteString(fmt.Sprintf("The platform defines %d CRDs. Each CRD is owned by the component that declares it.\n\n", len(crds)))
 
-	if crdOwnership != nil {
-		// Group by owner
+	if len(crds) > 0 {
+		// Group CRDs by owner from the crds array directly
 		ownerCRDs := make(map[string][]string)
-		for kind, owner := range crdOwnership {
-			ownerStr, ok := owner.(string)
-			if !ok || ownerStr == "" {
+		seen := make(map[string]bool)
+		for _, crd := range crds {
+			owner := getStr(crd, "owner", "")
+			kind := getStr(crd, "kind", "")
+			if owner == "" || kind == "" {
 				continue
 			}
-			ownerCRDs[ownerStr] = append(ownerCRDs[ownerStr], kind)
+			key := owner + "|" + kind
+			if seen[key] {
+				continue
+			}
+			seen[key] = true
+			ownerCRDs[owner] = append(ownerCRDs[owner], kind)
 		}
 
-		// Sort owners
 		owners := make([]string, 0, len(ownerCRDs))
 		for o := range ownerCRDs {
 			owners = append(owners, o)
 		}
 		sort.Strings(owners)
 
-		b.WriteString("| Owner | CRDs |\n")
-		b.WriteString("|-------|------|\n")
+		b.WriteString("| Owner | CRDs | Count |\n")
+		b.WriteString("|-------|------|-------|\n")
 		for _, owner := range owners {
 			kinds := ownerCRDs[owner]
 			sort.Strings(kinds)
-			b.WriteString(fmt.Sprintf("| **%s** | %s |\n", owner, strings.Join(kinds, ", ")))
+			b.WriteString(fmt.Sprintf("| **%s** | %s | %d |\n", owner, strings.Join(kinds, ", "), len(kinds)))
 		}
 		b.WriteString("\n")
 	}
@@ -549,8 +554,9 @@ func renderPlatformRBACDocPage(data map[string]interface{}) string {
 		sort.Strings(owners)
 
 		b.WriteString("## Permission Scope by Component\n\n")
-		b.WriteString("Each bar shows the widest role (by resource type count). Scope: ")
-		b.WriteString("\U0001F534 wide (>30), \U0001F7E0 medium (10-30), \U0001F7E2 narrow (<10).\n\n")
+		b.WriteString("How many distinct Kubernetes resource types can each component's most powerful ClusterRole access? ")
+		b.WriteString("A wider scope means the component can read/write more types of resources, which increases its blast radius if compromised. ")
+		b.WriteString("Color: \U0001F534 wide (>30 types), \U0001F7E0 medium (10-30), \U0001F7E2 narrow (<10).\n\n")
 
 		var chartItems []chartItem
 		maxVal := 0
