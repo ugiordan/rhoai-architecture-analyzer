@@ -1,12 +1,17 @@
-/* Mermaid diagrams: constrain rendered div.mermaid (created by mkdocs-material) */
-div.mermaid {
+/* Wrapper: scrollable container that prevents zoom overflow into page */
+.diagram-wrapper {
   overflow: auto;
   max-width: 100%;
   max-height: 500px;
   margin-bottom: 0 !important;
 }
 
-/* Action bar: sits right below the diagram, always subtly visible */
+/* Mermaid div inside wrapper: no constraints (wrapper handles containment) */
+.diagram-wrapper div.mermaid {
+  margin-bottom: 0 !important;
+}
+
+/* Action bar: sits right below the wrapper, always subtly visible */
 .diagram-actions {
   display: flex;
   gap: 2px;
@@ -21,8 +26,8 @@ div.mermaid {
   transition: opacity 0.2s;
 }
 
-/* Show fully on hover of diagram or action bar */
-div.mermaid:hover + .diagram-actions,
+/* Show fully on hover of wrapper or action bar */
+.diagram-wrapper:hover + .diagram-actions,
 .diagram-actions:hover {
   opacity: 1;
 }
@@ -96,15 +101,16 @@ div.mermaid:hover + .diagram-actions,
   overflow: auto;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   padding: 1rem 2rem 2rem;
   width: 100%;
+  cursor: pointer;
 }
 
-.diagram-overlay-content .mermaid {
-  max-width: none;
-  max-height: none;
-  overflow: visible;
+/* The moved mermaid div inside fullscreen overlay */
+.diagram-overlay-content div.mermaid {
   background: var(--md-default-bg-color);
   border-radius: 8px;
   padding: 1rem;
+  cursor: default;
 }
