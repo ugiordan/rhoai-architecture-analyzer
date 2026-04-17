@@ -1,138 +1,137 @@
-// Diagram toolbar: zoom in/out, fullscreen, and reset controls
+// Diagram controls: zoom in/out, fullscreen overlay
+// Strategy: don't wrap or modify mermaid elements before rendering.
+// Wait for SVGs to appear, then insert a sibling action bar AFTER each diagram.
+// Fullscreen uses a modal overlay (no CSS position:fixed on the pre).
 (function () {
   var ZOOM_STEP = 0.25;
   var MIN_SCALE = 0.5;
-  var MAX_SCALE = 3;
+  var MAX_SCALE = 5;
 
-  function wrapAndAddToolbar(pre) {
-    if (pre.parentElement && pre.parentElement.classList.contains("diagram-wrapper")) return;
+  function addControls(pre) {
+    if (pre.nextElementSibling && pre.nextElementSibling.classList.contains("diagram-actions")) return;
+    if (!pre.querySelector("svg")) return;
 
-    var wrapper = document.createElement("div");
-    wrapper.className = "diagram-wrapper";
-    pre.parentNode.insertBefore(wrapper, pre);
-    wrapper.appendChild(pre);
+    var bar = document.createElement("div");
+    bar.className = "diagram-actions";
+    bar.innerHTML =
+      '<button data-action="zoom-in" title="Zoom in">&#43;</button>' +
+      '<button data-action="zoom-out" title="Zoom out">&#8722;</button>' +
+      '<button data-action="reset" title="Reset zoom">1:1</button>' +
+      '<button data-action="fullscreen" title="View full screen">&#9974;</button>';
+    pre.after(bar);
+    pre._zoomScale = 1;
+  }
+
+  function scanAll() {
+    document.querySelectorAll("pre.mermaid").forEach(addControls);
+  }
+
+  function openFullscreen(svg) {
+    var overlay = document.createElement("div");
+    overlay.className = "diagram-overlay";
 
     var toolbar = document.createElement("div");
-    toolbar.className = "diagram-toolbar";
+    toolbar.className = "diagram-overlay-toolbar";
     toolbar.innerHTML =
-      '<button data-action="zoom-in" title="Zoom in">+</button>' +
-      '<button data-action="zoom-out" title="Zoom out">\u2212</button>' +
-      '<button data-action="reset" title="Reset zoom">1:1</button>' +
-      '<button data-action="fullscreen" title="Fullscreen">\u26F6</button>';
-    wrapper.appendChild(toolbar);
-  }
+      '<button data-action="ol-zoom-in" title="Zoom in">&#43;</button>' +
+      '<button data-action="ol-zoom-out" title="Zoom out">&#8722;</button>' +
+      '<button data-action="ol-reset" title="Reset">1:1</button>' +
+      '<button data-action="ol-close" title="Close">&#10005;</button>';
+    overlay.appendChild(toolbar);
 
-  // Find the SVG anywhere within or near the wrapper
-  function findSvg(wrapper) {
-    // Direct descendant search (most common)
-    var svg = wrapper.querySelector("svg");
-    if (svg) return svg;
-    // Check if mermaid created a sibling element with the SVG
-    var next = wrapper.nextElementSibling;
-    if (next && next.querySelector) {
-      svg = next.querySelector("svg");
-      if (svg) return svg;
+    var container = document.createElement("div");
+    container.className = "diagram-overlay-content";
+    var svgClone = svg.cloneNode(true);
+    svgClone.removeAttribute("style");
+    svgClone.style.maxWidth = "none";
+    svgClone.style.maxHeight = "none";
+    svgClone.style.width = "auto";
+    svgClone.style.height = "auto";
+    container.appendChild(svgClone);
+    overlay.appendChild(container);
+
+    document.body.appendChild(overlay);
+    overlay._scale = 1;
+
+    function close() {
+      overlay.remove();
+      document.removeEventListener("keydown", escHandler);
     }
-    return null;
-  }
-
-  var initDone = false;
-  function initAll() {
-    document.querySelectorAll("pre.mermaid").forEach(function (pre) {
-      wrapAndAddToolbar(pre);
+    function escHandler(e) { if (e.key === "Escape") close(); }
+    document.addEventListener("keydown", escHandler);
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) close();
     });
-    initDone = true;
+
+    toolbar.addEventListener("click", function (e) {
+      var btn = e.target.closest("button");
+      if (!btn) return;
+      var action = btn.dataset.action;
+      if (action === "ol-close") { close(); return; }
+      if (action === "ol-zoom-in") overlay._scale = Math.min(overlay._scale + ZOOM_STEP, MAX_SCALE);
+      if (action === "ol-zoom-out") overlay._scale = Math.max(overlay._scale - ZOOM_STEP, MIN_SCALE);
+      if (action === "ol-reset") overlay._scale = 1;
+      svgClone.style.transform = overlay._scale === 1 ? "" : "scale(" + overlay._scale + ")";
+      svgClone.style.transformOrigin = "top left";
+    });
   }
 
-  // Use CAPTURE phase to get the event before anything else can stop it
+  // Click delegation for inline action bars (capture phase)
   document.addEventListener("click", function (e) {
-    var btn = e.target;
-    // Walk up to find if we clicked inside a toolbar button
-    while (btn && btn !== document) {
-      if (btn.tagName === "BUTTON" && btn.parentElement &&
-          btn.parentElement.classList.contains("diagram-toolbar")) {
-        break;
-      }
-      btn = btn.parentElement;
-    }
-    if (!btn || btn === document || btn.tagName !== "BUTTON") return;
-
-    e.stopPropagation();
+    var btn = e.target.closest(".diagram-actions button");
+    if (!btn) return;
     e.preventDefault();
+    e.stopPropagation();
     e.stopImmediatePropagation();
 
-    var wrapper = btn.closest(".diagram-wrapper");
-    if (!wrapper) {
-      console.warn("[diagram-zoom] No .diagram-wrapper found for button");
+    var bar = btn.closest(".diagram-actions");
+    var pre = bar.previousElementSibling;
+    if (!pre) return;
+    var svg = pre.querySelector("svg");
+    var action = btn.dataset.action;
+
+    if (action === "fullscreen") {
+      if (svg) openFullscreen(svg);
       return;
     }
 
-    if (!wrapper._zoomState) wrapper._zoomState = { scale: 1, fs: false };
-    var st = wrapper._zoomState;
-    var action = btn.getAttribute("data-action");
+    if (!svg) return;
+    if (!pre._zoomScale) pre._zoomScale = 1;
 
-    // Fullscreen works even without SVG
-    if (action === "fullscreen") {
-      st.fs = !st.fs;
-      wrapper.classList.toggle("fullscreen", st.fs);
-      btn.textContent = st.fs ? "\u2715" : "\u26F6";
-      btn.title = st.fs ? "Exit fullscreen" : "Fullscreen";
-      if (!st.fs) st.scale = 1;
-    } else if (action === "zoom-in") {
-      st.scale = Math.min(st.scale + ZOOM_STEP, MAX_SCALE);
-    } else if (action === "zoom-out") {
-      st.scale = Math.max(st.scale - ZOOM_STEP, MIN_SCALE);
-    } else if (action === "reset") {
-      st.scale = 1;
-    }
+    if (action === "zoom-in") pre._zoomScale = Math.min(pre._zoomScale + ZOOM_STEP, MAX_SCALE);
+    if (action === "zoom-out") pre._zoomScale = Math.max(pre._zoomScale - ZOOM_STEP, MIN_SCALE);
+    if (action === "reset") pre._zoomScale = 1;
 
-    // Apply zoom to SVG if found
-    var svg = findSvg(wrapper);
-    if (svg) {
-      if (st.scale === 1) {
-        svg.style.transform = "";
-        svg.style.transformOrigin = "";
-      } else {
-        svg.style.transform = "scale(" + st.scale + ")";
-        svg.style.transformOrigin = "top left";
-      }
-    }
-  }, true); // <-- capture phase
+    svg.style.transform = pre._zoomScale === 1 ? "" : "scale(" + pre._zoomScale + ")";
+    svg.style.transformOrigin = "top left";
+  }, true);
 
-  // ESC exits fullscreen
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") {
-      document.querySelectorAll(".diagram-wrapper.fullscreen").forEach(function (w) {
-        w.classList.remove("fullscreen");
-        var btn = w.querySelector('[data-action="fullscreen"]');
-        if (btn) { btn.textContent = "\u26F6"; btn.title = "Fullscreen"; }
-        var svg = findSvg(w);
-        if (svg) { svg.style.transform = ""; svg.style.transformOrigin = ""; }
-        if (w._zoomState) { w._zoomState.scale = 1; w._zoomState.fs = false; }
-      });
-    }
-  });
+  // Poll for rendered SVGs (mermaid renders asynchronously)
+  var pollCount = 0;
+  var pollId = setInterval(function () {
+    scanAll();
+    if (++pollCount > 30) clearInterval(pollId);
+  }, 1000);
 
-  // Run on DOMContentLoaded (pre.mermaid exists in static HTML)
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initAll);
-  } else {
-    initAll();
-  }
-
-  // Re-init on mkdocs-material instant navigation (document$ is an RxJS observable)
-  if (typeof document$ !== "undefined") {
-    document$.subscribe(function () { setTimeout(initAll, 100); });
-  }
-
-  // Watch for dynamically added pre.mermaid elements (throttled)
-  var pending = false;
+  // Also catch dynamic renders via MutationObserver (throttled)
+  var raf = false;
   new MutationObserver(function () {
-    if (pending) return;
-    pending = true;
+    if (raf) return;
+    raf = true;
     requestAnimationFrame(function () {
-      pending = false;
-      if (initDone) initAll();
+      raf = false;
+      scanAll();
     });
   }).observe(document.body, { childList: true, subtree: true });
+
+  // mkdocs-material instant navigation
+  if (typeof document$ !== "undefined") {
+    document$.subscribe(function () {
+      pollCount = 0;
+      pollId = setInterval(function () {
+        scanAll();
+        if (++pollCount > 30) clearInterval(pollId);
+      }, 1000);
+    });
+  }
 })();

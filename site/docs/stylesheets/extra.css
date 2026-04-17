@@ -1,16 +1,9 @@
-/* Diagram wrapper: contains the mermaid pre and the toolbar */
-.diagram-wrapper {
-  position: relative;
+/* Mermaid diagrams: scrollable with constrained height */
+pre.mermaid {
   overflow: auto;
   max-width: 100%;
   max-height: 500px;
-  margin: 1em 0;
-}
-
-/* Make mermaid diagrams scrollable */
-pre.mermaid {
-  overflow: visible;
-  max-width: 100%;
+  margin-bottom: 0 !important;  /* Remove gap so action bar sits flush */
 }
 
 pre.mermaid svg {
@@ -18,33 +11,33 @@ pre.mermaid svg {
   width: auto;
 }
 
-/* Diagram toolbar: appears on hover over the wrapper */
-.diagram-toolbar {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  z-index: 10;
+/* Action bar: sits right below the diagram, always subtly visible */
+.diagram-actions {
   display: flex;
   gap: 2px;
+  justify-content: flex-end;
+  padding: 2px 4px;
   background: var(--md-default-bg-color);
   border: 1px solid var(--md-default-fg-color--lightest);
-  border-radius: 6px;
-  padding: 3px;
-  opacity: 0;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  margin-bottom: 1em;
+  opacity: 0.4;
   transition: opacity 0.2s;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
-.diagram-wrapper:hover .diagram-toolbar {
+/* Show action bar fully on hover of diagram or action bar itself */
+pre.mermaid:hover + .diagram-actions,
+.diagram-actions:hover {
   opacity: 1;
 }
 
-.diagram-toolbar button {
+.diagram-actions button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border: none;
   border-radius: 4px;
   background: transparent;
@@ -57,36 +50,65 @@ pre.mermaid svg {
   transition: background 0.15s, color 0.15s;
 }
 
-.diagram-toolbar button:hover {
-  background: var(--md-accent-fg-color--transparent, rgba(0, 0, 0, 0.06));
+.diagram-actions button:hover {
+  background: var(--md-accent-fg-color--transparent, rgba(0, 0, 0, 0.08));
   color: var(--md-default-fg-color);
 }
 
-/* Fullscreen mode: applied to the wrapper, not the pre */
-.diagram-wrapper.fullscreen {
+/* Fullscreen overlay modal */
+.diagram-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  max-height: 100vh;
   z-index: 9999;
-  background: var(--md-default-bg-color);
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.diagram-overlay-toolbar {
+  display: flex;
+  gap: 4px;
+  padding: 12px;
+  justify-content: center;
+}
+
+.diagram-overlay-toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.diagram-overlay-toolbar button:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.diagram-overlay-content {
+  flex: 1;
   overflow: auto;
-  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 2rem 2rem;
+  width: 100%;
 }
 
-.diagram-wrapper.fullscreen .diagram-toolbar {
-  opacity: 1;
-  position: fixed;
-  top: 12px;
-  right: 12px;
-  z-index: 10000;
-}
-
-.diagram-wrapper.fullscreen pre.mermaid svg {
+.diagram-overlay-content svg {
   max-width: none;
   max-height: none;
-  width: auto;
-  height: auto;
+  background: var(--md-default-bg-color);
+  border-radius: 8px;
+  padding: 1rem;
 }
