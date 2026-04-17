@@ -4075,160 +4075,57 @@
 </tbody>
 </table>
 <details>
-<summary>Full RBAC hierarchy diagram</summary>
+<summary>Full RBAC details</summary>
 
-<pre class="mermaid"><code>graph TD
-    %% RBAC hierarchy for trustyai-service-operator
-    classDef sa fill:#4a90d9,stroke:#2c5f8a,color:#fff
-    classDef role fill:#e8a838,stroke:#b07828,color:#fff
-    classDef resource fill:#5cb85c,stroke:#3d8b3d,color:#fff
+### All Roles
 
-    sa_2["ServiceAccount: controller-manager (system)"] --&gt;|bound via proxy-rolebinding| crb_1["proxy-rolebinding"]
-    class sa_2 sa
-    crb_1 --&gt;|grants| cr_proxy_role["CR: proxy-role"]
-    class cr_proxy_role role
-    sa_4["Group: system:authenticated"] --&gt;|bound via default-lmeval-user-rolebinding| crb_3["default-lmeval-user-rolebinding"]
-    class sa_4 sa
-    crb_3 --&gt;|grants| cr_lmeval_user_role["CR: lmeval-user-role"]
-    class cr_lmeval_user_role role
-    sa_6["ServiceAccount: controller-manager (system)"] --&gt;|bound via manager-rolebinding| crb_5["manager-rolebinding"]
-    class sa_6 sa
-    crb_5 --&gt;|grants| cr_manager_role["CR: manager-role"]
-    class cr_manager_role role
-    sa_8["ServiceAccount: controller-manager"] --&gt;|bound via manager-auth-delegator| crb_7["manager-auth-delegator"]
-    class sa_8 sa
-    crb_7 --&gt;|grants| cr_system_auth_delegator["CR: system:auth-delegator"]
-    class cr_system_auth_delegator role
-    sa_10["ServiceAccount: controller-manager"] --&gt;|bound via leader-election-rolebinding| rb_9["leader-election-rolebinding"]
-    class sa_10 sa
-    rb_9 --&gt;|grants| r_leader_election_role["Role: leader-election-role"]
-    class r_leader_election_role role
-    cr_proxy_role --&gt;|create| res_11["authentication.k8s.io: tokenreviews"]
-    class res_11 resource
-    cr_proxy_role --&gt;|create| res_12["authorization.k8s.io: subjectaccessreviews"]
-    class res_12 resource
-    cr_evalhub_proxy_role --&gt;|create| res_13["authentication.k8s.io: tokenreviews"]
-    class res_13 resource
-    cr_evalhub_proxy_role --&gt;|create| res_14["authorization.k8s.io: subjectaccessreviews"]
-    class res_14 resource
-    cr_evalhub_proxy_role --&gt;|get, list, watch| res_15["trustyai.opendatahub.io: evalhubs"]
-    class res_15 resource
-    cr_evalhub_proxy_role --&gt;|get, create, update| res_16["trustyai.opendatahub.io: evalhubs/proxy"]
-    class res_16 resource
-    cr_nemoguardrail_editor_role --&gt;|create, delete, get, list, patch, update, watch| res_17["trustyai.opendatahub.io: nemoguardrails"]
-    class res_17 resource
-    cr_nemoguardrail_editor_role --&gt;|get| res_18["trustyai.opendatahub.io: nemoguardrails/status"]
-    class res_18 resource
-    cr_nemoguardrail_viewer_role --&gt;|get, list, watch| res_19["trustyai.opendatahub.io: nemoguardrails"]
-    class res_19 resource
-    cr_nemoguardrail_viewer_role --&gt;|get| res_20["trustyai.opendatahub.io: nemoguardrails/status"]
-    class res_20 resource
-    cr_lmeval_user_role --&gt;|create, delete, get, list, patch, update, watch| res_21["trustyai.opendatahub.io: lmevaljobs"]
-    class res_21 resource
-    cr_lmeval_user_role --&gt;|get| res_22["trustyai.opendatahub.io: lmevaljobs/status"]
-    class res_22 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_23["core: configmaps"]
-    class res_23 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_24["core: persistentvolumeclaims"]
-    class res_24 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_25["core: pods"]
-    class res_25 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_26["core: secrets"]
-    class res_26 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_27["core: serviceaccounts"]
-    class res_27 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_28["core: services"]
-    class res_28 resource
-    cr_manager_role --&gt;|create, patch, update, watch| res_29["core: events"]
-    class res_29 resource
-    cr_manager_role --&gt;|get, list, watch| res_30["core: persistentvolumes"]
-    class res_30 resource
-    cr_manager_role --&gt;|create, delete, get, list, watch| res_31["core: pods/exec"]
-    class res_31 resource
-    cr_manager_role --&gt;|get, list, watch| res_32["apiextensions.k8s.io: customresourcedefinitions"]
-    class res_32 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_33["apps: deployments"]
-    class res_33 resource
-    cr_manager_role --&gt;|update| res_34["apps: deployments/finalizers"]
-    class res_34 resource
-    cr_manager_role --&gt;|get, patch, update| res_35["apps: deployments/status"]
-    class res_35 resource
-    cr_manager_role --&gt;|create, get, update| res_36["coordination.k8s.io: leases"]
-    class res_36 resource
-    cr_manager_role --&gt;|get, list, watch| res_37["kueue.x-k8s.io: resourceflavors"]
-    class res_37 resource
-    cr_manager_role --&gt;|get, list, watch| res_38["kueue.x-k8s.io: workloadpriorityclasses"]
-    class res_38 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_39["kueue.x-k8s.io: workloads"]
-    class res_39 resource
-    cr_manager_role --&gt;|update| res_40["kueue.x-k8s.io: workloads/finalizers"]
-    class res_40 resource
-    cr_manager_role --&gt;|get, patch, update| res_41["kueue.x-k8s.io: workloads/status"]
-    class res_41 resource
-    cr_manager_role --&gt;|create, list, watch| res_42["monitoring.coreos.com: servicemonitors"]
-    class res_42 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_43["networking.istio.io: destinationrules"]
-    class res_43 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_44["networking.istio.io: virtualservices"]
-    class res_44 resource
-    cr_manager_role --&gt;|create, delete, get, list, update, watch| res_45["rbac.authorization.k8s.io: clusterrolebindings"]
-    class res_45 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_46["route.openshift.io: routes"]
-    class res_46 resource
-    cr_manager_role --&gt;|get, list, watch| res_47["scheduling.k8s.io: priorityclasses"]
-    class res_47 resource
-    cr_manager_role --&gt;|get, list, patch, update, watch| res_48["serving.kserve.io: inferenceservices"]
-    class res_48 resource
-    cr_manager_role --&gt;|delete, get, list, patch, update, watch| res_49["serving.kserve.io: inferenceservices/finalizers"]
-    class res_49 resource
-    cr_manager_role --&gt;|get, list, watch| res_50["serving.kserve.io: servingruntimes"]
-    class res_50 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_51["trustyai.opendatahub.io: evalhubs"]
-    class res_51 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_52["trustyai.opendatahub.io: guardrailsorchestrators"]
-    class res_52 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_53["trustyai.opendatahub.io: lmevaljobs"]
-    class res_53 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_54["trustyai.opendatahub.io: nemoguardrails"]
-    class res_54 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_55["trustyai.opendatahub.io: trustyaiservices"]
-    class res_55 resource
-    cr_manager_role --&gt;|update| res_56["trustyai.opendatahub.io: evalhubs/finalizers"]
-    class res_56 resource
-    cr_manager_role --&gt;|update| res_57["trustyai.opendatahub.io: guardrailsorchestrators/finalizers"]
-    class res_57 resource
-    cr_manager_role --&gt;|update| res_58["trustyai.opendatahub.io: lmevaljobs/finalizers"]
-    class res_58 resource
-    cr_manager_role --&gt;|update| res_59["trustyai.opendatahub.io: nemoguardrails/finalizers"]
-    class res_59 resource
-    cr_manager_role --&gt;|update| res_60["trustyai.opendatahub.io: trustyaiservices/finalizers"]
-    class res_60 resource
-    cr_manager_role --&gt;|create, get, update| res_61["trustyai.opendatahub.io: evalhubs/proxy"]
-    class res_61 resource
-    cr_manager_role --&gt;|get, patch, update| res_62["trustyai.opendatahub.io: evalhubs/status"]
-    class res_62 resource
-    cr_manager_role --&gt;|get, patch, update| res_63["trustyai.opendatahub.io: guardrailsorchestrators/status"]
-    class res_63 resource
-    cr_manager_role --&gt;|get, patch, update| res_64["trustyai.opendatahub.io: lmevaljobs/status"]
-    class res_64 resource
-    cr_manager_role --&gt;|get, patch, update| res_65["trustyai.opendatahub.io: nemoguardrails/status"]
-    class res_65 resource
-    cr_manager_role --&gt;|get, patch, update| res_66["trustyai.opendatahub.io: trustyaiservices/status"]
-    class res_66 resource
-    cr_trustyaiservice_editor_role --&gt;|create, delete, get, list, patch, update, watch| res_67["trustyai.opendatahub.io: trustyaiservices"]
-    class res_67 resource
-    cr_trustyaiservice_editor_role --&gt;|get| res_68["trustyai.opendatahub.io: trustyaiservices/status"]
-    class res_68 resource
-    cr_trustyaiservice_viewer_role --&gt;|get, list, watch| res_69["trustyai.opendatahub.io: trustyaiservices"]
-    class res_69 resource
-    cr_trustyaiservice_viewer_role --&gt;|get| res_70["trustyai.opendatahub.io: trustyaiservices/status"]
-    class res_70 resource
-    r_leader_election_role --&gt;|get, list, watch, create, update, patch, delete| res_71["core: configmaps"]
-    class res_71 resource
-    r_leader_election_role --&gt;|get, list, watch, create, update, patch, delete| res_72["coordination.k8s.io: leases"]
-    class res_72 resource
-    r_leader_election_role --&gt;|create, patch| res_73["core: events"]
-    class res_73 resource</code></pre>
+| Role | Kind | API Groups | Resources | Verbs |
+|------|------|------------|-----------|-------|
+| metrics-reader | ClusterRole |  |  | get |
+| proxy-role | ClusterRole |  | tokenreviews | create |
+| proxy-role | ClusterRole |  | subjectaccessreviews | create |
+| evalhub-proxy-role | ClusterRole |  | tokenreviews | create |
+| evalhub-proxy-role | ClusterRole |  | subjectaccessreviews | create |
+| evalhub-proxy-role | ClusterRole |  | evalhubs | get, list, watch |
+| evalhub-proxy-role | ClusterRole |  | evalhubs/proxy | get, create, update |
+| nemoguardrail-editor-role | ClusterRole |  | nemoguardrails | create, delete, get, list, patch, update, watch |
+| nemoguardrail-editor-role | ClusterRole |  | nemoguardrails/status | get |
+| nemoguardrail-viewer-role | ClusterRole |  | nemoguardrails | get, list, watch |
+| nemoguardrail-viewer-role | ClusterRole |  | nemoguardrails/status | get |
+| lmeval-user-role | ClusterRole |  | lmevaljobs | create, delete, get, list, patch, update, watch |
+| lmeval-user-role | ClusterRole |  | lmevaljobs/status | get |
+| manager-role | ClusterRole |  | configmaps, persistentvolumeclaims, pods, secrets, serviceaccounts, services | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | events | create, patch, update, watch |
+| manager-role | ClusterRole |  | persistentvolumes | get, list, watch |
+| manager-role | ClusterRole |  | pods/exec | create, delete, get, list, watch |
+| manager-role | ClusterRole |  | customresourcedefinitions | get, list, watch |
+| manager-role | ClusterRole |  | deployments | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | deployments/finalizers | update |
+| manager-role | ClusterRole |  | deployments/status | get, patch, update |
+| manager-role | ClusterRole |  | leases | create, get, update |
+| manager-role | ClusterRole |  | resourceflavors, workloadpriorityclasses | get, list, watch |
+| manager-role | ClusterRole |  | workloads | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | workloads/finalizers | update |
+| manager-role | ClusterRole |  | workloads/status | get, patch, update |
+| manager-role | ClusterRole |  | servicemonitors | create, list, watch |
+| manager-role | ClusterRole |  | destinationrules, virtualservices | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | clusterrolebindings | create, delete, get, list, update, watch |
+| manager-role | ClusterRole |  | routes | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | priorityclasses | get, list, watch |
+| manager-role | ClusterRole |  | inferenceservices | get, list, patch, update, watch |
+| manager-role | ClusterRole |  | inferenceservices/finalizers | delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | servingruntimes | get, list, watch |
+| manager-role | ClusterRole |  | evalhubs, guardrailsorchestrators, lmevaljobs, nemoguardrails, trustyaiservices | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | evalhubs/finalizers, guardrailsorchestrators/finalizers, lmevaljobs/finalizers, nemoguardrails/finalizers, trustyaiservices/finalizers | update |
+| manager-role | ClusterRole |  | evalhubs/proxy | create, get, update |
+| manager-role | ClusterRole |  | evalhubs/status, guardrailsorchestrators/status, lmevaljobs/status, nemoguardrails/status, trustyaiservices/status | get, patch, update |
+| trustyaiservice-editor-role | ClusterRole |  | trustyaiservices | create, delete, get, list, patch, update, watch |
+| trustyaiservice-editor-role | ClusterRole |  | trustyaiservices/status | get |
+| trustyaiservice-viewer-role | ClusterRole |  | trustyaiservices | get, list, watch |
+| trustyaiservice-viewer-role | ClusterRole |  | trustyaiservices/status | get |
+| leader-election-role | Role |  | configmaps | get, list, watch, create, update, patch, delete |
+| leader-election-role | Role |  | leases | get, list, watch, create, update, patch, delete |
+| leader-election-role | Role |  | events | create, patch |
 
 </details>
 
@@ -4521,7 +4418,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 16:03:36 UTC">April 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 09:38:22 UTC">April 17, 2026</span>
   </span>
 
     

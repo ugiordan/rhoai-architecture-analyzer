@@ -4033,202 +4033,63 @@
 </tbody>
 </table>
 <details>
-<summary>Full RBAC hierarchy diagram</summary>
+<summary>Full RBAC details</summary>
 
-<pre class="mermaid"><code>graph TD
-    %% RBAC hierarchy for data-science-pipelines-operator
-    classDef sa fill:#4a90d9,stroke:#2c5f8a,color:#fff
-    classDef role fill:#e8a838,stroke:#b07828,color:#fff
-    classDef resource fill:#5cb85c,stroke:#3d8b3d,color:#fff
+### All Roles
 
-    sa_2["ServiceAccount: controller-manager (datasciencepipelinesapplications-controller)"] --&gt;|bound via manager-argo-rolebinding| crb_1["manager-argo-rolebinding"]
-    class sa_2 sa
-    crb_1 --&gt;|grants| cr_manager_argo_role["CR: manager-argo-role"]
-    class cr_manager_argo_role role
-    sa_4["ServiceAccount: controller-manager (datasciencepipelinesapplications-controller)"] --&gt;|bound via manager-rolebinding| crb_3["manager-rolebinding"]
-    class sa_4 sa
-    crb_3 --&gt;|grants| cr_manager_role["CR: manager-role"]
-    class cr_manager_role role
-    sa_6["ServiceAccount: controller-manager"] --&gt;|bound via leader-election-rolebinding| rb_5["leader-election-rolebinding"]
-    class sa_6 sa
-    rb_5 --&gt;|grants| r_leader_election_role["Role: leader-election-role"]
-    class r_leader_election_role role
-    cr_aggregate_dspa_admin_edit --&gt;|get, list, watch, create, update, patch, delete| res_7["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications"]
-    class res_7 resource
-    cr_aggregate_dspa_admin_edit --&gt;|get, list, watch, create, update, patch, delete| res_8["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications/api"]
-    class res_8 resource
-    cr_aggregate_dspa_admin_edit --&gt;|get, list, watch, create, update, patch, delete| res_9["pipelines.kubeflow.org: pipelines"]
-    class res_9 resource
-    cr_aggregate_dspa_admin_edit --&gt;|get, list, watch, create, update, patch, delete| res_10["pipelines.kubeflow.org: pipelineversions"]
-    class res_10 resource
-    cr_aggregate_dspa_admin_view --&gt;|get, list, watch| res_11["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications"]
-    class res_11 resource
-    cr_aggregate_dspa_admin_view --&gt;|get, list, watch| res_12["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications/api"]
-    class res_12 resource
-    cr_aggregate_dspa_admin_view --&gt;|get, list, watch| res_13["pipelines.kubeflow.org: pipelines"]
-    class res_13 resource
-    cr_aggregate_dspa_admin_view --&gt;|get, list, watch| res_14["pipelines.kubeflow.org: pipelineversions"]
-    class res_14 resource
-    cr_manager_argo_role --&gt;|create, get, update| res_15["coordination.k8s.io: leases"]
-    class res_15 resource
-    cr_manager_argo_role --&gt;|create, get, list, watch, update, patch, delete| res_16["core: pods"]
-    class res_16 resource
-    cr_manager_argo_role --&gt;|create, get, list, watch, update, patch, delete| res_17["core: pods/exec"]
-    class res_17 resource
-    cr_manager_argo_role --&gt;|get, watch, list| res_18["core: configmaps"]
-    class res_18 resource
-    cr_manager_argo_role --&gt;|create, update, delete, get| res_19["core: persistentvolumeclaims"]
-    class res_19 resource
-    cr_manager_argo_role --&gt;|create, update, delete, get| res_20["core: persistentvolumeclaims/finalizers"]
-    class res_20 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete, create| res_21["argoproj.io: workflows"]
-    class res_21 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete, create| res_22["argoproj.io: workflows/finalizers"]
-    class res_22 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete, create| res_23["argoproj.io: workflowtasksets"]
-    class res_23 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete, create| res_24["argoproj.io: workflowtasksets/finalizers"]
-    class res_24 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete, create| res_25["argoproj.io: workflowartifactgctasks"]
-    class res_25 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete, create| res_26["argoproj.io: workflowartifactgctasks/finalizers"]
-    class res_26 resource
-    cr_manager_argo_role --&gt;|get, list, watch| res_27["argoproj.io: workflowtemplates"]
-    class res_27 resource
-    cr_manager_argo_role --&gt;|get, list, watch| res_28["argoproj.io: workflowtemplates/finalizers"]
-    class res_28 resource
-    cr_manager_argo_role --&gt;|get, list| res_29["core: serviceaccounts"]
-    class res_29 resource
-    cr_manager_argo_role --&gt;|list, watch, deletecollection| res_30["argoproj.io: workflowtaskresults"]
-    class res_30 resource
-    cr_manager_argo_role --&gt;|get, list| res_31["core: serviceaccounts"]
-    class res_31 resource
-    cr_manager_argo_role --&gt;|get| res_32["core: secrets"]
-    class res_32 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete| res_33["argoproj.io: cronworkflows"]
-    class res_33 resource
-    cr_manager_argo_role --&gt;|get, list, watch, update, patch, delete| res_34["argoproj.io: cronworkflows/finalizers"]
-    class res_34 resource
-    cr_manager_argo_role --&gt;|create, patch| res_35["core: events"]
-    class res_35 resource
-    cr_manager_argo_role --&gt;|create, get, delete| res_36["policy: poddisruptionbudgets"]
-    class res_36 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_37["core: configmaps"]
-    class res_37 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_38["core: secrets"]
-    class res_38 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_39["core: serviceaccounts"]
-    class res_39 resource
-    cr_manager_role --&gt;|create, list, patch| res_40["core: events"]
-    class res_40 resource
-    cr_manager_role --&gt;|*, create, delete, get, list, patch, update, watch| res_41["core: persistentvolumeclaims"]
-    class res_41 resource
-    cr_manager_role --&gt;|*, create, delete, get, list, patch, update, watch| res_42["core: persistentvolumes"]
-    class res_42 resource
-    cr_manager_role --&gt;|*, create, delete, get, list, patch, update, watch| res_43["core: services"]
-    class res_43 resource
-    cr_manager_role --&gt;|*| res_44["core: pods"]
-    class res_44 resource
-    cr_manager_role --&gt;|*| res_45["core: pods/exec"]
-    class res_45 resource
-    cr_manager_role --&gt;|*| res_46["core: pods/log"]
-    class res_46 resource
-    cr_manager_role --&gt;|*| res_47["core: deployments"]
-    class res_47 resource
-    cr_manager_role --&gt;|*| res_48["core: deployments/finalizers"]
-    class res_48 resource
-    cr_manager_role --&gt;|*| res_49["core: replicasets"]
-    class res_49 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_50["*: deployments"]
-    class res_50 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_51["*: services"]
-    class res_51 resource
-    cr_manager_role --&gt;|create| res_52["admissionregistration.k8s.io: mutatingwebhookconfigurations"]
-    class res_52 resource
-    cr_manager_role --&gt;|create| res_53["admissionregistration.k8s.io: validatingwebhookconfigurations"]
-    class res_53 resource
-    cr_manager_role --&gt;|delete, get, list, patch, update, watch| res_54["admissionregistration.k8s.io: mutatingwebhookconfigurations"]
-    class res_54 resource
-    cr_manager_role --&gt;|delete, get, list, patch, update, watch| res_55["admissionregistration.k8s.io: validatingwebhookconfigurations"]
-    class res_55 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_56["apps: deployments"]
-    class res_56 resource
-    cr_manager_role --&gt;|*| res_57["argoproj.io: workflowartifactgctasks"]
-    class res_57 resource
-    cr_manager_role --&gt;|*| res_58["argoproj.io: workflowartifactgctasks/finalizers"]
-    class res_58 resource
-    cr_manager_role --&gt;|*| res_59["argoproj.io: workflows"]
-    class res_59 resource
-    cr_manager_role --&gt;|create, patch| res_60["argoproj.io: workflowtaskresults"]
-    class res_60 resource
-    cr_manager_role --&gt;|create| res_61["authentication.k8s.io: tokenreviews"]
-    class res_61 resource
-    cr_manager_role --&gt;|create| res_62["authorization.k8s.io: subjectaccessreviews"]
-    class res_62 resource
-    cr_manager_role --&gt;|*| res_63["batch: jobs"]
-    class res_63 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_64["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications"]
-    class res_64 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_65["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications/api"]
-    class res_65 resource
-    cr_manager_role --&gt;|update| res_66["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications/finalizers"]
-    class res_66 resource
-    cr_manager_role --&gt;|get, patch, update| res_67["datasciencepipelinesapplications.opendatahub.io: datasciencepipelinesapplications/status"]
-    class res_67 resource
-    cr_manager_role --&gt;|get| res_68["image.openshift.io: imagestreamtags"]
-    class res_68 resource
-    cr_manager_role --&gt;|*| res_69["kubeflow.org: *"]
-    class res_69 resource
-    cr_manager_role --&gt;|*| res_70["machinelearning.seldon.io: seldondeployments"]
-    class res_70 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_71["monitoring.coreos.com: servicemonitors"]
-    class res_71 resource
-    cr_manager_role --&gt;|get, list| res_72["networking.k8s.io: ingresses"]
-    class res_72 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_73["networking.k8s.io: networkpolicies"]
-    class res_73 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_74["pipelines.kubeflow.org: pipelines"]
-    class res_74 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_75["pipelines.kubeflow.org: pipelines/finalizers"]
-    class res_75 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_76["pipelines.kubeflow.org: pipelineversions"]
-    class res_76 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_77["pipelines.kubeflow.org: pipelineversions/finalizers"]
-    class res_77 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_78["pipelines.kubeflow.org: pipelineversions/status"]
-    class res_78 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch| res_79["ray.io: rayclusters"]
-    class res_79 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch| res_80["ray.io: rayjobs"]
-    class res_80 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch| res_81["ray.io: rayservices"]
-    class res_81 resource
-    cr_manager_role --&gt;|create, delete, get, list, update, watch| res_82["rbac.authorization.k8s.io: clusterrolebindings"]
-    class res_82 resource
-    cr_manager_role --&gt;|create, delete, get, list, update, watch| res_83["rbac.authorization.k8s.io: clusterroles"]
-    class res_83 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_84["rbac.authorization.k8s.io: rolebindings"]
-    class res_84 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_85["rbac.authorization.k8s.io: roles"]
-    class res_85 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch, update, watch| res_86["route.openshift.io: routes"]
-    class res_86 resource
-    cr_manager_role --&gt;|create, delete, get, list, patch| res_87["serving.kserve.io: inferenceservices"]
-    class res_87 resource
-    cr_manager_role --&gt;|create, delete, get| res_88["snapshot.storage.k8s.io: volumesnapshots"]
-    class res_88 resource
-    cr_manager_role --&gt;|create, delete, deletecollection, get, list, patch, update, watch| res_89["workload.codeflare.dev: appwrappers"]
-    class res_89 resource
-    cr_manager_role --&gt;|create, delete, deletecollection, get, list, patch, update, watch| res_90["workload.codeflare.dev: appwrappers/finalizers"]
-    class res_90 resource
-    cr_manager_role --&gt;|create, delete, deletecollection, get, list, patch, update, watch| res_91["workload.codeflare.dev: appwrappers/status"]
-    class res_91 resource
-    r_leader_election_role --&gt;|get, list, watch, create, update, patch, delete| res_92["core: configmaps"]
-    class res_92 resource
-    r_leader_election_role --&gt;|get, list, watch, create, update, patch, delete| res_93["coordination.k8s.io: leases"]
-    class res_93 resource
-    r_leader_election_role --&gt;|create, patch| res_94["core: events"]
-    class res_94 resource</code></pre>
+| Role | Kind | API Groups | Resources | Verbs |
+|------|------|------------|-----------|-------|
+| aggregate-dspa-admin-edit | ClusterRole |  | datasciencepipelinesapplications, datasciencepipelinesapplications/api | get, list, watch, create, update, patch, delete |
+| aggregate-dspa-admin-edit | ClusterRole |  | pipelines, pipelineversions | get, list, watch, create, update, patch, delete |
+| aggregate-dspa-admin-view | ClusterRole |  | datasciencepipelinesapplications, datasciencepipelinesapplications/api | get, list, watch |
+| aggregate-dspa-admin-view | ClusterRole |  | pipelines, pipelineversions | get, list, watch |
+| manager-argo-role | ClusterRole |  | leases | create, get, update |
+| manager-argo-role | ClusterRole |  | pods, pods/exec | create, get, list, watch, update, patch, delete |
+| manager-argo-role | ClusterRole |  | configmaps | get, watch, list |
+| manager-argo-role | ClusterRole |  | persistentvolumeclaims, persistentvolumeclaims/finalizers | create, update, delete, get |
+| manager-argo-role | ClusterRole |  | workflows, workflows/finalizers, workflowtasksets, workflowtasksets/finalizers, workflowartifactgctasks, workflowartifactgctasks/finalizers | get, list, watch, update, patch, delete, create |
+| manager-argo-role | ClusterRole |  | workflowtemplates, workflowtemplates/finalizers | get, list, watch |
+| manager-argo-role | ClusterRole |  | serviceaccounts | get, list |
+| manager-argo-role | ClusterRole |  | workflowtaskresults | list, watch, deletecollection |
+| manager-argo-role | ClusterRole |  | serviceaccounts | get, list |
+| manager-argo-role | ClusterRole |  | secrets | get |
+| manager-argo-role | ClusterRole |  | cronworkflows, cronworkflows/finalizers | get, list, watch, update, patch, delete |
+| manager-argo-role | ClusterRole |  | events | create, patch |
+| manager-argo-role | ClusterRole |  | poddisruptionbudgets | create, get, delete |
+| manager-role | ClusterRole |  | configmaps, secrets, serviceaccounts | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | events | create, list, patch |
+| manager-role | ClusterRole |  | persistentvolumeclaims, persistentvolumes, services | *, create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | pods, pods/exec, pods/log | * |
+| manager-role | ClusterRole |  | deployments, deployments/finalizers, replicasets | * |
+| manager-role | ClusterRole |  | deployments, services | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | mutatingwebhookconfigurations, validatingwebhookconfigurations | create |
+| manager-role | ClusterRole |  | mutatingwebhookconfigurations, validatingwebhookconfigurations | delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | deployments | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | workflowartifactgctasks, workflowartifactgctasks/finalizers, workflows | * |
+| manager-role | ClusterRole |  | workflowtaskresults | create, patch |
+| manager-role | ClusterRole |  | tokenreviews | create |
+| manager-role | ClusterRole |  | subjectaccessreviews | create |
+| manager-role | ClusterRole |  | jobs | * |
+| manager-role | ClusterRole |  | datasciencepipelinesapplications, datasciencepipelinesapplications/api | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | datasciencepipelinesapplications/finalizers | update |
+| manager-role | ClusterRole |  | datasciencepipelinesapplications/status | get, patch, update |
+| manager-role | ClusterRole |  | imagestreamtags | get |
+| manager-role | ClusterRole |  | * | * |
+| manager-role | ClusterRole |  | seldondeployments | * |
+| manager-role | ClusterRole |  | servicemonitors | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | ingresses | get, list |
+| manager-role | ClusterRole |  | networkpolicies | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | pipelines, pipelines/finalizers, pipelineversions, pipelineversions/finalizers, pipelineversions/status | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | rayclusters, rayjobs, rayservices | create, delete, get, list, patch |
+| manager-role | ClusterRole |  | clusterrolebindings, clusterroles | create, delete, get, list, update, watch |
+| manager-role | ClusterRole |  | rolebindings, roles | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | routes | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | inferenceservices | create, delete, get, list, patch |
+| manager-role | ClusterRole |  | volumesnapshots | create, delete, get |
+| manager-role | ClusterRole |  | appwrappers, appwrappers/finalizers, appwrappers/status | create, delete, deletecollection, get, list, patch, update, watch |
+| leader-election-role | Role |  | configmaps | get, list, watch, create, update, patch, delete |
+| leader-election-role | Role |  | leases | get, list, watch, create, update, patch, delete |
+| leader-election-role | Role |  | events | create, patch |
 
 </details>
 
@@ -4557,7 +4418,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 16, 2026 16:03:36 UTC">April 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 09:38:22 UTC">April 17, 2026</span>
   </span>
 
     
