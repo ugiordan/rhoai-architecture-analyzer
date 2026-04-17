@@ -1116,6 +1116,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#all-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cluster-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3910,6 +3921,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#all-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cluster-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4022,44 +4044,231 @@
 </table>
 <details>
 <summary>Full RBAC details</summary>
-
-### All Roles
-
-| Role | Kind | API Groups | Resources | Verbs |
-|------|------|------------|-----------|-------|
-| kserve-proxy-role | ClusterRole |  | tokenreviews | create |
-| kserve-proxy-role | ClusterRole |  | subjectaccessreviews | create |
-| kserve-manager-role | ClusterRole |  | configmaps | create, get, update |
-| kserve-manager-role | ClusterRole |  | events, services | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | namespaces, pods | get, list, watch |
-| kserve-manager-role | ClusterRole |  | secrets | get |
-| kserve-manager-role | ClusterRole |  | serviceaccounts | create, delete, get, patch |
-| kserve-manager-role | ClusterRole |  | mutatingwebhookconfigurations, validatingwebhookconfigurations | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | deployments | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | horizontalpodautoscalers | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | httproutes | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | scaledobjects, scaledobjects/finalizers | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | scaledobjects/status | get, patch, update |
-| kserve-manager-role | ClusterRole |  | virtualservices, virtualservices/finalizers | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | virtualservices/status | get, patch, update |
-| kserve-manager-role | ClusterRole |  | ingresses | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | opentelemetrycollectors, opentelemetrycollectors/finalizers | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | opentelemetrycollectors/status | get, patch, update |
-| kserve-manager-role | ClusterRole |  | clusterrolebindings | create, get, patch, update |
-| kserve-manager-role | ClusterRole |  | routes | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | routes/status | get |
-| kserve-manager-role | ClusterRole |  | services, services/finalizers | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | services/status | get, patch, update |
-| kserve-manager-role | ClusterRole |  | clusterservingruntimes, clusterservingruntimes/finalizers, clusterstoragecontainers, inferencegraphs, inferencegraphs/finalizers, inferenceservices, inferenceservices/finalizers, servingruntimes, servingruntimes/finalizers, trainedmodels | create, delete, get, list, patch, update, watch |
-| kserve-manager-role | ClusterRole |  | clusterservingruntimes/status, inferencegraphs/status, inferenceservices/status, servingruntimes/status, trainedmodels/status | get, patch, update |
-| kserve-manager-role | ClusterRole |  | localmodelcaches, localmodelnamespacecaches | get, list, watch |
-| kserve-leader-election-role | Role |  | leases | create, get, list, update |
-| kserve-leader-election-role | Role |  | configmaps | get, list, watch, create, update, patch, delete |
-| kserve-leader-election-role | Role |  | configmaps/status | get, update, patch |
-| kserve-leader-election-role | Role |  | events | create |
-
+<h3 id="all-roles">All Roles<a class="headerlink" href="#all-roles" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Kind</th>
+<th>API Groups</th>
+<th>Resources</th>
+<th>Verbs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kserve-proxy-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>tokenreviews</td>
+<td>create</td>
+</tr>
+<tr>
+<td>kserve-proxy-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>subjectaccessreviews</td>
+<td>create</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>configmaps</td>
+<td>create, get, update</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>events, services</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>namespaces, pods</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>secrets</td>
+<td>get</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>serviceaccounts</td>
+<td>create, delete, get, patch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>mutatingwebhookconfigurations, validatingwebhookconfigurations</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>deployments</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>horizontalpodautoscalers</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>httproutes</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>scaledobjects, scaledobjects/finalizers</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>scaledobjects/status</td>
+<td>get, patch, update</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>virtualservices, virtualservices/finalizers</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>virtualservices/status</td>
+<td>get, patch, update</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>ingresses</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>opentelemetrycollectors, opentelemetrycollectors/finalizers</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>opentelemetrycollectors/status</td>
+<td>get, patch, update</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>clusterrolebindings</td>
+<td>create, get, patch, update</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>routes</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>routes/status</td>
+<td>get</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>services, services/finalizers</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>services/status</td>
+<td>get, patch, update</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>clusterservingruntimes, clusterservingruntimes/finalizers, clusterstoragecontainers, inferencegraphs, inferencegraphs/finalizers, inferenceservices, inferenceservices/finalizers, servingruntimes, servingruntimes/finalizers, trainedmodels</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>clusterservingruntimes/status, inferencegraphs/status, inferenceservices/status, servingruntimes/status, trainedmodels/status</td>
+<td>get, patch, update</td>
+</tr>
+<tr>
+<td>kserve-manager-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>localmodelcaches, localmodelnamespacecaches</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>kserve-leader-election-role</td>
+<td>Role</td>
+<td></td>
+<td>leases</td>
+<td>create, get, list, update</td>
+</tr>
+<tr>
+<td>kserve-leader-election-role</td>
+<td>Role</td>
+<td></td>
+<td>configmaps</td>
+<td>get, list, watch, create, update, patch, delete</td>
+</tr>
+<tr>
+<td>kserve-leader-election-role</td>
+<td>Role</td>
+<td></td>
+<td>configmaps/status</td>
+<td>get, update, patch</td>
+</tr>
+<tr>
+<td>kserve-leader-election-role</td>
+<td>Role</td>
+<td></td>
+<td>events</td>
+<td>create</td>
+</tr>
+</tbody>
+</table>
 </details>
-
 <h3 id="cluster-roles">Cluster Roles<a class="headerlink" href="#cluster-roles" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -4253,7 +4462,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 09:38:22 UTC">April 17, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 10:22:06 UTC">April 17, 2026</span>
   </span>
 
     

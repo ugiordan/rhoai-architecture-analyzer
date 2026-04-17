@@ -1,9 +1,13 @@
 // Add fullscreen toggle to mermaid diagrams
+// mkdocs-material renders mermaid inside <pre class="mermaid"> elements
 document.addEventListener("DOMContentLoaded", function () {
-  // Wait for mermaid to render
-  var observer = new MutationObserver(function () {
-    document.querySelectorAll(".mermaid").forEach(function (el) {
+  function addZoomButtons() {
+    // Target both .mermaid and pre.mermaid (mkdocs-material format)
+    document.querySelectorAll(".mermaid, pre.mermaid").forEach(function (el) {
       if (el.querySelector(".diagram-zoom")) return;
+      // Only add button if diagram has rendered (contains SVG)
+      if (!el.querySelector("svg") && !el.innerHTML.includes("<svg")) return;
+
       var btn = document.createElement("button");
       btn.className = "diagram-zoom";
       btn.textContent = "\u26F6";
@@ -16,6 +20,14 @@ document.addEventListener("DOMContentLoaded", function () {
       el.style.position = "relative";
       el.appendChild(btn);
     });
+  }
+
+  // Run after initial render
+  setTimeout(addZoomButtons, 1000);
+
+  // Also watch for dynamic rendering
+  var observer = new MutationObserver(function () {
+    addZoomButtons();
   });
   observer.observe(document.body, { childList: true, subtree: true });
 });
@@ -23,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
 // ESC to exit fullscreen
 document.addEventListener("keydown", function (e) {
   if (e.key === "Escape") {
-    document.querySelectorAll(".mermaid.fullscreen").forEach(function (el) {
+    document.querySelectorAll(".fullscreen").forEach(function (el) {
       el.classList.remove("fullscreen");
       var btn = el.querySelector(".diagram-zoom");
       if (btn) btn.textContent = "\u26F6";

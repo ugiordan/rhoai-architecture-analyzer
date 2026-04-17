@@ -3930,9 +3930,9 @@
     odh_dashboard["odh-dashboard"]:::comp
     opendatahub_operator["opendatahub-operator"]:::comp
 
+    opendatahub_operator -.-&gt;|"odh-dashboard"| odh_dashboard
     opendatahub_operator -.-&gt;|"kserve-controller-manager-service"| kserve
-    opendatahub_operator -.-&gt;|"kuberay-operator"| kuberay
-    opendatahub_operator -.-&gt;|"odh-dashboard"| odh_dashboard</code></pre>
+    opendatahub_operator -.-&gt;|"kuberay-operator"| kuberay</code></pre>
 <h2 id="services-by-component">Services by Component<a class="headerlink" href="#services-by-component" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -4019,41 +4019,193 @@
 </table>
 <details>
 <summary>Full service inventory</summary>
-
-| Owner | Service | Type | Ports |
-|-------|---------|------|-------|
-| data-science-pipelines-operator | mariadb | ClusterIP | 3306/TCP |
-| data-science-pipelines-operator | minio | ClusterIP | 9000/TCP, 9001/TCP |
-| data-science-pipelines-operator | pypi-server | ClusterIP | 8080/TCP |
-| kserve | llmisvc-controller-manager-service | ClusterIP | 8443/TCP |
-| kserve | kserve-controller-manager-service | ClusterIP | 8443/TCP |
-| kserve | llmisvc-webhook-server-service | ClusterIP | 443/TCP |
-| kserve | localmodel-webhook-server-service | ClusterIP | 443/TCP |
-| kserve | kserve-webhook-server-service | ClusterIP | 443/TCP |
-| kserve | webhook-service | ClusterIP | 443/TCP |
-| kube-auth-proxy | kube-rbac-proxy | ClusterIP | 8443/TCP |
-| kube-rbac-proxy | kube-rbac-proxy | ClusterIP | 8443/TCP |
-| kuberay | kuberay-operator | ClusterIP | 8080/TCP |
-| kuberay | webhook-service | ClusterIP | 443/TCP |
-| model-registry-operator | webhook-service | ClusterIP | 443/TCP |
-| notebooks | notebook | ClusterIP | 8888/TCP |
-| odh-dashboard | odh-dashboard | ClusterIP | 8443/TCP |
-| odh-dashboard | workspaces-backend | ClusterIP | 4000/TCP |
-| odh-dashboard | workspaces-webhook-service | ClusterIP | 443/TCP |
-| odh-dashboard | workspaces-controller-metrics-service | ClusterIP | 8080/TCP |
-| odh-dashboard | workspaces-frontend | ClusterIP | 8080/TCP |
-| odh-model-controller | odh-model-controller-webhook-service | ClusterIP | 443/TCP |
-| opendatahub-operator | webhook-service | ClusterIP | 443/TCP |
-| opendatahub-operator | odh-dashboard | ClusterIP | 8443/TCP |
-| opendatahub-operator | kserve-controller-manager-service | ClusterIP | 8443/TCP |
-| opendatahub-operator | kserve-webhook-server-service | ClusterIP | 443/TCP |
-| opendatahub-operator | odh-model-controller-webhook-service | ClusterIP | 443/TCP |
-| opendatahub-operator | kuberay-operator | ClusterIP | 8080/TCP |
-| opendatahub-operator | training-operator | ClusterIP | 8080/TCP, 443/TCP |
-| opendatahub-operator | service | ClusterIP | 443/TCP |
-
+<table>
+<thead>
+<tr>
+<th>Owner</th>
+<th>Service</th>
+<th>Type</th>
+<th>Ports</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data-science-pipelines-operator</td>
+<td>mariadb</td>
+<td>ClusterIP</td>
+<td>3306/TCP</td>
+</tr>
+<tr>
+<td>data-science-pipelines-operator</td>
+<td>minio</td>
+<td>ClusterIP</td>
+<td>9000/TCP, 9001/TCP</td>
+</tr>
+<tr>
+<td>data-science-pipelines-operator</td>
+<td>pypi-server</td>
+<td>ClusterIP</td>
+<td>8080/TCP</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>llmisvc-controller-manager-service</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>kserve-controller-manager-service</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>llmisvc-webhook-server-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>localmodel-webhook-server-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>kserve-webhook-server-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>webhook-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>kube-auth-proxy</td>
+<td>kube-rbac-proxy</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+</tr>
+<tr>
+<td>kube-rbac-proxy</td>
+<td>kube-rbac-proxy</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+</tr>
+<tr>
+<td>kuberay</td>
+<td>kuberay-operator</td>
+<td>ClusterIP</td>
+<td>8080/TCP</td>
+</tr>
+<tr>
+<td>kuberay</td>
+<td>webhook-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>model-registry-operator</td>
+<td>webhook-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>notebooks</td>
+<td>notebook</td>
+<td>ClusterIP</td>
+<td>8888/TCP</td>
+</tr>
+<tr>
+<td>odh-dashboard</td>
+<td>odh-dashboard</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+</tr>
+<tr>
+<td>odh-dashboard</td>
+<td>workspaces-backend</td>
+<td>ClusterIP</td>
+<td>4000/TCP</td>
+</tr>
+<tr>
+<td>odh-dashboard</td>
+<td>workspaces-webhook-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>odh-dashboard</td>
+<td>workspaces-controller-metrics-service</td>
+<td>ClusterIP</td>
+<td>8080/TCP</td>
+</tr>
+<tr>
+<td>odh-dashboard</td>
+<td>workspaces-frontend</td>
+<td>ClusterIP</td>
+<td>8080/TCP</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>odh-model-controller-webhook-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>webhook-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>odh-dashboard</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>kserve-controller-manager-service</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>kserve-webhook-server-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>odh-model-controller-webhook-service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>kuberay-operator</td>
+<td>ClusterIP</td>
+<td>8080/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>training-operator</td>
+<td>ClusterIP</td>
+<td>8080/TCP, 443/TCP</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>service</td>
+<td>ClusterIP</td>
+<td>443/TCP</td>
+</tr>
+</tbody>
+</table>
 </details>
-
 <h2 id="port-patterns">Port Patterns<a class="headerlink" href="#port-patterns" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>3306/TCP</strong>: mariadb</li>
@@ -4087,7 +4239,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 09:38:22 UTC">April 17, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 10:22:06 UTC">April 17, 2026</span>
   </span>
 
     

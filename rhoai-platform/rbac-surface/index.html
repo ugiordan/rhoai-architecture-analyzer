@@ -3900,50 +3900,12 @@
 <p>52 cluster roles across the platform.</p>
 <h2 id="permission-scope-by-component">Permission Scope by Component<a class="headerlink" href="#permission-scope-by-component" title="Permanent link">¶</a></h2>
 <p>Each bar shows the widest role (by resource type count). Scope: <img alt="🔴" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f534.svg" title=":red_circle:"> wide (&gt;30), <img alt="🟠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f7e0.svg" title=":orange_circle:"> medium (10-30), <img alt="🟢" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f7e2.svg" title=":green_circle:"> narrow (&lt;10).</p>
-<pre class="mermaid"><code>%%{init: {'theme': 'base', 'themeVariables': {'fontSize': '14px'}}}%%
-xychart-beta
+<pre class="mermaid"><code>%{init: {'theme': 'base', 'themeVariables': {'fontSize': '12px'}, 'xyChart': {'width': 700, 'height': 380}}}%
+xychart-beta horizontal
     title "Widest Role Scope (resource types)"
-    x-axis ["DSPO", "KSrv", "MRO", "Dash", "OMC", "ODH", "TAI"]
+    x-axis ["data-science-pipelines-operator", "kserve", "model-registry-operator", "odh-dashboard", "odh-model-controller", "opendatahub-operator", "trustyai-service-operator"]
     y-axis "Resource types" 0 --&gt; 60
     bar [55, 45, 27, 40, 41, 2, 44]</code></pre>
-<table>
-<thead>
-<tr>
-<th>Abbr</th>
-<th>Component</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>DSPO</strong></td>
-<td>data-science-pipelines-operator</td>
-</tr>
-<tr>
-<td><strong>KSrv</strong></td>
-<td>kserve</td>
-</tr>
-<tr>
-<td><strong>MRO</strong></td>
-<td>model-registry-operator</td>
-</tr>
-<tr>
-<td><strong>Dash</strong></td>
-<td>odh-dashboard</td>
-</tr>
-<tr>
-<td><strong>OMC</strong></td>
-<td>odh-model-controller</td>
-</tr>
-<tr>
-<td><strong>ODH</strong></td>
-<td>opendatahub-operator</td>
-</tr>
-<tr>
-<td><strong>TAI</strong></td>
-<td>trustyai-service-operator</td>
-</tr>
-</tbody>
-</table>
 <h2 id="roles-by-component">Roles by Component<a class="headerlink" href="#roles-by-component" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -4009,62 +3971,277 @@ xychart-beta
 </table>
 <details>
 <summary>Full role details</summary>
-
-| Owner | Role | Resource Types |
-|-------|------|----------------|
-| data-science-pipelines-operator | manager-role | 55 |
-| data-science-pipelines-operator | manager-argo-role | 22 |
-| data-science-pipelines-operator | aggregate-dspa-admin-edit | 4 |
-| data-science-pipelines-operator | aggregate-dspa-admin-view | 4 |
-| kserve | kserve-manager-role | 45 |
-| kserve | kserve-proxy-role | 2 |
-| model-registry-operator | manager-role | 27 |
-| model-registry-operator | proxy-role | 2 |
-| model-registry-operator | modelregistry-admin-role | 2 |
-| model-registry-operator | modelregistry-editor-role | 2 |
-| model-registry-operator | modelregistry-viewer-role | 2 |
-| model-registry-operator | metrics-reader | 0 |
-| odh-dashboard | odh-dashboard | 40 |
-| odh-model-controller | odh-model-controller-role | 41 |
-| odh-model-controller | kserve-prometheus-k8s | 3 |
-| odh-model-controller | account-editor-role | 2 |
-| odh-model-controller | account-viewer-role | 2 |
-| odh-model-controller | proxy-role | 2 |
-| odh-model-controller | metrics-auth-role | 2 |
-| odh-model-controller | metrics-reader | 0 |
-| opendatahub-operator | modelregistry-viewer-role | 2 |
-| opendatahub-operator | kueue-viewer-role | 2 |
-| opendatahub-operator | dashboard-viewer-role | 2 |
-| opendatahub-operator | datasciencepipelines-editor-role | 2 |
-| opendatahub-operator | datasciencepipelines-viewer-role | 2 |
-| opendatahub-operator | kserve-editor-role | 2 |
-| opendatahub-operator | kserve-viewer-role | 2 |
-| opendatahub-operator | ray-viewer-role | 2 |
-| opendatahub-operator | ray-editor-role | 2 |
-| opendatahub-operator | modelregistry-editor-role | 2 |
-| opendatahub-operator | dashboard-editor-role | 2 |
-| opendatahub-operator | monitoring-viewer-role | 2 |
-| opendatahub-operator | kueue-editor-role | 2 |
-| opendatahub-operator | trainingoperator-editor-role | 2 |
-| opendatahub-operator | trainingoperator-viewer-role | 2 |
-| opendatahub-operator | trustyai-editor-role | 2 |
-| opendatahub-operator | trustyai-viewer-role | 2 |
-| opendatahub-operator | workbenches-editor-role | 2 |
-| opendatahub-operator | workbenches-viewer-role | 2 |
-| opendatahub-operator | auth-editor-role | 2 |
-| opendatahub-operator | auth-viewer-role | 2 |
-| opendatahub-operator | monitoring-editor-role | 2 |
-| opendatahub-operator | metrics-reader | 0 |
-| trustyai-service-operator | manager-role | 44 |
-| trustyai-service-operator | evalhub-proxy-role | 4 |
-| trustyai-service-operator | proxy-role | 2 |
-| trustyai-service-operator | nemoguardrail-editor-role | 2 |
-| trustyai-service-operator | nemoguardrail-viewer-role | 2 |
-| trustyai-service-operator | lmeval-user-role | 2 |
-| trustyai-service-operator | trustyaiservice-editor-role | 2 |
-| trustyai-service-operator | trustyaiservice-viewer-role | 2 |
-| trustyai-service-operator | metrics-reader | 0 |
-
+<table>
+<thead>
+<tr>
+<th>Owner</th>
+<th>Role</th>
+<th>Resource Types</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>data-science-pipelines-operator</td>
+<td>manager-role</td>
+<td>55</td>
+</tr>
+<tr>
+<td>data-science-pipelines-operator</td>
+<td>manager-argo-role</td>
+<td>22</td>
+</tr>
+<tr>
+<td>data-science-pipelines-operator</td>
+<td>aggregate-dspa-admin-edit</td>
+<td>4</td>
+</tr>
+<tr>
+<td>data-science-pipelines-operator</td>
+<td>aggregate-dspa-admin-view</td>
+<td>4</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>kserve-manager-role</td>
+<td>45</td>
+</tr>
+<tr>
+<td>kserve</td>
+<td>kserve-proxy-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>model-registry-operator</td>
+<td>manager-role</td>
+<td>27</td>
+</tr>
+<tr>
+<td>model-registry-operator</td>
+<td>proxy-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>model-registry-operator</td>
+<td>modelregistry-admin-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>model-registry-operator</td>
+<td>modelregistry-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>model-registry-operator</td>
+<td>modelregistry-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>model-registry-operator</td>
+<td>metrics-reader</td>
+<td>0</td>
+</tr>
+<tr>
+<td>odh-dashboard</td>
+<td>odh-dashboard</td>
+<td>40</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>odh-model-controller-role</td>
+<td>41</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>kserve-prometheus-k8s</td>
+<td>3</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>account-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>account-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>proxy-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>metrics-auth-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>odh-model-controller</td>
+<td>metrics-reader</td>
+<td>0</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>modelregistry-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>kueue-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>dashboard-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>datasciencepipelines-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>datasciencepipelines-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>kserve-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>kserve-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>ray-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>ray-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>modelregistry-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>dashboard-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>monitoring-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>kueue-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>trainingoperator-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>trainingoperator-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>trustyai-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>trustyai-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>workbenches-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>workbenches-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>auth-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>auth-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>monitoring-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>opendatahub-operator</td>
+<td>metrics-reader</td>
+<td>0</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>manager-role</td>
+<td>44</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>evalhub-proxy-role</td>
+<td>4</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>proxy-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>nemoguardrail-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>nemoguardrail-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>lmeval-user-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>trustyaiservice-editor-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>trustyaiservice-viewer-role</td>
+<td>2</td>
+</tr>
+<tr>
+<td>trustyai-service-operator</td>
+<td>metrics-reader</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
 </details>
 
 
@@ -4088,7 +4265,7 @@ xychart-beta
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 09:38:22 UTC">April 17, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 10:22:06 UTC">April 17, 2026</span>
   </span>
 
     

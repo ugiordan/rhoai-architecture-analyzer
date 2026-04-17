@@ -2481,6 +2481,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#all-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cluster-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3899,6 +3910,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#all-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        All Roles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#cluster-roles" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4036,60 +4058,343 @@
 </table>
 <details>
 <summary>Full RBAC details</summary>
-
-### All Roles
-
-| Role | Kind | API Groups | Resources | Verbs |
-|------|------|------------|-----------|-------|
-| account-editor-role | ClusterRole |  | accounts | create, delete, get, list, patch, update, watch |
-| account-editor-role | ClusterRole |  | accounts/status | get |
-| account-viewer-role | ClusterRole |  | accounts | get, list, watch |
-| account-viewer-role | ClusterRole |  | accounts/status | get |
-| proxy-role | ClusterRole |  | tokenreviews | create |
-| proxy-role | ClusterRole |  | subjectaccessreviews | create |
-| kserve-prometheus-k8s | ClusterRole |  | services, endpoints, pods | get, list, watch |
-| metrics-auth-role | ClusterRole |  | tokenreviews | create |
-| metrics-auth-role | ClusterRole |  | subjectaccessreviews | create |
-| metrics-reader | ClusterRole |  |  | get |
-| odh-model-controller-role | ClusterRole |  | endpoints, namespaces, pods | create, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | events | create, patch |
-| odh-model-controller-role | ClusterRole |  | authentications | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | datascienceclusters | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | dscinitializations | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | ingresses | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | gateways | get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | gateways/finalizers | patch, update |
-| odh-model-controller-role | ClusterRole |  | httproutes | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | triggerauthentications | create, delete, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | authpolicies | create, delete, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | authpolicies/status | get, patch, update |
-| odh-model-controller-role | ClusterRole |  | kuadrants | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | nodes, pods | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | podmonitors, servicemonitors | create, delete, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | envoyfilters | create, delete, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | networkpolicies | create, delete, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | accounts | get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | accounts/finalizers | update |
-| odh-model-controller-role | ClusterRole |  | accounts/status | get, list, update, watch |
-| odh-model-controller-role | ClusterRole |  | authorinos | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | clusterrolebindings, rolebindings, roles | create, delete, escalate, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | routes | create, delete, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | routes/custom-host | create |
-| odh-model-controller-role | ClusterRole |  | inferencegraphs, llminferenceserviceconfigs | get, list, watch |
-| odh-model-controller-role | ClusterRole |  | inferencegraphs/finalizers, servingruntimes/finalizers | update |
-| odh-model-controller-role | ClusterRole |  | inferenceservices | get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | inferenceservices/finalizers | create, delete, get, list, patch, update, watch |
-| odh-model-controller-role | ClusterRole |  | llminferenceservices | get, list, patch, post, update, watch |
-| odh-model-controller-role | ClusterRole |  | llminferenceservices/finalizers | patch, update |
-| odh-model-controller-role | ClusterRole |  | llminferenceservices/status | get, patch, update |
-| odh-model-controller-role | ClusterRole |  | servingruntimes | create, get, list, update, watch |
-| odh-model-controller-role | ClusterRole |  | templates | create, delete, get, list, patch, update, watch |
-| leader-election-role | Role |  | configmaps | get, list, watch, create, update, patch, delete |
-| leader-election-role | Role |  | leases | get, list, watch, create, update, patch, delete |
-| leader-election-role | Role |  | events | create, patch |
-
+<h3 id="all-roles">All Roles<a class="headerlink" href="#all-roles" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Kind</th>
+<th>API Groups</th>
+<th>Resources</th>
+<th>Verbs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>account-editor-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>accounts</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>account-editor-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>accounts/status</td>
+<td>get</td>
+</tr>
+<tr>
+<td>account-viewer-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>accounts</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>account-viewer-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>accounts/status</td>
+<td>get</td>
+</tr>
+<tr>
+<td>proxy-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>tokenreviews</td>
+<td>create</td>
+</tr>
+<tr>
+<td>proxy-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>subjectaccessreviews</td>
+<td>create</td>
+</tr>
+<tr>
+<td>kserve-prometheus-k8s</td>
+<td>ClusterRole</td>
+<td></td>
+<td>services, endpoints, pods</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>metrics-auth-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>tokenreviews</td>
+<td>create</td>
+</tr>
+<tr>
+<td>metrics-auth-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>subjectaccessreviews</td>
+<td>create</td>
+</tr>
+<tr>
+<td>metrics-reader</td>
+<td>ClusterRole</td>
+<td></td>
+<td></td>
+<td>get</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>endpoints, namespaces, pods</td>
+<td>create, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>events</td>
+<td>create, patch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>authentications</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>datascienceclusters</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>dscinitializations</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>ingresses</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>gateways</td>
+<td>get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>gateways/finalizers</td>
+<td>patch, update</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>httproutes</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>triggerauthentications</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>authpolicies</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>authpolicies/status</td>
+<td>get, patch, update</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>kuadrants</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>nodes, pods</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>podmonitors, servicemonitors</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>envoyfilters</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>networkpolicies</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>accounts</td>
+<td>get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>accounts/finalizers</td>
+<td>update</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>accounts/status</td>
+<td>get, list, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>authorinos</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>clusterrolebindings, rolebindings, roles</td>
+<td>create, delete, escalate, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>routes</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>routes/custom-host</td>
+<td>create</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>inferencegraphs, llminferenceserviceconfigs</td>
+<td>get, list, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>inferencegraphs/finalizers, servingruntimes/finalizers</td>
+<td>update</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>inferenceservices</td>
+<td>get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>inferenceservices/finalizers</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>llminferenceservices</td>
+<td>get, list, patch, post, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>llminferenceservices/finalizers</td>
+<td>patch, update</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>llminferenceservices/status</td>
+<td>get, patch, update</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>servingruntimes</td>
+<td>create, get, list, update, watch</td>
+</tr>
+<tr>
+<td>odh-model-controller-role</td>
+<td>ClusterRole</td>
+<td></td>
+<td>templates</td>
+<td>create, delete, get, list, patch, update, watch</td>
+</tr>
+<tr>
+<td>leader-election-role</td>
+<td>Role</td>
+<td></td>
+<td>configmaps</td>
+<td>get, list, watch, create, update, patch, delete</td>
+</tr>
+<tr>
+<td>leader-election-role</td>
+<td>Role</td>
+<td></td>
+<td>leases</td>
+<td>get, list, watch, create, update, patch, delete</td>
+</tr>
+<tr>
+<td>leader-election-role</td>
+<td>Role</td>
+<td></td>
+<td>events</td>
+<td>create, patch</td>
+</tr>
+</tbody>
+</table>
 </details>
-
 <h3 id="cluster-roles">Cluster Roles<a class="headerlink" href="#cluster-roles" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -4383,7 +4688,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 09:38:22 UTC">April 17, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 17, 2026 10:22:06 UTC">April 17, 2026</span>
   </span>
 
     

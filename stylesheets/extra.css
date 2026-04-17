@@ -1,23 +1,22 @@
 /* Make mermaid diagrams scrollable and zoomable */
-.mermaid {
+.mermaid,
+pre.mermaid {
   overflow-x: auto;
   overflow-y: hidden;
   max-width: 100%;
   cursor: grab;
+  position: relative;
 }
 
 /* Full-width mermaid on large screens */
 @media (min-width: 1220px) {
-  .mermaid svg {
+  .mermaid svg,
+  pre.mermaid svg {
     max-width: none;
   }
 }
 
 /* Zoom toggle button for mermaid diagrams */
-.md-typeset .mermaid {
-  position: relative;
-}
-
 .diagram-zoom {
   position: absolute;
   top: 4px;
@@ -38,7 +37,8 @@
 }
 
 /* Fullscreen mode for diagrams */
-.mermaid.fullscreen {
+.mermaid.fullscreen,
+pre.mermaid.fullscreen {
   position: fixed;
   top: 0;
   left: 0;
@@ -51,7 +51,8 @@
   cursor: default;
 }
 
-.mermaid.fullscreen svg {
+.mermaid.fullscreen svg,
+pre.mermaid.fullscreen svg {
   max-width: none;
   width: auto;
   height: auto;
