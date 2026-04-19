@@ -58,6 +58,7 @@ jobs:
     needs: parse-config
     if: needs.parse-config.outputs.run-odh == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -72,18 +73,21 @@ jobs:
       - name: Analyze ${{ matrix.repo }}
         run: |
           mkdir -p results
-          bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed: ${{ matrix.repo }}"
+          timeout 900 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
       - name: Upload result
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: odh-result-${{ strategy.job-index }}
           path: results/
+          if-no-files-found: ignore
           retention-days: 7
 
   analyze-rhoai:
     needs: parse-config
     if: needs.parse-config.outputs.run-rhoai == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -98,17 +102,19 @@ jobs:
       - name: Analyze ${{ matrix.repo }}
         run: |
           mkdir -p results
-          bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed: ${{ matrix.repo }}"
+          timeout 900 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
       - name: Upload result
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: rhoai-result-${{ strategy.job-index }}
           path: results/
+          if-no-files-found: ignore
           retention-days: 7
 
   aggregate-and-deploy:
     needs: [parse-config, analyze-odh, analyze-rhoai]
-    if: always() && (needs.analyze-odh.result == 'success' || needs.analyze-rhoai.result == 'success')
+    if: always() && (needs.analyze-odh.result != 'cancelled' || needs.analyze-rhoai.result != 'cancelled')
     runs-on: ubuntu-latest
     permissions:
       contents: write
