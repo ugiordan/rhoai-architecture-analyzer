@@ -1,0 +1,159 @@
+package extractor
+
+import "sort"
+
+// SortOutput normalizes all slices in a ComponentArchitecture for deterministic
+// JSON output. Call after ExtractAll to ensure re-running produces identical
+// results regardless of filesystem walk order or map iteration order.
+func SortOutput(arch *ComponentArchitecture) {
+	if arch == nil {
+		return
+	}
+
+	// CRDs: sort by group/version/kind
+	sort.Slice(arch.CRDs, func(i, j int) bool {
+		a, b := arch.CRDs[i], arch.CRDs[j]
+		if a.Group != b.Group {
+			return a.Group < b.Group
+		}
+		if a.Version != b.Version {
+			return a.Version < b.Version
+		}
+		return a.Kind < b.Kind
+	})
+
+	// RBAC
+	if arch.RBAC != nil {
+		sortRBACRoles(arch.RBAC.ClusterRoles)
+		sortRBACBindings(arch.RBAC.ClusterRoleBindings)
+		sortRBACRoles(arch.RBAC.Roles)
+		sortRBACBindings(arch.RBAC.RoleBindings)
+		sort.Slice(arch.RBAC.KubebuilderMarkers, func(i, j int) bool {
+			a, b := arch.RBAC.KubebuilderMarkers[i], arch.RBAC.KubebuilderMarkers[j]
+			if a.File != b.File {
+				return a.File < b.File
+			}
+			return a.Line < b.Line
+		})
+	}
+
+	// Services: sort by name
+	sort.Slice(arch.Services, func(i, j int) bool {
+		return arch.Services[i].Name < arch.Services[j].Name
+	})
+
+	// Deployments: sort by name
+	sort.Slice(arch.Deployments, func(i, j int) bool {
+		return arch.Deployments[i].Name < arch.Deployments[j].Name
+	})
+
+	// NetworkPolicies: sort by name
+	sort.Slice(arch.NetworkPolicies, func(i, j int) bool {
+		return arch.NetworkPolicies[i].Name < arch.NetworkPolicies[j].Name
+	})
+
+	// ControllerWatches: sort by type, then GVK
+	sort.Slice(arch.ControllerWatch, func(i, j int) bool {
+		a, b := arch.ControllerWatch[i], arch.ControllerWatch[j]
+		if a.Type != b.Type {
+			return a.Type < b.Type
+		}
+		return a.GVK < b.GVK
+	})
+
+	// Dependencies
+	if arch.Dependencies != nil {
+		sort.Slice(arch.Dependencies.GoModules, func(i, j int) bool {
+			return arch.Dependencies.GoModules[i].Module < arch.Dependencies.GoModules[j].Module
+		})
+		sort.Slice(arch.Dependencies.InternalODH, func(i, j int) bool {
+			return arch.Dependencies.InternalODH[i].Component < arch.Dependencies.InternalODH[j].Component
+		})
+		sort.Slice(arch.Dependencies.ReplaceDirectives, func(i, j int) bool {
+			return arch.Dependencies.ReplaceDirectives[i].Original < arch.Dependencies.ReplaceDirectives[j].Original
+		})
+	}
+
+	// Secrets: sort by name
+	sort.Slice(arch.Secrets, func(i, j int) bool {
+		return arch.Secrets[i].Name < arch.Secrets[j].Name
+	})
+	for idx := range arch.Secrets {
+		sort.Strings(arch.Secrets[idx].ReferencedBy)
+	}
+
+	// Dockerfiles: sort by path
+	sort.Slice(arch.Dockerfiles, func(i, j int) bool {
+		return arch.Dockerfiles[i].Path < arch.Dockerfiles[j].Path
+	})
+
+	// Webhooks: sort by name
+	sort.Slice(arch.Webhooks, func(i, j int) bool {
+		return arch.Webhooks[i].Name < arch.Webhooks[j].Name
+	})
+
+	// ConfigMaps: sort by name
+	sort.Slice(arch.ConfigMaps, func(i, j int) bool {
+		return arch.ConfigMaps[i].Name < arch.ConfigMaps[j].Name
+	})
+
+	// HTTPEndpoints: sort by path, then method
+	sort.Slice(arch.HTTPEndpoints, func(i, j int) bool {
+		a, b := arch.HTTPEndpoints[i], arch.HTTPEndpoints[j]
+		if a.Path != b.Path {
+			return a.Path < b.Path
+		}
+		return a.Method < b.Method
+	})
+
+	// IngressRouting: sort by kind, then name
+	sort.Slice(arch.IngressRouting, func(i, j int) bool {
+		a, b := arch.IngressRouting[i], arch.IngressRouting[j]
+		if a.Kind != b.Kind {
+			return a.Kind < b.Kind
+		}
+		return a.Name < b.Name
+	})
+
+	// ExternalConnections: sort by type, then service, then source
+	sort.Slice(arch.ExternalConnections, func(i, j int) bool {
+		a, b := arch.ExternalConnections[i], arch.ExternalConnections[j]
+		if a.Type != b.Type {
+			return a.Type < b.Type
+		}
+		if a.Service != b.Service {
+			return a.Service < b.Service
+		}
+		return a.Source < b.Source
+	})
+
+	// FeatureGates: sort by name
+	sort.Slice(arch.FeatureGates, func(i, j int) bool {
+		return arch.FeatureGates[i].Name < arch.FeatureGates[j].Name
+	})
+
+	// CacheConfig: sort filtered types and implicit informers
+	if arch.CacheConfig != nil {
+		sort.Slice(arch.CacheConfig.FilteredTypes, func(i, j int) bool {
+			return arch.CacheConfig.FilteredTypes[i].Type < arch.CacheConfig.FilteredTypes[j].Type
+		})
+		sort.Strings(arch.CacheConfig.TransformTypes)
+		sort.Strings(arch.CacheConfig.DisabledTypes)
+		sort.Slice(arch.CacheConfig.ImplicitInformers, func(i, j int) bool {
+			return arch.CacheConfig.ImplicitInformers[i].Type < arch.CacheConfig.ImplicitInformers[j].Type
+		})
+		sort.Strings(arch.CacheConfig.Issues)
+	}
+}
+
+func sortRBACRoles(roles []RBACRole) {
+	sort.Slice(roles, func(i, j int) bool {
+		return roles[i].Name < roles[j].Name
+	})
+}
+
+func sortRBACBindings(bindings []RBACBinding) {
+	sort.Slice(bindings, func(i, j int) bool {
+		return bindings[i].Name < bindings[j].Name
+	})
+}

@@ -68,6 +68,9 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 	// Cache analysis runs after watches and deployments are extracted
 	arch.CacheConfig = extractCacheConfig(absPath, arch.ControllerWatch, arch.Deployments)
 
+	// Normalize output ordering for deterministic JSON
+	SortOutput(arch)
+
 	return arch, nil
 }
 
