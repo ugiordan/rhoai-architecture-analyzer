@@ -154,7 +154,7 @@ jobs:
         run: go build -o arch-analyzer ./cmd/arch-analyzer/
 
       - name: Download ODH results
-        if: needs.analyze-odh.result == 'success'
+        if: needs.analyze-odh.result != 'skipped'
         uses: actions/download-artifact@v8
         with:
           pattern: odh-result-*
@@ -162,7 +162,7 @@ jobs:
           merge-multiple: true
 
       - name: Download RHOAI results
-        if: needs.analyze-rhoai.result == 'success'
+        if: needs.analyze-rhoai.result != 'skipped'
         uses: actions/download-artifact@v8
         with:
           pattern: rhoai-result-*
@@ -235,8 +235,13 @@ jobs:
           fi
 
           # Copy versioned output
-          mkdir -p "$SNAP_DIR/output/${VERSION}"
-          cp -r platform-output/* "$SNAP_DIR/output/${VERSION}/"
+          if [ -d platform-output ] && [ "$(ls -A platform-output)" ]; then
+            mkdir -p "$SNAP_DIR/output/${VERSION}"
+            cp -r platform-output/* "$SNAP_DIR/output/${VERSION}/"
+          else
+            echo "No platform output to snapshot"
+            exit 0
+          fi
 
           # Commit and tag
           (
