@@ -58,18 +58,59 @@ platforms:
     description: "Enterprise ML platform on OpenShift (downstream of ODH)"
     orgs:
       red-hat-data-services:
+        # Operators (downstream of opendatahub-io)
+        - opendatahub-operator
         - rhods-operator
+        - data-science-pipelines-operator
+        - model-registry-operator
+        - trustyai-service-operator
+        - training-operator
+        - trainer
+        - feast
+        - llama-stack-k8s-operator
+        - mlflow-operator
+        - spark-operator
+        - codeflare-operator
+        # Core services
+        - odh-dashboard
+        - data-science-pipelines
+        - model-registry
+        - trustyai-explainability
+        - notebooks
+        # Inference
+        - kserve
+        - modelmesh-serving
+        - odh-model-controller
+        - vllm
         - vllm-cpu
-        - eval-hub
-        - batch-gateway
-        - model-metadata-collection
-        - guardrails-regex-detector
-        - NeMo-Guardrails
-        - vllm-orchestrator-gateway
-        - MLServer
         - vllm-gaudi
         - openvino_model_server
-        - workload-variant-autoscaler
+        - MLServer
+        # Infrastructure
+        - kube-auth-proxy
+        - kube-rbac-proxy
+        - kuberay
+        - kubeflow
+        - distributed-workloads
+        - kueue
+        # AI Safety / Guardrails
+        - fms-guardrails-orchestrator
+        - guardrails-detectors
+        - guardrails-regex-detector
+        - NeMo-Guardrails
+        # LLM Infrastructure
+        - llm-d-inference-scheduler
+        - llm-d-kv-cache
+        - vllm-orchestrator-gateway
+        # Evaluation
+        - lm-evaluation-harness
+        - eval-hub
+        # Batch
+        - argo-workflows
+        - batch-gateway
+        # Agentic / LLaMA Stack
         - llama-stack-distribution
         - llama-stack-provider-ragas
         - llama-stack-provider-trustyai-garak
+        # Other
+        - workload-variant-autoscaler
