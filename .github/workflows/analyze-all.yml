@@ -120,7 +120,7 @@ jobs:
 
   aggregate-and-deploy:
     needs: [parse-config, analyze-odh, analyze-rhoai]
-    if: always() && (needs.analyze-odh.result != 'cancelled' || needs.analyze-rhoai.result != 'cancelled')
+    if: always()
     runs-on: ubuntu-latest
     permissions:
       contents: write
