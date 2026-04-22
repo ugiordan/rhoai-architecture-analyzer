@@ -1,8 +1,11 @@
 # kube-auth-proxy
 
+> **Architecture snapshot: 2026-04-22** (2026-04-22)
+
+
 **Repository:** opendatahub-io/kube-auth-proxy  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-16T15:36:21Z
+**Extracted:** 2026-04-22T21:27:57Z
 
 ## Summary
 
@@ -30,17 +33,17 @@ graph LR
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["kube-auth-proxy Controller"]
-        dep_1["kube-auth-proxy"]
+        dep_1["example-app"]
         class dep_1 controller
         dep_2["example-app"]
         class dep_2 controller
-        dep_3["kube-auth-proxy"]
+        dep_3["example-app"]
         class dep_3 controller
-        dep_4["example-app"]
+        dep_4["kube-auth-proxy"]
         class dep_4 controller
         dep_5["kube-auth-proxy"]
         class dep_5 controller
-        dep_6["example-app"]
+        dep_6["kube-auth-proxy"]
         class dep_6 controller
         dep_7["kube-rbac-proxy"]
         class dep_7 controller
@@ -54,7 +57,7 @@ graph LR
         class dep_11 controller
         dep_12["kube-rbac-proxy"]
         class dep_12 controller
-        dep_13["kube-rbac-proxy-verb-override"]
+        dep_13["kube-rbac-proxy"]
         class dep_13 controller
         dep_14["kube-rbac-proxy"]
         class dep_14 controller
@@ -86,7 +89,7 @@ graph LR
         class dep_27 controller
         dep_28["kube-rbac-proxy"]
         class dep_28 controller
-        dep_29["kube-rbac-proxy"]
+        dep_29["kube-rbac-proxy-verb-override"]
         class dep_29 controller
     end
 ```
@@ -102,9 +105,11 @@ No CRDs defined.
 | Module | Version |
 |--------|---------|
 | github.com/prometheus/client_golang | v1.23.2 |
-| k8s.io/apimachinery | v0.34.2 |
-| k8s.io/api | v0.34.2 |
-| k8s.io/apimachinery | v0.34.2 |
-| k8s.io/apiserver | v0.34.2 |
-| k8s.io/client-go | v0.34.2 |
+| k8s.io/api | v0.35.3 |
+| k8s.io/api | v0.35.3 |
+| k8s.io/apimachinery | v0.35.3 |
+| k8s.io/apimachinery | v0.35.3 |
+| k8s.io/apiserver | v0.35.3 |
+| k8s.io/client-go | v0.35.3 |
+| k8s.io/client-go | v0.35.3 |
 

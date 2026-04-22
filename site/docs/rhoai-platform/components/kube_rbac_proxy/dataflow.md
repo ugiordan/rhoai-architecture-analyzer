@@ -16,6 +16,7 @@ sequenceDiagram
 
     participant KubernetesAPI as Kubernetes API
     participant kube_rbac_proxy as kube-rbac-proxy
+    participant kube_rbac_proxy_verb_override as kube-rbac-proxy-verb-override
 
 
     Note over kube_rbac_proxy: Exposed Services
@@ -26,7 +27,7 @@ sequenceDiagram
 
 | Method | Path | Source |
 |--------|------|--------|
-| * | / | `cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:322` |
+| * | / | [`cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:333`](https://github.com/brancz/kube-rbac-proxy/blob/c3546ff49b9aa1fb9cc239265c1fe64c8da7cc3e/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L333) |
 
 ## Configuration
 

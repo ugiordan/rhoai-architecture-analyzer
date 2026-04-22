@@ -1,0 +1,44 @@
+# distributed-workloads: Security
+
+## Secrets
+
+Kubernetes secrets referenced by this component. Only names and types are shown, not values.
+
+## Deployment Security Controls
+
+SecurityContext settings on pod and container specs. These control privilege escalation, filesystem access, and user identity.
+
+## Build Security
+
+Dockerfile patterns and base image analysis. Covers supply chain security: base images, build stages, runtime user, FIPS compliance.
+
+| Path | Base Image | Stages | User | Ports | Architectures | FIPS | Issues |
+|------|------------|--------|------|-------|---------------|------|--------|
+| `benchmarks/osu-benchmarks/Dockerfile` | quay.io/opendatahub/odh-midstream-python-base-3-12:11b0d2c14a1d8de8171d428172aef0cde54ec7a7 | 2 | 1001 |  |  |  |  |
+| `benchmarks/osu-benchmarks/Dockerfile.cuda` | ${TRAINING_BASE_IMAGE} | 1 | 1001 |  |  |  | Unpinned base image: ${TRAINING_BASE_IMAGE} |
+| `images/dataset/alpaca/Dockerfile` | registry.access.redhat.com/ubi9:latest | 2 |  |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest; Unpinned base image: registry.access.redhat.com/ubi9:latest; No USER directive found (defaults to root) |
+| `images/model/bloom560m/Dockerfile` | registry.access.redhat.com/ubi9:9.4 | 2 |  |  |  |  | No USER directive found (defaults to root) |
+| `images/runtime/examples/ray-data-docling/Dockerfile` | quay.io/modh/ray:2.52.1-py312-cpu | 1 | 1001 |  |  |  |  |
+| `images/runtime/examples/ray-torch-cuda/Dockerfile` | quay.io/modh/ray:2.35.0-py311-cu121 | 1 |  |  |  |  | No USER directive found (defaults to root) |
+| `images/runtime/examples/ray-torch-rocm/Dockerfile` | quay.io/modh/ray:2.35.0-py311-rocm62 | 1 |  |  |  |  | No USER directive found (defaults to root) |
+| `images/runtime/ray/cuda/2.52.1-py311-cu121/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/ray/cuda/2.53.0-py312-cu128/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  | multi-arch |  |  |
+| `images/runtime/ray/rocm/2.52.1-py311-rocm61/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/ray/rocm/2.53.0-py312-rocm64/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py311-cuda121-torch241/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py311-cuda124-torch251/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py311-rocm62-torch241/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py311-rocm62-torch251/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-cuda128-torch280/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-cuda128-torch290/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-cuda130-torch210-openmpi41/Dockerfile` | quay.io/opendatahub/odh-midstream-cuda-base-13-0:odh-midstream-cuda-base-13-0-on-push-p7nn6-build-images | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-cuda130-torch210-openmpi41/Dockerfile.konflux` | quay.io/aipcc/base-images/cuda-13.0-el9.6:3.4.0-1774635924 | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-rocm64-torch280/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-rocm64-torch29-openmpi41/Dockerfile.konflux` | quay.io/aipcc/base-images/rocm-6.4-el9.6:3.4.0-1774635772 | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-rocm64-torch290/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
+| `images/tests/Dockerfile` | golang:1.24 | 1 |  |  |  |  | No USER directive found (defaults to root) |
+| `images/universal/training/th06-cpu-torch291-py312/Dockerfile` | ${BASE_IMAGE} | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: ${BASE_IMAGE} |
+| `images/universal/training/th06-cuda130-torch291-py312/Dockerfile` | ${BASE_IMAGE} | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: ${BASE_IMAGE} |
+| `images/universal/training/th06-rocm64-torch291-py312/Dockerfile` | ${BASE_IMAGE} | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: ${BASE_IMAGE} |
+| `images/util/mc-cli/Dockerfile` | registry.access.redhat.com/ubi9:latest | 1 | 1001 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9:latest |
+

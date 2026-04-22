@@ -1,8 +1,11 @@
 # odh-dashboard
 
-**Repository:** ugiordan/odh-dashboard  
+> **Architecture snapshot: 2026-04-22** (2026-04-22)
+
+
+**Repository:** red-hat-data-services/odh-dashboard  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-16T15:34:17Z
+**Extracted:** 2026-04-22T20:53:12Z
 
 ## Summary
 
@@ -34,7 +37,7 @@ graph LR
         class dep_1 controller
         dep_2["workspaces-backend"]
         class dep_2 controller
-        dep_3["workspaces-frontend"]
+        dep_3["workspaces-controller"]
         class dep_3 controller
         dep_4["workspaces-controller"]
         class dep_4 controller
@@ -42,7 +45,7 @@ graph LR
         class dep_5 controller
         dep_6["workspaces-controller"]
         class dep_6 controller
-        dep_7["workspaces-controller"]
+        dep_7["workspaces-frontend"]
         class dep_7 controller
     end
 
@@ -66,7 +69,7 @@ No CRDs defined.
 
 ## Dependencies
 
-### Internal RHOAI Dependencies
+### Internal Platform Dependencies
 
 | Component | Interaction |
 |-----------|-------------|
@@ -78,43 +81,43 @@ No CRDs defined.
 
 | Module | Version |
 |--------|---------|
+| github.com/go-logr/logr | v1.4.2 |
+| k8s.io/api | v0.31.0 |
 | k8s.io/api | v0.34.1 |
-| k8s.io/apimachinery | v0.34.1 |
-| k8s.io/client-go | v0.34.1 |
-| sigs.k8s.io/controller-runtime | v0.22.3 |
 | k8s.io/api | v0.34.3 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/client-go | v0.34.3 |
-| sigs.k8s.io/controller-runtime | v0.22.4 |
+| k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.31.0 |
+| k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.1 |
-| k8s.io/apimachinery | v0.34.1 |
-| k8s.io/client-go | v0.34.1 |
-| sigs.k8s.io/controller-runtime | v0.22.3 |
+| k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.31.0 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.31.0 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apiserver | v0.31.0 |
+| k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.31.0 |
+| k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.35.3 |
+| k8s.io/client-go | v0.31.0 |
+| k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.3 |
 | sigs.k8s.io/controller-runtime | v0.22.4 |
-| k8s.io/api | v0.34.1 |
-| k8s.io/apimachinery | v0.34.1 |
-| k8s.io/client-go | v0.34.1 |
 | sigs.k8s.io/controller-runtime | v0.22.3 |
-| k8s.io/api | v0.34.1 |
-| k8s.io/apimachinery | v0.34.1 |
-| k8s.io/client-go | v0.34.1 |
-| sigs.k8s.io/controller-runtime | v0.22.3 |
-| k8s.io/api | v0.35.3 |
-| k8s.io/apimachinery | v0.35.3 |
-| k8s.io/client-go | v0.35.3 |
-| sigs.k8s.io/controller-runtime | v0.23.3 |
-| k8s.io/api | v0.31.0 |
-| k8s.io/apimachinery | v0.31.0 |
-| k8s.io/apiserver | v0.31.0 |
-| k8s.io/client-go | v0.31.0 |
 | sigs.k8s.io/controller-runtime | v0.19.1 |
-| github.com/go-logr/logr | v1.4.2 |
-| k8s.io/api | v0.31.0 |
-| k8s.io/apimachinery | v0.31.0 |
-| k8s.io/client-go | v0.31.0 |
+| sigs.k8s.io/controller-runtime | v0.22.4 |
+| sigs.k8s.io/controller-runtime | v0.22.3 |
+| sigs.k8s.io/controller-runtime | v0.23.3 |
+| sigs.k8s.io/controller-runtime | v0.22.3 |
+| sigs.k8s.io/controller-runtime | v0.22.3 |
 | sigs.k8s.io/controller-runtime | v0.19.1 |
 

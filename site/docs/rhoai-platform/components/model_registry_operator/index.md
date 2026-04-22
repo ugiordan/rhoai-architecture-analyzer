@@ -1,8 +1,11 @@
 # model-registry-operator
 
+> **Architecture snapshot: 2026-04-22** (2026-04-22)
+
+
 **Repository:** opendatahub-io/model-registry-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-16T15:34:14Z
+**Extracted:** 2026-04-22T21:27:47Z
 
 ## Summary
 
@@ -92,8 +95,8 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| modelregistry.opendatahub.io | v1alpha1 | ModelRegistry | Namespaced | 120 | 2 | `config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml` |
-| modelregistry.opendatahub.io | v1beta1 | ModelRegistry | Namespaced | 113 | 6 | `config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml` |
+| modelregistry.opendatahub.io | v1alpha1 | ModelRegistry | Namespaced | 120 | 2 | [`config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/52d5f2775d64f8f2ec135c425f77f16028356a71/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml) |
+| modelregistry.opendatahub.io | v1beta1 | ModelRegistry | Namespaced | 113 | 6 | [`config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/52d5f2775d64f8f2ec135c425f77f16028356a71/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml) |
 
 ## Dependencies
 
@@ -102,9 +105,9 @@ graph LR
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
-| k8s.io/api | v0.35.3 |
-| k8s.io/apiextensions-apiserver | v0.35.3 |
-| k8s.io/apimachinery | v0.35.3 |
-| k8s.io/client-go | v0.35.3 |
+| k8s.io/api | v0.35.4 |
+| k8s.io/apiextensions-apiserver | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/client-go | v0.35.4 |
 | sigs.k8s.io/controller-runtime | v0.23.3 |
 

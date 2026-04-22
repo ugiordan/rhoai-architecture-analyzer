@@ -103,54 +103,54 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 
 | Name | Resources | Verbs | Source |
 |------|-----------|-------|--------|
-| aggregate-dspa-admin-edit | datasciencepipelinesapplications, datasciencepipelinesapplications/api | get, list, watch, create, update, patch, delete | `config/rbac/aggregate_dspa_role_edit.yaml` |
-| aggregate-dspa-admin-edit | pipelines, pipelineversions | get, list, watch, create, update, patch, delete | `config/rbac/aggregate_dspa_role_edit.yaml` |
-| aggregate-dspa-admin-view | datasciencepipelinesapplications, datasciencepipelinesapplications/api | get, list, watch | `config/rbac/aggregate_dspa_role_view.yaml` |
-| aggregate-dspa-admin-view | pipelines, pipelineversions | get, list, watch | `config/rbac/aggregate_dspa_role_view.yaml` |
-| manager-argo-role | leases | create, get, update | `config/rbac/argo_role.yaml` |
-| manager-argo-role | pods, pods/exec | create, get, list, watch, update, patch, delete | `config/rbac/argo_role.yaml` |
-| manager-argo-role | configmaps | get, watch, list | `config/rbac/argo_role.yaml` |
-| manager-argo-role | persistentvolumeclaims, persistentvolumeclaims/finalizers | create, update, delete, get | `config/rbac/argo_role.yaml` |
-| manager-argo-role | workflows, workflows/finalizers, workflowtasksets, workflowtasksets/finalizers, workflowartifactgctasks, workflowartifactgctasks/finalizers | get, list, watch, update, patch, delete, create | `config/rbac/argo_role.yaml` |
-| manager-argo-role | workflowtemplates, workflowtemplates/finalizers | get, list, watch | `config/rbac/argo_role.yaml` |
-| manager-argo-role | serviceaccounts | get, list | `config/rbac/argo_role.yaml` |
-| manager-argo-role | workflowtaskresults | list, watch, deletecollection | `config/rbac/argo_role.yaml` |
-| manager-argo-role | serviceaccounts | get, list | `config/rbac/argo_role.yaml` |
-| manager-argo-role | secrets | get | `config/rbac/argo_role.yaml` |
-| manager-argo-role | cronworkflows, cronworkflows/finalizers | get, list, watch, update, patch, delete | `config/rbac/argo_role.yaml` |
-| manager-argo-role | events | create, patch | `config/rbac/argo_role.yaml` |
-| manager-argo-role | poddisruptionbudgets | create, get, delete | `config/rbac/argo_role.yaml` |
-| manager-role | configmaps, secrets, serviceaccounts | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | events | create, list, patch | `config/rbac/role.yaml` |
-| manager-role | persistentvolumeclaims, persistentvolumes, services | *, create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | pods, pods/exec, pods/log | * | `config/rbac/role.yaml` |
-| manager-role | deployments, deployments/finalizers, replicasets | * | `config/rbac/role.yaml` |
-| manager-role | deployments, services | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | mutatingwebhookconfigurations, validatingwebhookconfigurations | create | `config/rbac/role.yaml` |
-| manager-role | mutatingwebhookconfigurations, validatingwebhookconfigurations | delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | deployments | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | workflowartifactgctasks, workflowartifactgctasks/finalizers, workflows | * | `config/rbac/role.yaml` |
-| manager-role | workflowtaskresults | create, patch | `config/rbac/role.yaml` |
-| manager-role | tokenreviews | create | `config/rbac/role.yaml` |
-| manager-role | subjectaccessreviews | create | `config/rbac/role.yaml` |
-| manager-role | jobs | * | `config/rbac/role.yaml` |
-| manager-role | datasciencepipelinesapplications, datasciencepipelinesapplications/api | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | datasciencepipelinesapplications/finalizers | update | `config/rbac/role.yaml` |
-| manager-role | datasciencepipelinesapplications/status | get, patch, update | `config/rbac/role.yaml` |
-| manager-role | imagestreamtags | get | `config/rbac/role.yaml` |
-| manager-role | * | * | `config/rbac/role.yaml` |
-| manager-role | seldondeployments | * | `config/rbac/role.yaml` |
-| manager-role | servicemonitors | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | ingresses | get, list | `config/rbac/role.yaml` |
-| manager-role | networkpolicies | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | pipelines, pipelines/finalizers, pipelineversions, pipelineversions/finalizers, pipelineversions/status | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | rayclusters, rayjobs, rayservices | create, delete, get, list, patch | `config/rbac/role.yaml` |
-| manager-role | clusterrolebindings, clusterroles | create, delete, get, list, update, watch | `config/rbac/role.yaml` |
-| manager-role | rolebindings, roles | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | routes | create, delete, get, list, patch, update, watch | `config/rbac/role.yaml` |
-| manager-role | inferenceservices | create, delete, get, list, patch | `config/rbac/role.yaml` |
-| manager-role | volumesnapshots | create, delete, get | `config/rbac/role.yaml` |
-| manager-role | appwrappers, appwrappers/finalizers, appwrappers/status | create, delete, deletecollection, get, list, patch, update, watch | `config/rbac/role.yaml` |
+| aggregate-dspa-admin-edit | datasciencepipelinesapplications, datasciencepipelinesapplications/api | get, list, watch, create, update, patch, delete | [`config/rbac/aggregate_dspa_role_edit.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/aggregate_dspa_role_edit.yaml) |
+| aggregate-dspa-admin-edit | pipelines, pipelineversions | get, list, watch, create, update, patch, delete | [`config/rbac/aggregate_dspa_role_edit.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/aggregate_dspa_role_edit.yaml) |
+| aggregate-dspa-admin-view | datasciencepipelinesapplications, datasciencepipelinesapplications/api | get, list, watch | [`config/rbac/aggregate_dspa_role_view.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/aggregate_dspa_role_view.yaml) |
+| aggregate-dspa-admin-view | pipelines, pipelineversions | get, list, watch | [`config/rbac/aggregate_dspa_role_view.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/aggregate_dspa_role_view.yaml) |
+| manager-argo-role | leases | create, get, update | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | pods, pods/exec | create, get, list, watch, update, patch, delete | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | configmaps | get, watch, list | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | persistentvolumeclaims, persistentvolumeclaims/finalizers | create, update, delete, get | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | workflows, workflows/finalizers, workflowtasksets, workflowtasksets/finalizers, workflowartifactgctasks, workflowartifactgctasks/finalizers | get, list, watch, update, patch, delete, create | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | workflowtemplates, workflowtemplates/finalizers | get, list, watch | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | serviceaccounts | get, list | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | workflowtaskresults | list, watch, deletecollection | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | serviceaccounts | get, list | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | secrets | get | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | cronworkflows, cronworkflows/finalizers | get, list, watch, update, patch, delete | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | events | create, patch | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-argo-role | poddisruptionbudgets | create, get, delete | [`config/rbac/argo_role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/argo_role.yaml) |
+| manager-role | configmaps, secrets, serviceaccounts | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | events | create, list, patch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | persistentvolumeclaims, persistentvolumes, services | *, create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | pods, pods/exec, pods/log | * | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | deployments, deployments/finalizers, replicasets | * | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | deployments, services | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | mutatingwebhookconfigurations, validatingwebhookconfigurations | create | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | mutatingwebhookconfigurations, validatingwebhookconfigurations | delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | deployments | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | workflowartifactgctasks, workflowartifactgctasks/finalizers, workflows | * | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | workflowtaskresults | create, patch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | tokenreviews | create | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | subjectaccessreviews | create | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | jobs | * | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | datasciencepipelinesapplications, datasciencepipelinesapplications/api | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | datasciencepipelinesapplications/finalizers | update | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | datasciencepipelinesapplications/status | get, patch, update | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | imagestreamtags | get | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | * | * | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | seldondeployments | * | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | servicemonitors | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | ingresses | get, list | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | networkpolicies | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | pipelines, pipelines/finalizers, pipelineversions, pipelineversions/finalizers, pipelineversions/status | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | rayclusters, rayjobs, rayservices | create, delete, get, list, patch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | clusterrolebindings, clusterroles | create, delete, get, list, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | rolebindings, roles | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | routes | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | inferenceservices | create, delete, get, list, patch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | volumesnapshots | create, delete, get | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
+| manager-role | appwrappers, appwrappers/finalizers, appwrappers/status | create, delete, deletecollection, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/config/rbac/role.yaml) |
 
 ### Kubebuilder RBAC Markers
 
@@ -158,36 +158,36 @@ Kubebuilder `+kubebuilder:rbac` markers declare the RBAC requirements of control
 
 | File | Line | Groups | Resources | Verbs |
 |------|------|--------|-----------|-------|
-| `controllers/dspipeline_controller.go:178` | 178 |  |  | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:179` | 179 |  |  | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:180` | 180 |  |  | get, update, patch |
-| `controllers/dspipeline_controller.go:181` | 181 |  |  |  |
-| `controllers/dspipeline_controller.go:182` | 182 |  |  | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:183` | 183 |  |  | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:184` | 184 |  |  | get, list |
-| `controllers/dspipeline_controller.go:185` | 185 |  | deployments, services | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:186` | 186 |  | secrets, configmaps, services, serviceaccounts, persistentvolumes, persistentvolumeclaims | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:187` | 187 |  | persistentvolumes, persistentvolumeclaims |  |
-| `controllers/dspipeline_controller.go:188` | 188 |  | roles, rolebindings | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:189` | 189 |  | clusterroles, clusterrolebindings | get, list, watch, create, update, delete |
-| `controllers/dspipeline_controller.go:190` | 190 |  |  | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:191` | 191 |  |  | create, delete, get |
-| `controllers/dspipeline_controller.go:192` | 192 |  |  |  |
-| `controllers/dspipeline_controller.go:193` | 193 |  |  | create, patch |
-| `controllers/dspipeline_controller.go:194` | 194 |  | workflowartifactgctasks, workflowartifactgctasks/finalizers |  |
-| `controllers/dspipeline_controller.go:195` | 195 |  | pods, pods/exec, pods/log, services |  |
-| `controllers/dspipeline_controller.go:196` | 196 | core, apps, extensions | deployments, deployments/finalizers, replicasets |  |
-| `controllers/dspipeline_controller.go:197` | 197 |  |  |  |
-| `controllers/dspipeline_controller.go:198` | 198 |  |  |  |
-| `controllers/dspipeline_controller.go:199` | 199 |  |  |  |
-| `controllers/dspipeline_controller.go:200` | 200 |  | rayclusters, rayjobs, rayservices | create, get, list, patch, delete |
-| `controllers/dspipeline_controller.go:201` | 201 |  |  | create, get, list, patch, delete |
-| `controllers/dspipeline_controller.go:202` | 202 |  |  |  |
-| `controllers/dspipeline_controller.go:203` | 203 |  |  |  |
-| `controllers/dspipeline_controller.go:204` | 204 |  |  |  |
-| `controllers/dspipeline_controller.go:205` | 205 |  |  | create, patch, list |
-| `controllers/dspipeline_controller.go:206` | 206 |  |  | get, list, watch, create, update, patch, delete |
-| `controllers/dspipeline_controller.go:207` | 207 |  | appwrappers, appwrappers/finalizers, appwrappers/status | create, delete, deletecollection, get, list, patch, update, watch |
-| `controllers/dspipeline_controller.go:208` | 208 |  | pipelines, pipelines/finalizers | create, get, list, watch, update, patch, delete |
-| `controllers/dspipeline_controller.go:209` | 209 |  | pipelineversions, pipelineversions/status, pipelineversions/finalizers | create, get, list, watch, update, patch, delete |
+| [`controllers/dspipeline_controller.go:178`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L178) | 178 |  |  | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:179`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L179) | 179 |  |  | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:180`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L180) | 180 |  |  | get, update, patch |
+| [`controllers/dspipeline_controller.go:181`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L181) | 181 |  |  |  |
+| [`controllers/dspipeline_controller.go:182`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L182) | 182 |  |  | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:183`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L183) | 183 |  |  | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:184`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L184) | 184 |  |  | get, list |
+| [`controllers/dspipeline_controller.go:185`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L185) | 185 |  | deployments, services | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:186`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L186) | 186 |  | secrets, configmaps, services, serviceaccounts, persistentvolumes, persistentvolumeclaims | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:187`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L187) | 187 |  | persistentvolumes, persistentvolumeclaims |  |
+| [`controllers/dspipeline_controller.go:188`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L188) | 188 |  | roles, rolebindings | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:189`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L189) | 189 |  | clusterroles, clusterrolebindings | get, list, watch, create, update, delete |
+| [`controllers/dspipeline_controller.go:190`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L190) | 190 |  |  | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:191`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L191) | 191 |  |  | create, delete, get |
+| [`controllers/dspipeline_controller.go:192`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L192) | 192 |  |  |  |
+| [`controllers/dspipeline_controller.go:193`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L193) | 193 |  |  | create, patch |
+| [`controllers/dspipeline_controller.go:194`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L194) | 194 |  | workflowartifactgctasks, workflowartifactgctasks/finalizers |  |
+| [`controllers/dspipeline_controller.go:195`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L195) | 195 |  | pods, pods/exec, pods/log, services |  |
+| [`controllers/dspipeline_controller.go:196`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L196) | 196 | core, apps, extensions | deployments, deployments/finalizers, replicasets |  |
+| [`controllers/dspipeline_controller.go:197`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L197) | 197 |  |  |  |
+| [`controllers/dspipeline_controller.go:198`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L198) | 198 |  |  |  |
+| [`controllers/dspipeline_controller.go:199`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L199) | 199 |  |  |  |
+| [`controllers/dspipeline_controller.go:200`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L200) | 200 |  | rayclusters, rayjobs, rayservices | create, get, list, patch, delete |
+| [`controllers/dspipeline_controller.go:201`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L201) | 201 |  |  | create, get, list, patch, delete |
+| [`controllers/dspipeline_controller.go:202`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L202) | 202 |  |  |  |
+| [`controllers/dspipeline_controller.go:203`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L203) | 203 |  |  |  |
+| [`controllers/dspipeline_controller.go:204`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L204) | 204 |  |  |  |
+| [`controllers/dspipeline_controller.go:205`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L205) | 205 |  |  | create, patch, list |
+| [`controllers/dspipeline_controller.go:206`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L206) | 206 |  |  | get, list, watch, create, update, patch, delete |
+| [`controllers/dspipeline_controller.go:207`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L207) | 207 |  | appwrappers, appwrappers/finalizers, appwrappers/status | create, delete, deletecollection, get, list, patch, update, watch |
+| [`controllers/dspipeline_controller.go:208`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L208) | 208 |  | pipelines, pipelines/finalizers | create, get, list, watch, update, patch, delete |
+| [`controllers/dspipeline_controller.go:209`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/51766c4e9fd2693250606df441618494db7a8fe3/controllers/dspipeline_controller.go#L209) | 209 |  | pipelineversions, pipelineversions/status, pipelineversions/finalizers | create, get, list, watch, update, patch, delete |
 

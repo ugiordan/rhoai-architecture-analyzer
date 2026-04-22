@@ -1,0 +1,24 @@
+# codeflare-operator: Network
+
+## Service Map
+
+```mermaid
+graph LR
+    classDef svc fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef test fill:#95a5a6,stroke:#7f8c8d,color:#fff
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff
+    classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
+
+    codeflare_operator["codeflare-operator"]:::component
+    codeflare_operator --> svc_0["webhook-service\nClusterIP: 443/TCP"]:::svc
+```
+
+### Services
+
+| Name | Type | Ports | Source |
+|------|------|-------|--------|
+| webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/project-codeflare/codeflare-operator/blob/3febc27fff73efde4361d9107becf5a7647e2276/config/webhook/service.yaml) |
+
+!!! warning "No Network Policies"
+    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+

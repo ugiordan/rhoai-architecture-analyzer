@@ -22,14 +22,14 @@ graph LR
     end
 
     subj_odh_dashboard["odh-dashboard\nServiceAccount"]:::subject
+    subj_odh_dashboard -->|binds| odh_dashboard
     subj_odh_dashboard -->|binds| system_auth_delegator
     subj_odh_dashboard -->|binds| cluster_monitoring_view
-    subj_odh_dashboard -->|binds| odh_dashboard
     subj_system_serviceaccounts["system:serviceaccounts\nGroup"]:::subject
     subj_system_serviceaccounts -->|binds| system_image_puller
+    subj_odh_dashboard -->|binds| odh_dashboard
     subj_system_authenticated["system:authenticated\nGroup"]:::subject
     subj_system_authenticated -->|binds| servingruntimes_config_updater
-    subj_odh_dashboard -->|binds| odh_dashboard
 ```
 
 ## Bindings
@@ -38,12 +38,12 @@ Subject-to-role mappings defining who has access to what.
 
 | Binding | Type | Role | Subject |
 |---------|------|------|---------|
+| odh-dashboard | ClusterRoleBinding | odh-dashboard | ServiceAccount/odh-dashboard |
 | odh-dashboard-auth-delegator | ClusterRoleBinding | system:auth-delegator | ServiceAccount/odh-dashboard |
 | odh-dashboard-monitoring | ClusterRoleBinding | cluster-monitoring-view | ServiceAccount/odh-dashboard |
-| odh-dashboard | ClusterRoleBinding | odh-dashboard | ServiceAccount/odh-dashboard |
 | cluster-image-pullers | RoleBinding | system:image-puller | Group/system:serviceaccounts |
-| servingruntimes-config-updater | RoleBinding | servingruntimes-config-updater | Group/system:authenticated |
 | odh-dashboard | RoleBinding | odh-dashboard | ServiceAccount/odh-dashboard |
+| servingruntimes-config-updater | RoleBinding | servingruntimes-config-updater | Group/system:authenticated |
 
 ## Role Details
 
@@ -81,8 +81,6 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 | odh-dashboard | ClusterRole |  | mlflows | get, list, watch |
 | odh-dashboard | ClusterRole |  | tokenreviews | create |
 | odh-dashboard | ClusterRole |  | subjectaccessreviews | create |
-| servingruntimes-config-updater | Role |  | templates | get, list |
-| servingruntimes-config-updater | Role |  | odhdashboardconfigs | get, list |
 | odh-dashboard | Role |  | acceleratorprofiles | create, get, list, update, patch, delete |
 | odh-dashboard | Role |  | routes | get, list, watch |
 | odh-dashboard | Role |  | cronjobs | get, update, delete |
@@ -98,39 +96,41 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 | odh-dashboard | Role |  | templates | * |
 | odh-dashboard | Role |  | servingruntimes | * |
 | odh-dashboard | Role |  | accounts | get, list, watch, create, update, patch, delete |
+| servingruntimes-config-updater | Role |  | templates | get, list |
+| servingruntimes-config-updater | Role |  | odhdashboardconfigs | get, list |
 
 ### Cluster Roles
 
 | Name | Resources | Verbs | Source |
 |------|-----------|-------|--------|
-| odh-dashboard | storageclasses | update, patch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | nodes | get, list | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | machineautoscalers, machinesets | get, list | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | clusterversions, ingresses | get, watch, list | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | clusterserviceversions, subscriptions | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | imagestreams/layers | get | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | configmaps, persistentvolumeclaims, secrets | create, delete, get, list, patch, update, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | routes | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | consolelinks | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | consoles | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | rhmis | get, watch, list | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | groups | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | users | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | pods, serviceaccounts, services | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | namespaces | patch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | rolebindings, clusterrolebindings, roles | list, get, create, patch, delete | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | events | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | notebooks | get, list, watch, create, update, patch, delete | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | datascienceclusters | list, watch, get | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | dscinitializations | list, watch, get | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | inferenceservices | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | modelregistries | get, list, watch, create, update, patch, delete | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | endpoints | get | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | auths | get | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | llamastackdistributions | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | guardrailsorchestrators, evalhubs | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | featurestores | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | mlflows | get, list, watch | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | tokenreviews | create | `manifests/core-bases/base/cluster-role.yaml` |
-| odh-dashboard | subjectaccessreviews | create | `manifests/core-bases/base/cluster-role.yaml` |
+| odh-dashboard | storageclasses | update, patch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | nodes | get, list | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | machineautoscalers, machinesets | get, list | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | clusterversions, ingresses | get, watch, list | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | clusterserviceversions, subscriptions | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | imagestreams/layers | get | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | configmaps, persistentvolumeclaims, secrets | create, delete, get, list, patch, update, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | routes | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | consolelinks | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | consoles | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | rhmis | get, watch, list | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | groups | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | users | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | pods, serviceaccounts, services | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | namespaces | patch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | rolebindings, clusterrolebindings, roles | list, get, create, patch, delete | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | events | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | notebooks | get, list, watch, create, update, patch, delete | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | datascienceclusters | list, watch, get | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | dscinitializations | list, watch, get | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | inferenceservices | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | modelregistries | get, list, watch, create, update, patch, delete | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | endpoints | get | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | auths | get | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | llamastackdistributions | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | guardrailsorchestrators, evalhubs | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | featurestores | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | mlflows | get, list, watch | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | tokenreviews | create | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
+| odh-dashboard | subjectaccessreviews | create | [`manifests/core-bases/base/cluster-role.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/core-bases/base/cluster-role.yaml) |
 

@@ -10,14 +10,16 @@ graph LR
     classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
 
     odh_model_controller["odh-model-controller"]:::component
-    odh_model_controller --> svc_0["odh-model-controller-webhook-service\nClusterIP: 443/TCP"]:::svc
+    odh_model_controller --> svc_0["model-serving-api\nClusterIP: 443/TCP,9090/TCP"]:::svc
+    odh_model_controller --> svc_1["odh-model-controller-webhook-service\nClusterIP: 443/TCP"]:::svc
 ```
 
 ### Services
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| odh-model-controller-webhook-service | ClusterIP | 443/TCP | `config/webhook/service.yaml` |
+| model-serving-api | ClusterIP | 443/TCP, 9090/TCP | [`config/server/service.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/69feed504f62ac54965560e58f0c054993459c34/config/server/service.yaml) |
+| odh-model-controller-webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/69feed504f62ac54965560e58f0c054993459c34/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

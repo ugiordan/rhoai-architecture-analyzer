@@ -19,14 +19,14 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| notebook | ClusterIP | 8888/TCP | `jupyter/datascience/ubi9-python-3.12/kustomize/base/service.yaml` |
-| notebook | ClusterIP | 8888/TCP | `jupyter/minimal/ubi9-python-3.12/kustomize/base/service.yaml` |
-| notebook | ClusterIP | 8888/TCP | `jupyter/pytorch/ubi9-python-3.12/kustomize/base/service.yaml` |
-| notebook | ClusterIP | 8888/TCP | `jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/service.yaml` |
-| notebook | ClusterIP | 8888/TCP | `jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/service.yaml` |
-| notebook | ClusterIP | 8888/TCP | `jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml` |
-| notebook | ClusterIP | 8888/TCP | `jupyter/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml` |
-| notebook | ClusterIP | 8888/TCP | `jupyter/trustyai/ubi9-python-3.12/kustomize/base/service.yaml` |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/datascience/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/datascience/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/minimal/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/minimal/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/pytorch/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/pytorch/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/trustyai/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/trustyai/ubi9-python-3.12/kustomize/base/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

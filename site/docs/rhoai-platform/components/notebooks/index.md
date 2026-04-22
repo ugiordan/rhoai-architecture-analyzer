@@ -1,8 +1,11 @@
 # notebooks
 
-**Repository:** opendatahub-io/notebooks  
+> **Architecture snapshot: 2026-04-22** (2026-04-22)
+
+
+**Repository:** red-hat-data-services/notebooks  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-16T15:34:17Z
+**Extracted:** 2026-04-22T20:53:01Z
 
 ## Summary
 

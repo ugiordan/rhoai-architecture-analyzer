@@ -12,14 +12,14 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| notebook | notebook | ? | ? | ? | `jupyter/datascience/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
-| notebook | notebook | ? | ? | ? | `jupyter/minimal/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
-| notebook | notebook | ? | ? | ? | `jupyter/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
-| notebook | notebook | ? | ? | ? | `jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
-| notebook | notebook | ? | ? | ? | `jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
-| notebook | notebook | ? | ? | ? | `jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
-| notebook | notebook | ? | ? | ? | `jupyter/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
-| notebook | notebook | ? | ? | ? | `jupyter/trustyai/ubi9-python-3.12/kustomize/base/statefulset.yaml` |
+| notebook | notebook | ? | ? | ? | [`jupyter/datascience/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/datascience/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/minimal/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/minimal/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/trustyai/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/red-hat-data-services/notebooks/blob/1f6d7cc521b2fe36ee059dbda82abdda7d04efba/jupyter/trustyai/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
 
 ## Build Security
 
@@ -27,7 +27,6 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 
 | Path | Base Image | Stages | User | Ports | Architectures | FIPS | Issues |
 |------|------------|--------|------|-------|---------------|------|--------|
-| `examples/jupyterlab-with-elyra/Dockerfile` | registry.access.redhat.com/ubi9/python-311:latest | 1 | 1001:0 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest |
 | `.devcontainer/Dockerfile.dev` | registry.fedoraproject.org/fedora:${FEDORA_TAG} | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `base-images/cpu/c9s-python-3.12/Dockerfile.cpu` | quay.io/centos/centos:stream9 | 2 | ${CNB_USER_ID}:${CNB_GROUP_ID} |  | multi-arch |  |  |
 | `base-images/cpu/ubi9-python-3.12/Dockerfile.cpu` | registry.access.redhat.com/ubi9/python-312:latest | 2 | 1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest; Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest |
@@ -47,26 +46,27 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `base-images/rocm/6.4/ubi9-python-3.12/Dockerfile.rocm` | base | 3 | 1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest; Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest; Unpinned base image: base |
 | `codeserver/ubi9-python-3.12/Dockerfile.cpu` | codeserver | 6 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: codeserver; Unpinned base image: codeserver |
 | `codeserver/ubi9-python-3.12/Dockerfile.konflux.cpu` | codeserver | 6 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: codeserver; Unpinned base image: codeserver |
-| `jupyter/datascience/ubi9-python-3.12/Dockerfile.cpu` | jupyter-minimal | 4 | 1001:0 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal |
-| `jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu` | jupyter-minimal | 4 | 1001:0 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal |
+| `examples/jupyterlab-with-elyra/Dockerfile` | registry.access.redhat.com/ubi9/python-311:latest | 1 | 1001:0 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest |
+| `jupyter/datascience/ubi9-python-3.12/Dockerfile.cpu` | jupyter-minimal | 4 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal |
+| `jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu` | jupyter-minimal | 4 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal |
 | `jupyter/minimal/ubi9-python-3.12/Dockerfile.cpu` | cpu-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base |
 | `jupyter/minimal/ubi9-python-3.12/Dockerfile.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `jupyter/minimal/ubi9-python-3.12/Dockerfile.konflux.cpu` | cpu-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base |
 | `jupyter/minimal/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `jupyter/minimal/ubi9-python-3.12/Dockerfile.konflux.rocm` | rocm-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base |
 | `jupyter/minimal/ubi9-python-3.12/Dockerfile.rocm` | rocm-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base |
-| `jupyter/pytorch/ubi9-python-3.12/Dockerfile.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
-| `jupyter/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
 | `jupyter/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
 | `jupyter/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
-| `jupyter/rocm/pytorch/ubi9-python-3.12/Dockerfile.konflux.rocm` | rocm-jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
-| `jupyter/rocm/pytorch/ubi9-python-3.12/Dockerfile.rocm` | rocm-jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
-| `jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.konflux.rocm` | rocm-jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
-| `jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.rocm` | rocm-jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
-| `jupyter/tensorflow/ubi9-python-3.12/Dockerfile.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
-| `jupyter/tensorflow/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
-| `jupyter/trustyai/ubi9-python-3.12/Dockerfile.cpu` | jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal; Unpinned base image: jupyter-datascience |
-| `jupyter/trustyai/ubi9-python-3.12/Dockerfile.konflux.cpu` | jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/go-toolset:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal; Unpinned base image: jupyter-datascience |
+| `jupyter/pytorch/ubi9-python-3.12/Dockerfile.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
+| `jupyter/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
+| `jupyter/rocm/pytorch/ubi9-python-3.12/Dockerfile.konflux.rocm` | rocm-jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
+| `jupyter/rocm/pytorch/ubi9-python-3.12/Dockerfile.rocm` | rocm-jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
+| `jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.konflux.rocm` | rocm-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
+| `jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.rocm` | rocm-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base; Unpinned base image: rocm-jupyter-minimal; Unpinned base image: rocm-jupyter-datascience |
+| `jupyter/tensorflow/ubi9-python-3.12/Dockerfile.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
+| `jupyter/tensorflow/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-jupyter-datascience | 5 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base; Unpinned base image: cuda-jupyter-minimal; Unpinned base image: cuda-jupyter-datascience |
+| `jupyter/trustyai/ubi9-python-3.12/Dockerfile.cpu` | jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal; Unpinned base image: jupyter-datascience |
+| `jupyter/trustyai/ubi9-python-3.12/Dockerfile.konflux.cpu` | jupyter-datascience | 5 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal; Unpinned base image: jupyter-datascience |
 | `rstudio/c9s-python-3.12/Dockerfile.cpu` | cpu-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base |
 | `rstudio/c9s-python-3.12/Dockerfile.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `rstudio/rhel9-python-3.12/Dockerfile.cpu` | cpu-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base |
@@ -77,10 +77,10 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `runtimes/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu` | cpu-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base |
 | `runtimes/minimal/ubi9-python-3.12/Dockerfile.cpu` | cpu-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base |
 | `runtimes/minimal/ubi9-python-3.12/Dockerfile.konflux.cpu` | cpu-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base |
-| `runtimes/pytorch/ubi9-python-3.12/Dockerfile.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
-| `runtimes/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
+| `runtimes/pytorch/ubi9-python-3.12/Dockerfile.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
+| `runtimes/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `runtimes/rocm-pytorch/ubi9-python-3.12/Dockerfile.konflux.rocm` | rocm-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base |
 | `runtimes/rocm-pytorch/ubi9-python-3.12/Dockerfile.rocm` | rocm-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base |
 | `runtimes/rocm-tensorflow/ubi9-python-3.12/Dockerfile.konflux.rocm` | rocm-base | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: rocm-base |
@@ -88,6 +88,7 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `runtimes/tensorflow/ubi9-python-3.12/Dockerfile.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `runtimes/tensorflow/ubi9-python-3.12/Dockerfile.konflux.cuda` | cuda-base | 2 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cuda-base |
 | `scripts/lockfile-generators/Dockerfile.rpm-lockfile` | ${BASE_IMAGE} | 1 | root |  |  |  | Unpinned base image: ${BASE_IMAGE}; Container runs as root user |
+| `tests/browser/Dockerfile` | mcr.microsoft.com/playwright:v1.59.1-noble | 1 | pwuser |  |  |  |  |
 | `tests/testdata/Dockerfile.sample-cpu` | quay.io/opendatahub/workbench-images:base-ubi9-python-3.12 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `tests/testdata/Dockerfile.sample-cuda` | quay.io/opendatahub/workbench-images:cuda-base | 1 |  |  |  |  | No USER directive found (defaults to root) |
 
