@@ -141,7 +141,7 @@ func renderComponentIndexPage(data map[string]interface{}, component string) str
 	if repo != "" {
 		b.WriteString(fmt.Sprintf("**Repository:** %s  \n", repo))
 	}
-	b.WriteString(fmt.Sprintf("**Analyzer:** rhoai-analyzer %s  \n", version))
+	b.WriteString(fmt.Sprintf("**Analyzer:** arch-analyzer %s  \n", version))
 	b.WriteString(fmt.Sprintf("**Extracted:** %s\n\n", extractedAt))
 
 	// Summary table

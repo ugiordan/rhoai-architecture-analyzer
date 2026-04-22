@@ -88,16 +88,16 @@ Marks nodes with upgrade-relevant metadata:
 
 ```bash
 # List registered domains
-rhoai-analyzer domains
+arch-analyzer domains
 
 # Run all domains
-rhoai-analyzer scan /path/to/repo
+arch-analyzer scan /path/to/repo
 
 # Run specific domains
-rhoai-analyzer scan /path/to/repo --domains security,testing
+arch-analyzer scan /path/to/repo --domains security,testing
 
 # With architecture enrichment
-rhoai-analyzer scan /path/to/repo --domains security --with-arch arch.json
+arch-analyzer scan /path/to/repo --domains security --with-arch arch.json
 ```
 
 ## Domain orchestrator

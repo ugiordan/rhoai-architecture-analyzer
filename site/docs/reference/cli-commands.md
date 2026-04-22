@@ -1,11 +1,11 @@
 # CLI Commands
 
-## rhoai-analyzer analyze
+## arch-analyzer analyze
 
 Extract architecture data and render diagrams.
 
 ```bash
-rhoai-analyzer analyze <repo-path> --output-dir <dir>
+arch-analyzer analyze <repo-path> --output-dir <dir>
 ```
 
 | Flag | Description |
@@ -14,24 +14,24 @@ rhoai-analyzer analyze <repo-path> --output-dir <dir>
 
 **Output**: `component-architecture.json` + all diagram/report files.
 
-## rhoai-analyzer extract
+## arch-analyzer extract
 
 Extract architecture data only (no rendering).
 
 ```bash
-rhoai-analyzer extract <repo-path> --output <file>
+arch-analyzer extract <repo-path> --output <file>
 ```
 
 | Flag | Description |
 |------|-------------|
 | `--output` | Output JSON file path |
 
-## rhoai-analyzer render
+## arch-analyzer render
 
 Render diagrams from existing JSON.
 
 ```bash
-rhoai-analyzer render <json-file> --output-dir <dir> [--formats <list>]
+arch-analyzer render <json-file> --output-dir <dir> [--formats <list>]
 ```
 
 | Flag | Description |
@@ -39,12 +39,12 @@ rhoai-analyzer render <json-file> --output-dir <dir> [--formats <list>]
 | `--output-dir` | Directory for diagram files |
 | `--formats` | Comma-separated list: `rbac`, `component`, `security`, `dependencies`, `c4`, `dataflow`, `report` |
 
-## rhoai-analyzer scan
+## arch-analyzer scan
 
 Build code property graph and run security queries.
 
 ```bash
-rhoai-analyzer scan <repo-path> [flags]
+arch-analyzer scan <repo-path> [flags]
 ```
 
 | Flag | Description |
@@ -54,24 +54,24 @@ rhoai-analyzer scan <repo-path> [flags]
 | `--domains` | Comma-separated domain list: `security`, `testing`, `upgrade` |
 | `--with-arch` | Path to `component-architecture.json` for enrichment |
 
-## rhoai-analyzer full-analysis
+## arch-analyzer full-analysis
 
 Run everything: extract + render + scan + extract-schema.
 
 ```bash
-rhoai-analyzer full-analysis <repo-path> --output-dir <dir>
+arch-analyzer full-analysis <repo-path> --output-dir <dir>
 ```
 
 | Flag | Description |
 |------|-------------|
 | `--output-dir` | Directory for all output files |
 
-## rhoai-analyzer aggregate
+## arch-analyzer aggregate
 
 Merge multiple component analyses into platform view.
 
 ```bash
-rhoai-analyzer aggregate <results-dir> --output-dir <dir>
+arch-analyzer aggregate <results-dir> --output-dir <dir>
 ```
 
 | Flag | Description |
@@ -80,12 +80,12 @@ rhoai-analyzer aggregate <results-dir> --output-dir <dir>
 
 Discovers all `component-architecture.json` files in the results directory recursively.
 
-## rhoai-analyzer docs
+## arch-analyzer docs
 
 Generate browsable documentation pages from architecture JSON.
 
 ```bash
-rhoai-analyzer docs --output-dir <dir> <json-file>
+arch-analyzer docs --output-dir <dir> <json-file>
 ```
 
 | Flag | Description |
@@ -95,24 +95,24 @@ rhoai-analyzer docs --output-dir <dir> <json-file>
 
 Auto-detects whether the input is a single component or aggregated platform JSON. For platform data, generates per-component deep-dive pages under `components/`. Outputs a mkdocs.yml nav snippet for integration.
 
-## rhoai-analyzer extract-schema
+## arch-analyzer extract-schema
 
 Extract CRD JSON schemas for contract validation.
 
 ```bash
-rhoai-analyzer extract-schema <repo-path> --output-dir <dir>
+arch-analyzer extract-schema <repo-path> --output-dir <dir>
 ```
 
 | Flag | Description |
 |------|-------------|
 | `--output-dir` | Directory for schema JSON files |
 
-## rhoai-analyzer validate
+## arch-analyzer validate
 
 Validate CRD changes against baseline contracts.
 
 ```bash
-rhoai-analyzer validate <repo-path> --contracts-dir <dir>
+arch-analyzer validate <repo-path> --contracts-dir <dir>
 ```
 
 | Flag | Description |
@@ -121,30 +121,30 @@ rhoai-analyzer validate <repo-path> --contracts-dir <dir>
 
 Exit code 1 if breaking changes detected.
 
-## rhoai-analyzer graph
+## arch-analyzer graph
 
 Export the code property graph.
 
 ```bash
-rhoai-analyzer graph <repo-path> [flags]
+arch-analyzer graph <repo-path> [flags]
 ```
 
 Exports the raw CPG for inspection or custom analysis.
 
-## rhoai-analyzer domains
+## arch-analyzer domains
 
 List all registered analysis domains.
 
 ```bash
-rhoai-analyzer domains
+arch-analyzer domains
 ```
 
 Output includes domain name, description, and available queries.
 
-## rhoai-analyzer version
+## arch-analyzer version
 
 Print version information.
 
 ```bash
-rhoai-analyzer version
+arch-analyzer version
 ```

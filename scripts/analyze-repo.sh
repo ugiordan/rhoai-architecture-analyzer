@@ -19,17 +19,17 @@ SHORT="${REPO##*/}"
 OUTDIR="${RESULTS_BASE}/${SHORT}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ANALYZER_DIR="$(dirname "${SCRIPT_DIR}")"
-ANALYZER_BIN="${ANALYZER_DIR}/rhoai-analyzer"
+ANALYZER_BIN="${ANALYZER_DIR}/arch-analyzer"
 
 # Build if needed
 if [ ! -f "${ANALYZER_BIN}" ]; then
-    echo "[*] Building rhoai-analyzer..."
-    (cd "${ANALYZER_DIR}" && go build -o rhoai-analyzer ./cmd/rhoai-analyzer/)
+    echo "[*] Building arch-analyzer..."
+    (cd "${ANALYZER_DIR}" && go build -o arch-analyzer ./cmd/arch-analyzer/)
 fi
 
 mkdir -p "${OUTDIR}"
 
-CLONE_DIR="/tmp/rhoai-analyzer-repos/${SHORT}"
+CLONE_DIR="/tmp/arch-analyzer-repos/${SHORT}"
 
 # Clone (shallow)
 echo "[*] Cloning ${REPO}..."

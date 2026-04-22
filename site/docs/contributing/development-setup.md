@@ -8,16 +8,16 @@
 ## Clone and build
 
 ```bash
-git clone https://github.com/ugiordan/rhoai-architecture-analyzer.git
-cd rhoai-architecture-analyzer
-go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+git clone https://github.com/ugiordan/architecture-analyzer.git
+cd architecture-analyzer
+go build -o arch-analyzer ./cmd/arch-analyzer/
 ```
 
 ## Project structure
 
 ```
-rhoai-architecture-analyzer/
-  cmd/rhoai-analyzer/
+architecture-analyzer/
+  cmd/arch-analyzer/
     main.go                  # CLI entry point with subcommands
   pkg/
     extractor/               # 18 architecture extractors
@@ -64,11 +64,11 @@ Key test files:
 ## Testing against real repos
 
 ```bash
-# Analyze a real RHOAI repo
-./rhoai-analyzer analyze /path/to/odh-model-controller --output-dir /tmp/analysis
+# Analyze a repo (e.g. an RHOAI component)
+./arch-analyzer analyze /path/to/odh-model-controller --output-dir /tmp/analysis
 
 # Run security scan
-./rhoai-analyzer scan /path/to/odh-model-controller --format json --output /tmp/findings.json
+./arch-analyzer scan /path/to/odh-model-controller --format json --output /tmp/findings.json
 ```
 
 ## Adding new functionality
@@ -93,6 +93,6 @@ See [Adding Extractors](adding-extractors.md).
 
 ### New CLI command
 
-1. Add command definition in `cmd/rhoai-analyzer/main.go`
+1. Add command definition in `cmd/arch-analyzer/main.go`
 2. Wire to appropriate pkg functions
 3. Add usage documentation

@@ -1,6 +1,6 @@
 package query
 
-import "github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+import "github.com/ugiordan/architecture-analyzer/pkg/graph"
 
 // maxPaths caps the number of taint paths returned to prevent combinatorial explosion.
 const maxPaths = 100

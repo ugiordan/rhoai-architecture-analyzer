@@ -9,7 +9,7 @@ import (
 	sitter "github.com/smacker/go-tree-sitter"
 	"github.com/smacker/go-tree-sitter/golang"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 // maxFileSize is the maximum file size (10 MB) that GoParser will attempt to parse.

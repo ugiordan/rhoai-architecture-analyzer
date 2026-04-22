@@ -3,7 +3,7 @@ package annotator
 import (
 	"strings"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 type SecurityAnnotator struct{}

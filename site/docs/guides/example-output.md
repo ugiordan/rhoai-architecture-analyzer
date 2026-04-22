@@ -1,6 +1,6 @@
 # Example Output
 
-This page shows real output from running `rhoai-analyzer` against production RHOAI components, both single-component analysis and platform-wide aggregation across 11 repositories.
+This page shows real output from running `arch-analyzer` against production RHOAI components, both single-component analysis and platform-wide aggregation across 11 repositories.
 
 ---
 
@@ -15,11 +15,11 @@ for repo in opendatahub-operator kserve data-science-pipelines-operator \
             notebooks odh-dashboard odh-model-controller \
             kube-rbac-proxy kube-auth-proxy; do
   cd /tmp/platform/$repo
-  rhoai-analyzer analyze /path/to/$repo
+  arch-analyzer analyze /path/to/$repo
 done
 
 # Aggregate into platform view
-rhoai-analyzer aggregate /tmp/platform
+arch-analyzer aggregate /tmp/platform
 ```
 
 ### Platform Summary
@@ -131,7 +131,7 @@ This reveals that `odh-model-controller` watches 4 kserve CRDs, `odh-dashboard` 
 The rest of this page shows detailed output from analyzing [data-science-pipelines-operator](https://github.com/opendatahub-io/data-science-pipelines-operator), one of the 11 components above.
 
 ```bash
-./rhoai-analyzer full-analysis ./data-science-pipelines-operator --output-dir output
+./arch-analyzer full-analysis ./data-science-pipelines-operator --output-dir output
 ```
 
 The tool produced:
@@ -419,7 +419,7 @@ The generated `component-report.md` is a human-readable summary of all extracted
 For GitHub Code Scanning integration, use `--format sarif`:
 
 ```bash
-./rhoai-analyzer scan ./data-science-pipelines-operator --format sarif --output findings.sarif
+./arch-analyzer scan ./data-science-pipelines-operator --format sarif --output findings.sarif
 ```
 
 The SARIF output integrates directly with GitHub's security tab, showing findings inline with source code.
@@ -428,16 +428,16 @@ The SARIF output integrates directly with GitHub's security tab, showing finding
 
 ```bash
 # Full analysis (architecture + code graph + schemas)
-./rhoai-analyzer full-analysis ./your-operator --output-dir output
+./arch-analyzer full-analysis ./your-operator --output-dir output
 
 # Architecture only
-./rhoai-analyzer analyze ./your-operator --output-dir output
+./arch-analyzer analyze ./your-operator --output-dir output
 
 # Security scan only
-./rhoai-analyzer scan ./your-operator --domains security,upgrade
+./arch-analyzer scan ./your-operator --domains security,upgrade
 
 # Specific output format
-./rhoai-analyzer scan ./your-operator --format sarif --output findings.sarif
+./arch-analyzer scan ./your-operator --format sarif --output findings.sarif
 ```
 
 The tool works on any Kubernetes operator project with Go source and YAML manifests. No configuration required.

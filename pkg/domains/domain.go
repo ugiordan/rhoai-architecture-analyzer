@@ -4,8 +4,8 @@
 package domains
 
 import (
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/query"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/query"
 )
 
 // ArchitectureData holds extracted architecture information that domain analyzers

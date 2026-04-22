@@ -35,7 +35,7 @@ Using the wrapper script:
 
 # The script handles:
 # 1. Clone to temp directory
-# 2. Run rhoai-analyzer analyze
+# 2. Run arch-analyzer analyze
 # 3. Copy results to output directory
 # 4. Clean up temp clone
 ```
@@ -62,7 +62,7 @@ for repo in $(yq '.repos[].name' scan-config.yaml); do
 done
 
 # Aggregate all results
-rhoai-analyzer aggregate results/ --output-dir platform-output/
+arch-analyzer aggregate results/ --output-dir platform-output/
 ```
 
 See [Platform Aggregation](../guides/platform-aggregation.md) for details.

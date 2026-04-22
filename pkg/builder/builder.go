@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/parser"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/parser"
 )
 
 // Builder constructs a code property graph from source files in a directory.

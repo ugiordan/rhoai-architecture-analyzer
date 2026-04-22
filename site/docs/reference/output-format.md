@@ -224,7 +224,7 @@ Standard SARIF 2.1.0 format compatible with GitHub Code Scanning:
     {
       "tool": {
         "driver": {
-          "name": "rhoai-architecture-analyzer",
+          "name": "architecture-analyzer",
           "version": "0.2.0",
           "rules": [...]
         }

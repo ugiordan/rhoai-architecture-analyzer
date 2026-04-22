@@ -1,7 +1,7 @@
 # notebooks
 
 **Repository:** opendatahub-io/notebooks  
-**Analyzer:** rhoai-analyzer 0.2.0  
+**Analyzer:** arch-analyzer 0.2.0  
 **Extracted:** 2026-04-16T15:34:17Z
 
 ## Summary

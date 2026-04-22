@@ -1,4 +1,4 @@
-// Package main implements the rhoai-analyzer CLI. As the tool grows, consider
+// Package main implements the arch-analyzer CLI. As the tool grows, consider
 // splitting subcommands into dedicated packages under internal/cmd/.
 package main
 
@@ -12,20 +12,20 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/aggregator"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/annotator"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/arch"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/builder"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/domains"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/domains/security"
-	testingdomain "github.com/ugiordan/rhoai-architecture-analyzer/pkg/domains/testing"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/domains/upgrade"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/extractor"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/linker"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/query"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/renderer"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/validator"
+	"github.com/ugiordan/architecture-analyzer/pkg/aggregator"
+	"github.com/ugiordan/architecture-analyzer/pkg/annotator"
+	"github.com/ugiordan/architecture-analyzer/pkg/arch"
+	"github.com/ugiordan/architecture-analyzer/pkg/builder"
+	"github.com/ugiordan/architecture-analyzer/pkg/domains"
+	"github.com/ugiordan/architecture-analyzer/pkg/domains/security"
+	testingdomain "github.com/ugiordan/architecture-analyzer/pkg/domains/testing"
+	"github.com/ugiordan/architecture-analyzer/pkg/domains/upgrade"
+	"github.com/ugiordan/architecture-analyzer/pkg/extractor"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/linker"
+	"github.com/ugiordan/architecture-analyzer/pkg/query"
+	"github.com/ugiordan/architecture-analyzer/pkg/renderer"
+	"github.com/ugiordan/architecture-analyzer/pkg/validator"
 )
 
 const version = "0.2.0"
@@ -113,7 +113,7 @@ func main() {
 	case "full-analysis":
 		err = cmdFullAnalysis(args)
 	case "version":
-		fmt.Printf("rhoai-analyzer %s\n", version)
+		fmt.Printf("arch-analyzer %s\n", version)
 	case "help", "-h", "--help":
 		printUsage()
 	default:
@@ -129,9 +129,9 @@ func main() {
 }
 
 func printUsage() {
-	fmt.Println(`rhoai-analyzer: RHOAI Architecture Analyzer and Code Graph Security Scanner
+	fmt.Println(`arch-analyzer: Architecture Analyzer and Code Graph Security Scanner
 
-Usage: rhoai-analyzer <command> [options]
+Usage: arch-analyzer <command> [options]
 
 Architecture commands:
   extract <repo-path>                  Extract architecture data from a repository
@@ -167,7 +167,7 @@ func cmdExtract(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer extract <repo-path> [--output file.json] [--org org] [--version label]")
+		return fmt.Errorf("usage: arch-analyzer extract <repo-path> [--output file.json] [--org org] [--version label]")
 	}
 
 	if *ver != "" {
@@ -200,7 +200,7 @@ func cmdRender(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer render <json-file> [--output-dir dir] [--formats fmt1,fmt2]")
+		return fmt.Errorf("usage: arch-analyzer render <json-file> [--output-dir dir] [--formats fmt1,fmt2]")
 	}
 
 	jsonPath := fs.Arg(0)
@@ -232,7 +232,7 @@ func cmdAnalyze(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer analyze <repo-path> [--output-dir dir] [--org org] [--version label]")
+		return fmt.Errorf("usage: arch-analyzer analyze <repo-path> [--output-dir dir] [--org org] [--version label]")
 	}
 
 	if *ver != "" {
@@ -291,7 +291,7 @@ func cmdAggregate(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer aggregate <results-dir> [--output-dir dir] [--version label] [--platform name]")
+		return fmt.Errorf("usage: arch-analyzer aggregate <results-dir> [--output-dir dir] [--version label] [--platform name]")
 	}
 
 	if *ver != "" {
@@ -343,7 +343,7 @@ func cmdDocs(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer docs <json-file> [--output-dir dir] [--prefix path] [--version label]")
+		return fmt.Errorf("usage: arch-analyzer docs <json-file> [--output-dir dir] [--prefix path] [--version label]")
 	}
 
 	if *ver != "" {
@@ -414,7 +414,7 @@ func cmdExtractSchema(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer extract-schema <repo-path> [--output-dir dir] [--repo-name name]")
+		return fmt.Errorf("usage: arch-analyzer extract-schema <repo-path> [--output-dir dir] [--repo-name name]")
 	}
 
 	repoPath := fs.Arg(0)
@@ -458,7 +458,7 @@ func cmdValidate(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer validate <repo-path> [--contracts-dir dir] [--repo-name name]")
+		return fmt.Errorf("usage: arch-analyzer validate <repo-path> [--contracts-dir dir] [--repo-name name]")
 	}
 
 	repoPath := fs.Arg(0)
@@ -530,7 +530,7 @@ func cmdScan(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer scan <repo-path> [--output file] [--format text|json|sarif] [--domains sec,test] [--with-arch]")
+		return fmt.Errorf("usage: arch-analyzer scan <repo-path> [--output file] [--format text|json|sarif] [--domains sec,test] [--with-arch]")
 	}
 
 	repoPath := fs.Arg(0)
@@ -639,7 +639,7 @@ func cmdGraph(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer graph <repo-path> [--format json|dot] [--output file]")
+		return fmt.Errorf("usage: arch-analyzer graph <repo-path> [--format json|dot] [--output file]")
 	}
 
 	cpg, err := buildCPG(fs.Arg(0))
@@ -682,7 +682,7 @@ func cmdFullAnalysis(args []string) error {
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: rhoai-analyzer full-analysis <repo-path> [--output-dir dir] [--org org] [--domains sec,test] [--version label]")
+		return fmt.Errorf("usage: arch-analyzer full-analysis <repo-path> [--output-dir dir] [--org org] [--domains sec,test] [--version label]")
 	}
 
 	if *ver != "" {
@@ -929,7 +929,7 @@ func outputSARIF(path string, findings []query.Finding) error {
 		runs = append(runs, map[string]interface{}{
 			"tool": map[string]interface{}{
 				"driver": map[string]interface{}{
-					"name":    "rhoai-analyzer/" + domain,
+					"name":    "arch-analyzer/" + domain,
 					"version": version,
 				},
 			},

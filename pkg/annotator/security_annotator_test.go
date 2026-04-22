@@ -3,7 +3,7 @@ package annotator
 import (
 	"testing"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 func TestAnnotateHTTPHandler(t *testing.T) {

@@ -63,7 +63,7 @@ func (r *DependencyRenderer) Render(data map[string]interface{}) string {
 			module := getStr(mod, "module", "")
 			version := getStr(mod, "version", "")
 
-			// Skip internal RHOAI dependencies (any known org)
+			// Skip internal platform dependencies (any known org)
 			if isInternalModule(module, data) {
 				continue
 			}
@@ -106,9 +106,9 @@ func (r *DependencyRenderer) Render(data map[string]interface{}) string {
 	return strings.TrimRight(b.String(), "\n")
 }
 
-// isInternalModule checks if a Go module belongs to one of the known RHOAI orgs.
+// isInternalModule checks if a Go module belongs to one of the known platform orgs.
 // It derives the org from the component data's "repo" field, and also checks
-// known RHOAI organizations.
+// known platform organizations.
 func isInternalModule(module string, data map[string]interface{}) bool {
 	knownPrefixes := make([]string, len(KnownInternalPrefixes))
 	copy(knownPrefixes, KnownInternalPrefixes)

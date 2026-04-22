@@ -5,7 +5,7 @@
 ### Extract + render (recommended)
 
 ```bash
-rhoai-analyzer analyze /path/to/repo --output-dir output/
+arch-analyzer analyze /path/to/repo --output-dir output/
 ```
 
 This is the most common operation. It:
@@ -19,7 +19,7 @@ This is the most common operation. It:
 If you only need the JSON data (for custom processing or aggregation):
 
 ```bash
-rhoai-analyzer extract /path/to/repo --output component-architecture.json
+arch-analyzer extract /path/to/repo --output component-architecture.json
 ```
 
 ### Render from existing JSON
@@ -28,10 +28,10 @@ If you already have extracted JSON and want different renderers or formats:
 
 ```bash
 # All formats
-rhoai-analyzer render component-architecture.json --output-dir diagrams/
+arch-analyzer render component-architecture.json --output-dir diagrams/
 
 # Specific formats only
-rhoai-analyzer render component-architecture.json --formats rbac,component
+arch-analyzer render component-architecture.json --formats rbac,component
 ```
 
 Available format names: `rbac`, `component`, `security`, `dependencies`, `c4`, `dataflow`, `report`.
@@ -41,7 +41,7 @@ Available format names: `rbac`, `component`, `security`, `dependencies`, `c4`, `
 Combines architecture extraction, diagram rendering, code graph scanning, and schema extraction:
 
 ```bash
-rhoai-analyzer full-analysis /path/to/repo --output-dir output/
+arch-analyzer full-analysis /path/to/repo --output-dir output/
 ```
 
 Output includes everything from `analyze` plus:

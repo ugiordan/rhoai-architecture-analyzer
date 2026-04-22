@@ -8,30 +8,30 @@
 ## Build from source
 
 ```bash
-git clone https://github.com/ugiordan/rhoai-architecture-analyzer.git
-cd rhoai-architecture-analyzer
-go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+git clone https://github.com/ugiordan/architecture-analyzer.git
+cd architecture-analyzer
+go build -o arch-analyzer ./cmd/arch-analyzer/
 ```
 
-The binary `rhoai-analyzer` is now ready to use.
+The binary `arch-analyzer` is now ready to use.
 
 ## Verify installation
 
 ```bash
-./rhoai-analyzer version
+./arch-analyzer version
 ```
 
 Expected output:
 
 ```
-rhoai-architecture-analyzer v0.2.0
+architecture-analyzer v0.2.0
 ```
 
 ## Optional: Add to PATH
 
 ```bash
 # Move to a directory in your PATH
-sudo mv rhoai-analyzer /usr/local/bin/
+sudo mv arch-analyzer /usr/local/bin/
 
 # Or add the project directory to PATH
 export PATH="$PATH:$(pwd)"

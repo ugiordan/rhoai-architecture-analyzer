@@ -3,7 +3,7 @@ package builder
 import (
 	"testing"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 func TestBuildFromDirectory(t *testing.T) {

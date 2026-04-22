@@ -1,7 +1,7 @@
 # data-science-pipelines-operator
 
 **Repository:** opendatahub-io/data-science-pipelines-operator  
-**Analyzer:** rhoai-analyzer 0.2.0  
+**Analyzer:** arch-analyzer 0.2.0  
 **Extracted:** 2026-04-16T15:34:14Z
 
 ## Summary

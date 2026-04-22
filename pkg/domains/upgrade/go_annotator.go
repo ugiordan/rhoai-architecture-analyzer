@@ -3,8 +3,8 @@ package upgrade
 import (
 	"strings"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/domains"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/domains"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 type GoAnnotator struct{}

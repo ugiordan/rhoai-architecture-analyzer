@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/query"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/query"
 )
 
 func securityQueries() []query.Rule {

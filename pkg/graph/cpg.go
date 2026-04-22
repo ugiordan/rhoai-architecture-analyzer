@@ -3,7 +3,7 @@ package graph
 import (
 	"sync"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/arch"
+	"github.com/ugiordan/architecture-analyzer/pkg/arch"
 )
 
 // CPG is a thread-safe code property graph containing nodes and directed edges.

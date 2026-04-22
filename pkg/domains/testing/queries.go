@@ -3,9 +3,9 @@ package testing
 import (
 	"fmt"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/domains/security"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/query"
+	"github.com/ugiordan/architecture-analyzer/pkg/domains/security"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/query"
 )
 
 func testingQueries() []query.Rule {

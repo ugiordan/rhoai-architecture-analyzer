@@ -12,7 +12,7 @@ The analyzer provides three GitHub Actions workflows for automated analysis.
 
 ## analyze-all.yml
 
-Scheduled weekly analysis of all RHOAI repos:
+Scheduled weekly analysis of all configured platform repos (e.g. RHOAI, ODH):
 
 ```yaml
 name: Analyze All Repos
@@ -32,7 +32,7 @@ jobs:
           go-version: "1.25.0"
 
       - name: Build analyzer
-        run: go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+        run: go build -o arch-analyzer ./cmd/arch-analyzer/
 
       - name: Analyze repos
         run: |
@@ -41,7 +41,7 @@ jobs:
           done
 
       - name: Aggregate platform
-        run: ./rhoai-analyzer aggregate results/ --output-dir platform-output/
+        run: ./arch-analyzer aggregate results/ --output-dir platform-output/
 
       - uses: actions/upload-artifact@v4
         with:
@@ -78,11 +78,11 @@ jobs:
 
       - name: Install analyzer
         run: |
-          git clone https://github.com/ugiordan/rhoai-architecture-analyzer.git /tmp/analyzer
-          cd /tmp/analyzer && go build -o /usr/local/bin/rhoai-analyzer ./cmd/rhoai-analyzer/
+          git clone https://github.com/ugiordan/architecture-analyzer.git /tmp/analyzer
+          cd /tmp/analyzer && go build -o /usr/local/bin/arch-analyzer ./cmd/arch-analyzer/
 
       - name: Run analysis
-        run: rhoai-analyzer analyze . --output-dir analysis/
+        run: arch-analyzer analyze . --output-dir analysis/
 
       - uses: actions/upload-artifact@v4
         with:
@@ -94,7 +94,7 @@ jobs:
 
 ```yaml
       - name: Security scan
-        run: rhoai-analyzer scan . --format sarif --output findings.sarif
+        run: arch-analyzer scan . --format sarif --output findings.sarif
 
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v3
@@ -122,11 +122,11 @@ jobs:
 
       - name: Install analyzer
         run: |
-          git clone https://github.com/ugiordan/rhoai-architecture-analyzer.git /tmp/analyzer
-          cd /tmp/analyzer && go build -o /usr/local/bin/rhoai-analyzer ./cmd/rhoai-analyzer/
+          git clone https://github.com/ugiordan/architecture-analyzer.git /tmp/analyzer
+          cd /tmp/analyzer && go build -o /usr/local/bin/arch-analyzer ./cmd/arch-analyzer/
 
       - name: Validate schemas
-        run: rhoai-analyzer validate . --contracts-dir contracts
+        run: arch-analyzer validate . --contracts-dir contracts
 ```
 
 ## Artifacts

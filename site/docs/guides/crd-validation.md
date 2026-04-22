@@ -14,7 +14,7 @@ The analyzer extracts CRD JSON schemas and validates them against a baseline to 
 ### Extract schemas
 
 ```bash
-rhoai-analyzer extract-schema /path/to/repo --output-dir contracts/schemas
+arch-analyzer extract-schema /path/to/repo --output-dir contracts/schemas
 ```
 
 This produces one JSON schema file per CRD found in the repository.
@@ -22,7 +22,7 @@ This produces one JSON schema file per CRD found in the repository.
 ### Validate changes
 
 ```bash
-rhoai-analyzer validate /path/to/repo --contracts-dir contracts
+arch-analyzer validate /path/to/repo --contracts-dir contracts
 ```
 
 The validator checks for:
@@ -72,14 +72,14 @@ The `extract-schemas.yml` workflow runs weekly:
 
 ```bash
 # Initial baseline extraction
-rhoai-analyzer extract-schema /path/to/repo --output-dir contracts/schemas
+arch-analyzer extract-schema /path/to/repo --output-dir contracts/schemas
 
 # Commit the baseline
 git add contracts/
 git commit -m "Add CRD schema baseline for contract validation"
 
 # On subsequent changes, validate
-rhoai-analyzer validate /path/to/repo --contracts-dir contracts
+arch-analyzer validate /path/to/repo --contracts-dir contracts
 ```
 
 ### For multiple repos (platform-wide)

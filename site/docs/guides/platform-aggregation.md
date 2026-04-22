@@ -6,12 +6,12 @@ The aggregator merges multiple single-component analyses into a cross-repo platf
 
 ```bash
 # Step 1: Analyze individual repos
-rhoai-analyzer analyze /path/to/repo-a --output-dir results/repo-a
-rhoai-analyzer analyze /path/to/repo-b --output-dir results/repo-b
-rhoai-analyzer analyze /path/to/repo-c --output-dir results/repo-c
+arch-analyzer analyze /path/to/repo-a --output-dir results/repo-a
+arch-analyzer analyze /path/to/repo-b --output-dir results/repo-b
+arch-analyzer analyze /path/to/repo-c --output-dir results/repo-c
 
 # Step 2: Aggregate
-rhoai-analyzer aggregate results/ --output-dir platform-output/
+arch-analyzer aggregate results/ --output-dir platform-output/
 ```
 
 The aggregator discovers all `component-architecture.json` files in the results directory and merges them.
@@ -67,7 +67,7 @@ The aggregator produces:
 The `docs` command generates a full set of markdown pages with embedded mermaid diagrams from the aggregated JSON, ready to drop into any mkdocs site:
 
 ```bash
-rhoai-analyzer docs --output-dir site/docs/platform platform-output/platform-architecture.json
+arch-analyzer docs --output-dir site/docs/platform platform-output/platform-architecture.json
 ```
 
 This produces:
@@ -91,7 +91,7 @@ for repo in $(yq '.repos[].name' scan-config.yaml); do
 done
 
 # Aggregate
-rhoai-analyzer aggregate results/ --output-dir platform-output/
+arch-analyzer aggregate results/ --output-dir platform-output/
 ```
 
 The `analyze-all.yml` GitHub Actions workflow does this automatically every Monday.

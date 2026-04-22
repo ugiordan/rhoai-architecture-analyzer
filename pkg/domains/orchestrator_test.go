@@ -3,8 +3,8 @@ package domains
 import (
 	"testing"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/query"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/query"
 )
 
 // testDomain is a minimal DomainAnalyzer for testing.

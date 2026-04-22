@@ -13,7 +13,7 @@ var NotableDependencyPrefixes = []string{
 	"github.com/go-logr",
 }
 
-// KnownInternalPrefixes lists Go module path prefixes for known RHOAI organizations.
+// KnownInternalPrefixes lists Go module path prefixes for known platform organizations.
 var KnownInternalPrefixes = []string{
 	"github.com/opendatahub-io/",
 	"github.com/red-hat-data-services/",

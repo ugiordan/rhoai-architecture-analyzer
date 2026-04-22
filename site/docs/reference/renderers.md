@@ -18,10 +18,10 @@ The analyzer includes 7 renderers that produce visualizations and reports from e
 
 ```bash
 # All renderers (default)
-rhoai-analyzer render component-architecture.json --output-dir diagrams/
+arch-analyzer render component-architecture.json --output-dir diagrams/
 
 # Specific renderers
-rhoai-analyzer render component-architecture.json --formats rbac,component,report
+arch-analyzer render component-architecture.json --formats rbac,component,report
 ```
 
 ## RBAC renderer

@@ -28,7 +28,7 @@ jobs:
       run-odh: ${{ steps.parse.outputs.run-odh }}
       run-rhoai: ${{ steps.parse.outputs.run-rhoai }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Parse scan-config.yaml
         id: parse
         run: |
@@ -70,19 +70,19 @@ jobs:
       matrix:
         repo: ${{ fromJson(needs.parse-config.outputs.odh-repos) }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
         with:
           go-version: '1.25'
       - name: Build analyzer
-        run: go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+        run: go build -o arch-analyzer ./cmd/arch-analyzer/
       - name: Analyze ${{ matrix.repo }}
         run: |
           mkdir -p results
           timeout 900 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
       - name: Upload result
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: odh-result-${{ strategy.job-index }}
           path: results/
@@ -99,19 +99,19 @@ jobs:
       matrix:
         repo: ${{ fromJson(needs.parse-config.outputs.rhoai-repos) }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-go@v6
         with:
           go-version: '1.25'
       - name: Build analyzer
-        run: go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+        run: go build -o arch-analyzer ./cmd/arch-analyzer/
       - name: Analyze ${{ matrix.repo }}
         run: |
           mkdir -p results
           timeout 900 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
       - name: Upload result
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: rhoai-result-${{ strategy.job-index }}
           path: results/
@@ -125,7 +125,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: actions/setup-go@v6
@@ -151,11 +151,11 @@ jobs:
           fi
 
       - name: Build analyzer
-        run: go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+        run: go build -o arch-analyzer ./cmd/arch-analyzer/
 
       - name: Download ODH results
         if: needs.analyze-odh.result == 'success'
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           pattern: odh-result-*
           path: odh-results/
@@ -163,7 +163,7 @@ jobs:
 
       - name: Download RHOAI results
         if: needs.analyze-rhoai.result == 'success'
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           pattern: rhoai-result-*
           path: rhoai-results/
@@ -175,26 +175,29 @@ jobs:
 
           if [ -d odh-results ] && [ "$(ls -A odh-results)" ]; then
             echo "=== Aggregating ODH ==="
-            ./rhoai-analyzer aggregate -output-dir platform-output/odh -version "$VERSION" -platform odh odh-results
+            ./arch-analyzer aggregate -output-dir platform-output/odh -version "$VERSION" -platform odh odh-results
             echo "=== Generating ODH docs ==="
-            ./rhoai-analyzer docs -output-dir site/docs/odh-platform -prefix odh-platform \
+            ./arch-analyzer docs -output-dir site/docs/odh-platform -prefix odh-platform \
               "platform-output/odh/${VERSION}/platform-architecture.json"
           fi
 
           if [ -d rhoai-results ] && [ "$(ls -A rhoai-results)" ]; then
             echo "=== Aggregating RHOAI ==="
-            ./rhoai-analyzer aggregate -output-dir platform-output/rhoai -version "$VERSION" -platform rhoai rhoai-results
+            ./arch-analyzer aggregate -output-dir platform-output/rhoai -version "$VERSION" -platform rhoai rhoai-results
             echo "=== Generating RHOAI docs ==="
-            ./rhoai-analyzer docs -output-dir site/docs/rhoai-platform -prefix rhoai-platform \
+            ./arch-analyzer docs -output-dir site/docs/rhoai-platform -prefix rhoai-platform \
               "platform-output/rhoai/${VERSION}/platform-architecture.json"
           fi
 
       - name: Upload platform artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: platform-results
           path: platform-output/
           retention-days: 90
+
+      - name: Generate platform nav
+        run: python3 scripts/generate-nav.py site/docs site/mkdocs.yml
 
       - name: Install MkDocs dependencies
         run: pip install -r site/requirements.txt

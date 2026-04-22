@@ -1,8 +1,8 @@
-# RHOAI Architecture Analyzer
+# Architecture Analyzer
 
-A static analysis tool that extracts architecture data from Kubernetes/OpenShift component repositories and generates diagrams, security reports, and code property graphs. Designed for the OpenShift AI (RHOAI) ecosystem.
+A static analysis tool that extracts architecture data from Kubernetes/OpenShift component repositories and generates diagrams, security reports, and code property graphs. Works with any Go-based K8s operator ecosystem.
 
-**[Documentation](https://ugiordan.github.io/rhoai-architecture-analyzer)** | **[GitHub](https://github.com/ugiordan/rhoai-architecture-analyzer)**
+**[Documentation](https://ugiordan.github.io/architecture-analyzer)** | **[GitHub](https://github.com/ugiordan/architecture-analyzer)**
 
 ## Features
 
@@ -92,9 +92,9 @@ graph LR
 ## Installation
 
 ```bash
-git clone https://github.com/ugiordan/rhoai-architecture-analyzer.git
-cd rhoai-architecture-analyzer
-go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
+git clone https://github.com/ugiordan/architecture-analyzer.git
+cd architecture-analyzer
+go build -o arch-analyzer ./cmd/arch-analyzer/
 ```
 
 ## Usage
@@ -102,7 +102,7 @@ go build -o rhoai-analyzer ./cmd/rhoai-analyzer/
 ### Analyze a repository (extract + render)
 
 ```bash
-./rhoai-analyzer analyze /path/to/repo --output-dir output/
+./arch-analyzer analyze /path/to/repo --output-dir output/
 ```
 
 Produces:
@@ -118,45 +118,45 @@ Produces:
 ### Extract only (no diagrams)
 
 ```bash
-./rhoai-analyzer extract /path/to/repo --output component-architecture.json
+./arch-analyzer extract /path/to/repo --output component-architecture.json
 ```
 
 ### Render diagrams from existing JSON
 
 ```bash
-./rhoai-analyzer render component-architecture.json --output-dir diagrams/
-./rhoai-analyzer render component-architecture.json --formats rbac,component
+./arch-analyzer render component-architecture.json --output-dir diagrams/
+./arch-analyzer render component-architecture.json --formats rbac,component
 ```
 
 ### Code graph security scan
 
 ```bash
-./rhoai-analyzer scan /path/to/repo --format json --output findings.json
-./rhoai-analyzer scan /path/to/repo --format sarif --output findings.sarif
+./arch-analyzer scan /path/to/repo --format json --output findings.json
+./arch-analyzer scan /path/to/repo --format sarif --output findings.sarif
 ```
 
 ### Full analysis (architecture + code graph + schemas)
 
 ```bash
-./rhoai-analyzer full-analysis /path/to/repo --output-dir output/
+./arch-analyzer full-analysis /path/to/repo --output-dir output/
 ```
 
 ### CRD contract validation
 
 ```bash
 # Extract schemas as baseline
-./rhoai-analyzer extract-schema /path/to/repo --output-dir contracts/schemas
+./arch-analyzer extract-schema /path/to/repo --output-dir contracts/schemas
 
 # Validate changes against baseline
-./rhoai-analyzer validate /path/to/repo --contracts-dir contracts
+./arch-analyzer validate /path/to/repo --contracts-dir contracts
 ```
 
 ### Aggregate multiple components
 
 ```bash
-./rhoai-analyzer analyze /path/to/repo-a --output-dir results/repo-a
-./rhoai-analyzer analyze /path/to/repo-b --output-dir results/repo-b
-./rhoai-analyzer aggregate results/ --output-dir platform-output/
+./arch-analyzer analyze /path/to/repo-a --output-dir results/repo-a
+./arch-analyzer analyze /path/to/repo-b --output-dir results/repo-b
+./arch-analyzer aggregate results/ --output-dir platform-output/
 ```
 
 ## Extractors
@@ -209,8 +209,8 @@ This catches real bugs like [opendatahub-io/data-science-pipelines-operator#992]
 ## Project Structure
 
 ```
-rhoai-architecture-analyzer/
-  cmd/rhoai-analyzer/
+architecture-analyzer/
+  cmd/arch-analyzer/
     main.go              # CLI entry point with 11 subcommands
   pkg/
     extractor/           # 17 architecture extractors
@@ -248,11 +248,11 @@ go test ./...
 
 ## Documentation
 
-Full documentation is published at **[ugiordan.github.io/rhoai-architecture-analyzer](https://ugiordan.github.io/rhoai-architecture-analyzer)** and covers installation, guides, CLI reference, architecture, and contributing.
+Full documentation is published at **[ugiordan.github.io/architecture-analyzer](https://ugiordan.github.io/architecture-analyzer)** and covers installation, guides, CLI reference, architecture, and contributing.
 
 ## GitHub Actions
 
-- `analyze-all.yml`: runs weekly (Monday 06:00 UTC) or on manual dispatch, analyzes all RHOAI repos and uploads artifacts
+- `analyze-all.yml`: runs weekly (Monday 06:00 UTC) or on manual dispatch, analyzes all configured platform repos and uploads artifacts
 - `extract-schemas.yml`: extracts CRD schemas weekly and opens automated PRs for changes
 - `validate-contracts.yml`: validates CRD contract changes on PRs to the `contracts/` directory
 - `docs.yml`: deploys documentation to GitHub Pages on pushes to main

@@ -1,6 +1,6 @@
 package query
 
-import "github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+import "github.com/ugiordan/architecture-analyzer/pkg/graph"
 
 // Finding represents a security issue detected by a query rule.
 type Finding struct {

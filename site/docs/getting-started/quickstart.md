@@ -5,7 +5,7 @@ After [installing](installation.md) the analyzer, here's how to analyze your fir
 ## Analyze a repository
 
 ```bash
-rhoai-analyzer analyze /path/to/your/repo --output-dir output/
+arch-analyzer analyze /path/to/your/repo --output-dir output/
 ```
 
 This runs all 17 extractors and all 7 renderers, producing:
@@ -26,7 +26,7 @@ output/
 ## Run a security scan
 
 ```bash
-rhoai-analyzer scan /path/to/your/repo --format sarif --output findings.sarif
+arch-analyzer scan /path/to/your/repo --format sarif --output findings.sarif
 ```
 
 Builds a code property graph from Go source files and runs security queries: taint analysis, SQL injection detection, hardcoded secrets, missing authentication.
@@ -34,7 +34,7 @@ Builds a code property graph from Go source files and runs security queries: tai
 ## Full analysis (everything at once)
 
 ```bash
-rhoai-analyzer full-analysis /path/to/your/repo --output-dir output/
+arch-analyzer full-analysis /path/to/your/repo --output-dir output/
 ```
 
 Runs architecture extraction, diagram rendering, code graph scanning, and schema extraction in one pass.

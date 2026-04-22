@@ -9,7 +9,7 @@ type ExtractOptions struct {
 	ModulePrefixes []string
 }
 
-// DefaultModulePrefixes returns the standard internal module prefixes for RHOAI.
+// DefaultModulePrefixes returns the standard internal module prefixes for the analyzed platform.
 func DefaultModulePrefixes() []string {
 	return []string{
 		"github.com/opendatahub-io/",

@@ -3,8 +3,8 @@ package domains
 import (
 	"fmt"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/query"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/query"
 )
 
 // DomainResult holds the output from running a single domain analyzer.

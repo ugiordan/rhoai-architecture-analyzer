@@ -4,7 +4,7 @@ hide:
   - toc
 ---
 
-# RHOAI Architecture Analyzer
+# Architecture Analyzer
 
 <div style="text-align: center; padding: 40px 0;">
   <p style="font-size: 1.4em; color: #666;">
@@ -13,13 +13,13 @@ hide:
   </p>
   <p>
     <a href="getting-started/installation/" class="md-button md-button--primary">Get Started</a>
-    <a href="https://github.com/ugiordan/rhoai-architecture-analyzer" class="md-button">GitHub</a>
+    <a href="https://github.com/ugiordan/architecture-analyzer" class="md-button">GitHub</a>
   </p>
 </div>
 
 ## What Is This?
 
-A Go-based static analysis tool that extracts architecture data from Kubernetes/OpenShift component repositories and produces diagrams, security reports, and code property graphs. Designed for the OpenShift AI (RHOAI) ecosystem but applicable to any Kubernetes operator project.
+A Go-based static analysis tool that extracts architecture data from Kubernetes/OpenShift component repositories and produces diagrams, security reports, and code property graphs. Works with any Go-based K8s operator ecosystem. Currently deployed for OpenShift AI (RHOAI) and Open Data Hub (ODH) analysis.
 
 Zero LLM involvement. Deterministic, reproducible, and free to run.
 

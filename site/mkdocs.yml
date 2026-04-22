@@ -1,7 +1,7 @@
-site_name: RHOAI Architecture Analyzer
-site_url: https://ugiordan.github.io/rhoai-architecture-analyzer
-repo_url: https://github.com/ugiordan/rhoai-architecture-analyzer
-repo_name: ugiordan/rhoai-architecture-analyzer
+site_name: Architecture Analyzer
+site_url: https://ugiordan.github.io/architecture-analyzer
+repo_url: https://github.com/ugiordan/architecture-analyzer
+repo_name: ugiordan/architecture-analyzer
 edit_uri: edit/main/site/docs/
 
 theme:
@@ -71,10 +71,6 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  # ODH Platform section (populated by GH Actions analyze-all workflow)
-  # - ODH Platform:
-  #   - Overview: odh-platform/index.md
-  #   - ... (auto-generated)
   - RHOAI Platform:
     - Overview: rhoai-platform/index.md
     - Platform Architecture: rhoai-platform/platform-architecture.md

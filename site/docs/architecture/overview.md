@@ -1,6 +1,6 @@
 # Design Overview
 
-The RHOAI Architecture Analyzer is a deterministic static analysis tool. No LLM involvement, no non-determinism, no API calls. It reads a repository and produces structured architecture data.
+The Architecture Analyzer is a deterministic static analysis tool. No LLM involvement, no non-determinism, no API calls. It reads a repository and produces structured architecture data.
 
 ## Core pipeline
 
@@ -36,7 +36,7 @@ flowchart TB
 ### Why static analysis?
 
 - **Deterministic**: Same input always produces same output. No model variability.
-- **Fast**: Full analysis of a typical RHOAI repo takes under 10 seconds.
+- **Fast**: Full analysis of a typical K8s operator repo takes under 10 seconds.
 - **Free**: No API calls, no token consumption. Run as often as you want.
 - **Source-traceable**: Every fact in the output can be traced back to a specific file and line.
 

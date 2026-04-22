@@ -6,16 +6,16 @@ The analyzer builds a code property graph (CPG) from Go source code and runs sec
 
 ```bash
 # JSON output
-rhoai-analyzer scan /path/to/repo --format json --output findings.json
+arch-analyzer scan /path/to/repo --format json --output findings.json
 
 # SARIF output (for GitHub Code Scanning, VS Code, etc.)
-rhoai-analyzer scan /path/to/repo --format sarif --output findings.sarif
+arch-analyzer scan /path/to/repo --format sarif --output findings.sarif
 
 # With architecture data enrichment
-rhoai-analyzer scan /path/to/repo --with-arch /path/to/component-architecture.json
+arch-analyzer scan /path/to/repo --with-arch /path/to/component-architecture.json
 
 # Run specific domains only
-rhoai-analyzer scan /path/to/repo --domains security,testing
+arch-analyzer scan /path/to/repo --domains security,testing
 ```
 
 ## Security queries
@@ -62,10 +62,10 @@ When `--with-arch` is provided, the CPG is enriched with architecture data. This
 
 ```bash
 # First extract architecture
-rhoai-analyzer extract /path/to/repo --output arch.json
+arch-analyzer extract /path/to/repo --output arch.json
 
 # Then scan with architecture context
-rhoai-analyzer scan /path/to/repo --with-arch arch.json --format sarif --output findings.sarif
+arch-analyzer scan /path/to/repo --with-arch arch.json --format sarif --output findings.sarif
 ```
 
 ## SARIF integration
@@ -87,10 +87,10 @@ Beyond security, two additional domains are available:
 
 ```bash
 # List all registered domains
-rhoai-analyzer domains
+arch-analyzer domains
 
 # Run specific domains
-rhoai-analyzer scan /path/to/repo --domains security,testing
+arch-analyzer scan /path/to/repo --domains security,testing
 ```
 
 See [Domains reference](../reference/domains.md) for full details.

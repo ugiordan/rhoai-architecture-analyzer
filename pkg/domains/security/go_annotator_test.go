@@ -3,7 +3,7 @@ package security
 import (
 	"testing"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 func TestGoAnnotatorHandlesAdmission(t *testing.T) {

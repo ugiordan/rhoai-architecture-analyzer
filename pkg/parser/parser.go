@@ -1,6 +1,6 @@
 package parser
 
-import "github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+import "github.com/ugiordan/architecture-analyzer/pkg/graph"
 
 // ParseResult holds the nodes and edges extracted from a single source file.
 type ParseResult struct {

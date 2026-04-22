@@ -1,7 +1,7 @@
 package linker
 
 import (
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 type StorageLinker struct{}

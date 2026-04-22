@@ -3,7 +3,7 @@ package linker
 import (
 	"testing"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 func TestStorageLinkerLinksWriteToRead(t *testing.T) {

@@ -130,7 +130,7 @@ func renderDependencySection(b *strings.Builder, data map[string]interface{}) {
 
 	internalODH := getSlice(deps, "internal_odh")
 	if len(internalODH) > 0 {
-		b.WriteString("### Internal RHOAI Dependencies\n\n")
+		b.WriteString("### Internal Platform Dependencies\n\n")
 		b.WriteString("| Component | Interaction |\n")
 		b.WriteString("|-----------|-------------|\n")
 		for _, dep := range internalODH {

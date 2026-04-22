@@ -3,7 +3,7 @@ package query
 import (
 	"testing"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 func TestQueryMissingAuth(t *testing.T) {

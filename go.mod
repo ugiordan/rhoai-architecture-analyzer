@@ -1,4 +1,4 @@
-module github.com/ugiordan/rhoai-architecture-analyzer
+module github.com/ugiordan/architecture-analyzer
 
 go 1.25.0
 

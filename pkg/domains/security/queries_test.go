@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/arch"
-	"github.com/ugiordan/rhoai-architecture-analyzer/pkg/graph"
+	"github.com/ugiordan/architecture-analyzer/pkg/arch"
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
 func TestQueryWebhookMissingUpdate(t *testing.T) {
