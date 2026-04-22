@@ -231,8 +231,7 @@ jobs:
             git fetch origin snapshots
             git worktree add "$SNAP_DIR" origin/snapshots
           else
-            git worktree add --orphan "$SNAP_DIR" snapshots
-            (cd "$SNAP_DIR" && git rm -rf . 2>/dev/null || true)
+            git worktree add --orphan -b snapshots "$SNAP_DIR"
           fi
 
           # Copy versioned output
