@@ -1,11 +1,11 @@
 # model-registry-operator
 
-> **Architecture snapshot: 2026-04-22** (2026-04-22)
+> **Architecture snapshot: 2026-04-23** (2026-04-23)
 
 
 **Repository:** opendatahub-io/model-registry-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-22T21:27:59Z
+**Extracted:** 2026-04-23T08:07:31Z
 
 ## Summary
 

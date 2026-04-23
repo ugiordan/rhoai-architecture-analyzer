@@ -6,11 +6,11 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 
 | Type | GVK | Source |
 |------|-----|--------|
-| For | api/v1beta1/Workspace | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:469`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L469) |
-| For | api/v1beta1/WorkspaceKind | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspacekind_controller.go:175`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/packages/notebooks/upstream/workspaces/controller/internal/controller/workspacekind_controller.go#L175) |
-| Owns | /v1/Service | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:471`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L471) |
-| Owns | apps/v1/StatefulSet | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:470`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L470) |
-| Owns | networking/v1/VirtualService | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:475`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L475) |
+| For | api/v1beta1/Workspace | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:469`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L469) |
+| For | api/v1beta1/WorkspaceKind | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspacekind_controller.go:175`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/internal/controller/workspacekind_controller.go#L175) |
+| Owns | /v1/Service | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:471`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L471) |
+| Owns | apps/v1/StatefulSet | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:470`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L470) |
+| Owns | networking/v1/VirtualService | [`packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go:475`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/internal/controller/workspace_controller.go#L475) |
 
 ## Reconciliation Flow
 
@@ -48,7 +48,7 @@ ConfigMaps and Helm values that control this component's runtime behavior.
 
 | Name | Data Keys | Source |
 |------|-----------|--------|
-| federation-config | module-federation-config.json | [`manifests/modular-architecture/federation-configmap.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/modular-architecture/federation-configmap.yaml) |
-| federation-config | module-federation-config.json | [`manifests/rhoai/shared/base/federation-configmap.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/rhoai/shared/base/federation-configmap.yaml) |
-| model-registry-ui-config | images-jobs-async-upload | [`manifests/common/model-registry/configmap.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/897ffaaae3cf31e22fcc303f38c3fb4ee0c522be/manifests/common/model-registry/configmap.yaml) |
+| federation-config | module-federation-config.json | [`manifests/modular-architecture/federation-configmap.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/modular-architecture/federation-configmap.yaml) |
+| federation-config | module-federation-config.json | [`manifests/rhoai/shared/base/federation-configmap.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/rhoai/shared/base/federation-configmap.yaml) |
+| model-registry-ui-config | images-jobs-async-upload | [`manifests/common/model-registry/configmap.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/common/model-registry/configmap.yaml) |
 

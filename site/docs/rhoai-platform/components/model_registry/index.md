@@ -1,11 +1,11 @@
 # model-registry
 
-> **Architecture snapshot: 2026-04-22** (2026-04-22)
+> **Architecture snapshot: 2026-04-23** (2026-04-23)
 
 
 **Repository:** kubeflow/model-registry  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-22T20:52:47Z
+**Extracted:** 2026-04-23T07:32:00Z
 
 ## Summary
 
@@ -54,8 +54,8 @@ No CRDs defined.
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
 | k8s.io/api | v0.34.4 |
-| k8s.io/api | v0.35.3 |
-| k8s.io/apimachinery | v0.35.3 |
+| k8s.io/api | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.2 |
 | k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.2 |

@@ -1,11 +1,11 @@
 # llm-d-inference-scheduler
 
-> **Architecture snapshot: 2026-04-22** (2026-04-22)
+> **Architecture snapshot: 2026-04-23** (2026-04-23)
 
 
 **Repository:** llm-d/llm-d-inference-scheduler  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-22T20:52:43Z
+**Extracted:** 2026-04-23T07:34:32Z
 
 ## Summary
 
