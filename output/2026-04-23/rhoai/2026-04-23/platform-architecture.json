@@ -1,5 +1,5 @@
 {
-  "aggregated_at": "2026-04-23T08:42:31Z",
+  "aggregated_at": "2026-04-23T14:46:21Z",
   "component_count": 20,
   "component_data": [
     {
@@ -629,7 +629,7 @@
           "type": "object-storage"
         }
       ],
-      "extracted_at": "2026-04-23T07:33:23Z",
+      "extracted_at": "2026-04-23T12:56:43Z",
       "helm": {},
       "http_endpoints": [
         {
@@ -2780,7 +2780,7 @@
           "user": "65532:65532"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:02Z",
+      "extracted_at": "2026-04-23T13:50:55Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -4469,7 +4469,7 @@
           "type": "object-storage"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:02Z",
+      "extracted_at": "2026-04-23T12:55:51Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -5961,7 +5961,7 @@
     },
     {
       "analyzer_version": "0.2.0",
-      "commit_sha": "0e7052dc282e5bd47e0a4588351bd63daa5791b2",
+      "commit_sha": "d4e0d1649f0356cf8416a916e62efd431153d51b",
       "component": "distributed-workloads",
       "configmaps": [],
       "controller_watches": [],
@@ -6455,7 +6455,7 @@
           "type": "object-storage"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:12Z",
+      "extracted_at": "2026-04-23T12:57:30Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -6474,7 +6474,7 @@
     },
     {
       "analyzer_version": "0.2.0",
-      "commit_sha": "791bb966d446f159108dcaf47df7ba2da9f1b5d3",
+      "commit_sha": "83d9ed0e5bab0acd97c3dae0808d9d02abcf5d93",
       "component": "eval-hub",
       "configmaps": [],
       "controller_watches": [],
@@ -6531,7 +6531,7 @@
           },
           {
             "module": "github.com/jackc/pgx/v5",
-            "version": "v5.9.1"
+            "version": "v5.9.2"
           },
           {
             "module": "github.com/prometheus/client_golang",
@@ -6699,7 +6699,7 @@
           "type": "object-storage"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:06Z",
+      "extracted_at": "2026-04-23T13:51:08Z",
       "helm": {},
       "http_endpoints": [
         {
@@ -6863,7 +6863,7 @@
           "user": "orchestr8"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:23Z",
+      "extracted_at": "2026-04-23T12:55:47Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -8574,7 +8574,7 @@
           "type": "database"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:03Z",
+      "extracted_at": "2026-04-23T13:50:55Z",
       "helm": {
         "chart_name": "kubernetes",
         "chart_version": "7.14.1"
@@ -9459,7 +9459,7 @@
           "user": ""
         }
       ],
-      "extracted_at": "2026-04-23T07:32:02Z",
+      "extracted_at": "2026-04-23T12:55:51Z",
       "helm": {},
       "http_endpoints": [
         {
@@ -10041,7 +10041,7 @@
           "user": "1001:0"
         }
       ],
-      "extracted_at": "2026-04-23T07:34:02Z",
+      "extracted_at": "2026-04-23T12:56:02Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -10520,7 +10520,7 @@
           "user": "1001"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:06Z",
+      "extracted_at": "2026-04-23T12:55:46Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -12064,7 +12064,7 @@
           "user": "65532:65532"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:00Z",
+      "extracted_at": "2026-04-23T12:56:10Z",
       "helm": {},
       "http_endpoints": [
         {
@@ -12615,10 +12615,10 @@
           "source": "config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml",
           "validation_rules": [
             "!(has(self.oauthProxy) \u0026\u0026 has(self.kubeRBACProxy))",
-            "has(self.tlsCertificateSecret) == has(self.tlsKeySecret)",
             "has(self.generateDeployment) \u0026\u0026 self.generateDeployment ? true : (size(self.host) \u003e 0 || size(self.hostAddress) \u003e 0)",
             "has(self.database) \u0026\u0026 size(self.database) \u003e 0 ? has(self.username) \u0026\u0026 size(self.username) \u003e 0 : true",
             "!(has(self.generateDeployment) \u0026\u0026 self.generateDeployment) || ((!has(self.host) || size(self.host) == 0) \u0026\u0026 (!has(self.hostAddress) || size(self.hostAddress) == 0))",
+            "has(self.tlsCertificateSecret) == has(self.tlsKeySecret)",
             "has(self.tlsCertificateSecret) == has(self.tlsKeySecret)"
           ],
           "version": "v1beta1"
@@ -12960,7 +12960,7 @@
           "user": "65532:65532"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:02Z",
+      "extracted_at": "2026-04-23T12:57:51Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -14324,7 +14324,7 @@
           "user": "1000"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:00Z",
+      "extracted_at": "2026-04-23T12:57:08Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -15181,7 +15181,7 @@
           "type": "object-storage"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:04Z",
+      "extracted_at": "2026-04-23T12:55:52Z",
       "helm": {},
       "http_endpoints": [
         {
@@ -15412,7 +15412,7 @@
     },
     {
       "analyzer_version": "0.2.0",
-      "commit_sha": "cfc8964536bf8283ffee47159bc24adcd76a6e7b",
+      "commit_sha": "f557413a87d49b17c9b2bc60718feebbe35493a9",
       "component": "models-as-a-service",
       "configmaps": [],
       "controller_watches": [
@@ -15501,7 +15501,7 @@
           },
           {
             "module": "github.com/jackc/pgx/v5",
-            "version": "v5.7.6"
+            "version": "v5.9.0"
           },
           {
             "module": "github.com/kserve/kserve",
@@ -15927,7 +15927,7 @@
           "user": "1001"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:00Z",
+      "extracted_at": "2026-04-23T12:56:05Z",
       "helm": {},
       "http_endpoints": [
         {
@@ -16678,7 +16678,7 @@
     },
     {
       "analyzer_version": "0.2.0",
-      "commit_sha": "1f6d7cc521b2fe36ee059dbda82abdda7d04efba",
+      "commit_sha": "39663c34cbd55f0f228e28bb74d99c73bf34332c",
       "component": "notebooks",
       "configmaps": [],
       "controller_watches": [],
@@ -18076,7 +18076,7 @@
           "user": ""
         }
       ],
-      "extracted_at": "2026-04-23T07:32:02Z",
+      "extracted_at": "2026-04-23T12:55:43Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -18224,7 +18224,7 @@
     },
     {
       "analyzer_version": "0.2.0",
-      "commit_sha": "3b4aadf6df26594a6ba5aa2372639f73ab42881f",
+      "commit_sha": "b20d14904db496389245de62e764f6000b619f18",
       "component": "odh-dashboard",
       "configmaps": [
         {
@@ -19179,7 +19179,7 @@
           "user": "1001:0"
         },
         {
-          "base_image": "registry.access.redhat.com/ubi9/nodejs-22@sha256:7b6c9b51d5ce751f8aa22c403ac132be068f8a131f53d547d097158420fb4032",
+          "base_image": "registry.access.redhat.com/ubi9/nodejs-22@sha256:d4a687c72950936d298c98d37bd1be962449af336ebd6c8aa00b94971e6894c0",
           "exposed_ports": [],
           "issues": [],
           "path": "Dockerfile.konflux",
@@ -19334,7 +19334,7 @@
           "user": "65532:65532"
         },
         {
-          "base_image": "registry.access.redhat.com/ubi9/nodejs-22@sha256:7b6c9b51d5ce751f8aa22c403ac132be068f8a131f53d547d097158420fb4032",
+          "base_image": "registry.access.redhat.com/ubi9/nodejs-22@sha256:d4a687c72950936d298c98d37bd1be962449af336ebd6c8aa00b94971e6894c0",
           "exposed_ports": [],
           "issues": [],
           "path": "Dockerfile.konflux.sealights",
@@ -19812,7 +19812,7 @@
           "type": "object-storage"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:20Z",
+      "extracted_at": "2026-04-23T12:56:04Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [
@@ -21671,7 +21671,7 @@
           "user": "root"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:20Z",
+      "extracted_at": "2026-04-23T12:56:03Z",
       "helm": {},
       "http_endpoints": [
         {
@@ -23228,7 +23228,7 @@
           "user": "1001"
         }
       ],
-      "extracted_at": "2026-04-23T07:32:28Z",
+      "extracted_at": "2026-04-23T12:58:09Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -24431,7 +24431,7 @@
           "user": ""
         }
       ],
-      "extracted_at": "2026-04-23T07:33:48Z",
+      "extracted_at": "2026-04-23T12:58:07Z",
       "helm": {},
       "http_endpoints": [],
       "ingress_routing": [],
@@ -25408,10 +25408,10 @@
       "source": "config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml",
       "validation_rules": [
         "!(has(self.oauthProxy) \u0026\u0026 has(self.kubeRBACProxy))",
-        "has(self.tlsCertificateSecret) == has(self.tlsKeySecret)",
         "has(self.generateDeployment) \u0026\u0026 self.generateDeployment ? true : (size(self.host) \u003e 0 || size(self.hostAddress) \u003e 0)",
         "has(self.database) \u0026\u0026 size(self.database) \u003e 0 ? has(self.username) \u0026\u0026 size(self.username) \u003e 0 : true",
         "!(has(self.generateDeployment) \u0026\u0026 self.generateDeployment) || ((!has(self.host) || size(self.host) == 0) \u0026\u0026 (!has(self.hostAddress) || size(self.hostAddress) == 0))",
+        "has(self.tlsCertificateSecret) == has(self.tlsKeySecret)",
         "has(self.tlsCertificateSecret) == has(self.tlsKeySecret)"
       ],
       "version": "v1beta1"
