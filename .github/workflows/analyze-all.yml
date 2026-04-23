@@ -14,7 +14,9 @@ on:
         required: false
         default: ''
 
-concurrency: snapshots
+concurrency:
+  group: snapshots
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -285,5 +287,5 @@ jobs:
             echo "Only $COUNT date-stamped snapshots, nothing to prune (keep $KEEP)"
           fi
 
-          cd /tmp
+          cd "$GITHUB_WORKSPACE"
           git worktree remove "$SNAP_DIR" --force
