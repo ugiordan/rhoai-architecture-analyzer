@@ -1,0 +1,78 @@
+graph TD
+    %% CRD ownership map
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff
+    classDef crd fill:#e74c3c,stroke:#c0392b,color:#fff
+
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller -->|"defines"| crd_1{{"Account"}}
+    class crd_1 crd
+    codeflare_operator["codeflare-operator"]
+    class codeflare_operator component
+    codeflare_operator -->|"defines"| crd_2{{"AppWrapper"}}
+    class crd_2 crd
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving -->|"defines"| crd_3{{"ClusterServingRuntime"}}
+    class crd_3 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_4{{"DataSciencePipelinesApplication"}}
+    class crd_4 crd
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving -->|"defines"| crd_5{{"InferenceService"}}
+    class crd_5 crd
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator -->|"defines"| crd_6{{"JAXJob"}}
+    class crd_6 crd
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llama_stack_k8s_operator -->|"defines"| crd_7{{"LlamaStackDistribution"}}
+    class crd_7 crd
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator -->|"defines"| crd_8{{"MPIJob"}}
+    class crd_8 crd
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry_operator -->|"defines"| crd_9{{"ModelRegistry"}}
+    class crd_9 crd
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator -->|"defines"| crd_10{{"PaddleJob"}}
+    class crd_10 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_11{{"Pipeline"}}
+    class crd_11 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_12{{"PipelineVersion"}}
+    class crd_12 crd
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving -->|"defines"| crd_13{{"Predictor"}}
+    class crd_13 crd
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator -->|"defines"| crd_14{{"PyTorchJob"}}
+    class crd_14 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_15{{"ScheduledWorkflow"}}
+    class crd_15 crd
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving -->|"defines"| crd_16{{"ServingRuntime"}}
+    class crd_16 crd
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator -->|"defines"| crd_17{{"TFJob"}}
+    class crd_17 crd
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator -->|"defines"| crd_18{{"XGBoostJob"}}
+    class crd_18 crd

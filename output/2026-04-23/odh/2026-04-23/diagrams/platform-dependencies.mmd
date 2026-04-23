@@ -1,0 +1,59 @@
+graph LR
+    %% Platform-wide dependency graph
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff,stroke-width:2px
+    classDef gomod fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef crdwatch fill:#e74c3c,stroke:#c0392b,color:#fff
+
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    codeflare_operator["codeflare-operator"]
+    class codeflare_operator component
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    distributed_workloads["distributed-workloads"]
+    class distributed_workloads component
+    eval_hub["eval-hub"]
+    class eval_hub component
+    fms_guardrails_orchestrator["fms-guardrails-orchestrator"]
+    class fms_guardrails_orchestrator component
+    kube_auth_proxy["kube-auth-proxy"]
+    class kube_auth_proxy component
+    kube_rbac_proxy["kube-rbac-proxy"]
+    class kube_rbac_proxy component
+    kubeflow["kubeflow"]
+    class kubeflow component
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llm_d_inference_scheduler["llm-d-inference-scheduler"]
+    class llm_d_inference_scheduler component
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry["model-registry"]
+    class model_registry component
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    models_as_a_service["models-as-a-service"]
+    class models_as_a_service component
+    notebooks["notebooks"]
+    class notebooks component
+    odh_dashboard["odh-dashboard"]
+    class odh_dashboard component
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    training_operator["training-operator"]
+    class training_operator component
+
+    codeflare_operator -.->|"go-module"| opendatahub_operator
+    kubeflow -.->|"go-module"| data_science_pipelines_operator
+    models_as_a_service -.->|"go-module"| kserve
+    odh_dashboard -.->|"go-module"| llama_stack_k8s_operator
+    odh_dashboard -.->|"go-module"| mlflow_go
+    odh_model_controller -.->|"go-module"| kserve
+    odh_model_controller -->|"watches ServingRuntime"| modelmesh_serving
+    odh_model_controller -->|"watches InferenceService"| modelmesh_serving
+    kube_auth_proxy -.->|"uses-image"| kube_rbac_proxy
+    kubeflow -.->|"uses-image"| kube_rbac_proxy
+    llama_stack_k8s_operator -.->|"uses-image"| kube_rbac_proxy
+    modelmesh_serving -.->|"uses-image"| kube_rbac_proxy
+    odh_dashboard -.->|"uses-image"| kube_rbac_proxy

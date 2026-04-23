@@ -1,0 +1,28 @@
+{
+  "version": "2026-04-23",
+  "timestamp": "2026-04-23T08:42:31Z",
+  "analyzer_version": "0.2.0",
+  "repos_analyzed": {
+    "argoproj/argo-workflows": "003ed2b35a398772211441cb7c866c51f6f87e2d",
+    "brancz/kube-rbac-proxy": "c3546ff49b9aa1fb9cc239265c1fe64c8da7cc3e",
+    "eval-hub/eval-hub": "791bb966d446f159108dcaf47df7ba2da9f1b5d3",
+    "kserve/modelmesh-serving": "794cbf39ff585034ae3ed8b73953e65b2524a738",
+    "kubeflow/model-registry": "d752663b261d39f05dd6a3f44787df82e07ec29d",
+    "kubeflow/training-operator": "b24716dff34fc3ac4797b6387fc1e11da5959820",
+    "llamastack/llama-stack-k8s-operator": "498ad3f2ac59e93ea7c1ebee43e4c9b27727ddea",
+    "llm-d/llm-d-inference-scheduler": "48f0b01d833261a57cf446164ca77e685d118b71",
+    "opendatahub-io/data-science-pipelines-operator": "51766c4e9fd2693250606df441618494db7a8fe3",
+    "opendatahub-io/distributed-workloads": "0e7052dc282e5bd47e0a4588351bd63daa5791b2",
+    "opendatahub-io/kube-auth-proxy": "d346d92527d84ad2f743bf9dffa5da324521a04d",
+    "opendatahub-io/model-registry-operator": "c81ec8b48c8bd3fdd5ab30ddfdcd745f09ab4cab",
+    "opendatahub-io/odh-model-controller": "69feed504f62ac54965560e58f0c054993459c34",
+    "opendatahub-io/opendatahub-operator": "fc3568b08335435af8f5ca135376f7793c260b43",
+    "project-codeflare/codeflare-operator": "3febc27fff73efde4361d9107becf5a7647e2276",
+    "red-hat-data-services/fms-guardrails-orchestrator": "5be5f0dcca75fbcf02fdcf59d5315a0a4d28b7e7",
+    "red-hat-data-services/kubeflow": "10c4ed337b2693b59411f379facb388050d10f28",
+    "red-hat-data-services/models-as-a-service": "cfc8964536bf8283ffee47159bc24adcd76a6e7b",
+    "red-hat-data-services/notebooks": "1f6d7cc521b2fe36ee059dbda82abdda7d04efba",
+    "red-hat-data-services/odh-dashboard": "3b4aadf6df26594a6ba5aa2372639f73ab42881f"
+  },
+  "platform": "rhoai"
+}
