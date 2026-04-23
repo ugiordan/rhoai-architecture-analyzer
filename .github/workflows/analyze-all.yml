@@ -66,7 +66,7 @@ jobs:
     needs: parse-config
     if: needs.parse-config.outputs.run-odh == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -81,7 +81,7 @@ jobs:
       - name: Analyze ${{ matrix.repo }}
         run: |
           mkdir -p results
-          timeout 900 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
+          timeout --kill-after=30 1500 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
       - name: Upload result
         if: always()
         uses: actions/upload-artifact@v7
@@ -95,7 +95,7 @@ jobs:
     needs: parse-config
     if: needs.parse-config.outputs.run-rhoai == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
@@ -110,7 +110,7 @@ jobs:
       - name: Analyze ${{ matrix.repo }}
         run: |
           mkdir -p results
-          timeout 900 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
+          timeout --kill-after=30 1500 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
       - name: Upload result
         if: always()
         uses: actions/upload-artifact@v7
