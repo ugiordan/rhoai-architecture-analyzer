@@ -79,9 +79,11 @@ jobs:
       - name: Build analyzer
         run: go build -o arch-analyzer ./cmd/arch-analyzer/
       - name: Analyze ${{ matrix.repo }}
+        timeout-minutes: 30
+        continue-on-error: true
         run: |
           mkdir -p results
-          timeout --kill-after=30 1500 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
+          bash scripts/analyze-repo.sh "${{ matrix.repo }}" results
       - name: Upload result
         if: always()
         uses: actions/upload-artifact@v7
@@ -108,9 +110,11 @@ jobs:
       - name: Build analyzer
         run: go build -o arch-analyzer ./cmd/arch-analyzer/
       - name: Analyze ${{ matrix.repo }}
+        timeout-minutes: 30
+        continue-on-error: true
         run: |
           mkdir -p results
-          timeout --kill-after=30 1500 bash scripts/analyze-repo.sh "${{ matrix.repo }}" results || echo "[!] Failed or timed out: ${{ matrix.repo }}"
+          bash scripts/analyze-repo.sh "${{ matrix.repo }}" results
       - name: Upload result
         if: always()
         uses: actions/upload-artifact@v7
