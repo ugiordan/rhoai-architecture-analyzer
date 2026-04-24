@@ -39,12 +39,24 @@ type crdDoc struct {
 	} `yaml:"spec"`
 }
 
+// looksLikeTemplate returns true if the file content contains Go template
+// directives ({{ ... }}), which means it's a Helm template, not raw YAML.
+func looksLikeTemplate(data []byte) bool {
+	return bytes.Contains(data, []byte("{{"))
+}
+
 // ExtractSchemasFromCRD parses a CRD YAML file (possibly multi-doc) and returns
 // the openAPIV3Schema for each version found.
 func ExtractSchemasFromCRD(path string) ([]SchemaInfo, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
+	}
+
+	// Skip Helm template files: they contain Go template directives that
+	// aren't valid YAML and can never be CRD definitions.
+	if looksLikeTemplate(data) {
+		return nil, nil
 	}
 
 	var results []SchemaInfo
@@ -57,7 +69,7 @@ func ExtractSchemasFromCRD(path string) ([]SchemaInfo, error) {
 		}
 		if err != nil {
 			log.Printf("warning: failed to decode document in %s: %v", path, err)
-			continue
+			break
 		}
 		if doc.Kind != "CustomResourceDefinition" {
 			continue
@@ -177,6 +189,10 @@ func scanDirDedup(d string, seen map[string]bool) ([]SchemaInfo, error) {
 			return nil
 		}
 		if info.IsDir() {
+			// Skip Helm template directories: rendered templates, not raw CRDs.
+			if filepath.Base(path) == "templates" {
+				return filepath.SkipDir
+			}
 			return nil
 		}
 		ext := filepath.Ext(path)
