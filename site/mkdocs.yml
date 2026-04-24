@@ -497,6 +497,7 @@ nav:
     - CRD Contract Validation: guides/crd-validation.md
     - Platform Aggregation: guides/platform-aggregation.md
     - CI Integration: guides/ci-integration.md
+    - Skill Integration: guides/skill-integration.md
   - Reference:
     - CLI Commands: reference/cli-commands.md
     - Extractors: reference/extractors.md
