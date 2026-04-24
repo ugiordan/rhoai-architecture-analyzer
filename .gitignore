@@ -10,3 +10,9 @@ site/site/
 
 # Binary
 /arch-analyzer
+
+# Worktrees
+.worktrees/
+
+# Internal docs
+docs/superpowers/
