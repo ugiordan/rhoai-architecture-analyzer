@@ -271,6 +271,7 @@ func (tp *TypeScriptParser) extractCallSite(node *sitter.Node, src []byte, file 
 					File:       file,
 					Line:       line,
 					Language:   "typescript",
+					Operation:  op,
 					Properties: map[string]string{"operation": op},
 				}
 				result.DBOperations = append(result.DBOperations, dbOp)
@@ -313,6 +314,7 @@ func (tp *TypeScriptParser) maybeExtractExpressHandler(node *sitter.Node, src []
 	}
 	if route != "" {
 		handler.Properties["route"] = route
+		handler.Route = route
 	}
 	result.HTTPHandlers = append(result.HTTPHandlers, handler)
 }
@@ -410,6 +412,7 @@ func (tp *TypeScriptParser) extractJSXRoute(node *sitter.Node, src []byte, file 
 	}
 	if route != "" {
 		handler.Properties["route"] = route
+		handler.Route = route
 	}
 	if componentName != "" {
 		handler.Properties["component_name"] = componentName

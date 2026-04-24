@@ -61,9 +61,8 @@ func TestTypeScriptParserExpressServer(t *testing.T) {
 	}
 	routes := make(map[string]bool)
 	for _, h := range result.HTTPHandlers {
-		route := h.Properties["route"]
-		routes[route] = true
-		t.Logf("  http handler: %s route=%s", h.Name, route)
+		routes[h.Route] = true
+		t.Logf("  http handler: %s route=%s", h.Name, h.Route)
 	}
 	for _, expected := range []string{"/users", "/search"} {
 		if !routes[expected] {
@@ -76,7 +75,7 @@ func TestTypeScriptParserExpressServer(t *testing.T) {
 		t.Errorf("expected at least 3 DB operations, got %d", len(result.DBOperations))
 	}
 	for _, op := range result.DBOperations {
-		t.Logf("  db op: %s (op=%s)", op.Name, op.Properties["operation"])
+		t.Logf("  db op: %s (op=%s)", op.Name, op.Operation)
 	}
 
 	// Call sites: non-zero
@@ -133,9 +132,8 @@ func TestTypeScriptParserReactComponent(t *testing.T) {
 	}
 	routes := make(map[string]bool)
 	for _, h := range result.HTTPHandlers {
-		route := h.Properties["route"]
-		routes[route] = true
-		t.Logf("  react route: name=%s route=%s component=%s", h.Name, route, h.Properties["component"])
+		routes[h.Route] = true
+		t.Logf("  react route: name=%s route=%s component=%s", h.Name, h.Route, h.Properties["component"])
 	}
 	if !routes["/dashboard"] {
 		t.Errorf("expected route /dashboard not found, got routes: %v", routes)
