@@ -49,10 +49,8 @@ func TestQueryCertAsCA(t *testing.T) {
 		ID: "struct1", Kind: graph.NodeStructLiteral, Name: "x509.Certificate",
 		File: "cert.go", Line: 15,
 		Annotations: map[string]bool{AnnotGeneratesCert: true},
-		Properties: map[string]string{
-			"type":   "x509.Certificate",
-			"fields": "SerialNumber,Subject,IsCA,KeyUsage,DNSNames",
-		},
+		StructType:  "x509.Certificate",
+		FieldNames:  []string{"SerialNumber", "Subject", "IsCA", "KeyUsage", "DNSNames"},
 	}
 	g.AddNode(sl)
 
@@ -71,7 +69,8 @@ func TestQueryUnfilteredCache(t *testing.T) {
 		ID: "struct1", Kind: graph.NodeStructLiteral, Name: "cache.ByObject",
 		File: "cache.go", Line: 10,
 		Annotations: map[string]bool{AnnotConfiguresCache: true},
-		Properties:  map[string]string{"type": "cache.ByObject", "fields": ""},
+		StructType:  "cache.ByObject",
+		FieldNames:  []string{},
 	}
 	g.AddNode(sl)
 
@@ -90,7 +89,8 @@ func TestQueryUnfilteredCacheWithFilter(t *testing.T) {
 		ID: "struct1", Kind: graph.NodeStructLiteral, Name: "cache.ByObject",
 		File: "cache.go", Line: 10,
 		Annotations: map[string]bool{AnnotConfiguresCache: true},
-		Properties:  map[string]string{"type": "cache.ByObject", "fields": "Field,Label"},
+		StructType: "cache.ByObject",
+		FieldNames: []string{"Field", "Label"},
 	}
 	g.AddNode(sl)
 
@@ -291,15 +291,13 @@ func TestQueryUnfilteredCache_WithArchRef(t *testing.T) {
 	}
 
 	sl := &graph.Node{
-		ID:   "sl-byobject",
-		Kind: graph.NodeStructLiteral,
-		Name: "ByObject",
-		File: "pkg/controller/setup.go",
-		Line: 42,
-		Properties: map[string]string{
-			"type":   "cache.ByObject",
-			"fields": "Object",
-		},
+		ID:         "sl-byobject",
+		Kind:       graph.NodeStructLiteral,
+		Name:       "ByObject",
+		File:       "pkg/controller/setup.go",
+		Line:       42,
+		StructType: "cache.ByObject",
+		FieldNames: []string{"Object"},
 		Annotations: map[string]bool{
 			AnnotConfiguresCache: true,
 		},
