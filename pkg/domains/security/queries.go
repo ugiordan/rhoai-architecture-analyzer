@@ -118,9 +118,8 @@ func queryCertAsCA(g *graph.CPG) []query.Finding {
 		if !sl.Annotations[AnnotGeneratesCert] {
 			continue
 		}
-		fields := sl.Properties["fields"]
-		hasIsCA := strings.Contains(fields, "IsCA")
-		hasDNSNames := strings.Contains(fields, "DNSNames") || strings.Contains(fields, "IPAddresses")
+		hasIsCA := containsField(sl.FieldNames, "IsCA")
+		hasDNSNames := containsField(sl.FieldNames, "DNSNames") || containsField(sl.FieldNames, "IPAddresses")
 
 		if hasIsCA && hasDNSNames {
 			findings = append(findings, query.Finding{
@@ -134,6 +133,15 @@ func queryCertAsCA(g *graph.CPG) []query.Finding {
 		}
 	}
 	return findings
+}
+
+func containsField(fields []string, target string) bool {
+	for _, f := range fields {
+		if f == target {
+			return true
+		}
+	}
+	return false
 }
 
 func queryCrossNamespaceSecret(g *graph.CPG) []query.Finding {
@@ -160,12 +168,10 @@ func queryUnfilteredCache(g *graph.CPG) []query.Finding {
 		if !sl.Annotations[AnnotConfiguresCache] {
 			continue
 		}
-		typeName := sl.Properties["type"]
-		if !strings.Contains(typeName, "ByObject") {
+		if !strings.Contains(sl.StructType, "ByObject") {
 			continue
 		}
-		fields := sl.Properties["fields"]
-		hasFilter := strings.Contains(fields, "Field") || strings.Contains(fields, "Label")
+		hasFilter := containsField(sl.FieldNames, "Field") || containsField(sl.FieldNames, "Label")
 		if !hasFilter {
 			findings = append(findings, query.Finding{
 				RuleID:           "CGA-007",
