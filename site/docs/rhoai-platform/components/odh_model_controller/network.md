@@ -18,8 +18,8 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| model-serving-api | ClusterIP | 443/TCP, 9090/TCP | [`config/server/service.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/69feed504f62ac54965560e58f0c054993459c34/config/server/service.yaml) |
-| odh-model-controller-webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/69feed504f62ac54965560e58f0c054993459c34/config/webhook/service.yaml) |
+| model-serving-api | ClusterIP | 443/TCP, 9090/TCP | [`config/server/service.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/fa691fc975f58f81e8dd057b3f7b083fce02c88e/config/server/service.yaml) |
+| odh-model-controller-webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/fa691fc975f58f81e8dd057b3f7b083fce02c88e/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

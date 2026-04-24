@@ -18,10 +18,10 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| maas-api | maas-api | true | true | ? | [`deployment/base/maas-api/core/deployment.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/cfc8964536bf8283ffee47159bc24adcd76a6e7b/deployment/base/maas-api/core/deployment.yaml) |
-| maas-api | maas-api | ? | ? | ? | [`deployment/base/maas-api/overlays/tls/deployment-patch.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/cfc8964536bf8283ffee47159bc24adcd76a6e7b/deployment/base/maas-api/overlays/tls/deployment-patch.yaml) |
-| maas-controller | manager | ? | ? | ? | [`deployment/base/maas-controller/manager/manager.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/cfc8964536bf8283ffee47159bc24adcd76a6e7b/deployment/base/maas-controller/manager/manager.yaml) |
-| payload-processing | payload-processing | ? | true | ? | [`deployment/base/payload-processing/manager/deployment.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/cfc8964536bf8283ffee47159bc24adcd76a6e7b/deployment/base/payload-processing/manager/deployment.yaml) |
+| maas-api | maas-api | true | true | ? | [`deployment/base/maas-api/core/deployment.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/0922f9dee2146210ecaefdd809049b6c62ba1604/deployment/base/maas-api/core/deployment.yaml) |
+| maas-api | maas-api | ? | ? | ? | [`deployment/base/maas-api/overlays/tls/deployment-patch.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/0922f9dee2146210ecaefdd809049b6c62ba1604/deployment/base/maas-api/overlays/tls/deployment-patch.yaml) |
+| maas-controller | manager | ? | ? | ? | [`deployment/base/maas-controller/manager/manager.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/0922f9dee2146210ecaefdd809049b6c62ba1604/deployment/base/maas-controller/manager/manager.yaml) |
+| payload-processing | payload-processing | ? | true | ? | [`deployment/base/payload-processing/manager/deployment.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/0922f9dee2146210ecaefdd809049b6c62ba1604/deployment/base/payload-processing/manager/deployment.yaml) |
 
 ## Build Security
 

@@ -1,8 +1,11 @@
 # kuberay
 
+> **Architecture snapshot: 2026-04-24** (2026-04-24)
+
+
 **Repository:** ray-project/kuberay  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-16T15:34:15Z
+**Extracted:** 2026-04-24T08:14:04Z
 
 ## Summary
 
@@ -63,20 +66,20 @@ No CRDs defined.
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/zapr | v1.3.0 |
 | github.com/go-logr/zerologr | v1.2.3 |
+| github.com/prometheus/client_golang | v1.23.0 |
 | github.com/prometheus/client_golang | v1.23.0 |
 | google.golang.org/grpc | v1.72.1 |
 | k8s.io/api | v0.34.1 |
-| k8s.io/apimachinery | v0.34.1 |
-| k8s.io/client-go | v0.34.1 |
-| sigs.k8s.io/controller-runtime | v0.22.1 |
-| github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/zapr | v1.3.0 |
-| github.com/prometheus/client_golang | v1.23.0 |
 | k8s.io/api | v0.34.1 |
 | k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.1 |
 | k8s.io/apiserver | v0.34.1 |
 | k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.34.1 |
+| sigs.k8s.io/controller-runtime | v0.22.1 |
 | sigs.k8s.io/controller-runtime | v0.22.1 |
 

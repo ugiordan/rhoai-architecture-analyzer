@@ -1,11 +1,11 @@
 # training-operator
 
-> **Architecture snapshot: 2026-04-23** (2026-04-23)
+> **Architecture snapshot: 2026-04-24** (2026-04-24)
 
 
 **Repository:** kubeflow/training-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-23T07:33:48Z
+**Extracted:** 2026-04-24T08:14:40Z
 
 ## Summary
 
@@ -59,12 +59,12 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| kubeflow.org | v1 | JAXJob | Namespaced | 1073 | 1 | [`manifests/base/crds/kubeflow.org_jaxjobs.yaml`](https://github.com/kubeflow/training-operator/blob/b24716dff34fc3ac4797b6387fc1e11da5959820/manifests/base/crds/kubeflow.org_jaxjobs.yaml) |
-| kubeflow.org | v1 | MPIJob | Namespaced | 1076 | 1 | [`manifests/base/crds/kubeflow.org_mpijobs.yaml`](https://github.com/kubeflow/training-operator/blob/b24716dff34fc3ac4797b6387fc1e11da5959820/manifests/base/crds/kubeflow.org_mpijobs.yaml) |
-| kubeflow.org | v1 | PaddleJob | Namespaced | 1140 | 1 | [`manifests/base/crds/kubeflow.org_paddlejobs.yaml`](https://github.com/kubeflow/training-operator/blob/b24716dff34fc3ac4797b6387fc1e11da5959820/manifests/base/crds/kubeflow.org_paddlejobs.yaml) |
-| kubeflow.org | v1 | PyTorchJob | Namespaced | 1150 | 1 | [`manifests/base/crds/kubeflow.org_pytorchjobs.yaml`](https://github.com/kubeflow/training-operator/blob/b24716dff34fc3ac4797b6387fc1e11da5959820/manifests/base/crds/kubeflow.org_pytorchjobs.yaml) |
-| kubeflow.org | v1 | TFJob | Namespaced | 1075 | 1 | [`manifests/base/crds/kubeflow.org_tfjobs.yaml`](https://github.com/kubeflow/training-operator/blob/b24716dff34fc3ac4797b6387fc1e11da5959820/manifests/base/crds/kubeflow.org_tfjobs.yaml) |
-| kubeflow.org | v1 | XGBoostJob | Namespaced | 1073 | 1 | [`manifests/base/crds/kubeflow.org_xgboostjobs.yaml`](https://github.com/kubeflow/training-operator/blob/b24716dff34fc3ac4797b6387fc1e11da5959820/manifests/base/crds/kubeflow.org_xgboostjobs.yaml) |
+| kubeflow.org | v1 | JAXJob | Namespaced | 1073 | 1 | [`manifests/base/crds/kubeflow.org_jaxjobs.yaml`](https://github.com/kubeflow/training-operator/blob/d384bbe0650d35aca2264eaf136955c8e5dd7690/manifests/base/crds/kubeflow.org_jaxjobs.yaml) |
+| kubeflow.org | v1 | MPIJob | Namespaced | 1076 | 1 | [`manifests/base/crds/kubeflow.org_mpijobs.yaml`](https://github.com/kubeflow/training-operator/blob/d384bbe0650d35aca2264eaf136955c8e5dd7690/manifests/base/crds/kubeflow.org_mpijobs.yaml) |
+| kubeflow.org | v1 | PaddleJob | Namespaced | 1140 | 1 | [`manifests/base/crds/kubeflow.org_paddlejobs.yaml`](https://github.com/kubeflow/training-operator/blob/d384bbe0650d35aca2264eaf136955c8e5dd7690/manifests/base/crds/kubeflow.org_paddlejobs.yaml) |
+| kubeflow.org | v1 | PyTorchJob | Namespaced | 1150 | 1 | [`manifests/base/crds/kubeflow.org_pytorchjobs.yaml`](https://github.com/kubeflow/training-operator/blob/d384bbe0650d35aca2264eaf136955c8e5dd7690/manifests/base/crds/kubeflow.org_pytorchjobs.yaml) |
+| kubeflow.org | v1 | TFJob | Namespaced | 1075 | 1 | [`manifests/base/crds/kubeflow.org_tfjobs.yaml`](https://github.com/kubeflow/training-operator/blob/d384bbe0650d35aca2264eaf136955c8e5dd7690/manifests/base/crds/kubeflow.org_tfjobs.yaml) |
+| kubeflow.org | v1 | XGBoostJob | Namespaced | 1073 | 1 | [`manifests/base/crds/kubeflow.org_xgboostjobs.yaml`](https://github.com/kubeflow/training-operator/blob/d384bbe0650d35aca2264eaf136955c8e5dd7690/manifests/base/crds/kubeflow.org_xgboostjobs.yaml) |
 
 ## Dependencies
 

@@ -17,11 +17,11 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 | Type | Filter Kind | Filter |
 |------|-------------|--------|
-| corev1.Secret | label | label selector |
-| corev1.ConfigMap | label | label selector |
 | appsv1.Deployment | label | label selector |
-| corev1.Pod | label | label selector |
 | autoscalingv2.HorizontalPodAutoscaler | label | label selector |
+| corev1.ConfigMap | label | label selector |
+| corev1.Pod | label | label selector |
+| corev1.Secret | label | label selector |
 
 ### Issues
 

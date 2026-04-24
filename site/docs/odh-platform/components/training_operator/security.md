@@ -19,9 +19,9 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| training-operator | training-operator | ? | ? | ? | [`manifests/base/deployment.yaml`](https://github.com/kubeflow/training-operator/blob/28a60bd79b9dbbb39cd674d3660fa27ab1b42bdb/manifests/base/deployment.yaml) |
-| training-operator | training-operator | ? | ? | ? | [`manifests/rhoai/manager_config_patch.yaml`](https://github.com/kubeflow/training-operator/blob/28a60bd79b9dbbb39cd674d3660fa27ab1b42bdb/manifests/rhoai/manager_config_patch.yaml) |
-| training-operator | training-operator | ? | ? | ? | [`manifests/rhoai/manager_metrics_patch.yaml`](https://github.com/kubeflow/training-operator/blob/28a60bd79b9dbbb39cd674d3660fa27ab1b42bdb/manifests/rhoai/manager_metrics_patch.yaml) |
+| training-operator | training-operator | ? | ? | ? | [`manifests/base/deployment.yaml`](https://github.com/kubeflow/training-operator/blob/d843b21596b8c611b9747fcbf3aa1a3fc23e8625/manifests/base/deployment.yaml) |
+| training-operator | training-operator | ? | ? | ? | [`manifests/rhoai/manager_config_patch.yaml`](https://github.com/kubeflow/training-operator/blob/d843b21596b8c611b9747fcbf3aa1a3fc23e8625/manifests/rhoai/manager_config_patch.yaml) |
+| training-operator | training-operator | ? | ? | ? | [`manifests/rhoai/manager_metrics_patch.yaml`](https://github.com/kubeflow/training-operator/blob/d843b21596b8c611b9747fcbf3aa1a3fc23e8625/manifests/rhoai/manager_metrics_patch.yaml) |
 
 ## Build Security
 

@@ -1,6 +1,6 @@
 # Secrets Inventory
 
-25 secrets referenced across the platform. No secret values are extracted, only names, types, and which component references them.
+38 secrets referenced across the platform. No secret values are extracted, only names, types, and which component references them.
 
 ## Secret Distribution
 
@@ -17,11 +17,25 @@
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">data-science-pipelines</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 50%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">data-science-pipelines-operator</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
     <div style="width: 100%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
   </div>
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">4</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kserve</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 75%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">3</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kube-auth-proxy</span>
@@ -38,11 +52,32 @@
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kuberay</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 25%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kueue</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 25%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">llm-d-inference-scheduler</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
     <div style="width: 75%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
   </div>
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">3</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">mlflow-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 50%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">model-registry</span>
@@ -87,7 +122,28 @@
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">spark-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 25%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">trainer</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 25%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">training-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 50%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">workload-variant-autoscaler</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
     <div style="width: 50%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
   </div>
@@ -101,17 +157,25 @@
 | Component | TLS | Opaque | Total |
 |-----------|-----|--------|-------|
 | codeflare-operator | 0 | 1 | 1 |
+| data-science-pipelines | 0 | 2 | 2 |
 | data-science-pipelines-operator | 0 | 4 | 4 |
+| kserve | 0 | 3 | 3 |
 | kube-auth-proxy | 0 | 2 | 2 |
 | kubeflow | 1 | 1 | 2 |
+| kuberay | 0 | 1 | 1 |
+| kueue | 0 | 1 | 1 |
 | llm-d-inference-scheduler | 0 | 3 | 3 |
+| mlflow-operator | 0 | 2 | 2 |
 | model-registry | 0 | 3 | 3 |
 | model-registry-operator | 0 | 2 | 2 |
 | modelmesh-serving | 0 | 1 | 1 |
 | models-as-a-service | 1 | 0 | 1 |
 | odh-dashboard | 1 | 1 | 2 |
 | odh-model-controller | 2 | 0 | 2 |
+| spark-operator | 0 | 1 | 1 |
+| trainer | 0 | 1 | 1 |
 | training-operator | 0 | 2 | 2 |
+| workload-variant-autoscaler | 0 | 2 | 2 |
 
 ## Secret Detail
 
@@ -123,6 +187,13 @@ Per-component secret breakdown by name and type.
 |--------|------|
 | webhook-server-cert | Opaque |
 
+### data-science-pipelines (2 secrets)
+
+| Secret | Type |
+|--------|------|
+| kfp-api-webhook-cert | Opaque |
+| mlpipeline-minio-artifact | Opaque |
+
 ### data-science-pipelines-operator (4 secrets)
 
 | Secret | Type |
@@ -131,6 +202,14 @@ Per-component secret breakdown by name and type.
 | mariadb-certs | Opaque |
 | minio | Opaque |
 | minio-certs | Opaque |
+
+### kserve (3 secrets)
+
+| Secret | Type |
+|--------|------|
+| kserve-webhook-server-cert | Opaque |
+| llmisvc-webhook-server-cert | Opaque |
+| localmodel-webhook-server-cert | Opaque |
 
 ### kube-auth-proxy (2 secrets)
 
@@ -146,6 +225,18 @@ Per-component secret breakdown by name and type.
 | odh-notebook-controller-webhook-cert | kubernetes.io/tls |
 | webhook-server-cert | Opaque |
 
+### kuberay (1 secrets)
+
+| Secret | Type |
+|--------|------|
+| webhook-server-cert | Opaque |
+
+### kueue (1 secrets)
+
+| Secret | Type |
+|--------|------|
+| webhook-server-cert | Opaque |
+
 ### llm-d-inference-scheduler (3 secrets)
 
 | Secret | Type |
@@ -153,6 +244,13 @@ Per-component secret breakdown by name and type.
 | cacerts | Opaque |
 | istio-kubeconfig | Opaque |
 | istiod-tls | Opaque |
+
+### mlflow-operator (2 secrets)
+
+| Secret | Type |
+|--------|------|
+| controller-manager-metrics-tls | Opaque |
+| postgres-secret | Opaque |
 
 ### model-registry (3 secrets)
 
@@ -195,6 +293,18 @@ Per-component secret breakdown by name and type.
 | model-serving-api-tls | kubernetes.io/tls |
 | odh-model-controller-webhook-cert | kubernetes.io/tls |
 
+### spark-operator (1 secrets)
+
+| Secret | Type |
+|--------|------|
+| webhook-server-cert | Opaque |
+
+### trainer (1 secrets)
+
+| Secret | Type |
+|--------|------|
+| kubeflow-trainer-webhook-cert | Opaque |
+
 ### training-operator (2 secrets)
 
 | Secret | Type |
@@ -202,8 +312,15 @@ Per-component secret breakdown by name and type.
 | kubeflow-training-operator-webhook-cert | Opaque |
 | training-operator-webhook-cert | Opaque |
 
+### workload-variant-autoscaler (2 secrets)
+
+| Secret | Type |
+|--------|------|
+| epp-metrics-token | Opaque |
+| prometheus-client-cert | Opaque |
+
 ## Patterns
 
-- **Webhook certs** are the dominant secret type (14 of 25 secrets).
+- **Webhook certs** are the dominant secret type (23 of 38 secrets).
 - **kubernetes.io/tls** secrets (5) are used for TLS-terminated services.
 

@@ -39,11 +39,11 @@ sequenceDiagram
 
 | Method | Path | Source |
 |--------|------|--------|
-| * | / | [`kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:324`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d346d92527d84ad2f743bf9dffa5da324521a04d/kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L324) |
-| * | /.well-known/oauth-authorization-server | [`test/integration/testutil/mock_openshift_oauth.go:41`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d346d92527d84ad2f743bf9dffa5da324521a04d/test/integration/testutil/mock_openshift_oauth.go#L41) |
-| * | /apis/user.openshift.io/v1/users/~ | [`test/integration/testutil/mock_openshift_oauth.go:44`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d346d92527d84ad2f743bf9dffa5da324521a04d/test/integration/testutil/mock_openshift_oauth.go#L44) |
-| * | /oauth/authorize | [`test/integration/testutil/mock_openshift_oauth.go:42`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d346d92527d84ad2f743bf9dffa5da324521a04d/test/integration/testutil/mock_openshift_oauth.go#L42) |
-| * | /oauth/token | [`test/integration/testutil/mock_openshift_oauth.go:43`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d346d92527d84ad2f743bf9dffa5da324521a04d/test/integration/testutil/mock_openshift_oauth.go#L43) |
+| * | / | [`kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:324`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L324) |
+| * | /.well-known/oauth-authorization-server | [`test/integration/testutil/mock_openshift_oauth.go:41`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/test/integration/testutil/mock_openshift_oauth.go#L41) |
+| * | /apis/user.openshift.io/v1/users/~ | [`test/integration/testutil/mock_openshift_oauth.go:44`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/test/integration/testutil/mock_openshift_oauth.go#L44) |
+| * | /oauth/authorize | [`test/integration/testutil/mock_openshift_oauth.go:42`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/test/integration/testutil/mock_openshift_oauth.go#L42) |
+| * | /oauth/token | [`test/integration/testutil/mock_openshift_oauth.go:43`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/test/integration/testutil/mock_openshift_oauth.go#L43) |
 
 ## Configuration
 
@@ -53,8 +53,8 @@ ConfigMaps and Helm values that control this component's runtime behavior.
 
 | Name | Data Keys | Source |
 |------|-----------|--------|
-| kube-rbac-proxy | config-file.yaml | [`kube-rbac-proxy/test/e2e/static-auth/configmap-non-resource.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d346d92527d84ad2f743bf9dffa5da324521a04d/kube-rbac-proxy/test/e2e/static-auth/configmap-non-resource.yaml) |
-| kube-rbac-proxy | config-file.yaml | [`kube-rbac-proxy/test/e2e/static-auth/configmap-resource.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d346d92527d84ad2f743bf9dffa5da324521a04d/kube-rbac-proxy/test/e2e/static-auth/configmap-resource.yaml) |
+| kube-rbac-proxy | config-file.yaml | [`kube-rbac-proxy/test/e2e/static-auth/configmap-non-resource.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/static-auth/configmap-non-resource.yaml) |
+| kube-rbac-proxy | config-file.yaml | [`kube-rbac-proxy/test/e2e/static-auth/configmap-resource.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/static-auth/configmap-resource.yaml) |
 
 ### Helm
 

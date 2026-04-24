@@ -6,17 +6,19 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 
 | Type | GVK | Source |
 |------|-----|--------|
-| For | evalhub/v1alpha1/EvalHub | `controllers/evalhub/evalhub_controller.go:170` |
-| For | gorch/v1alpha1/GuardrailsOrchestrator | `controllers/gorch/guardrailsorchestrator_controller.go:407` |
-| For | lmes/v1alpha1/LMEvalJob | `controllers/lmes/lmevaljob_controller.go:299` |
-| For | nemo_guardrails/v1alpha1/NemoGuardrails | `controllers/nemo_guardrails/nemoguardrail_controller.go:194` |
-| For | tas/v1alpha1/TrustyAIService | `controllers/tas/trustyaiservice_controller.go:279` |
-| Owns | /v1/ConfigMap | `controllers/evalhub/evalhub_controller.go:173` |
-| Owns | /v1/Service | `controllers/evalhub/evalhub_controller.go:172` |
-| Owns | apps/v1/Deployment | `controllers/evalhub/evalhub_controller.go:171` |
-| Owns | apps/v1/Deployment | `controllers/gorch/guardrailsorchestrator_controller.go:408` |
-| Owns | apps/v1/Deployment | `controllers/tas/trustyaiservice_controller.go:280` |
-| Watches | serving/v1beta1/InferenceService | `controllers/tas/trustyaiservice_controller.go:281` |
+| For | batch/v1/Job | [`controllers/evalhub/evaluation_job_failure_reconciler.go:216`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/evalhub/evaluation_job_failure_reconciler.go#L216) |
+| For | evalhub/v1alpha1/EvalHub | [`controllers/evalhub/evalhub_controller.go:245`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/evalhub/evalhub_controller.go#L245) |
+| For | gorch/v1alpha1/GuardrailsOrchestrator | [`controllers/gorch/guardrailsorchestrator_controller.go:410`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/gorch/guardrailsorchestrator_controller.go#L410) |
+| For | lmes/v1alpha1/LMEvalJob | [`controllers/lmes/lmevaljob_controller.go:299`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/lmes/lmevaljob_controller.go#L299) |
+| For | nemo_guardrails/v1alpha1/NemoGuardrails | [`controllers/nemo_guardrails/nemoguardrail_controller.go:215`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/nemo_guardrails/nemoguardrail_controller.go#L215) |
+| For | tas/v1alpha1/TrustyAIService | [`controllers/tas/trustyaiservice_controller.go:279`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/tas/trustyaiservice_controller.go#L279) |
+| Owns | /v1/ConfigMap | [`controllers/evalhub/evalhub_controller.go:248`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/evalhub/evalhub_controller.go#L248) |
+| Owns | /v1/Service | [`controllers/evalhub/evalhub_controller.go:247`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/evalhub/evalhub_controller.go#L247) |
+| Owns | apps/v1/Deployment | [`controllers/gorch/guardrailsorchestrator_controller.go:411`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/gorch/guardrailsorchestrator_controller.go#L411) |
+| Owns | apps/v1/Deployment | [`controllers/tas/trustyaiservice_controller.go:280`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/tas/trustyaiservice_controller.go#L280) |
+| Owns | apps/v1/Deployment | [`controllers/evalhub/evalhub_controller.go:246`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/evalhub/evalhub_controller.go#L246) |
+| Watches | /v1/Namespace | [`controllers/evalhub/evalhub_controller.go:249`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/evalhub/evalhub_controller.go#L249) |
+| Watches | serving/v1beta1/InferenceService | [`controllers/tas/trustyaiservice_controller.go:281`](https://github.com/trustyai-explainability/trustyai-service-operator/blob/d22647d93c6208adfb6111e18507b578435c57c8/controllers/tas/trustyaiservice_controller.go#L281) |
 
 ## Reconciliation Flow
 
@@ -29,25 +31,19 @@ sequenceDiagram
     participant KubernetesAPI as Kubernetes API
     participant controller_manager as controller-manager
 
+    KubernetesAPI->>+controller_manager: Watch Job (reconcile)
     KubernetesAPI->>+controller_manager: Watch EvalHub (reconcile)
-    controller_manager->>KubernetesAPI: Create/Update Deployment
-    controller_manager->>KubernetesAPI: Create/Update Service
-    controller_manager->>KubernetesAPI: Create/Update ConfigMap
     KubernetesAPI->>+controller_manager: Watch GuardrailsOrchestrator (reconcile)
-    controller_manager->>KubernetesAPI: Create/Update Deployment
     KubernetesAPI->>+controller_manager: Watch LMEvalJob (reconcile)
     KubernetesAPI->>+controller_manager: Watch NemoGuardrails (reconcile)
     KubernetesAPI->>+controller_manager: Watch TrustyAIService (reconcile)
+    controller_manager->>KubernetesAPI: Create/Update ConfigMap
+    controller_manager->>KubernetesAPI: Create/Update Service
     controller_manager->>KubernetesAPI: Create/Update Deployment
+    controller_manager->>KubernetesAPI: Create/Update Deployment
+    controller_manager->>KubernetesAPI: Create/Update Deployment
+    KubernetesAPI-->>+controller_manager: Watch Namespace (informer)
     KubernetesAPI-->>+controller_manager: Watch InferenceService (informer)
-
-    Note over KubernetesAPI: Defined CRDs
-    Note right of KubernetesAPI: EvalHub (trustyai.opendatahub.io/v1alpha1)
-    Note right of KubernetesAPI: GuardrailsOrchestrator (trustyai.opendatahub.io/v1alpha1)
-    Note right of KubernetesAPI: LMEvalJob (trustyai.opendatahub.io/v1alpha1)
-    Note right of KubernetesAPI: NemoGuardrails (trustyai.opendatahub.io/v1alpha1)
-    Note right of KubernetesAPI: TrustyAIService (trustyai.opendatahub.io/v1)
-    Note right of KubernetesAPI: TrustyAIService (trustyai.opendatahub.io/v1alpha1)
 ```
 
 ## Configuration

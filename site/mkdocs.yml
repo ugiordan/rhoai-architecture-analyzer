@@ -84,6 +84,12 @@ nav:
         - RBAC: odh-platform/components/argo_workflows/rbac.md
         - Security: odh-platform/components/argo_workflows/security.md
         - Dataflow: odh-platform/components/argo_workflows/dataflow.md
+      - batch-gateway:
+        - Overview: odh-platform/components/batch_gateway/index.md
+        - Network: odh-platform/components/batch_gateway/network.md
+        - RBAC: odh-platform/components/batch_gateway/rbac.md
+        - Security: odh-platform/components/batch_gateway/security.md
+        - Dataflow: odh-platform/components/batch_gateway/dataflow.md
       - codeflare-operator:
         - Overview: odh-platform/components/codeflare_operator/index.md
         - Network: odh-platform/components/codeflare_operator/network.md
@@ -91,6 +97,12 @@ nav:
         - Security: odh-platform/components/codeflare_operator/security.md
         - Cache: odh-platform/components/codeflare_operator/cache.md
         - Dataflow: odh-platform/components/codeflare_operator/dataflow.md
+      - data-science-pipelines:
+        - Overview: odh-platform/components/data_science_pipelines/index.md
+        - Network: odh-platform/components/data_science_pipelines/network.md
+        - RBAC: odh-platform/components/data_science_pipelines/rbac.md
+        - Security: odh-platform/components/data_science_pipelines/security.md
+        - Dataflow: odh-platform/components/data_science_pipelines/dataflow.md
       - data-science-pipelines-operator:
         - Overview: odh-platform/components/data_science_pipelines_operator/index.md
         - Network: odh-platform/components/data_science_pipelines_operator/network.md
@@ -116,6 +128,13 @@ nav:
         - RBAC: odh-platform/components/fms_guardrails_orchestrator/rbac.md
         - Security: odh-platform/components/fms_guardrails_orchestrator/security.md
         - Dataflow: odh-platform/components/fms_guardrails_orchestrator/dataflow.md
+      - kserve:
+        - Overview: odh-platform/components/kserve/index.md
+        - Network: odh-platform/components/kserve/network.md
+        - RBAC: odh-platform/components/kserve/rbac.md
+        - Security: odh-platform/components/kserve/security.md
+        - Cache: odh-platform/components/kserve/cache.md
+        - Dataflow: odh-platform/components/kserve/dataflow.md
       - kube-auth-proxy:
         - Overview: odh-platform/components/kube_auth_proxy/index.md
         - Network: odh-platform/components/kube_auth_proxy/network.md
@@ -134,6 +153,19 @@ nav:
         - RBAC: odh-platform/components/kubeflow/rbac.md
         - Security: odh-platform/components/kubeflow/security.md
         - Dataflow: odh-platform/components/kubeflow/dataflow.md
+      - kuberay:
+        - Overview: odh-platform/components/kuberay/index.md
+        - Network: odh-platform/components/kuberay/network.md
+        - RBAC: odh-platform/components/kuberay/rbac.md
+        - Security: odh-platform/components/kuberay/security.md
+        - Dataflow: odh-platform/components/kuberay/dataflow.md
+      - kueue:
+        - Overview: odh-platform/components/kueue/index.md
+        - Network: odh-platform/components/kueue/network.md
+        - RBAC: odh-platform/components/kueue/rbac.md
+        - Security: odh-platform/components/kueue/security.md
+        - Cache: odh-platform/components/kueue/cache.md
+        - Dataflow: odh-platform/components/kueue/dataflow.md
       - llama-stack-k8s-operator:
         - Overview: odh-platform/components/llama_stack_k8s_operator/index.md
         - Network: odh-platform/components/llama_stack_k8s_operator/network.md
@@ -147,6 +179,19 @@ nav:
         - RBAC: odh-platform/components/llm_d_inference_scheduler/rbac.md
         - Security: odh-platform/components/llm_d_inference_scheduler/security.md
         - Dataflow: odh-platform/components/llm_d_inference_scheduler/dataflow.md
+      - llm-d-kv-cache:
+        - Overview: odh-platform/components/llm_d_kv_cache/index.md
+        - Network: odh-platform/components/llm_d_kv_cache/network.md
+        - RBAC: odh-platform/components/llm_d_kv_cache/rbac.md
+        - Security: odh-platform/components/llm_d_kv_cache/security.md
+        - Dataflow: odh-platform/components/llm_d_kv_cache/dataflow.md
+      - mlflow-operator:
+        - Overview: odh-platform/components/mlflow_operator/index.md
+        - Network: odh-platform/components/mlflow_operator/network.md
+        - RBAC: odh-platform/components/mlflow_operator/rbac.md
+        - Security: odh-platform/components/mlflow_operator/security.md
+        - Cache: odh-platform/components/mlflow_operator/cache.md
+        - Dataflow: odh-platform/components/mlflow_operator/dataflow.md
       - model-registry:
         - Overview: odh-platform/components/model_registry/index.md
         - Network: odh-platform/components/model_registry/network.md
@@ -193,6 +238,26 @@ nav:
         - Security: odh-platform/components/odh_model_controller/security.md
         - Cache: odh-platform/components/odh_model_controller/cache.md
         - Dataflow: odh-platform/components/odh_model_controller/dataflow.md
+      - opendatahub-operator:
+        - Overview: odh-platform/components/opendatahub_operator/index.md
+        - Network: odh-platform/components/opendatahub_operator/network.md
+        - RBAC: odh-platform/components/opendatahub_operator/rbac.md
+        - Security: odh-platform/components/opendatahub_operator/security.md
+        - Cache: odh-platform/components/opendatahub_operator/cache.md
+        - Dataflow: odh-platform/components/opendatahub_operator/dataflow.md
+      - spark-operator:
+        - Overview: odh-platform/components/spark_operator/index.md
+        - Network: odh-platform/components/spark_operator/network.md
+        - RBAC: odh-platform/components/spark_operator/rbac.md
+        - Security: odh-platform/components/spark_operator/security.md
+        - Dataflow: odh-platform/components/spark_operator/dataflow.md
+      - trainer:
+        - Overview: odh-platform/components/trainer/index.md
+        - Network: odh-platform/components/trainer/network.md
+        - RBAC: odh-platform/components/trainer/rbac.md
+        - Security: odh-platform/components/trainer/security.md
+        - Cache: odh-platform/components/trainer/cache.md
+        - Dataflow: odh-platform/components/trainer/dataflow.md
       - training-operator:
         - Overview: odh-platform/components/training_operator/index.md
         - Network: odh-platform/components/training_operator/network.md
@@ -200,6 +265,20 @@ nav:
         - Security: odh-platform/components/training_operator/security.md
         - Cache: odh-platform/components/training_operator/cache.md
         - Dataflow: odh-platform/components/training_operator/dataflow.md
+      - trustyai-service-operator:
+        - Overview: odh-platform/components/trustyai_service_operator/index.md
+        - Network: odh-platform/components/trustyai_service_operator/network.md
+        - RBAC: odh-platform/components/trustyai_service_operator/rbac.md
+        - Security: odh-platform/components/trustyai_service_operator/security.md
+        - Cache: odh-platform/components/trustyai_service_operator/cache.md
+        - Dataflow: odh-platform/components/trustyai_service_operator/dataflow.md
+      - workload-variant-autoscaler:
+        - Overview: odh-platform/components/workload_variant_autoscaler/index.md
+        - Network: odh-platform/components/workload_variant_autoscaler/network.md
+        - RBAC: odh-platform/components/workload_variant_autoscaler/rbac.md
+        - Security: odh-platform/components/workload_variant_autoscaler/security.md
+        - Cache: odh-platform/components/workload_variant_autoscaler/cache.md
+        - Dataflow: odh-platform/components/workload_variant_autoscaler/dataflow.md
   - RHOAI Platform:
     - Overview: rhoai-platform/index.md
     - Platform Architecture: rhoai-platform/platform-architecture.md
@@ -213,6 +292,12 @@ nav:
         - RBAC: rhoai-platform/components/argo_workflows/rbac.md
         - Security: rhoai-platform/components/argo_workflows/security.md
         - Dataflow: rhoai-platform/components/argo_workflows/dataflow.md
+      - batch-gateway:
+        - Overview: rhoai-platform/components/batch_gateway/index.md
+        - Network: rhoai-platform/components/batch_gateway/network.md
+        - RBAC: rhoai-platform/components/batch_gateway/rbac.md
+        - Security: rhoai-platform/components/batch_gateway/security.md
+        - Dataflow: rhoai-platform/components/batch_gateway/dataflow.md
       - codeflare-operator:
         - Overview: rhoai-platform/components/codeflare_operator/index.md
         - Network: rhoai-platform/components/codeflare_operator/network.md
@@ -220,6 +305,12 @@ nav:
         - Security: rhoai-platform/components/codeflare_operator/security.md
         - Cache: rhoai-platform/components/codeflare_operator/cache.md
         - Dataflow: rhoai-platform/components/codeflare_operator/dataflow.md
+      - data-science-pipelines:
+        - Overview: rhoai-platform/components/data_science_pipelines/index.md
+        - Network: rhoai-platform/components/data_science_pipelines/network.md
+        - RBAC: rhoai-platform/components/data_science_pipelines/rbac.md
+        - Security: rhoai-platform/components/data_science_pipelines/security.md
+        - Dataflow: rhoai-platform/components/data_science_pipelines/dataflow.md
       - data-science-pipelines-operator:
         - Overview: rhoai-platform/components/data_science_pipelines_operator/index.md
         - Network: rhoai-platform/components/data_science_pipelines_operator/network.md
@@ -276,6 +367,13 @@ nav:
         - RBAC: rhoai-platform/components/kuberay/rbac.md
         - Security: rhoai-platform/components/kuberay/security.md
         - Dataflow: rhoai-platform/components/kuberay/dataflow.md
+      - kueue:
+        - Overview: rhoai-platform/components/kueue/index.md
+        - Network: rhoai-platform/components/kueue/network.md
+        - RBAC: rhoai-platform/components/kueue/rbac.md
+        - Security: rhoai-platform/components/kueue/security.md
+        - Cache: rhoai-platform/components/kueue/cache.md
+        - Dataflow: rhoai-platform/components/kueue/dataflow.md
       - llama-stack-k8s-operator:
         - Overview: rhoai-platform/components/llama_stack_k8s_operator/index.md
         - Network: rhoai-platform/components/llama_stack_k8s_operator/network.md
@@ -289,6 +387,19 @@ nav:
         - RBAC: rhoai-platform/components/llm_d_inference_scheduler/rbac.md
         - Security: rhoai-platform/components/llm_d_inference_scheduler/security.md
         - Dataflow: rhoai-platform/components/llm_d_inference_scheduler/dataflow.md
+      - llm-d-kv-cache:
+        - Overview: rhoai-platform/components/llm_d_kv_cache/index.md
+        - Network: rhoai-platform/components/llm_d_kv_cache/network.md
+        - RBAC: rhoai-platform/components/llm_d_kv_cache/rbac.md
+        - Security: rhoai-platform/components/llm_d_kv_cache/security.md
+        - Dataflow: rhoai-platform/components/llm_d_kv_cache/dataflow.md
+      - mlflow-operator:
+        - Overview: rhoai-platform/components/mlflow_operator/index.md
+        - Network: rhoai-platform/components/mlflow_operator/network.md
+        - RBAC: rhoai-platform/components/mlflow_operator/rbac.md
+        - Security: rhoai-platform/components/mlflow_operator/security.md
+        - Cache: rhoai-platform/components/mlflow_operator/cache.md
+        - Dataflow: rhoai-platform/components/mlflow_operator/dataflow.md
       - model-registry:
         - Overview: rhoai-platform/components/model_registry/index.md
         - Network: rhoai-platform/components/model_registry/network.md
@@ -342,6 +453,19 @@ nav:
         - Security: rhoai-platform/components/opendatahub_operator/security.md
         - Cache: rhoai-platform/components/opendatahub_operator/cache.md
         - Dataflow: rhoai-platform/components/opendatahub_operator/dataflow.md
+      - spark-operator:
+        - Overview: rhoai-platform/components/spark_operator/index.md
+        - Network: rhoai-platform/components/spark_operator/network.md
+        - RBAC: rhoai-platform/components/spark_operator/rbac.md
+        - Security: rhoai-platform/components/spark_operator/security.md
+        - Dataflow: rhoai-platform/components/spark_operator/dataflow.md
+      - trainer:
+        - Overview: rhoai-platform/components/trainer/index.md
+        - Network: rhoai-platform/components/trainer/network.md
+        - RBAC: rhoai-platform/components/trainer/rbac.md
+        - Security: rhoai-platform/components/trainer/security.md
+        - Cache: rhoai-platform/components/trainer/cache.md
+        - Dataflow: rhoai-platform/components/trainer/dataflow.md
       - training-operator:
         - Overview: rhoai-platform/components/training_operator/index.md
         - Network: rhoai-platform/components/training_operator/network.md
@@ -356,6 +480,13 @@ nav:
         - Security: rhoai-platform/components/trustyai_service_operator/security.md
         - Cache: rhoai-platform/components/trustyai_service_operator/cache.md
         - Dataflow: rhoai-platform/components/trustyai_service_operator/dataflow.md
+      - workload-variant-autoscaler:
+        - Overview: rhoai-platform/components/workload_variant_autoscaler/index.md
+        - Network: rhoai-platform/components/workload_variant_autoscaler/network.md
+        - RBAC: rhoai-platform/components/workload_variant_autoscaler/rbac.md
+        - Security: rhoai-platform/components/workload_variant_autoscaler/security.md
+        - Cache: rhoai-platform/components/workload_variant_autoscaler/cache.md
+        - Dataflow: rhoai-platform/components/workload_variant_autoscaler/dataflow.md
   - Getting Started:
     - Installation: getting-started/installation.md
     - Quick Start: getting-started/quickstart.md

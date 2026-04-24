@@ -19,14 +19,14 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| notebook | ClusterIP | 8888/TCP | [`jupyter/datascience/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/datascience/ubi9-python-3.12/kustomize/base/service.yaml) |
-| notebook | ClusterIP | 8888/TCP | [`jupyter/minimal/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/minimal/ubi9-python-3.12/kustomize/base/service.yaml) |
-| notebook | ClusterIP | 8888/TCP | [`jupyter/pytorch/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/pytorch/ubi9-python-3.12/kustomize/base/service.yaml) |
-| notebook | ClusterIP | 8888/TCP | [`jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/service.yaml) |
-| notebook | ClusterIP | 8888/TCP | [`jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/service.yaml) |
-| notebook | ClusterIP | 8888/TCP | [`jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml) |
-| notebook | ClusterIP | 8888/TCP | [`jupyter/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml) |
-| notebook | ClusterIP | 8888/TCP | [`jupyter/trustyai/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/3e932693fb9f8d120fdb304bbcff8b09e2c81d44/jupyter/trustyai/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/datascience/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/datascience/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/minimal/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/minimal/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/pytorch/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/pytorch/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/tensorflow/ubi9-python-3.12/kustomize/base/service.yaml) |
+| notebook | ClusterIP | 8888/TCP | [`jupyter/trustyai/ubi9-python-3.12/kustomize/base/service.yaml`](https://github.com/opendatahub-io/notebooks/blob/0214631a2df2b94f5f16f049f60a94c8a4eb0ed9/jupyter/trustyai/ubi9-python-3.12/kustomize/base/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

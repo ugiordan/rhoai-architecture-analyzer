@@ -22,29 +22,29 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| odh-dashboard | ClusterIP | 8443/TCP | [`manifests/core-bases/base/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/core-bases/base/service.yaml) |
-| workspaces-backend | ClusterIP | 4000/TCP | [`packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml) |
-| workspaces-controller-metrics-service | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml) |
-| workspaces-frontend | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml) |
-| workspaces-webhook-service | ClusterIP | 443/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml) |
+| odh-dashboard | ClusterIP | 8443/TCP | [`manifests/core-bases/base/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/manifests/core-bases/base/service.yaml) |
+| workspaces-backend | ClusterIP | 4000/TCP | [`packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml) |
+| workspaces-controller-metrics-service | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml) |
+| workspaces-frontend | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml) |
+| workspaces-webhook-service | ClusterIP | 443/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Gateway | kubeflow-gateway |  |  | no | [`packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml) |
-| HTTPRoute | odh-dashboard |  | / | no | [`manifests/core-bases/base/httproute.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/core-bases/base/httproute.yaml) |
-| Route | odh-dashboard |  |  | yes | [`manifests/core-bases/base/routes.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/core-bases/base/routes.yaml) |
+| Gateway | kubeflow-gateway |  |  | no | [`packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml) |
+| HTTPRoute | odh-dashboard |  | / | no | [`manifests/core-bases/base/httproute.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/manifests/core-bases/base/httproute.yaml) |
+| Route | odh-dashboard |  |  | yes | [`manifests/core-bases/base/routes.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/manifests/core-bases/base/routes.yaml) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| allow-perses-operator-access | Ingress | [`packages/observability/setup/network-policy-perses-operator-access.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/observability/setup/network-policy-perses-operator-access.yaml) |
-| dashboard-perses-access | Ingress | [`manifests/observability/odh/network-policy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/observability/odh/network-policy.yaml) |
-| dashboard-perses-access | Ingress | [`manifests/observability/rhoai/network-policy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/observability/rhoai/network-policy.yaml) |
-| odh-dashboard-allow-ports | Ingress, Egress | [`manifests/modular-architecture/networkpolicy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/manifests/modular-architecture/networkpolicy.yaml) |
-| workspaces-controller | Ingress | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/3b4aadf6df26594a6ba5aa2372639f73ab42881f/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml) |
+| allow-perses-operator-access | Ingress | [`packages/observability/setup/network-policy-perses-operator-access.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/packages/observability/setup/network-policy-perses-operator-access.yaml) |
+| dashboard-perses-access | Ingress | [`manifests/observability/odh/network-policy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/manifests/observability/odh/network-policy.yaml) |
+| dashboard-perses-access | Ingress | [`manifests/observability/rhoai/network-policy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/manifests/observability/rhoai/network-policy.yaml) |
+| odh-dashboard-allow-ports | Ingress, Egress | [`manifests/modular-architecture/networkpolicy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/manifests/modular-architecture/networkpolicy.yaml) |
+| workspaces-controller | Ingress | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml`](https://github.com/red-hat-data-services/odh-dashboard/blob/a20a6cd91e07d8cbb42244eb98b1c12f28510220/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml) |
 
 ## Network Policy Graph
 

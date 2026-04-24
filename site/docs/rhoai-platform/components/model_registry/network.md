@@ -17,7 +17,7 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| model-catalog | ClusterIP | 8080/TCP | [`manifests/kustomize/options/catalog/base/service.yaml`](https://github.com/kubeflow/model-registry/blob/d752663b261d39f05dd6a3f44787df82e07ec29d/manifests/kustomize/options/catalog/base/service.yaml) |
+| model-catalog | ClusterIP | 8080/TCP | [`manifests/kustomize/options/catalog/base/service.yaml`](https://github.com/kubeflow/model-registry/blob/55f9c544f5a3dfb31cacadbe49e975f137223641/manifests/kustomize/options/catalog/base/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

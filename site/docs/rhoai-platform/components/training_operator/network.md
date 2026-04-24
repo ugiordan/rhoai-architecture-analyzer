@@ -17,7 +17,7 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| training-operator | ClusterIP | 8080/TCP, 443/TCP | [`manifests/base/service.yaml`](https://github.com/kubeflow/training-operator/blob/b24716dff34fc3ac4797b6387fc1e11da5959820/manifests/base/service.yaml) |
+| training-operator | ClusterIP | 8080/TCP, 443/TCP | [`manifests/base/service.yaml`](https://github.com/kubeflow/training-operator/blob/d384bbe0650d35aca2264eaf136955c8e5dd7690/manifests/base/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

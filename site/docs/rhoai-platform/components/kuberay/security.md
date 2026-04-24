@@ -18,8 +18,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kuberay-operator | kuberay-operator | ? | ? | ? | `ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml` |
-| kuberay-operator | kuberay-operator | ? | ? | ? | `ray-operator/config/manager/manager.yaml` |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/c49cd41bcaa4c6cb540318396ebccc547d88e20a/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/c49cd41bcaa4c6cb540318396ebccc547d88e20a/ray-operator/config/manager/manager.yaml) |
 
 ## Build Security
 
@@ -33,8 +33,8 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `experimental/Dockerfile` | scratch | 2 |  |  |  |  | Unpinned base image: scratch; No USER directive found (defaults to root) |
 | `proto/Dockerfile` | golang:1.24.0-bullseye | 1 | 65532:65532 |  |  |  |  |
 | `ray-operator/Dockerfile` | gcr.io/distroless/base-debian12:nonroot | 2 | 65532:65532 |  |  |  |  |
-| `ray-operator/images/tests/Dockerfile` | golang:1.24 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `ray-operator/Dockerfile.buildx` | gcr.io/distroless/base-debian12:nonroot | 1 | 65532:65532 |  | multi-arch |  |  |
-| `ray-operator/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:7c5495d5fad59aaee12abc3cbbd2b283818ee1e814b00dbc7f25bf2d14fa4f0c | 2 | 65532:65532 |  | multi-arch |  |  |
+| `ray-operator/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:7d4e47500f28ac3a2bff06c25eff9127ff21048538ae03ce240d57cf756acd00 | 2 | 65532:65532 |  | multi-arch |  |  |
 | `ray-operator/Dockerfile.rhoai` | registry.access.redhat.com/ubi9/ubi:latest | 2 | 65532:65532 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi:latest |
+| `ray-operator/images/tests/Dockerfile` | golang:1.24 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 
