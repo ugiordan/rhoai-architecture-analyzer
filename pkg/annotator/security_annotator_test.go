@@ -25,6 +25,7 @@ func TestAnnotateHTTPHandler(t *testing.T) {
 		Name:       "db.Exec",
 		File:       "server.go",
 		Line:       15,
+		Operation:  "write",
 		Properties: map[string]string{"operation": "write"},
 	}
 	cpg.AddNode(dbWrite)

@@ -17,11 +17,11 @@ func (sl *StorageLinker) Link(cpg *graph.CPG) int {
 	reads := make(map[string][]*graph.Node)
 
 	for _, op := range dbOps {
-		table := op.Properties["table"]
+		table := op.Table
 		if table == "" {
 			continue
 		}
-		switch op.Properties["operation"] {
+		switch op.Operation {
 		case "write":
 			writes[table] = append(writes[table], op)
 		case "read":

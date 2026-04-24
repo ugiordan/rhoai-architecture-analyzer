@@ -60,7 +60,7 @@ func (sa *SecurityAnnotator) annotateFunction(fn *graph.Node, cpg *graph.CPG) {
 
 func (sa *SecurityAnnotator) checkDBAnnotation(fnID string, target *graph.Node, cpg *graph.CPG) {
 	if target.Kind == graph.NodeDBOperation {
-		op := target.Properties["operation"]
+		op := target.Operation
 		if op == "write" {
 			cpg.SetAnnotation(fnID, "writes_storage", true)
 			cpg.SetAnnotation(fnID, "mutates_state", true)
@@ -83,7 +83,7 @@ func (sa *SecurityAnnotator) annotateCallSite(cs *graph.Node, cpg *graph.CPG) {
 }
 
 func (sa *SecurityAnnotator) annotateDBOp(op *graph.Node, cpg *graph.CPG) {
-	switch op.Properties["operation"] {
+	switch op.Operation {
 	case "write":
 		cpg.SetAnnotation(op.ID, "writes_storage", true)
 	case "read":

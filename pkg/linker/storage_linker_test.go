@@ -15,6 +15,8 @@ func TestStorageLinkerLinksWriteToRead(t *testing.T) {
 		Name:       "db.Exec",
 		File:       "handler.go",
 		Line:       10,
+		Table:      "users",
+		Operation:  "write",
 		Properties: map[string]string{"operation": "write", "table": "users"},
 	}
 	cpg.AddNode(writeOp)
@@ -25,6 +27,8 @@ func TestStorageLinkerLinksWriteToRead(t *testing.T) {
 		Name:       "db.Query",
 		File:       "handler.go",
 		Line:       20,
+		Table:      "users",
+		Operation:  "read",
 		Properties: map[string]string{"operation": "read", "table": "users"},
 	}
 	cpg.AddNode(readOp)
@@ -35,6 +39,8 @@ func TestStorageLinkerLinksWriteToRead(t *testing.T) {
 		Name:       "db.Query",
 		File:       "handler.go",
 		Line:       30,
+		Table:      "products",
+		Operation:  "read",
 		Properties: map[string]string{"operation": "read", "table": "products"},
 	}
 	cpg.AddNode(otherRead)
@@ -71,12 +77,14 @@ func TestStorageLinkerNoTableProperty(t *testing.T) {
 		ID:         "db1",
 		Kind:       graph.NodeDBOperation,
 		Name:       "db.Exec",
+		Operation:  "write",
 		Properties: map[string]string{"operation": "write"},
 	})
 	cpg.AddNode(&graph.Node{
 		ID:         "db2",
 		Kind:       graph.NodeDBOperation,
 		Name:       "db.Query",
+		Operation:  "read",
 		Properties: map[string]string{"operation": "read"},
 	})
 
