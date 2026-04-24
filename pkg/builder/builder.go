@@ -240,11 +240,24 @@ func (b *Builder) resolveCallEdges(cpg *graph.CPG) {
 		}
 
 		for _, target := range matched {
+			confidence := graph.ConfidenceCertain
+			targetDir := filepath.Dir(target.File)
+
+			if isQualified && targetDir != csDir {
+				// Cross-package match via short name fallback
+				confidence = graph.ConfidenceInferred
+			}
+			if len(matched) > 1 {
+				// Multiple candidates: ambiguous resolution
+				confidence = graph.ConfidenceUncertain
+			}
+
 			cpg.AddEdge(&graph.Edge{
-				From:  cs.ID,
-				To:    target.ID,
-				Kind:  graph.EdgeCalls,
-				Label: callName,
+				From:       cs.ID,
+				To:         target.ID,
+				Kind:       graph.EdgeCalls,
+				Label:      callName,
+				Confidence: confidence,
 			})
 		}
 
