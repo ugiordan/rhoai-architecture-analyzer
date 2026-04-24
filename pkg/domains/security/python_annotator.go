@@ -41,7 +41,7 @@ func (a *PythonAnnotator) annotateFunction(g *graph.CPG, fn *graph.Node) {
 		}
 	}
 
-	paramNames := fn.Properties["param_names"]
+	paramNames := strings.Join(fn.ParamNames, ",")
 	if strings.Contains(paramNames, "request") {
 		g.SetAnnotation(fn.ID, AnnotHandlesRequest, true)
 	}

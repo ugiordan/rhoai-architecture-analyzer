@@ -43,7 +43,8 @@ func TestPythonAnnotatorHandlesRequestWithRequestParam(t *testing.T) {
 		EndLine:     20,
 		Language:    "python",
 		Annotations: make(map[string]bool),
-		Properties:  map[string]string{"param_names": "request,data"},
+		Properties:  make(map[string]string),
+		ParamNames:  []string{"request", "data"},
 	}
 	g.AddNode(fn)
 

@@ -31,7 +31,7 @@ func (a *TypeScriptAnnotator) Annotate(g *graph.CPG, archData *domains.Architect
 
 func (a *TypeScriptAnnotator) annotateFunction(g *graph.CPG, fn *graph.Node) {
 	// sec:handles_request: function with (req, res) or (request, response) parameters
-	paramTypes := strings.ToLower(fn.Properties["param_types"])
+	paramTypes := strings.ToLower(strings.Join(fn.ParamTypes, ","))
 	if (strings.Contains(paramTypes, "req") && strings.Contains(paramTypes, "res")) ||
 		(strings.Contains(paramTypes, "request") && strings.Contains(paramTypes, "response")) {
 		g.SetAnnotation(fn.ID, AnnotHandlesRequest, true)

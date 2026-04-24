@@ -59,12 +59,12 @@ func (a *RustAnnotator) annotateCallSite(g *graph.CPG, cs *graph.Node) {
 
 func (a *RustAnnotator) annotateFunction(g *graph.CPG, fn *graph.Node, endpointNames map[string]bool) {
 	// sec:unsafe_block: functions with is_unsafe property
-	if fn.Properties["is_unsafe"] == "true" {
+	if fn.IsUnsafe {
 		g.SetAnnotation(fn.ID, AnnotUnsafeBlock, true)
 	}
 
 	// sec:ffi_call: functions with is_extern property
-	if fn.Properties["is_extern"] == "true" {
+	if fn.IsExtern {
 		g.SetAnnotation(fn.ID, AnnotFFICall, true)
 	}
 

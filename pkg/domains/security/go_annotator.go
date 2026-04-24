@@ -26,7 +26,7 @@ func (a *GoAnnotator) Annotate(g *graph.CPG, archData *domains.ArchitectureData)
 
 func (a *GoAnnotator) annotateFunction(g *graph.CPG, fn *graph.Node) {
 	// sec:handles_admission: function with admission.Request parameter type
-	paramTypes := fn.Properties["param_types"]
+	paramTypes := strings.Join(fn.ParamTypes, ",")
 	if strings.Contains(paramTypes, "admission.Request") {
 		g.SetAnnotation(fn.ID, AnnotHandlesAdmission, true)
 	}
@@ -98,8 +98,8 @@ func (a *GoAnnotator) annotateCallSite(g *graph.CPG, cs *graph.Node) {
 }
 
 func (a *GoAnnotator) annotateStructLiteral(g *graph.CPG, sl *graph.Node) {
-	typeName := sl.Properties["type"]
-	fields := sl.Properties["fields"]
+	typeName := sl.StructType
+	fields := strings.Join(sl.FieldNames, ",")
 
 	// sec:generates_cert
 	if strings.Contains(typeName, "Certificate") {

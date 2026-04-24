@@ -17,7 +17,8 @@ func TestTypeScriptAnnotatorHandlesRequest(t *testing.T) {
 		EndLine:     20,
 		Language:    "typescript",
 		Annotations: make(map[string]bool),
-		Properties:  map[string]string{"param_types": "(req: Request, res: Response)"},
+		Properties:  make(map[string]string),
+		ParamTypes:  []string{"req: Request", "res: Response"},
 	}
 	g.AddNode(fn)
 

@@ -17,7 +17,8 @@ func TestRustAnnotatorUnsafeBlock(t *testing.T) {
 		EndLine:     20,
 		Language:    "rust",
 		Annotations: make(map[string]bool),
-		Properties:  map[string]string{"is_unsafe": "true"},
+		Properties:  make(map[string]string),
+		IsUnsafe:    true,
 	}
 	g.AddNode(fn)
 
@@ -42,7 +43,8 @@ func TestRustAnnotatorFFICall(t *testing.T) {
 		EndLine:     15,
 		Language:    "rust",
 		Annotations: make(map[string]bool),
-		Properties:  map[string]string{"is_extern": "true"},
+		Properties:  make(map[string]string),
+		IsExtern:    true,
 	}
 	g.AddNode(fn)
 

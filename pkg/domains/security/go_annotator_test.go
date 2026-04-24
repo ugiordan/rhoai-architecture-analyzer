@@ -15,7 +15,8 @@ func TestGoAnnotatorHandlesAdmission(t *testing.T) {
 		File:        "webhook.go",
 		Line:        10,
 		Annotations: make(map[string]bool),
-		Properties:  map[string]string{"param_types": "context.Context,admission.Request"},
+		Properties:  make(map[string]string),
+		ParamTypes:  []string{"context.Context", "admission.Request"},
 	}
 	g.AddNode(fn)
 
@@ -71,12 +72,12 @@ func TestGoAnnotatorGeneratesCert(t *testing.T) {
 
 	sl := &graph.Node{
 		ID: "struct1", Kind: graph.NodeStructLiteral, Name: "x509.Certificate",
-		File: "cert.go", Line: 15,
+		File:        "cert.go",
+		Line:        15,
 		Annotations: make(map[string]bool),
-		Properties: map[string]string{
-			"type":   "x509.Certificate",
-			"fields": "SerialNumber,Subject,IsCA,KeyUsage,DNSNames",
-		},
+		Properties:  make(map[string]string),
+		StructType:  "x509.Certificate",
+		FieldNames:  []string{"SerialNumber", "Subject", "IsCA", "KeyUsage", "DNSNames"},
 	}
 	g.AddNode(sl)
 	g.AddEdge(&graph.Edge{From: "fn1", To: "struct1", Kind: graph.EdgeDataFlow, Label: "contains_struct"})
