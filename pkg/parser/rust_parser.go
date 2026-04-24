@@ -158,9 +158,11 @@ func (rp *RustParser) extractFunction(node *sitter.Node, src []byte, file, implT
 			modText := child.Content(src)
 			if strings.Contains(modText, "unsafe") {
 				fn.Properties["is_unsafe"] = "true"
+				fn.IsUnsafe = true
 			}
 			if strings.Contains(modText, "extern") {
 				fn.Properties["is_extern"] = "true"
+				fn.IsExtern = true
 			}
 		}
 	}
@@ -227,11 +229,13 @@ func (rp *RustParser) checkPrecedingAttributes(fnNode *sitter.Node, src []byte, 
 			// Check for #[test]
 			if attrName == "test" {
 				fn.Properties["is_test"] = "true"
+				fn.IsTest = true
 			}
 
 			// Check for HTTP route attributes
 			if rustHTTPMethods[attrName] && tokenTree != nil {
 				route := rp.extractRouteFromTokenTree(tokenTree, src)
+				method := strings.ToUpper(attrName)
 				handler := &graph.Node{
 					ID:          rp.nextID("http"),
 					Kind:        graph.NodeHTTPEndpoint,
@@ -241,11 +245,13 @@ func (rp *RustParser) checkPrecedingAttributes(fnNode *sitter.Node, src []byte, 
 					Language:    "rust",
 					Annotations: make(map[string]bool),
 					Properties:  make(map[string]string),
+					Route:       route,
+					HTTPMethod:  method,
 				}
 				if route != "" {
 					handler.Properties["route"] = route
 				}
-				handler.Properties["method"] = strings.ToUpper(attrName)
+				handler.Properties["method"] = method
 				result.HTTPHandlers = append(result.HTTPHandlers, handler)
 			}
 		}
@@ -316,6 +322,7 @@ func (rp *RustParser) maybeExtractDBFromCall(callText string, _ *sitter.Node, _ 
 				Line:       line,
 				Language:   "rust",
 				Properties: map[string]string{"operation": op},
+				Operation:  op,
 			}
 			result.DBOperations = append(result.DBOperations, dbOp)
 			return
@@ -358,6 +365,7 @@ func (rp *RustParser) extractMacroInvocation(node *sitter.Node, src []byte, file
 		Line:       line,
 		Language:   "rust",
 		Properties: map[string]string{"is_macro": "true"},
+		IsMacro:    true,
 	}
 	result.CallSites = append(result.CallSites, cs)
 
@@ -378,6 +386,7 @@ func (rp *RustParser) extractMacroInvocation(node *sitter.Node, src []byte, file
 			Line:       line,
 			Language:   "rust",
 			Properties: map[string]string{"operation": actualOp},
+			Operation:  actualOp,
 		}
 		result.DBOperations = append(result.DBOperations, dbOp)
 	}
@@ -412,17 +421,19 @@ func (rp *RustParser) extractStructExpression(node *sitter.Node, src []byte, fil
 	}
 
 	sl := &graph.Node{
-		ID:       rp.nextID("struct"),
-		Kind:     graph.NodeStructLiteral,
-		Name:     name,
-		File:     file,
-		Line:     int(node.StartPoint().Row) + 1,
-		EndLine:  int(node.EndPoint().Row) + 1,
-		Language: "rust",
+		ID:         rp.nextID("struct"),
+		Kind:       graph.NodeStructLiteral,
+		Name:       name,
+		File:       file,
+		Line:       int(node.StartPoint().Row) + 1,
+		EndLine:    int(node.EndPoint().Row) + 1,
+		Language:   "rust",
 		Properties: map[string]string{
 			"type":   name,
 			"fields": strings.Join(fieldNames, ","),
 		},
+		StructType: name,
+		FieldNames: fieldNames,
 	}
 	result.StructLiterals = append(result.StructLiterals, sl)
 }

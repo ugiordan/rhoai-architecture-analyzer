@@ -38,7 +38,7 @@ func TestRustParserActixHandler(t *testing.T) {
 	}
 	t.Logf("HTTP handlers (%d):", len(result.HTTPHandlers))
 	for _, h := range result.HTTPHandlers {
-		t.Logf("  %s route=%s", h.Name, h.Properties["route"])
+		t.Logf("  %s route=%s method=%s", h.Name, h.Route, h.HTTPMethod)
 	}
 	t.Logf("Call sites (%d):", len(result.CallSites))
 	for _, cs := range result.CallSites {
@@ -71,9 +71,8 @@ func TestRustParserActixHandler(t *testing.T) {
 
 	routes := make(map[string]bool)
 	for _, h := range result.HTTPHandlers {
-		route := h.Properties["route"]
-		if route != "" {
-			routes[route] = true
+		if h.Route != "" {
+			routes[h.Route] = true
 		}
 	}
 	if !routes["/health"] {
@@ -136,8 +135,8 @@ func TestRustParserAxumRouter(t *testing.T) {
 
 	// Unsafe function detection
 	if fn, ok := fnMap["raw_pointer_op"]; ok {
-		if fn.Properties["is_unsafe"] != "true" {
-			t.Errorf("expected raw_pointer_op to have is_unsafe=true, got %q", fn.Properties["is_unsafe"])
+		if !fn.IsUnsafe {
+			t.Errorf("expected raw_pointer_op to have IsUnsafe=true, got %v", fn.IsUnsafe)
 		}
 	} else {
 		t.Error("expected to find function raw_pointer_op")
@@ -145,23 +144,23 @@ func TestRustParserAxumRouter(t *testing.T) {
 
 	// Extern function detection
 	if fn, ok := fnMap["ffi_callback"]; ok {
-		if fn.Properties["is_extern"] != "true" {
-			t.Errorf("expected ffi_callback to have is_extern=true, got %q", fn.Properties["is_extern"])
+		if !fn.IsExtern {
+			t.Errorf("expected ffi_callback to have IsExtern=true, got %v", fn.IsExtern)
 		}
 	} else {
 		t.Error("expected to find function ffi_callback")
 	}
 
-	// Macro invocations (sqlx::query_as!) should be detected as call sites with is_macro
+	// Macro invocations (sqlx::query_as!) should be detected as call sites with IsMacro
 	hasMacro := false
 	for _, cs := range result.CallSites {
-		if cs.Properties["is_macro"] == "true" {
+		if cs.IsMacro {
 			hasMacro = true
 			break
 		}
 	}
 	if !hasMacro {
-		t.Error("expected at least one macro invocation with is_macro=true")
+		t.Error("expected at least one macro invocation with IsMacro=true")
 	}
 
 	// At least 2 DB operations from sqlx macros
@@ -172,7 +171,7 @@ func TestRustParserAxumRouter(t *testing.T) {
 	// DB operations should have read/write classification
 	hasRead, hasWrite := false, false
 	for _, db := range result.DBOperations {
-		switch db.Properties["operation"] {
+		switch db.Operation {
 		case "read":
 			hasRead = true
 		case "write":
