@@ -12,16 +12,62 @@ type GoAnnotator struct{}
 func (a *GoAnnotator) Annotate(g *graph.CPG, archData *domains.ArchitectureData) error {
 	// First pass: annotate individual nodes
 	for _, cs := range g.NodesByKind(graph.NodeCallSite) {
+		if cs.Language != "go" {
+			continue
+		}
 		a.annotateCallSite(g, cs)
 	}
 	for _, sl := range g.NodesByKind(graph.NodeStructLiteral) {
+		if sl.Language != "go" {
+			continue
+		}
 		a.annotateStructLiteral(g, sl)
 	}
 	// Second pass: annotate functions based on contained nodes
 	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		if fn.Language != "go" {
+			continue
+		}
 		a.annotateFunction(g, fn)
 	}
+	// Third pass: classify trust levels
+	a.classifyTrust(g)
 	return nil
+}
+
+func (a *GoAnnotator) classifyTrust(g *graph.CPG) {
+	// Go HTTP endpoints default to untrusted
+	for _, ep := range g.NodesByKind(graph.NodeHTTPEndpoint) {
+		if ep.Language != "go" {
+			continue
+		}
+		ep.TrustLevel = graph.TrustUntrusted
+	}
+
+	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		if fn.Language != "go" {
+			continue
+		}
+		paramTypes := strings.Join(fn.ParamTypes, ",")
+
+		// Admission webhook handlers are semi-trusted (authenticated by API server)
+		if strings.Contains(paramTypes, "admission.Request") || strings.Contains(paramTypes, "AdmissionReview") {
+			fn.TrustLevel = graph.TrustSemiTrusted
+			continue
+		}
+
+		// Controller Reconcile functions are trusted (internal loop)
+		if fn.Name == "Reconcile" && (strings.Contains(paramTypes, "ctrl.Request") || strings.Contains(paramTypes, "reconcile.Request")) {
+			fn.TrustLevel = graph.TrustTrusted
+			continue
+		}
+
+		// Init/setup functions are trusted
+		if fn.Name == "init" || fn.Name == "main" || fn.Name == "SetupWithManager" {
+			fn.TrustLevel = graph.TrustTrusted
+			continue
+		}
+	}
 }
 
 func (a *GoAnnotator) annotateFunction(g *graph.CPG, fn *graph.Node) {

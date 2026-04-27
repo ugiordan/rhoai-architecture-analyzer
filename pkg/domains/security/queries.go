@@ -17,6 +17,8 @@ func securityQueries() []query.Rule {
 		{ID: "CGA-007", Name: "unfiltered-cache", Domain: "security", Severity: "medium", Run: queryUnfilteredCache},
 		{ID: "CGA-008", Name: "plaintext-secrets", Domain: "security", Severity: "medium", Run: queryPlaintextSecrets},
 		{ID: "CGA-009", Name: "weak-serial-entropy", Domain: "security", Severity: "medium", Run: queryWeakSerialEntropy},
+		{ID: "CGA-010", Name: "complexity-hotspot", Domain: "security", Severity: "medium", Run: queryComplexityHotspot},
+		{ID: "CGA-011", Name: "untrusted-endpoint", Domain: "security", Severity: "informational", Run: queryUntrustedEndpoint},
 	}
 }
 
@@ -231,6 +233,61 @@ func queryWeakSerialEntropy(g *graph.CPG) []query.Finding {
 				}
 			}
 		}
+	}
+	return findings
+}
+
+// queryComplexityHotspot finds functions with complexity > 10 that have security-relevant annotations.
+// Any annotation with the "sec:" prefix is considered security-relevant, so new annotations
+// added to future annotators are automatically included.
+func queryComplexityHotspot(g *graph.CPG) []query.Finding {
+	var findings []query.Finding
+
+	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		if fn.Complexity <= 10 {
+			continue
+		}
+		hasSecAnnotation := false
+		for ann := range fn.Annotations {
+			if strings.HasPrefix(ann, SecurityAnnotationPrefix) {
+				hasSecAnnotation = true
+				break
+			}
+		}
+		if !hasSecAnnotation {
+			continue
+		}
+		findings = append(findings, query.Finding{
+			RuleID:   "CGA-010",
+			Domain:   "security",
+			Severity: "medium",
+			Message:  fmt.Sprintf("Security-sensitive function %s has high cyclomatic complexity (%d), increasing review difficulty", fn.Name, fn.Complexity),
+			File:     fn.File,
+			Line:     fn.Line,
+			NodeID:   fn.ID,
+		})
+	}
+	return findings
+}
+
+// queryUntrustedEndpoint identifies HTTP endpoints classified as untrusted (public-facing).
+// This is informational: it surfaces endpoints that receive unvalidated external input
+// so they can be prioritized for manual review.
+func queryUntrustedEndpoint(g *graph.CPG) []query.Finding {
+	var findings []query.Finding
+	for _, ep := range g.NodesByKind(graph.NodeHTTPEndpoint) {
+		if ep.TrustLevel != graph.TrustUntrusted {
+			continue
+		}
+		findings = append(findings, query.Finding{
+			RuleID:   "CGA-011",
+			Domain:   "security",
+			Severity: "informational",
+			Message:  fmt.Sprintf("Untrusted HTTP endpoint %s (%s %s) receives unvalidated external input", ep.Name, ep.HTTPMethod, ep.Route),
+			File:     ep.File,
+			Line:     ep.Line,
+			NodeID:   ep.ID,
+		})
 	}
 	return findings
 }

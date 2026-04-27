@@ -71,6 +71,73 @@ func (tp *TypeScriptParser) CloneWithSeq(seq *atomic.Int64) Parser {
 	return NewTypeScriptParserWithSeq(seq)
 }
 
+// computeTypeScriptComplexity counts decision points in a TypeScript function body.
+// Complexity = 1 (base) + count of: if, for, for-in, while, do, switch_case, switch_default, catch, &&, ternary.
+func computeTypeScriptComplexity(node *sitter.Node) int {
+	count := 1
+	countTypeScriptDecisionPoints(node, &count)
+	return count
+}
+
+func countTypeScriptDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_statement":
+		*count++
+	case "for_statement", "for_in_statement":
+		*count++
+	case "while_statement", "do_statement":
+		*count++
+	case "switch_case", "switch_default":
+		*count++
+	case "catch_clause":
+		*count++
+	case "ternary_expression":
+		*count++
+	case "binary_expression":
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil {
+				op := child.Type()
+				if op == "&&" {
+					*count++
+					break
+				}
+			}
+		}
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child == nil {
+			continue
+		}
+		// Handle else-if chains: when an else_clause contains an if_statement,
+		// skip counting that if_statement itself (it's not a new branch, just a
+		// continuation of the chain) but still recurse into its children.
+		if node.Type() == "else_clause" && child.Type() == "if_statement" {
+			countTypeScriptDecisionPointsSkipSelf(child, count)
+			continue
+		}
+		countTypeScriptDecisionPoints(child, count)
+	}
+}
+
+// countTypeScriptDecisionPointsSkipSelf recurses into a node's children without
+// counting the node itself. Used for else-if chains to avoid double-counting.
+func countTypeScriptDecisionPointsSkipSelf(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child != nil {
+			countTypeScriptDecisionPoints(child, count)
+		}
+	}
+}
+
 func (tp *TypeScriptParser) nextID(prefix string) string {
 	id := tp.idSeq.Add(1)
 	return fmt.Sprintf("%s_%d", prefix, id)
@@ -152,6 +219,10 @@ func (tp *TypeScriptParser) extractFunction(node *sitter.Node, src []byte, file 
 	if params != nil {
 		fn.ParamTypes = extractParamTypes(params, src)
 	}
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeTypeScriptComplexity(body)
+	}
 	result.Functions = append(result.Functions, fn)
 }
 
@@ -177,6 +248,10 @@ func (tp *TypeScriptParser) extractMethod(node *sitter.Node, src []byte, file, c
 	params := node.ChildByFieldName("parameters")
 	if params != nil {
 		fn.ParamTypes = extractParamTypes(params, src)
+	}
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeTypeScriptComplexity(body)
 	}
 	result.Functions = append(result.Functions, fn)
 }
@@ -233,6 +308,10 @@ func (tp *TypeScriptParser) extractArrowFunctions(node *sitter.Node, src []byte,
 				params := arrowNode.ChildByFieldName("parameters")
 				if params != nil {
 					fn.ParamTypes = extractParamTypes(params, src)
+				}
+				arrowBody := arrowNode.ChildByFieldName("body")
+				if arrowBody != nil {
+					fn.Complexity = computeTypeScriptComplexity(arrowBody)
 				}
 			}
 			result.Functions = append(result.Functions, fn)

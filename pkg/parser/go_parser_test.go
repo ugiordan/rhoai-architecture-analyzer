@@ -93,6 +93,38 @@ func TestGoParserLanguageAndExtensions(t *testing.T) {
 	}
 }
 
+func TestGoParserComputesComplexity(t *testing.T) {
+	content, err := os.ReadFile("../../testdata/complexity_sample.go")
+	if err != nil {
+		t.Fatalf("Failed to read test fixture: %v", err)
+	}
+
+	p := NewGoParser()
+	result, err := p.ParseFile("testdata/complexity_sample.go", content)
+	if err != nil {
+		t.Fatalf("ParseFile failed: %v", err)
+	}
+
+	expected := map[string]int{
+		"simpleFunc":  1,
+		"complexFunc": 4,
+		"switchFunc":  5,
+		"nestedFunc":  3,
+	}
+
+	for _, fn := range result.Functions {
+		if want, ok := expected[fn.Name]; ok {
+			if fn.Complexity != want {
+				t.Errorf("function %s: complexity = %d, want %d", fn.Name, fn.Complexity, want)
+			}
+			delete(expected, fn.Name)
+		}
+	}
+	for name := range expected {
+		t.Errorf("function %s not found in parse result", name)
+	}
+}
+
 func TestGoParserExtractsParamTypes(t *testing.T) {
 	content, err := os.ReadFile("../../testdata/k8s_webhook.go")
 	if err != nil {

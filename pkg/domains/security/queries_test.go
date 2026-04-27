@@ -196,11 +196,11 @@ func TestQueryWeakSerialEntropy(t *testing.T) {
 
 func TestSecurityQueriesReturnsAllRules(t *testing.T) {
 	rules := securityQueries()
-	if len(rules) != 7 {
-		t.Fatalf("expected 7 rules, got %d", len(rules))
+	if len(rules) != 9 {
+		t.Fatalf("expected 9 rules, got %d", len(rules))
 	}
 
-	expectedRuleIDs := []string{"CGA-003", "CGA-004", "CGA-005", "CGA-006", "CGA-007", "CGA-008", "CGA-009"}
+	expectedRuleIDs := []string{"CGA-003", "CGA-004", "CGA-005", "CGA-006", "CGA-007", "CGA-008", "CGA-009", "CGA-010", "CGA-011"}
 	for i, rule := range rules {
 		if rule.ID != expectedRuleIDs[i] {
 			t.Errorf("rule %d: expected ID %s, got %s", i, expectedRuleIDs[i], rule.ID)
@@ -340,5 +340,109 @@ func TestQueryCrossNamespaceSecret_WithArchRef(t *testing.T) {
 	}
 	if !strings.Contains(findings[0].ArchitectureRef, "webhook-cert") {
 		t.Errorf("ArchitectureRef should contain secret name, got %q", findings[0].ArchitectureRef)
+	}
+}
+
+func TestQueryComplexityHotspot(t *testing.T) {
+	g := graph.NewCPG()
+
+	// High complexity + security annotation -> finding
+	fn1 := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "dangerousFunc",
+		File:        "handler.go",
+		Line:        10,
+		Complexity:  15,
+		Annotations: map[string]bool{AnnotHandlesRequest: true},
+	}
+	g.AddNode(fn1)
+
+	// High complexity, no security annotation -> no finding
+	fn2 := &graph.Node{
+		ID:          "fn2",
+		Kind:        graph.NodeFunction,
+		Name:        "internalFunc",
+		File:        "internal.go",
+		Line:        20,
+		Complexity:  20,
+		Annotations: make(map[string]bool),
+	}
+	g.AddNode(fn2)
+
+	// Low complexity + security annotation -> no finding
+	fn3 := &graph.Node{
+		ID:          "fn3",
+		Kind:        graph.NodeFunction,
+		Name:        "simpleHandler",
+		File:        "handler.go",
+		Line:        30,
+		Complexity:  3,
+		Annotations: map[string]bool{AnnotHandlesRequest: true},
+	}
+	g.AddNode(fn3)
+
+	findings := queryComplexityHotspot(g)
+	if len(findings) != 1 {
+		t.Fatalf("expected 1 finding, got %d", len(findings))
+	}
+	if findings[0].NodeID != "fn1" {
+		t.Errorf("expected finding on fn1, got %s", findings[0].NodeID)
+	}
+}
+
+func TestQueryUntrustedEndpoint(t *testing.T) {
+	g := graph.NewCPG()
+
+	// Untrusted endpoint -> finding
+	ep1 := &graph.Node{
+		ID:          "ep1",
+		Kind:        graph.NodeHTTPEndpoint,
+		Name:        "publicHandler",
+		File:        "api.go",
+		Line:        10,
+		TrustLevel:  graph.TrustUntrusted,
+		Annotations: make(map[string]bool),
+	}
+	g.AddNode(ep1)
+
+	// Semi-trusted endpoint -> no finding
+	ep2 := &graph.Node{
+		ID:          "ep2",
+		Kind:        graph.NodeHTTPEndpoint,
+		Name:        "authHandler",
+		File:        "api.go",
+		Line:        20,
+		TrustLevel:  graph.TrustSemiTrusted,
+		Annotations: make(map[string]bool),
+	}
+	g.AddNode(ep2)
+
+	findings := queryUntrustedEndpoint(g)
+	if len(findings) != 1 {
+		t.Fatalf("expected 1 finding, got %d", len(findings))
+	}
+	if findings[0].NodeID != "ep1" {
+		t.Errorf("expected finding on ep1, got %s", findings[0].NodeID)
+	}
+	if findings[0].Severity != "informational" {
+		t.Errorf("expected severity informational, got %s", findings[0].Severity)
+	}
+}
+
+func TestAllAnnotationsHaveSecurityPrefix(t *testing.T) {
+	annotations := []string{
+		AnnotCreatesRBAC, AnnotHandlesAdmission, AnnotGeneratesCert,
+		AnnotAccessesSecret, AnnotCrossesNamespace, AnnotConfiguresCache,
+		AnnotBindsSubject, AnnotWritesPlaintextSecret,
+		AnnotHandlesRequest, AnnotExecutesSQL, AnnotDeserializesInput,
+		AnnotSubprocessCall, AnnotFileAccess, AnnotTemplateRender,
+		AnnotRendersHTML, AnnotEvalUsage, AnnotRedirect,
+		AnnotUnsafeBlock, AnnotFFICall, AnnotCommandExecution,
+	}
+	for _, ann := range annotations {
+		if !strings.HasPrefix(ann, SecurityAnnotationPrefix) {
+			t.Errorf("annotation %q does not start with %q", ann, SecurityAnnotationPrefix)
+		}
 	}
 }

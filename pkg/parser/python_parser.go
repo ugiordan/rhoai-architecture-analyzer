@@ -77,6 +77,49 @@ func (pp *PythonParser) CloneWithSeq(seq *atomic.Int64) Parser {
 	return NewPythonParserWithSeq(seq)
 }
 
+// computePythonComplexity counts decision points in a Python function body.
+// Complexity = 1 (base) + count of: if, elif, for, while, except, and, ternary, comprehension if.
+func computePythonComplexity(node *sitter.Node) int {
+	count := 1
+	countPythonDecisionPoints(node, &count)
+	return count
+}
+
+func countPythonDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_statement":
+		*count++
+	case "elif_clause":
+		*count++
+	case "for_statement":
+		*count++
+	case "while_statement":
+		*count++
+	case "except_clause":
+		*count++
+	case "boolean_operator":
+		// Only count "and" (short-circuit logical AND), not "or".
+		// This aligns with Go/Rust/TypeScript which count only &&.
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil && child.Type() == "and" {
+				*count++
+				break
+			}
+		}
+	case "conditional_expression":
+		*count++ // ternary: x if cond else y
+	case "if_clause":
+		*count++ // list comprehension if
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		countPythonDecisionPoints(node.Child(i), count)
+	}
+}
+
 func (pp *PythonParser) nextID(prefix string) string {
 	id := pp.idSeq.Add(1)
 	return fmt.Sprintf("%s_%d", prefix, id)
@@ -188,6 +231,11 @@ func (pp *PythonParser) extractFunction(node *sitter.Node, src []byte, file, cla
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
+	// Compute complexity from function body
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computePythonComplexity(body)
+	}
 	result.Functions = append(result.Functions, fn)
 
 	// Extract parameter names
@@ -237,7 +285,6 @@ func (pp *PythonParser) extractFunction(node *sitter.Node, src []byte, file, cla
 	}
 
 	// Walk function body for call sites, etc.
-	body := node.ChildByFieldName("body")
 	if body != nil {
 		for i := 0; i < int(body.ChildCount()); i++ {
 			child := body.Child(i)

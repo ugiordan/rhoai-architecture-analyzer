@@ -63,6 +63,50 @@ func (rp *RustParser) CloneWithSeq(seq *atomic.Int64) Parser {
 	return NewRustParserWithSeq(seq)
 }
 
+// computeRustComplexity counts decision points in a Rust function body.
+// Complexity = 1 (base) + count of: if, match arm, for, while, loop, &&, ? operator.
+func computeRustComplexity(node *sitter.Node) int {
+	count := 1
+	countRustDecisionPoints(node, &count)
+	return count
+}
+
+func countRustDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_expression":
+		// Skip if this if_expression is the direct child of an else_clause
+		// (i.e. "else if"), because it is already counted by the parent if.
+		parent := node.Parent()
+		if parent == nil || parent.Type() != "else_clause" {
+			*count++
+		}
+	case "for_expression":
+		*count++
+	case "while_expression":
+		*count++
+	case "loop_expression":
+		*count++
+	case "match_arm":
+		*count++
+	case "try_expression":
+		*count++ // the ? operator
+	case "binary_expression":
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil && child.Type() == "&&" {
+				*count++
+				break
+			}
+		}
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		countRustDecisionPoints(node.Child(i), count)
+	}
+}
+
 func (rp *RustParser) nextID(prefix string) string {
 	id := rp.idSeq.Add(1)
 	return fmt.Sprintf("%s_%d", prefix, id)
@@ -168,6 +212,12 @@ func (rp *RustParser) extractFunction(node *sitter.Node, src []byte, file, implT
 				fn.IsExtern = true
 			}
 		}
+	}
+
+	// Compute cyclomatic complexity from function body.
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeRustComplexity(body)
 	}
 
 	// Check preceding siblings for attribute_items (HTTP routes, #[test], etc.)

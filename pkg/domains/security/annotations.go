@@ -1,5 +1,9 @@
 package security
 
+// SecurityAnnotationPrefix is the namespace prefix for all security annotations.
+// Queries like CGA-010 use this prefix to match annotations dynamically.
+const SecurityAnnotationPrefix = "sec:"
+
 const (
 	AnnotCreatesRBAC           = "sec:creates_rbac"
 	AnnotHandlesAdmission      = "sec:handles_admission"

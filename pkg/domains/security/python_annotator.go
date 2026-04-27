@@ -29,7 +29,39 @@ func (a *PythonAnnotator) Annotate(g *graph.CPG, archData *domains.ArchitectureD
 		a.annotateFunction(g, fn)
 	}
 
+	// Third pass: classify trust levels
+	a.classifyTrust(g)
+
 	return nil
+}
+
+func (a *PythonAnnotator) classifyTrust(g *graph.CPG) {
+	type fnKey struct{ name, file string }
+	// Build index of Python functions by (name, file) for O(1) lookup.
+	fnIndex := make(map[fnKey]*graph.Node)
+	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		if fn.Language == "python" {
+			fnIndex[fnKey{fn.Name, fn.File}] = fn
+		}
+	}
+
+	for _, ep := range g.NodesByKind(graph.NodeHTTPEndpoint) {
+		if ep.Language != "python" {
+			continue
+		}
+		ep.TrustLevel = graph.TrustUntrusted
+		// Check if the handler function has auth decorators
+		if fn, ok := fnIndex[fnKey{ep.Name, ep.File}]; ok {
+			for _, dec := range fn.Decorators {
+				if strings.Contains(dec, "login_required") || strings.Contains(dec, "requires_auth") ||
+					strings.Contains(dec, "jwt_required") || strings.Contains(dec, "permission_required") ||
+					strings.Contains(dec, "token_required") || strings.Contains(dec, "auth_required") {
+					ep.TrustLevel = graph.TrustSemiTrusted
+					break
+				}
+			}
+		}
+	}
 }
 
 func (a *PythonAnnotator) annotateFunction(g *graph.CPG, fn *graph.Node) {

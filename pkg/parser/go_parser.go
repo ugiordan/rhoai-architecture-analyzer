@@ -48,6 +48,65 @@ func (gp *GoParser) CloneWithSeq(seq *atomic.Int64) Parser {
 	return NewGoParserWithSeq(seq)
 }
 
+// computeComplexity counts decision points in a function body AST.
+// Complexity = 1 (base) + count of: if, for/range, case (expression/type/default), &&.
+func computeComplexity(node *sitter.Node) int {
+	count := 1
+	countDecisionPoints(node, &count)
+	return count
+}
+
+func countDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_statement":
+		*count++
+	case "for_statement":
+		*count++
+	case "expression_case", "type_case", "default_case":
+		*count++
+	case "binary_expression":
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil && child.Type() == "&&" {
+				*count++
+				break
+			}
+		}
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child == nil {
+			continue
+		}
+		// Skip "else if" chains: an if_statement that is the alternative branch
+		// of a parent if_statement is not a new decision point.
+		if node.Type() == "if_statement" && child.Type() == "if_statement" {
+			// This is the else-if branch. Don't count it as a new if_statement,
+			// but still recurse into its children.
+			countDecisionPointsSkipSelf(child, count)
+			continue
+		}
+		countDecisionPoints(child, count)
+	}
+}
+
+// countDecisionPointsSkipSelf recurses into a node's children without counting
+// the node itself as a decision point. Used for else-if chains.
+func countDecisionPointsSkipSelf(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child != nil {
+			countDecisionPoints(child, count)
+		}
+	}
+}
+
 func (gp *GoParser) nextID(prefix string) string {
 	id := gp.idSeq.Add(1)
 	return fmt.Sprintf("%s_%d", prefix, id)
@@ -137,6 +196,12 @@ func (gp *GoParser) extractFunction(node *sitter.Node, src []byte, file string, 
 		if receiver != nil {
 			fn.Properties["receiver"] = receiver.Content(src)
 		}
+	}
+
+	// Compute cyclomatic complexity from function body
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeComplexity(body)
 	}
 
 	// Extract switch/case statements from function body

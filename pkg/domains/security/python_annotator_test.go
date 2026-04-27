@@ -298,6 +298,80 @@ func TestPythonAnnotatorNoFalsePositives(t *testing.T) {
 	}
 }
 
+func TestPythonAnnotatorClassifyTrustUntrusted(t *testing.T) {
+	g := graph.NewCPG()
+	fn := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		EndLine:     20,
+		Language:    "python",
+		Decorators:  []string{`@app.route("/users")`},
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	ep := &graph.Node{
+		ID:          "ep1",
+		Kind:        graph.NodeHTTPEndpoint,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		Language:    "python",
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	g.AddNode(fn)
+	g.AddNode(ep)
+
+	a := &PythonAnnotator{}
+	if err := a.Annotate(g, nil); err != nil {
+		t.Fatalf("Annotate failed: %v", err)
+	}
+
+	if g.GetNode("ep1").TrustLevel != graph.TrustUntrusted {
+		t.Errorf("expected untrusted, got %s", g.GetNode("ep1").TrustLevel)
+	}
+}
+
+func TestPythonAnnotatorClassifyTrustSemiTrusted(t *testing.T) {
+	g := graph.NewCPG()
+	fn := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		EndLine:     20,
+		Language:    "python",
+		Decorators:  []string{`@app.route("/users")`, `@login_required`},
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	ep := &graph.Node{
+		ID:          "ep1",
+		Kind:        graph.NodeHTTPEndpoint,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		Language:    "python",
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	g.AddNode(fn)
+	g.AddNode(ep)
+
+	a := &PythonAnnotator{}
+	if err := a.Annotate(g, nil); err != nil {
+		t.Fatalf("Annotate failed: %v", err)
+	}
+
+	if g.GetNode("ep1").TrustLevel != graph.TrustSemiTrusted {
+		t.Errorf("expected semi_trusted, got %s", g.GetNode("ep1").TrustLevel)
+	}
+}
+
 func TestPythonAnnotatorIgnoresOtherLanguages(t *testing.T) {
 	g := graph.NewCPG()
 	cs := &graph.Node{

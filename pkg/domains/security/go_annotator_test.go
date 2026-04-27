@@ -14,6 +14,7 @@ func TestGoAnnotatorHandlesAdmission(t *testing.T) {
 		Name:        "Handle",
 		File:        "webhook.go",
 		Line:        10,
+		Language:    "go",
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 		ParamTypes:  []string{"context.Context", "admission.Request"},
@@ -34,14 +35,14 @@ func TestGoAnnotatorCreatesRBAC(t *testing.T) {
 	g := graph.NewCPG()
 	fn := &graph.Node{
 		ID: "fn1", Kind: graph.NodeFunction, Name: "bindRole",
-		File: "rbac.go", Line: 10, EndLine: 20,
+		File: "rbac.go", Line: 10, EndLine: 20, Language: "go",
 		Annotations: make(map[string]bool), Properties: make(map[string]string),
 	}
 	g.AddNode(fn)
 
 	cs := &graph.Node{
 		ID: "call1", Kind: graph.NodeCallSite, Name: "c.Create",
-		File: "rbac.go", Line: 15,
+		File: "rbac.go", Line: 15, Language: "go",
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"arg_types": "&rbacv1.ClusterRoleBinding"},
 	}
@@ -65,7 +66,7 @@ func TestGoAnnotatorGeneratesCert(t *testing.T) {
 	g := graph.NewCPG()
 	fn := &graph.Node{
 		ID: "fn1", Kind: graph.NodeFunction, Name: "generateCert",
-		File: "cert.go", Line: 10, EndLine: 30,
+		File: "cert.go", Line: 10, EndLine: 30, Language: "go",
 		Annotations: make(map[string]bool), Properties: make(map[string]string),
 	}
 	g.AddNode(fn)
@@ -74,6 +75,7 @@ func TestGoAnnotatorGeneratesCert(t *testing.T) {
 		ID: "struct1", Kind: graph.NodeStructLiteral, Name: "x509.Certificate",
 		File:        "cert.go",
 		Line:        15,
+		Language:    "go",
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 		StructType:  "x509.Certificate",
@@ -99,14 +101,14 @@ func TestGoAnnotatorBindsSubject(t *testing.T) {
 	g := graph.NewCPG()
 	fn := &graph.Node{
 		ID: "fn1", Kind: graph.NodeFunction, Name: "bindRole",
-		File: "rbac.go", Line: 10, EndLine: 30,
+		File: "rbac.go", Line: 10, EndLine: 30, Language: "go",
 		Annotations: make(map[string]bool), Properties: make(map[string]string),
 	}
 	g.AddNode(fn)
 
 	cs := &graph.Node{
 		ID: "call1", Kind: graph.NodeCallSite, Name: "c.Create",
-		File: "rbac.go", Line: 15,
+		File: "rbac.go", Line: 15, Language: "go",
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"arg_types": "&rbacv1.ClusterRoleBinding"},
 	}
@@ -115,7 +117,7 @@ func TestGoAnnotatorBindsSubject(t *testing.T) {
 
 	sl := &graph.Node{
 		ID: "struct1", Kind: graph.NodeStructLiteral, Name: "rbacv1.Subject",
-		File: "rbac.go", Line: 18,
+		File: "rbac.go", Line: 18, Language: "go",
 		Annotations: make(map[string]bool),
 		Properties: map[string]string{
 			"type":          "rbacv1.Subject",
@@ -136,11 +138,62 @@ func TestGoAnnotatorBindsSubject(t *testing.T) {
 	}
 }
 
+func TestGoAnnotatorSetsTrustLevel(t *testing.T) {
+	g := graph.NewCPG()
+
+	// Untrusted: HTTP handler without auth
+	httpHandler := &graph.Node{
+		ID:          "http1",
+		Kind:        graph.NodeHTTPEndpoint,
+		Name:        "publicHandler",
+		Route:       "/public",
+		HTTPMethod:  "GET",
+		Language:    "go",
+		Annotations: make(map[string]bool),
+	}
+	g.AddNode(httpHandler)
+
+	// Semi-trusted: admission webhook handler
+	admissionFn := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "HandleAdmission",
+		Language:    "go",
+		ParamTypes:  []string{"admission.Request"},
+		Annotations: make(map[string]bool),
+	}
+	g.AddNode(admissionFn)
+
+	// Trusted: reconciler
+	reconciler := &graph.Node{
+		ID:          "fn2",
+		Kind:        graph.NodeFunction,
+		Name:        "Reconcile",
+		Language:    "go",
+		ParamTypes:  []string{"context.Context", "ctrl.Request"},
+		Annotations: make(map[string]bool),
+	}
+	g.AddNode(reconciler)
+
+	a := &GoAnnotator{}
+	a.Annotate(g, nil)
+
+	if httpHandler.TrustLevel != graph.TrustUntrusted {
+		t.Errorf("HTTP handler trust = %q, want %q", httpHandler.TrustLevel, graph.TrustUntrusted)
+	}
+	if admissionFn.TrustLevel != graph.TrustSemiTrusted {
+		t.Errorf("admission handler trust = %q, want %q", admissionFn.TrustLevel, graph.TrustSemiTrusted)
+	}
+	if reconciler.TrustLevel != graph.TrustTrusted {
+		t.Errorf("reconciler trust = %q, want %q", reconciler.TrustLevel, graph.TrustTrusted)
+	}
+}
+
 func TestGoAnnotatorNoFalsePositives(t *testing.T) {
 	g := graph.NewCPG()
 	fn := &graph.Node{
 		ID: "fn1", Kind: graph.NodeFunction, Name: "doStuff",
-		File: "regular.go", Line: 10,
+		File: "regular.go", Line: 10, Language: "go",
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"param_types": "context.Context,string"},
 	}

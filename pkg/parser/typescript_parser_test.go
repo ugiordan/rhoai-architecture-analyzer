@@ -143,6 +143,38 @@ func TestTypeScriptParserReactComponent(t *testing.T) {
 	}
 }
 
+func TestTypeScriptParserComputesComplexity(t *testing.T) {
+	content, err := os.ReadFile("../../testdata/complexity_sample.ts")
+	if err != nil {
+		t.Fatalf("Failed to read test fixture: %v", err)
+	}
+
+	p := NewTypeScriptParser()
+	result, err := p.ParseFile("testdata/complexity_sample.ts", content)
+	if err != nil {
+		t.Fatalf("ParseFile failed: %v", err)
+	}
+
+	expected := map[string]int{
+		"simpleFunc":  1,
+		"complexFunc": 5,
+		"switchFunc":  5,
+		"loopFunc":    4, // while + do + catch + base (|| not counted)
+	}
+
+	for _, fn := range result.Functions {
+		if want, ok := expected[fn.Name]; ok {
+			if fn.Complexity != want {
+				t.Errorf("function %s: complexity = %d, want %d", fn.Name, fn.Complexity, want)
+			}
+			delete(expected, fn.Name)
+		}
+	}
+	for name := range expected {
+		t.Errorf("function %s not found in parse result", name)
+	}
+}
+
 func TestTypeScriptParserSkipsDeclarationFiles(t *testing.T) {
 	content := []byte(`
 declare module 'express' {
