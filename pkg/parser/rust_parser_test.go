@@ -222,7 +222,7 @@ func TestRustParserAllFunctionsHaveLanguage(t *testing.T) {
 
 func TestRustParserFileTooLarge(t *testing.T) {
 	p := NewRustParser()
-	bigContent := make([]byte, maxFileSize+1)
+	bigContent := make([]byte, MaxFileSize+1)
 	_, err := p.ParseFile("big.rs", bigContent)
 	if err == nil {
 		t.Error("expected error for oversized file")

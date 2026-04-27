@@ -67,6 +67,9 @@ func NewTypeScriptParserWithSeq(seq *atomic.Int64) *TypeScriptParser {
 
 func (tp *TypeScriptParser) Language() string     { return "typescript" }
 func (tp *TypeScriptParser) Extensions() []string { return []string{".ts", ".tsx"} }
+func (tp *TypeScriptParser) CloneWithSeq(seq *atomic.Int64) Parser {
+	return NewTypeScriptParserWithSeq(seq)
+}
 
 func (tp *TypeScriptParser) nextID(prefix string) string {
 	id := tp.idSeq.Add(1)
@@ -81,8 +84,8 @@ func (tp *TypeScriptParser) ParseFile(path string, content []byte) (*ParseResult
 		return &ParseResult{}, nil
 	}
 
-	if len(content) > maxFileSize {
-		return nil, fmt.Errorf("file too large (%d bytes, max %d)", len(content), maxFileSize)
+	if len(content) > MaxFileSize {
+		return nil, fmt.Errorf("file too large (%d bytes, max %d)", len(content), MaxFileSize)
 	}
 
 	tree, err := tp.parser.ParseCtx(context.Background(), nil, content)
@@ -144,6 +147,11 @@ func (tp *TypeScriptParser) extractFunction(node *sitter.Node, src []byte, file 
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
+	// Extract parameter types for request handler detection
+	params := node.ChildByFieldName("parameters")
+	if params != nil {
+		fn.ParamTypes = extractParamTypes(params, src)
+	}
 	result.Functions = append(result.Functions, fn)
 }
 
@@ -164,6 +172,11 @@ func (tp *TypeScriptParser) extractMethod(node *sitter.Node, src []byte, file, c
 		TypeName:    className,
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
+	}
+	// Extract parameter types for request handler detection
+	params := node.ChildByFieldName("parameters")
+	if params != nil {
+		fn.ParamTypes = extractParamTypes(params, src)
 	}
 	result.Functions = append(result.Functions, fn)
 }
@@ -213,6 +226,14 @@ func (tp *TypeScriptParser) extractArrowFunctions(node *sitter.Node, src []byte,
 				Language:    "typescript",
 				Annotations: make(map[string]bool),
 				Properties:  make(map[string]string),
+			}
+			// Find the arrow_function node to extract params
+			arrowNode := findArrowFunction(valueNode)
+			if arrowNode != nil {
+				params := arrowNode.ChildByFieldName("parameters")
+				if params != nil {
+					fn.ParamTypes = extractParamTypes(params, src)
+				}
 			}
 			result.Functions = append(result.Functions, fn)
 		}
@@ -312,6 +333,7 @@ func (tp *TypeScriptParser) maybeExtractExpressHandler(node *sitter.Node, src []
 			"method": httpMethod,
 		},
 	}
+	handler.HTTPMethod = httpMethod
 	if route != "" {
 		handler.Properties["route"] = route
 		handler.Route = route
@@ -430,4 +452,49 @@ func stripQuotes(s string) string {
 		}
 	}
 	return s
+}
+
+// extractParamTypes extracts type annotation strings from a formal_parameters node.
+func extractParamTypes(params *sitter.Node, src []byte) []string {
+	var types []string
+	for i := 0; i < int(params.ChildCount()); i++ {
+		param := params.Child(i)
+		if param == nil {
+			continue
+		}
+		switch param.Type() {
+		case "required_parameter", "optional_parameter":
+			typeNode := param.ChildByFieldName("type")
+			if typeNode != nil {
+				// type_annotation contains ": Type", extract just the type part
+				typeText := typeNode.Content(src)
+				typeText = strings.TrimPrefix(typeText, ":")
+				typeText = strings.TrimSpace(typeText)
+				if typeText != "" {
+					types = append(types, typeText)
+				}
+			} else {
+				// No type annotation, use the parameter name as fallback
+				nameNode := param.ChildByFieldName("pattern")
+				if nameNode != nil {
+					types = append(types, nameNode.Content(src))
+				}
+			}
+		}
+	}
+	return types
+}
+
+// findArrowFunction finds an arrow_function node within a node tree (handles type assertions, etc.)
+func findArrowFunction(node *sitter.Node) *sitter.Node {
+	if node.Type() == "arrow_function" {
+		return node
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child != nil && child.Type() == "arrow_function" {
+			return child
+		}
+	}
+	return nil
 }
