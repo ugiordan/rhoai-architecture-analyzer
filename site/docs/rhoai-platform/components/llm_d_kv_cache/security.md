@@ -12,7 +12,7 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| 0 | cmd | ? | ? | ? | [`deploy/common/statefulset.yaml`](https://github.com/llm-d/llm-d-kv-cache/blob/dceda67ede14e234ce5373857b51f4bdbdbd4323/deploy/common/statefulset.yaml) |
+| 0 | cmd | ? | ? | ? | [`deploy/common/statefulset.yaml`](https://github.com/llm-d/llm-d-kv-cache/blob/c0e51570d277baaf2e0ac43515959ddf4eaf8837/deploy/common/statefulset.yaml) |
 
 ## Build Security
 

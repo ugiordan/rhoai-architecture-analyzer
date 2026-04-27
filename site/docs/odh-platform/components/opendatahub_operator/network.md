@@ -20,9 +20,9 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| webhook-service | ClusterIP | 443/TCP | [`config/rhaii/webhook/service.yaml`](https://github.com/opendatahub-io/opendatahub-operator/blob/d3ea1b8f029ac1156a79ef6440acd7a8831935de/config/rhaii/webhook/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`config/rhoai/webhook/service.yaml`](https://github.com/opendatahub-io/opendatahub-operator/blob/d3ea1b8f029ac1156a79ef6440acd7a8831935de/config/rhoai/webhook/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/opendatahub-io/opendatahub-operator/blob/d3ea1b8f029ac1156a79ef6440acd7a8831935de/config/webhook/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`config/rhaii/webhook/service.yaml`](https://github.com/opendatahub-io/opendatahub-operator/blob/038549e88e3bdbedb3c07ad36ab5f9a27c71e937/config/rhaii/webhook/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`config/rhoai/webhook/service.yaml`](https://github.com/opendatahub-io/opendatahub-operator/blob/038549e88e3bdbedb3c07ad36ab5f9a27c71e937/config/rhoai/webhook/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/opendatahub-io/opendatahub-operator/blob/038549e88e3bdbedb3c07ad36ab5f9a27c71e937/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

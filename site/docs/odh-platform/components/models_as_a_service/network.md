@@ -19,26 +19,26 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| maas-api | ClusterIP | 8080/TCP | [`deployment/base/maas-api/core/service.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-api/core/service.yaml) |
-| maas-api | ClusterIP | 0/TCP, 8443/TCP | [`deployment/base/maas-api/overlays/tls/service-patch.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-api/overlays/tls/service-patch.yaml) |
-| payload-processing | ClusterIP | 9004/TCP | [`deployment/base/payload-processing/manager/service.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/payload-processing/manager/service.yaml) |
+| maas-api | ClusterIP | 8080/TCP | [`deployment/base/maas-api/core/service.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/core/service.yaml) |
+| maas-api | ClusterIP | 0/TCP, 8443/TCP | [`deployment/base/maas-api/overlays/tls/service-patch.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/overlays/tls/service-patch.yaml) |
+| payload-processing | ClusterIP | 9004/TCP | [`deployment/base/payload-processing/manager/service.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/payload-processing/manager/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| DestinationRule | maas-api-backend-tls |  |  | no | [`deployment/base/maas-api/overlays/tls/destinationrule.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-api/overlays/tls/destinationrule.yaml) |
-| HTTPRoute | maas-api-route |  | /v1/models, /maas-api | no | [`deployment/base/maas-api/networking/httproute.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-api/networking/httproute.yaml) |
+| DestinationRule | maas-api-backend-tls |  |  | no | [`deployment/base/maas-api/overlays/tls/destinationrule.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/overlays/tls/destinationrule.yaml) |
+| HTTPRoute | maas-api-route |  | /v1/models, /maas-api | no | [`deployment/base/maas-api/networking/httproute.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/networking/httproute.yaml) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| maas-api-cleanup-restrict | Egress, Ingress | [`deployment/base/maas-api/core/networkpolicy-cleanup.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-api/core/networkpolicy-cleanup.yaml) |
-| maas-api-cleanup-restrict |  | [`deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml) |
-| maas-authorino-allow | Ingress | [`deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml) |
-| maas-authorino-allow | Ingress | [`scripts/data/maas-authorino-networkpolicy.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/scripts/data/maas-authorino-networkpolicy.yaml) |
-| maas-controller-allow-monitoring | Ingress | [`deployment/base/maas-controller/monitoring/networkpolicy.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/801a79bdd678102234a4e34dd88d4fb08fa80c0a/deployment/base/maas-controller/monitoring/networkpolicy.yaml) |
+| maas-api-cleanup-restrict | Egress, Ingress | [`deployment/base/maas-api/core/networkpolicy-cleanup.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/core/networkpolicy-cleanup.yaml) |
+| maas-api-cleanup-restrict |  | [`deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml) |
+| maas-authorino-allow | Ingress | [`deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml) |
+| maas-authorino-allow | Ingress | [`scripts/data/maas-authorino-networkpolicy.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/scripts/data/maas-authorino-networkpolicy.yaml) |
+| maas-controller-allow-monitoring | Ingress | [`deployment/base/maas-controller/monitoring/networkpolicy.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-controller/monitoring/networkpolicy.yaml) |
 
 ## Network Policy Graph
 

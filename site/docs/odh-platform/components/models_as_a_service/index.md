@@ -1,11 +1,11 @@
 # models-as-a-service
 
-> **Architecture snapshot: 2026-04-24** (2026-04-24)
+> **Architecture snapshot: 2026-04-27** (2026-04-27)
 
 
 **Repository:** opendatahub-io/models-as-a-service  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-24T08:14:06Z
+**Extracted:** 2026-04-27T08:21:12Z
 
 ## Summary
 
@@ -70,6 +70,8 @@ No CRDs defined.
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
+| github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_model | v0.6.2 |
 | k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.33.1 |
 | k8s.io/apiextensions-apiserver | v0.33.1 |

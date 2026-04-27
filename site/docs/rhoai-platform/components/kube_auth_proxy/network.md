@@ -20,17 +20,17 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/allowpaths/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/allowpaths/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/basics/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/basics/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/clientcertificates/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/clientcertificates/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/flags/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/flags/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/h2c-upstream/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/h2c-upstream/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/hardcoded_authorizer/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/hardcoded_authorizer/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/http2/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/http2/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/ignorepaths/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/ignorepaths/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/static-auth/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/static-auth/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/tokenmasking/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/tokenmasking/service.yaml) |
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/tokenrequest/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/34313aca1b22cfa336b45c9357acb8bc216b854a/kube-rbac-proxy/test/e2e/tokenrequest/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/allowpaths/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/allowpaths/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/basics/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/basics/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/clientcertificates/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/clientcertificates/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/flags/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/flags/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/h2c-upstream/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/h2c-upstream/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/hardcoded_authorizer/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/hardcoded_authorizer/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/http2/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/http2/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/ignorepaths/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/ignorepaths/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/static-auth/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/static-auth/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/tokenmasking/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/tokenmasking/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`kube-rbac-proxy/test/e2e/tokenrequest/service.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/d1acdea5345235b858bf1847fa73961abc023ff6/kube-rbac-proxy/test/e2e/tokenrequest/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

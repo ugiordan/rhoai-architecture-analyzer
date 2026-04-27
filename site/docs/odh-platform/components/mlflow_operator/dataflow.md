@@ -6,17 +6,18 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 
 | Type | GVK | Source |
 |------|-----|--------|
-| For | api/v1/MLflow | [`internal/controller/mlflow_controller.go:378`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L378) |
-| Owns | /v1/PersistentVolumeClaim | [`internal/controller/mlflow_controller.go:383`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L383) |
-| Owns | /v1/Secret | [`internal/controller/mlflow_controller.go:380`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L380) |
-| Owns | /v1/Service | [`internal/controller/mlflow_controller.go:381`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L381) |
-| Owns | /v1/ServiceAccount | [`internal/controller/mlflow_controller.go:382`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L382) |
-| Owns | apis/v1/HTTPRoute | [`internal/controller/mlflow_controller.go:412`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L412) |
-| Owns | apps/v1/Deployment | [`internal/controller/mlflow_controller.go:379`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L379) |
-| Owns | console/v1/ConsoleLink | [`internal/controller/mlflow_controller.go:404`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L404) |
-| Owns | monitoring/v1/ServiceMonitor | [`internal/controller/mlflow_controller.go:420`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L420) |
-| Owns | rbac.authorization.k8s.io/v1/ClusterRoleBinding | [`internal/controller/mlflow_controller.go:389`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L389) |
-| Watches | rbac.authorization.k8s.io/v1/ClusterRole | [`internal/controller/mlflow_controller.go:388`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/internal/controller/mlflow_controller.go#L388) |
+| For | api/v1/MLflow | [`internal/controller/mlflow_controller.go:408`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L408) |
+| Owns | /v1/PersistentVolumeClaim | [`internal/controller/mlflow_controller.go:414`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L414) |
+| Owns | /v1/Secret | [`internal/controller/mlflow_controller.go:411`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L411) |
+| Owns | /v1/Service | [`internal/controller/mlflow_controller.go:412`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L412) |
+| Owns | /v1/ServiceAccount | [`internal/controller/mlflow_controller.go:413`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L413) |
+| Owns | apis/v1/HTTPRoute | [`internal/controller/mlflow_controller.go:443`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L443) |
+| Owns | apps/v1/Deployment | [`internal/controller/mlflow_controller.go:409`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L409) |
+| Owns | batch/v1/CronJob | [`internal/controller/mlflow_controller.go:410`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L410) |
+| Owns | console/v1/ConsoleLink | [`internal/controller/mlflow_controller.go:435`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L435) |
+| Owns | monitoring/v1/ServiceMonitor | [`internal/controller/mlflow_controller.go:451`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L451) |
+| Owns | rbac.authorization.k8s.io/v1/ClusterRoleBinding | [`internal/controller/mlflow_controller.go:420`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L420) |
+| Watches | rbac.authorization.k8s.io/v1/ClusterRole | [`internal/controller/mlflow_controller.go:419`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/internal/controller/mlflow_controller.go#L419) |
 
 ## Reconciliation Flow
 
@@ -38,6 +39,7 @@ sequenceDiagram
     controller_manager->>KubernetesAPI: Create/Update ServiceAccount
     controller_manager->>KubernetesAPI: Create/Update HTTPRoute
     controller_manager->>KubernetesAPI: Create/Update Deployment
+    controller_manager->>KubernetesAPI: Create/Update CronJob
     controller_manager->>KubernetesAPI: Create/Update ConsoleLink
     controller_manager->>KubernetesAPI: Create/Update ServiceMonitor
     controller_manager->>KubernetesAPI: Create/Update ClusterRoleBinding

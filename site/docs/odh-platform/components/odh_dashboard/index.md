@@ -1,11 +1,11 @@
 # odh-dashboard
 
-> **Architecture snapshot: 2026-04-24** (2026-04-24)
+> **Architecture snapshot: 2026-04-27** (2026-04-27)
 
 
 **Repository:** opendatahub-io/odh-dashboard  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-24T08:14:50Z
+**Extracted:** 2026-04-27T08:21:32Z
 
 ## Summary
 

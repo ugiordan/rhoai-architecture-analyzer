@@ -4,7 +4,7 @@ ServiceAccount bindings, roles, and resource permissions.
 
 ## RBAC Overview
 
-This component defines a large RBAC surface (119 diagram lines). The graph below groups roles by permission scope.
+This component defines a large RBAC surface (121 diagram lines). The graph below groups roles by permission scope.
 
 ```mermaid
 graph LR
@@ -23,7 +23,7 @@ graph LR
     mlflow_integration["mlflow-integration\n5 resources"]:::narrow
     mlflow_view["mlflow-view\n8 resources"]:::narrow
     leader_election_role["leader-election-role\n3 resources"]:::narrow
-    manager_role["manager-role\n8 resources"]:::narrow
+    manager_role["manager-role\n9 resources"]:::narrow
     end
 
     subj_controller_manager["controller-manager\nServiceAccount"]:::subject
@@ -80,6 +80,7 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 | leader-election-role | Role |  | events | create, patch |
 | manager-role | Role |  | configmaps, persistentvolumeclaims, secrets, serviceaccounts, services | create, delete, get, list, patch, update, watch |
 | manager-role | Role |  | deployments | create, delete, get, list, patch, update, watch |
+| manager-role | Role |  | cronjobs | create, delete, get, list, patch, update, watch |
 | manager-role | Role |  | networkpolicies | create, delete, get, list, patch, update, watch |
 | manager-role | Role |  | servicemonitors | create, delete, get, list, patch, update, watch |
 
@@ -87,29 +88,29 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 
 | Name | Resources | Verbs | Source |
 |------|-----------|-------|--------|
-| manager-role | namespaces | get, list, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | secrets | get, list, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | consolelinks | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | httproutes | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | mlflowconfigs | get, list, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | mlflows | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | mlflows/finalizers | update | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | mlflows/status | get, patch, update | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| manager-role | clusterrolebindings, clusterroles | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/role.yaml) |
-| metrics-auth-role | tokenreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/metrics_auth_role.yaml) |
-| metrics-auth-role | subjectaccessreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/metrics_auth_role.yaml) |
-| metrics-reader |  | get | [`config/rbac/metrics_reader_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/metrics_reader_role.yaml) |
-| mlflow-edit | mlflows | get, list, watch, create, delete, deletecollection, patch, update | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-edit | mlflows/finalizers | patch, update | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-edit | mlflowconfigs | create, delete, deletecollection, patch, update | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-edit | gatewaysecrets | get, list | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-edit | datasets, experiments, registeredmodels, gatewaysecrets, gatewayendpoints, gatewaymodeldefinitions | create, update, delete | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-edit | gatewaysecrets/use, gatewayendpoints/use, gatewaymodeldefinitions/use | create | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-integration | datasets, experiments, registeredmodels | get, list, create, update | [`config/rbac/mlflow_integration_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_integration_role.yaml) |
-| mlflow-integration | gatewayendpoints | get, list | [`config/rbac/mlflow_integration_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_integration_role.yaml) |
-| mlflow-integration | gatewayendpoints/use | create | [`config/rbac/mlflow_integration_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_integration_role.yaml) |
-| mlflow-view | mlflows | get, list, watch | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-view | mlflowconfigs | get, list, watch | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-view | mlflows/status | get, list, watch | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
-| mlflow-view | datasets, experiments, registeredmodels, gatewayendpoints, gatewaymodeldefinitions | get, list | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/5a8e5dbe95e606d5d964968f933b3037399805c8/config/rbac/mlflow_aggregate_roles.yaml) |
+| manager-role | namespaces | get, list, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | secrets | get, list, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | consolelinks | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | httproutes | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | mlflowconfigs | get, list, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | mlflows | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | mlflows/finalizers | update | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | mlflows/status | get, patch, update | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| manager-role | clusterrolebindings, clusterroles | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/role.yaml) |
+| metrics-auth-role | tokenreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/metrics_auth_role.yaml) |
+| metrics-auth-role | subjectaccessreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/metrics_auth_role.yaml) |
+| metrics-reader |  | get | [`config/rbac/metrics_reader_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/metrics_reader_role.yaml) |
+| mlflow-edit | mlflows | get, list, watch, create, delete, deletecollection, patch, update | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-edit | mlflows/finalizers | patch, update | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-edit | mlflowconfigs | create, delete, deletecollection, patch, update | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-edit | gatewaysecrets | get, list | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-edit | datasets, experiments, registeredmodels, gatewaysecrets, gatewayendpoints, gatewaymodeldefinitions | create, update, delete | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-edit | gatewaysecrets/use, gatewayendpoints/use, gatewaymodeldefinitions/use | create | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-integration | datasets, experiments, registeredmodels | get, list, create, update | [`config/rbac/mlflow_integration_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_integration_role.yaml) |
+| mlflow-integration | gatewayendpoints | get, list | [`config/rbac/mlflow_integration_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_integration_role.yaml) |
+| mlflow-integration | gatewayendpoints/use | create | [`config/rbac/mlflow_integration_role.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_integration_role.yaml) |
+| mlflow-view | mlflows | get, list, watch | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-view | mlflowconfigs | get, list, watch | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-view | mlflows/status | get, list, watch | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
+| mlflow-view | datasets, experiments, registeredmodels, gatewayendpoints, gatewaymodeldefinitions | get, list | [`config/rbac/mlflow_aggregate_roles.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/daa0c1a28be532563ca6c0f1925ddecd0d0290f1/config/rbac/mlflow_aggregate_roles.yaml) |
 

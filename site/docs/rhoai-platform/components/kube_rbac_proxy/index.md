@@ -1,11 +1,11 @@
 # kube-rbac-proxy
 
-> **Architecture snapshot: 2026-04-24** (2026-04-24)
+> **Architecture snapshot: 2026-04-27** (2026-04-27)
 
 
 **Repository:** brancz/kube-rbac-proxy  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-24T08:14:41Z
+**Extracted:** 2026-04-27T08:21:56Z
 
 ## Summary
 
