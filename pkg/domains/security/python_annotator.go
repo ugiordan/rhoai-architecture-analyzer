@@ -10,7 +10,7 @@ import (
 
 type PythonAnnotator struct{}
 
-var secretPattern = regexp.MustCompile(`(?i)(secret|password|token|api[_\-]?key|credential|auth|bearer)`)
+var secretPattern = regexp.MustCompile(`(?i)(^|[_\-.])(secret|password|passwd|token|api[_\-.]?key|credential|private[_\-.]?key|bearer)([_\-.]|$)`)
 
 func (a *PythonAnnotator) Annotate(g *graph.CPG, archData *domains.ArchitectureData) error {
 	// First pass: annotate individual call sites

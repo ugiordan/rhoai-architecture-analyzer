@@ -1,6 +1,10 @@
 package parser
 
-import "github.com/ugiordan/architecture-analyzer/pkg/graph"
+import (
+	"sync/atomic"
+
+	"github.com/ugiordan/architecture-analyzer/pkg/graph"
+)
 
 // ParseResult holds the nodes and edges extracted from a single source file.
 type ParseResult struct {
@@ -17,4 +21,7 @@ type Parser interface {
 	ParseFile(path string, content []byte) (*ParseResult, error)
 	Language() string
 	Extensions() []string
+	// CloneWithSeq returns a new parser instance sharing the given ID counter.
+	// Each goroutine needs its own parser (tree-sitter requirement).
+	CloneWithSeq(seq *atomic.Int64) Parser
 }

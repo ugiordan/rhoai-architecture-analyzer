@@ -116,6 +116,9 @@ func (a *GoAnnotator) annotateStructLiteral(g *graph.CPG, sl *graph.Node) {
 
 func (a *GoAnnotator) checkBindsSubject(g *graph.CPG, fn *graph.Node) {
 	for _, edge := range g.OutEdges(fn.ID) {
+		if edge.Kind != graph.EdgeDataFlow {
+			continue
+		}
 		target := g.GetNode(edge.To)
 		if target == nil {
 			continue

@@ -324,7 +324,10 @@ func cmdAggregate(args []string) error {
 	fmt.Printf("Rendered %d platform diagram(s) to: %s\n", len(diagrams), diagramsDir)
 
 	if *ver != "" {
-		repos := collectRepoSHAs(fs.Arg(0))
+		repos, err := collectRepoSHAs(fs.Arg(0))
+		if err != nil {
+			return fmt.Errorf("collecting repo SHAs: %w", err)
+		}
 		if err := writeSnapshotMetadata(outDir, *ver, repos, *platform); err != nil {
 			return fmt.Errorf("writing snapshot metadata: %w", err)
 		}
@@ -540,62 +543,17 @@ func cmdScan(args []string) error {
 		return err
 	}
 
-	// Run legacy queries
-	engine := query.NewEngine()
-	findings := engine.RunAll(cpg)
-
-	// Run domain analyzers if any are registered
-	registeredDomains := domains.Names()
-	if len(registeredDomains) > 0 {
-		var analyzers []domains.DomainAnalyzer
-		if *domainList != "" {
-			names := strings.Split(*domainList, ",")
-			resolved, resolveErr := domains.ResolveDependencies(names)
-			if resolveErr != nil {
-				return resolveErr
-			}
-			analyzers, err = domains.Get(resolved)
-			if err != nil {
-				return err
-			}
-		} else {
-			analyzers = domains.All()
-		}
-
-		var archData *domains.ArchitectureData
-		if *withArch {
-			opts := &extractor.ExtractOptions{}
-			archResult, extractErr := extractor.ExtractAll(repoPath, opts)
-			if extractErr != nil {
-				fmt.Fprintf(os.Stderr, "Warning: architecture extraction failed: %v\n", extractErr)
-			} else {
-				raw, _ := json.Marshal(archResult)
-				var data map[string]interface{}
-				json.Unmarshal(raw, &data)
-				archData = &domains.ArchitectureData{Raw: data}
-
-				parsed, parseErr := arch.Parse(data)
-				if parseErr != nil {
-					fmt.Fprintf(os.Stderr, "Warning: architecture data parsing failed: %v\n", parseErr)
-				} else {
-					cpg.ArchData = parsed
-				}
-			}
-		}
-
-		orch := domains.NewOrchestrator(analyzers)
-		results, runErr := orch.Run(cpg, "go", archData)
-		if runErr != nil {
-			return fmt.Errorf("domain analysis: %w", runErr)
-		}
-
-		for _, dr := range results {
-			fmt.Printf("Domain %s: %d annotations added, %d findings\n",
-				dr.Domain, dr.AnnotationsAdded, len(dr.Findings))
-			findings = append(findings, dr.Findings...)
-		}
+	var archData *domains.ArchitectureData
+	if *withArch {
+		archData = prepareArchData(repoPath, cpg, "")
 	}
 
+	findings, err := runSecurityScan(cpg, *domainList, archData)
+	if err != nil {
+		return err
+	}
+
+	registeredDomains := domains.Names()
 	switch *format {
 	case "text":
 		printFindings(cpg, findings)
@@ -750,37 +708,9 @@ func cmdFullAnalysis(args []string) error {
 			cpg.ArchData = parsedArch
 		}
 
-		// Legacy queries
-		engine := query.NewEngine()
-		findings := engine.RunAll(cpg)
-
-		// Domain analyzers
-		var analyzers []domains.DomainAnalyzer
-		if *domainList != "" {
-			names := strings.Split(*domainList, ",")
-			resolved, resolveErr := domains.ResolveDependencies(names)
-			if resolveErr != nil {
-				return resolveErr
-			}
-			analyzers, err = domains.Get(resolved)
-			if err != nil {
-				return err
-			}
-		} else {
-			analyzers = domains.All()
-		}
-
-		if len(analyzers) > 0 {
-			orch := domains.NewOrchestrator(analyzers)
-			results, runErr := orch.Run(cpg, "go", archData)
-			if runErr != nil {
-				return fmt.Errorf("domain analysis: %w", runErr)
-			}
-			for _, dr := range results {
-				fmt.Printf("Domain %s: %d annotations, %d findings\n",
-					dr.Domain, dr.AnnotationsAdded, len(dr.Findings))
-				findings = append(findings, dr.Findings...)
-			}
+		findings, scanErr := runSecurityScan(cpg, *domainList, archData)
+		if scanErr != nil {
+			return scanErr
 		}
 
 		printFindings(cpg, findings)
@@ -840,11 +770,11 @@ func cmdFullAnalysis(args []string) error {
 
 // collectRepoSHAs scans a results directory for component-architecture.json files
 // and extracts repo -> commit_sha pairs for snapshot metadata.
-func collectRepoSHAs(resultsDir string) map[string]string {
+func collectRepoSHAs(resultsDir string) (map[string]string, error) {
 	repos := make(map[string]string)
 	entries, err := os.ReadDir(resultsDir)
 	if err != nil {
-		return repos
+		return repos, fmt.Errorf("reading results directory %s: %w", resultsDir, err)
 	}
 	for _, entry := range entries {
 		if !entry.IsDir() {
@@ -853,6 +783,7 @@ func collectRepoSHAs(resultsDir string) map[string]string {
 		jsonPath := filepath.Join(resultsDir, entry.Name(), "component-architecture.json")
 		data, err := loadJSON(jsonPath)
 		if err != nil {
+			fmt.Printf("WARN: failed to load %s: %v\n", jsonPath, err)
 			continue
 		}
 		repo, _ := data["repo"].(string)
@@ -861,7 +792,69 @@ func collectRepoSHAs(resultsDir string) map[string]string {
 			repos[repo] = sha
 		}
 	}
-	return repos
+	return repos, nil
+}
+
+// runSecurityScan runs legacy queries and domain analyzers against a CPG,
+// returning all findings. If domainList is non-empty, only those domains run.
+func runSecurityScan(cpg *graph.CPG, domainList string, archData *domains.ArchitectureData) ([]query.Finding, error) {
+	engine := query.NewEngine()
+	findings := engine.RunAll(cpg)
+
+	var analyzers []domains.DomainAnalyzer
+	if domainList != "" {
+		names := strings.Split(domainList, ",")
+		resolved, resolveErr := domains.ResolveDependencies(names)
+		if resolveErr != nil {
+			return nil, resolveErr
+		}
+		var err error
+		analyzers, err = domains.Get(resolved)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		analyzers = domains.All()
+	}
+
+	if len(analyzers) > 0 {
+		orch := domains.NewOrchestrator(analyzers)
+		results, runErr := orch.Run(cpg, "go", archData)
+		if runErr != nil {
+			return nil, fmt.Errorf("domain analysis: %w", runErr)
+		}
+		for _, dr := range results {
+			fmt.Printf("Domain %s: %d annotations, %d findings\n",
+				dr.Domain, dr.AnnotationsAdded, len(dr.Findings))
+			findings = append(findings, dr.Findings...)
+		}
+	}
+
+	return findings, nil
+}
+
+// prepareArchData extracts architecture data from a repo and sets it on the CPG.
+func prepareArchData(repoPath string, cpg *graph.CPG, org string) *domains.ArchitectureData {
+	opts := &extractor.ExtractOptions{Org: org}
+	archResult, err := extractor.ExtractAll(repoPath, opts)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: architecture extraction failed: %v\n", err)
+		return nil
+	}
+
+	raw, _ := json.Marshal(archResult)
+	var data map[string]interface{}
+	json.Unmarshal(raw, &data)
+	archData := &domains.ArchitectureData{Raw: data}
+
+	parsed, parseErr := arch.Parse(data)
+	if parseErr != nil {
+		fmt.Fprintf(os.Stderr, "Warning: architecture data parsing failed: %v\n", parseErr)
+	} else {
+		cpg.ArchData = parsed
+	}
+
+	return archData
 }
 
 // buildCPG constructs a Code Property Graph from a repo directory.
@@ -1024,14 +1017,14 @@ func outputJSON(path string, data interface{}) error {
 }
 
 func writeJSON(path string, data interface{}) error {
-	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(path), 0o750); err != nil {
 		return fmt.Errorf("creating directory for %s: %w", path, err)
 	}
 	raw, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(path, append(raw, '\n'), 0o644)
+	return os.WriteFile(path, append(raw, '\n'), 0o640)
 }
 
 func loadJSON(path string) (map[string]interface{}, error) {
@@ -1047,12 +1040,12 @@ func loadJSON(path string) (map[string]interface{}, error) {
 }
 
 func writeDiagrams(dir string, diagrams map[string]string) error {
-	if err := os.MkdirAll(dir, 0o755); err != nil {
+	if err := os.MkdirAll(dir, 0o750); err != nil {
 		return fmt.Errorf("creating diagram dir: %w", err)
 	}
 	for filename, content := range diagrams {
 		path := filepath.Join(dir, filename)
-		if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
+		if err := os.WriteFile(path, []byte(content), 0o640); err != nil {
 			return fmt.Errorf("writing diagram %s: %w", path, err)
 		}
 	}

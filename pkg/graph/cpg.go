@@ -10,19 +10,21 @@ import (
 // ArchData is an optional enrichment sidecar, set once before queries run when
 // --with-arch is specified. It is not core graph data.
 type CPG struct {
-	mu       sync.RWMutex
-	nodes    map[string]*Node
-	outEdges map[string][]*Edge
-	inEdges  map[string][]*Edge
-	ArchData *arch.Data
+	mu        sync.RWMutex
+	nodes     map[string]*Node
+	kindIndex map[NodeKind][]*Node
+	outEdges  map[string][]*Edge
+	inEdges   map[string][]*Edge
+	ArchData  *arch.Data
 }
 
 // NewCPG creates an empty code property graph.
 func NewCPG() *CPG {
 	return &CPG{
-		nodes:    make(map[string]*Node),
-		outEdges: make(map[string][]*Edge),
-		inEdges:  make(map[string][]*Edge),
+		nodes:     make(map[string]*Node),
+		kindIndex: make(map[NodeKind][]*Node),
+		outEdges:  make(map[string][]*Edge),
+		inEdges:   make(map[string][]*Edge),
 	}
 }
 
@@ -30,6 +32,7 @@ func (g *CPG) AddNode(n *Node) {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 	g.nodes[n.ID] = n
+	g.kindIndex[n.Kind] = append(g.kindIndex[n.Kind], n)
 }
 
 func (g *CPG) GetNode(id string) *Node {
@@ -51,12 +54,9 @@ func (g *CPG) Nodes() []*Node {
 func (g *CPG) NodesByKind(kind NodeKind) []*Node {
 	g.mu.RLock()
 	defer g.mu.RUnlock()
-	var result []*Node
-	for _, n := range g.nodes {
-		if n.Kind == kind {
-			result = append(result, n)
-		}
-	}
+	src := g.kindIndex[kind]
+	result := make([]*Node, len(src))
+	copy(result, src)
 	return result
 }
 

@@ -12,9 +12,9 @@ import (
 	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
-// maxFileSize is the maximum file size (10 MB) that GoParser will attempt to parse.
+// MaxFileSize is the maximum file size (10 MB) that parsers will attempt to parse.
 // Files larger than this are skipped to avoid excessive memory use in tree-sitter.
-const maxFileSize = 10 * 1024 * 1024
+const MaxFileSize = 10 * 1024 * 1024
 
 // GoParser extracts code property graph nodes from Go source files using tree-sitter.
 // The idSeq counter is safe for concurrent use via atomic operations. The underlying
@@ -42,8 +42,11 @@ func NewGoParserWithSeq(seq *atomic.Int64) *GoParser {
 	return &GoParser{parser: p, idSeq: seq}
 }
 
-func (gp *GoParser) Language() string    { return "go" }
+func (gp *GoParser) Language() string     { return "go" }
 func (gp *GoParser) Extensions() []string { return []string{".go"} }
+func (gp *GoParser) CloneWithSeq(seq *atomic.Int64) Parser {
+	return NewGoParserWithSeq(seq)
+}
 
 func (gp *GoParser) nextID(prefix string) string {
 	id := gp.idSeq.Add(1)
@@ -52,8 +55,8 @@ func (gp *GoParser) nextID(prefix string) string {
 
 // ParseFile parses a Go source file and returns extracted nodes and edges.
 func (gp *GoParser) ParseFile(path string, content []byte) (*ParseResult, error) {
-	if len(content) > maxFileSize {
-		return nil, fmt.Errorf("file too large (%d bytes, max %d)", len(content), maxFileSize)
+	if len(content) > MaxFileSize {
+		return nil, fmt.Errorf("file too large (%d bytes, max %d)", len(content), MaxFileSize)
 	}
 	tree, err := gp.parser.ParseCtx(context.Background(), nil, content)
 	if err != nil {
@@ -272,7 +275,7 @@ func (gp *GoParser) extractTableName(node *sitter.Node, src []byte, dbOp *graph.
 			arg := args.Child(j)
 			if arg != nil && arg.Type() == "interpreted_string_literal" {
 				tableName := strings.Trim(arg.Content(src), "\"")
-				if tableName != "" && !strings.Contains(tableName, " ") {
+				if tableName != "" && !strings.Contains(tableName, " ") && tableName != "%s" {
 					dbOp.Properties["table"] = tableName
 					dbOp.Table = tableName
 					break

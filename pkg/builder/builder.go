@@ -117,20 +117,20 @@ func (b *Builder) BuildFromDir(dir string) (*graph.CPG, error) {
 			// Each goroutine gets its own parser instance with a shared ID counter
 			localParsers := make([]parser.Parser, len(b.parsers))
 			for i := range b.parsers {
-				switch b.parsers[i].Language() {
-				case "go":
-					localParsers[i] = parser.NewGoParserWithSeq(&sharedSeq)
-				case "python":
-					localParsers[i] = parser.NewPythonParserWithSeq(&sharedSeq)
-				case "typescript":
-					localParsers[i] = parser.NewTypeScriptParserWithSeq(&sharedSeq)
-				case "rust":
-					localParsers[i] = parser.NewRustParserWithSeq(&sharedSeq)
-				}
+				localParsers[i] = b.parsers[i].CloneWithSeq(&sharedSeq)
 			}
 
 			for idx := range ch {
 				entry := files[idx]
+				info, err := os.Stat(entry.path)
+				if err != nil {
+					log.Printf("WARN: failed to stat %s: %v", entry.path, err)
+					continue
+				}
+				if info.Size() > int64(parser.MaxFileSize) {
+					log.Printf("WARN: skipping %s: file too large (%d bytes, max %d)", entry.relPath, info.Size(), parser.MaxFileSize)
+					continue
+				}
 				content, err := os.ReadFile(entry.path)
 				if err != nil {
 					log.Printf("WARN: failed to read %s: %v", entry.path, err)

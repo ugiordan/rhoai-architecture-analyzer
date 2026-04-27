@@ -59,6 +59,9 @@ func NewRustParserWithSeq(seq *atomic.Int64) *RustParser {
 
 func (rp *RustParser) Language() string     { return "rust" }
 func (rp *RustParser) Extensions() []string { return []string{".rs"} }
+func (rp *RustParser) CloneWithSeq(seq *atomic.Int64) Parser {
+	return NewRustParserWithSeq(seq)
+}
 
 func (rp *RustParser) nextID(prefix string) string {
 	id := rp.idSeq.Add(1)
@@ -67,8 +70,8 @@ func (rp *RustParser) nextID(prefix string) string {
 
 // ParseFile parses a Rust source file and returns extracted nodes and edges.
 func (rp *RustParser) ParseFile(path string, content []byte) (*ParseResult, error) {
-	if len(content) > maxFileSize {
-		return nil, fmt.Errorf("file too large (%d bytes, max %d)", len(content), maxFileSize)
+	if len(content) > MaxFileSize {
+		return nil, fmt.Errorf("file too large (%d bytes, max %d)", len(content), MaxFileSize)
 	}
 	tree, err := rp.parser.ParseCtx(context.Background(), nil, content)
 	if err != nil {
@@ -300,6 +303,29 @@ func (rp *RustParser) extractCallSite(node *sitter.Node, src []byte, file string
 		Properties: make(map[string]string),
 	}
 	result.CallSites = append(result.CallSites, cs)
+
+	// Extract string arguments for secret detection
+	args := node.ChildByFieldName("arguments")
+	if args != nil {
+		var stringArgs []string
+		for i := 0; i < int(args.ChildCount()); i++ {
+			arg := args.Child(i)
+			if arg == nil {
+				continue
+			}
+			if arg.Type() == "string_literal" {
+				for j := 0; j < int(arg.ChildCount()); j++ {
+					ch := arg.Child(j)
+					if ch != nil && ch.Type() == "string_content" {
+						stringArgs = append(stringArgs, ch.Content(src))
+					}
+				}
+			}
+		}
+		if len(stringArgs) > 0 {
+			cs.Properties["string_args"] = strings.Join(stringArgs, ",")
+		}
+	}
 
 	// Check for DB operations by looking at the full call chain text
 	rp.maybeExtractDBFromCall(callText, node, src, file, line, result)
