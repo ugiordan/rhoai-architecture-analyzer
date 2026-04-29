@@ -187,3 +187,81 @@ func TestBuildFromDirectoryIncludesDataFlow(t *testing.T) {
 	t.Logf("CPG contains %d variables, %d parameters", len(vars), len(params))
 	t.Logf("Data flow labels found: %v", dataFlowLabels)
 }
+
+func TestMergeResultIncludesBasicBlocks(t *testing.T) {
+	b := NewBuilder()
+	cpg := graph.NewCPG()
+
+	result := &parser.ParseResult{
+		BasicBlocks: []*graph.Node{
+			{ID: "bb_entry", Kind: graph.NodeBasicBlock, Name: "entry", File: "main.go", Line: 10, ParentID: "fn_abc"},
+			{ID: "bb_exit", Kind: graph.NodeBasicBlock, Name: "exit", File: "main.go", Line: 0, ParentID: "fn_abc"},
+		},
+		Edges: []*graph.Edge{
+			{From: "fn_abc", To: "bb_entry", Kind: graph.EdgeControlFlow, Label: "entry", Confidence: graph.ConfidenceCertain},
+		},
+	}
+
+	if err := b.mergeResult(cpg, result); err != nil {
+		t.Fatalf("mergeResult failed: %v", err)
+	}
+
+	bbs := cpg.NodesByKind(graph.NodeBasicBlock)
+	if len(bbs) != 2 {
+		t.Errorf("got %d BasicBlock nodes, want 2", len(bbs))
+	}
+
+	cfEdges := 0
+	for _, e := range cpg.Edges() {
+		if e.Kind == graph.EdgeControlFlow {
+			cfEdges++
+		}
+	}
+	if cfEdges != 1 {
+		t.Errorf("got %d CONTROL_FLOW edges, want 1", cfEdges)
+	}
+}
+
+func TestBuildFromDirectoryIncludesCFG(t *testing.T) {
+	b := NewBuilder()
+	cpg, err := b.BuildFromDir("../../testdata")
+	if err != nil {
+		t.Fatalf("BuildFromDir failed: %v", err)
+	}
+
+	// Verify BasicBlock nodes exist in the CPG
+	bbs := cpg.NodesByKind(graph.NodeBasicBlock)
+	if len(bbs) == 0 {
+		t.Error("expected BasicBlock nodes in CPG, got 0")
+	}
+
+	// Verify all basic blocks have ParentID set
+	for _, bb := range bbs {
+		if bb.ParentID == "" {
+			t.Errorf("BasicBlock %q has empty ParentID", bb.Name)
+		}
+	}
+
+	// Verify EdgeControlFlow edges exist
+	cfEdges := 0
+	cfLabels := make(map[string]bool)
+	for _, e := range cpg.Edges() {
+		if e.Kind == graph.EdgeControlFlow {
+			cfEdges++
+			cfLabels[e.Label] = true
+		}
+	}
+	if cfEdges == 0 {
+		t.Error("expected CONTROL_FLOW edges in CPG, got 0")
+	}
+
+	// Verify at least entry and exit labels exist
+	if !cfLabels["entry"] {
+		t.Error("expected 'entry' label in CONTROL_FLOW edges")
+	}
+	if !cfLabels["exit"] {
+		t.Error("expected 'exit' label in CONTROL_FLOW edges")
+	}
+
+	t.Logf("CPG has %d BasicBlock nodes, %d CONTROL_FLOW edges, labels: %v", len(bbs), cfEdges, cfLabels)
+}

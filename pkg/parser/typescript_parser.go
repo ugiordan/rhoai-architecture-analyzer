@@ -674,6 +674,16 @@ func (tp *TypeScriptParser) analyzeFunctionBody(body *sitter.Node, src []byte, f
 		}
 	}
 	result.Edges = append(result.Edges, edges...)
+
+	// --- CFG construction pass ---
+	posMap := buildPositionMap(nodes)
+	for _, p := range result.Parameters {
+		if p.File == file {
+			k := posKey{Line: p.Line, Col: p.Column}
+			posMap[k] = append(posMap[k], p.ID)
+		}
+	}
+	tp.buildCFG(body, src, file, fn, posMap, result)
 }
 
 // analyzeStatementDF dispatches to handlers based on tree-sitter node type.
@@ -1048,3 +1058,367 @@ func (tp *TypeScriptParser) walkForReadsDF(node *sitter.Node, src []byte, target
 		}
 	}
 }
+
+// ---------------------------------------------------------------------------
+// Control flow graph construction
+// ---------------------------------------------------------------------------
+
+// buildCFG constructs a control flow graph for a function body.
+// Creates entry/exit blocks, connects control flow edges, and populates
+// block members with B1 node IDs.
+func (tp *TypeScriptParser) buildCFG(body *sitter.Node, src []byte, file string, fn *graph.Node, posMap map[posKey][]string, result *ParseResult) {
+	cb := dataflow.NewCFGBuilder(fn.ID, file)
+
+	// Create entry and exit blocks
+	entry := cb.NewBlock("entry", fn.Line)
+	exit := cb.NewBlock("exit", 0)
+
+	// Connect function to entry block
+	cb.AddEdge(fn.ID, entry.ID, "entry")
+
+	// Add parameters to entry block
+	for _, pName := range fn.ParamNames {
+		if pName == "_" {
+			continue
+		}
+		paramID := NodeID(graph.NodeParameter, pName, file, fn.Line, 0)
+		cb.AddMember(entry, paramID)
+	}
+
+	// Process function body statements
+	lastBlock := tp.buildCFGStatementsTS(body, src, file, fn, entry, exit, posMap, cb)
+
+	// Connect last block to exit (if it didn't terminate early)
+	if lastBlock != nil {
+		cb.AddEdge(lastBlock.ID, exit.ID, "exit")
+	}
+
+	// Merge results into ParseResult
+	blocks, cfEdges := cb.Result()
+	result.BasicBlocks = append(result.BasicBlocks, blocks...)
+	result.Edges = append(result.Edges, cfEdges...)
+}
+
+// buildCFGStatementsTS walks container children and builds CFG for TypeScript statements.
+// Returns the last open block (nil if all paths terminated).
+func (tp *TypeScriptParser) buildCFGStatementsTS(container *sitter.Node, src []byte, file string, fn *graph.Node, current, exit *graph.Node, posMap map[posKey][]string, cb *dataflow.CFGBuilder) *graph.Node {
+	if container == nil {
+		return current
+	}
+
+	for i := 0; i < int(container.ChildCount()); i++ {
+		if cb.BlockCount() >= dataflow.MaxBlocksPerFunction {
+			fn.Annotations["cfg:truncated"] = true
+			return current
+		}
+
+		child := container.Child(i)
+		if child == nil {
+			continue
+		}
+
+		// If current is nil, control flow has terminated, skip remaining statements
+		if current == nil {
+			return nil
+		}
+
+		switch child.Type() {
+		case "if_statement":
+			current = tp.buildCFGIfTS(child, src, file, fn, current, exit, posMap, cb)
+
+		case "for_statement", "for_in_statement", "while_statement":
+			current = tp.buildCFGForTS(child, src, file, fn, current, exit, posMap, cb)
+
+		case "switch_statement":
+			current = tp.buildCFGSwitchTS(child, src, file, fn, current, exit, posMap, cb)
+
+		case "return_statement":
+			// Collect node IDs from return statement and add to current block
+			nodeIDs := collectNodeIDs(child, posMap)
+			for _, id := range nodeIDs {
+				cb.AddMember(current, id)
+			}
+			// Connect to exit and terminate this path
+			cb.AddEdge(current.ID, exit.ID, "exit")
+			return nil
+
+		case "throw_statement":
+			// Collect node IDs from throw statement and add to current block
+			nodeIDs := collectNodeIDs(child, posMap)
+			for _, id := range nodeIDs {
+				cb.AddMember(current, id)
+			}
+			// throw terminates control flow
+			cb.AddEdge(current.ID, exit.ID, "exit")
+			return nil
+
+		default:
+			// Sequential statement: add node IDs to current block
+			nodeIDs := collectNodeIDs(child, posMap)
+			for _, id := range nodeIDs {
+				cb.AddMember(current, id)
+			}
+		}
+	}
+
+	return current
+}
+
+// buildCFGIfTS handles if_statement nodes in TypeScript.
+// Creates condition block, then-block, else-block (if present), and merge block.
+// Returns merge block or nil if all branches terminate.
+func (tp *TypeScriptParser) buildCFGIfTS(node *sitter.Node, src []byte, file string, fn *graph.Node, current, exit *graph.Node, posMap map[posKey][]string, cb *dataflow.CFGBuilder) *graph.Node {
+	if current == nil {
+		return nil
+	}
+
+	// Condition evaluation happens in current block
+	condition := node.ChildByFieldName("condition")
+	if condition != nil {
+		nodeIDs := collectNodeIDs(condition, posMap)
+		for _, id := range nodeIDs {
+			cb.AddMember(current, id)
+		}
+	}
+
+	// Create then-block
+	line := int(node.StartPoint().Row) + 1
+	thenBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), line)
+	cb.AddEdge(current.ID, thenBlock.ID, "true_branch")
+
+	// Process then-branch (consequence)
+	consequence := node.ChildByFieldName("consequence")
+	thenEnd := tp.buildCFGStatementsTS(consequence, src, file, fn, thenBlock, exit, posMap, cb)
+
+	// Check for else-branch
+	alternative := node.ChildByFieldName("alternative")
+	var elseEnd *graph.Node
+
+	if alternative != nil {
+		// Check if alternative is else_clause containing an if_statement (else-if)
+		if alternative.Type() == "else_clause" {
+			// Look for if_statement child
+			var elseIfNode *sitter.Node
+			for i := 0; i < int(alternative.ChildCount()); i++ {
+				child := alternative.Child(i)
+				if child != nil && child.Type() == "if_statement" {
+					elseIfNode = child
+					break
+				}
+			}
+
+			if elseIfNode != nil {
+				// else if: create block and recurse
+				elseIfBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), int(elseIfNode.StartPoint().Row)+1)
+				cb.AddEdge(current.ID, elseIfBlock.ID, "false_branch")
+				elseEnd = tp.buildCFGIfTS(elseIfNode, src, file, fn, elseIfBlock, exit, posMap, cb)
+			} else {
+				// Regular else clause
+				elseBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), int(alternative.StartPoint().Row)+1)
+				cb.AddEdge(current.ID, elseBlock.ID, "false_branch")
+				elseEnd = tp.buildCFGStatementsTS(alternative, src, file, fn, elseBlock, exit, posMap, cb)
+			}
+		} else {
+			// Unexpected alternative structure, treat as regular block
+			elseBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), int(alternative.StartPoint().Row)+1)
+			cb.AddEdge(current.ID, elseBlock.ID, "false_branch")
+			elseEnd = tp.buildCFGStatementsTS(alternative, src, file, fn, elseBlock, exit, posMap, cb)
+		}
+	} else {
+		// No else branch, false_branch goes to merge
+		elseEnd = current
+	}
+
+	// Create merge block if at least one branch continues
+	if thenEnd == nil && elseEnd == nil {
+		// Both branches terminated
+		return nil
+	}
+
+	mergeBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), line)
+
+	if thenEnd != nil {
+		cb.AddEdge(thenEnd.ID, mergeBlock.ID, "fallthrough")
+	}
+	if elseEnd != nil && elseEnd != current {
+		// Only add edge if elseEnd is not the condition block
+		cb.AddEdge(elseEnd.ID, mergeBlock.ID, "fallthrough")
+	} else if elseEnd == current {
+		// No else branch: connect current to merge via false_branch
+		cb.AddEdge(current.ID, mergeBlock.ID, "false_branch")
+	}
+
+	return mergeBlock
+}
+
+// buildCFGForTS handles for_statement, for_in_statement, and while_statement nodes.
+// Creates header block (condition), body block, loop_back and loop_exit edges.
+// Returns after-loop block.
+func (tp *TypeScriptParser) buildCFGForTS(node *sitter.Node, src []byte, file string, fn *graph.Node, current, exit *graph.Node, posMap map[posKey][]string, cb *dataflow.CFGBuilder) *graph.Node {
+	if current == nil {
+		return nil
+	}
+
+	line := int(node.StartPoint().Row) + 1
+
+	// Create header block (condition evaluation)
+	headerBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), line)
+
+	// For for_in_statement, condition is the iterator expression
+	// For for_statement, condition is in the initializer/condition/update
+	// For while_statement, condition is explicit
+	var conditionNode *sitter.Node
+	switch node.Type() {
+	case "while_statement":
+		conditionNode = node.ChildByFieldName("condition")
+	case "for_in_statement":
+		conditionNode = node.ChildByFieldName("right")
+	case "for_statement":
+		conditionNode = node.ChildByFieldName("condition")
+	}
+
+	if conditionNode != nil {
+		nodeIDs := collectNodeIDs(conditionNode, posMap)
+		for _, id := range nodeIDs {
+			cb.AddMember(headerBlock, id)
+		}
+	}
+
+	// Connect current to header
+	cb.AddEdge(current.ID, headerBlock.ID, "fallthrough")
+
+	// Create body block
+	bodyBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), line)
+	cb.AddEdge(headerBlock.ID, bodyBlock.ID, "true_branch")
+
+	// Process loop body
+	body := node.ChildByFieldName("body")
+	bodyEnd := tp.buildCFGStatementsTS(body, src, file, fn, bodyBlock, exit, posMap, cb)
+
+	// Loop back from body end to header
+	if bodyEnd != nil {
+		cb.AddEdge(bodyEnd.ID, headerBlock.ID, "loop_back")
+	}
+
+	// Create after-loop block (loop exit)
+	afterBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), line)
+	cb.AddEdge(headerBlock.ID, afterBlock.ID, "loop_exit")
+
+	return afterBlock
+}
+
+// buildCFGSwitchTS handles switch_statement nodes in TypeScript.
+// Creates one case block per case, connects with true_branch/false_branch, handles breaks.
+// Returns merge block.
+func (tp *TypeScriptParser) buildCFGSwitchTS(node *sitter.Node, src []byte, file string, fn *graph.Node, current, exit *graph.Node, posMap map[posKey][]string, cb *dataflow.CFGBuilder) *graph.Node {
+	if current == nil {
+		return nil
+	}
+
+	line := int(node.StartPoint().Row) + 1
+
+	// Switch value evaluation happens in current block
+	value := node.ChildByFieldName("value")
+	if value != nil {
+		nodeIDs := collectNodeIDs(value, posMap)
+		for _, id := range nodeIDs {
+			cb.AddMember(current, id)
+		}
+	}
+
+	// Find the switch body
+	var switchBody *sitter.Node
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child != nil && child.Type() == "switch_body" {
+			switchBody = child
+			break
+		}
+	}
+
+	if switchBody == nil {
+		return current
+	}
+
+	// Create merge block
+	mergeBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), line)
+
+	// Process each case
+	hasDefault := false
+	var caseEnds []*graph.Node
+
+	for i := 0; i < int(switchBody.ChildCount()); i++ {
+		child := switchBody.Child(i)
+		if child == nil {
+			continue
+		}
+
+		var caseBlock *graph.Node
+		var label string
+
+		if child.Type() == "switch_case" {
+			caseBlock = cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), int(child.StartPoint().Row)+1)
+			label = "true_branch"
+		} else if child.Type() == "switch_default" {
+			caseBlock = cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), int(child.StartPoint().Row)+1)
+			label = "false_branch"
+			hasDefault = true
+		} else {
+			continue
+		}
+
+		cb.AddEdge(current.ID, caseBlock.ID, label)
+
+		// Process case body (everything except the case/default keyword)
+		// Walk children to find statements
+		caseEnd := caseBlock
+		for j := 0; j < int(child.ChildCount()); j++ {
+			stmt := child.Child(j)
+			if stmt == nil {
+				continue
+			}
+
+			// Skip the case value and colon
+			if stmt.Type() == ":" || stmt.Type() == "case" || stmt.Type() == "default" {
+				continue
+			}
+
+			// Check for break statement
+			if stmt.Type() == "break_statement" {
+				nodeIDs := collectNodeIDs(stmt, posMap)
+				for _, id := range nodeIDs {
+					cb.AddMember(caseEnd, id)
+				}
+				// break goes to merge
+				cb.AddEdge(caseEnd.ID, mergeBlock.ID, "fallthrough")
+				caseEnd = nil
+				break
+			}
+
+			// Regular statement
+			if caseEnd != nil {
+				nodeIDs := collectNodeIDs(stmt, posMap)
+				for _, id := range nodeIDs {
+					cb.AddMember(caseEnd, id)
+				}
+			}
+		}
+
+		caseEnds = append(caseEnds, caseEnd)
+	}
+
+	// Connect case ends to merge block (fallthrough cases)
+	for _, caseEnd := range caseEnds {
+		if caseEnd != nil {
+			cb.AddEdge(caseEnd.ID, mergeBlock.ID, "fallthrough")
+		}
+	}
+
+	// If no default case, connect current to merge (implicit default)
+	if !hasDefault {
+		cb.AddEdge(current.ID, mergeBlock.ID, "false_branch")
+	}
+
+	return mergeBlock
+}
+

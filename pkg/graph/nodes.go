@@ -15,6 +15,7 @@ const (
 	NodeK8sResource   NodeKind = "K8sResource"
 	NodeStructLiteral   NodeKind = "StructLiteral"
 	NodeExternalFinding NodeKind = "ExternalFinding"
+	NodeBasicBlock      NodeKind = "BasicBlock"
 )
 
 // TrustLevel classifies HTTP handlers and entrypoints by trust level.
@@ -77,6 +78,10 @@ type Node struct {
 	ToolName    string   `json:"tool_name,omitempty"`
 	ToolVersion string   `json:"tool_version,omitempty"`
 	CWEs        []string `json:"cwes,omitempty"`
+
+	// Basic block fields (populated by B2 CFG construction)
+	ParentID string   `json:"parent_id,omitempty"`
+	Members  []string `json:"members,omitempty"`
 
 	// Preserved for language-specific edge cases
 	Properties map[string]string `json:"properties,omitempty"`

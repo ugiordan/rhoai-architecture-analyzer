@@ -620,6 +620,16 @@ func (rp *RustParser) analyzeFunctionBody(body *sitter.Node, src []byte, file st
 		}
 	}
 	result.Edges = append(result.Edges, edges...)
+
+	// --- CFG construction pass ---
+	posMap := buildPositionMap(nodes)
+	for _, p := range result.Parameters {
+		if p.File == file {
+			k := posKey{Line: p.Line, Col: p.Column}
+			posMap[k] = append(posMap[k], p.ID)
+		}
+	}
+	rp.buildCFG(body, src, file, fn, posMap, result)
 }
 
 // analyzeStatementDF dispatches to handlers based on tree-sitter node type.
@@ -1182,4 +1192,266 @@ func (rp *RustParser) walkForReadsDF(node *sitter.Node, src []byte, targetID str
 			rp.walkForReadsDF(child, src, targetID, st, fb)
 		}
 	}
+}
+
+// ---------------------------------------------------------------------------
+// Control flow graph construction
+// ---------------------------------------------------------------------------
+
+func (rp *RustParser) buildCFG(body *sitter.Node, src []byte, file string, fn *graph.Node, posMap map[posKey][]string, result *ParseResult) {
+	cb := dataflow.NewCFGBuilder(fn.ID, file)
+
+	entryBlock := cb.NewBlock("entry", fn.Line)
+	exitBlock := cb.NewBlock("exit", 0)
+	cb.AddEdge(fn.ID, entryBlock.ID, "entry")
+
+	for _, p := range result.Parameters {
+		if p.File == file && p.Line == fn.Line {
+			cb.AddMember(entryBlock, p.ID)
+		}
+	}
+
+	lastBlock := rp.buildCFGStatementsRust(body, src, file, fn, entryBlock, exitBlock, cb, posMap)
+	if lastBlock != nil {
+		cb.AddEdge(lastBlock.ID, exitBlock.ID, "exit")
+	}
+
+	blocks, edges := cb.Result()
+	result.BasicBlocks = append(result.BasicBlocks, blocks...)
+	result.Edges = append(result.Edges, edges...)
+}
+
+func (rp *RustParser) buildCFGStatementsRust(container *sitter.Node, src []byte, file string, fn *graph.Node, currentBlock *graph.Node, exitBlock *graph.Node, cb *dataflow.CFGBuilder, posMap map[posKey][]string) *graph.Node {
+	if container == nil {
+		return currentBlock
+	}
+	for i := 0; i < int(container.ChildCount()); i++ {
+		if cb.BlockCount() >= dataflow.MaxBlocksPerFunction {
+			if fn.Annotations == nil {
+				fn.Annotations = make(map[string]bool)
+			}
+			fn.Annotations["cfg:truncated"] = true
+			return currentBlock
+		}
+
+		child := container.Child(i)
+		if child == nil {
+			continue
+		}
+
+		switch child.Type() {
+		case "if_expression":
+			currentBlock = rp.buildCFGIfRust(child, src, file, fn, currentBlock, exitBlock, cb, posMap)
+			if currentBlock == nil {
+				return nil
+			}
+
+		case "for_expression", "while_expression", "loop_expression":
+			currentBlock = rp.buildCFGForRust(child, src, file, fn, currentBlock, exitBlock, cb, posMap)
+			if currentBlock == nil {
+				return nil
+			}
+
+		case "match_expression":
+			currentBlock = rp.buildCFGMatchRust(child, src, file, fn, currentBlock, exitBlock, cb, posMap)
+			if currentBlock == nil {
+				return nil
+			}
+
+		case "return_expression":
+			for _, id := range collectNodeIDs(child, posMap) {
+				cb.AddMember(currentBlock, id)
+			}
+			cb.AddEdge(currentBlock.ID, exitBlock.ID, "exit")
+			return nil
+
+		case "expression_statement":
+			// Check for inner control flow expressions
+			for j := 0; j < int(child.ChildCount()); j++ {
+				inner := child.Child(j)
+				if inner == nil {
+					continue
+				}
+				switch inner.Type() {
+				case "if_expression":
+					currentBlock = rp.buildCFGIfRust(inner, src, file, fn, currentBlock, exitBlock, cb, posMap)
+					if currentBlock == nil {
+						return nil
+					}
+				case "for_expression", "while_expression", "loop_expression":
+					currentBlock = rp.buildCFGForRust(inner, src, file, fn, currentBlock, exitBlock, cb, posMap)
+					if currentBlock == nil {
+						return nil
+					}
+				case "match_expression":
+					currentBlock = rp.buildCFGMatchRust(inner, src, file, fn, currentBlock, exitBlock, cb, posMap)
+					if currentBlock == nil {
+						return nil
+					}
+				case "return_expression":
+					for _, id := range collectNodeIDs(inner, posMap) {
+						cb.AddMember(currentBlock, id)
+					}
+					cb.AddEdge(currentBlock.ID, exitBlock.ID, "exit")
+					return nil
+				default:
+					for _, id := range collectNodeIDs(inner, posMap) {
+						cb.AddMember(currentBlock, id)
+					}
+				}
+			}
+
+		default:
+			for _, id := range collectNodeIDs(child, posMap) {
+				cb.AddMember(currentBlock, id)
+			}
+		}
+	}
+	return currentBlock
+}
+
+func (rp *RustParser) buildCFGIfRust(node *sitter.Node, src []byte, file string, fn *graph.Node, currentBlock *graph.Node, exitBlock *graph.Node, cb *dataflow.CFGBuilder, posMap map[posKey][]string) *graph.Node {
+	cond := node.ChildByFieldName("condition")
+	if cond != nil {
+		for _, id := range collectNodeIDs(cond, posMap) {
+			cb.AddMember(currentBlock, id)
+		}
+	}
+	condBlock := currentBlock
+
+	consequence := node.ChildByFieldName("consequence")
+	thenLine := int(node.StartPoint().Row) + 1
+	if consequence != nil {
+		thenLine = int(consequence.StartPoint().Row) + 1
+	}
+	thenBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), thenLine)
+	cb.AddEdge(condBlock.ID, thenBlock.ID, "true_branch")
+	thenEnd := rp.buildCFGStatementsRust(consequence, src, file, fn, thenBlock, exitBlock, cb, posMap)
+
+	alternative := node.ChildByFieldName("alternative")
+	var elseEnd *graph.Node
+	if alternative != nil {
+		elseLine := int(alternative.StartPoint().Row) + 1
+		elseBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), elseLine)
+		cb.AddEdge(condBlock.ID, elseBlock.ID, "false_branch")
+
+		// Check for else if
+		hasElseIf := false
+		for j := 0; j < int(alternative.ChildCount()); j++ {
+			c := alternative.Child(j)
+			if c != nil && c.Type() == "if_expression" {
+				elseEnd = rp.buildCFGIfRust(c, src, file, fn, elseBlock, exitBlock, cb, posMap)
+				hasElseIf = true
+				break
+			}
+		}
+		if !hasElseIf {
+			elseEnd = rp.buildCFGStatementsRust(alternative, src, file, fn, elseBlock, exitBlock, cb, posMap)
+		}
+	}
+
+	if thenEnd != nil || elseEnd != nil || alternative == nil {
+		mergeLine := int(node.EndPoint().Row) + 1
+		mergeBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), mergeLine)
+		if thenEnd != nil {
+			cb.AddEdge(thenEnd.ID, mergeBlock.ID, "fallthrough")
+		}
+		if alternative == nil {
+			cb.AddEdge(condBlock.ID, mergeBlock.ID, "false_branch")
+		} else if elseEnd != nil {
+			cb.AddEdge(elseEnd.ID, mergeBlock.ID, "fallthrough")
+		}
+		return mergeBlock
+	}
+	return nil
+}
+
+func (rp *RustParser) buildCFGForRust(node *sitter.Node, src []byte, file string, fn *graph.Node, currentBlock *graph.Node, exitBlock *graph.Node, cb *dataflow.CFGBuilder, posMap map[posKey][]string) *graph.Node {
+	headerLine := int(node.StartPoint().Row) + 1
+	headerBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), headerLine)
+	cb.AddEdge(currentBlock.ID, headerBlock.ID, "fallthrough")
+
+	body := node.ChildByFieldName("body")
+	bodyLine := headerLine + 1
+	if body != nil {
+		bodyLine = int(body.StartPoint().Row) + 1
+	}
+	bodyBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), bodyLine)
+	cb.AddEdge(headerBlock.ID, bodyBlock.ID, "true_branch")
+
+	var bodyEnd *graph.Node
+	if body != nil {
+		bodyEnd = rp.buildCFGStatementsRust(body, src, file, fn, bodyBlock, exitBlock, cb, posMap)
+	} else {
+		bodyEnd = bodyBlock
+	}
+
+	if bodyEnd != nil {
+		cb.AddEdge(bodyEnd.ID, headerBlock.ID, "loop_back")
+	}
+
+	afterLine := int(node.EndPoint().Row) + 1
+	afterBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), afterLine)
+	cb.AddEdge(headerBlock.ID, afterBlock.ID, "loop_exit")
+	return afterBlock
+}
+
+func (rp *RustParser) buildCFGMatchRust(node *sitter.Node, src []byte, file string, fn *graph.Node, currentBlock *graph.Node, exitBlock *graph.Node, cb *dataflow.CFGBuilder, posMap map[posKey][]string) *graph.Node {
+	condBlock := currentBlock
+	body := node.ChildByFieldName("body")
+	if body == nil {
+		return currentBlock
+	}
+
+	mergeLine := int(node.EndPoint().Row) + 1
+	mergeBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), mergeLine)
+
+	hasWildcard := false
+
+	for i := 0; i < int(body.ChildCount()); i++ {
+		child := body.Child(i)
+		if child == nil || child.Type() != "match_arm" {
+			continue
+		}
+
+		// Check for wildcard pattern (_)
+		pattern := child.ChildByFieldName("pattern")
+		if pattern != nil && pattern.Content(src) == "_" {
+			hasWildcard = true
+		}
+
+		armLine := int(child.StartPoint().Row) + 1
+		armBlock := cb.NewBlock(fmt.Sprintf("bb%d", cb.BlockCount()-2), armLine)
+
+		label := "true_branch"
+		if hasWildcard && pattern != nil && pattern.Content(src) == "_" {
+			label = "false_branch"
+		}
+		cb.AddEdge(condBlock.ID, armBlock.ID, label)
+
+		for _, id := range collectNodeIDs(child, posMap) {
+			cb.AddMember(armBlock, id)
+		}
+
+		// Check if arm contains return
+		hasReturn := false
+		for j := 0; j < int(child.ChildCount()); j++ {
+			c := child.Child(j)
+			if c != nil && c.Type() == "return_expression" {
+				cb.AddEdge(armBlock.ID, exitBlock.ID, "exit")
+				hasReturn = true
+				break
+			}
+		}
+
+		if !hasReturn {
+			cb.AddEdge(armBlock.ID, mergeBlock.ID, "fallthrough")
+		}
+	}
+
+	if !hasWildcard {
+		cb.AddEdge(condBlock.ID, mergeBlock.ID, "false_branch")
+	}
+
+	return mergeBlock
 }

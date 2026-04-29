@@ -88,8 +88,12 @@ func TestTypeScriptDataFlowEdgeLabels(t *testing.T) {
 		}
 	}
 
-	// Verify all data flow edges have correct Kind
+	// Verify all data flow edges have correct Kind (filter out control flow edges)
 	for _, e := range result.Edges {
+		// Skip control flow edges (they're tested separately in CFG tests)
+		if e.Kind == graph.EdgeControlFlow {
+			continue
+		}
 		if e.Kind != graph.EdgeDataFlow {
 			t.Errorf("edge %s (%s -> %s) has Kind=%s, want EdgeDataFlow", e.Label, e.From, e.To, e.Kind)
 		}

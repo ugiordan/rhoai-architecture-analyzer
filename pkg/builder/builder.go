@@ -195,6 +195,11 @@ func (b *Builder) mergeResult(cpg *graph.CPG, result *parser.ParseResult) error 
 			return fmt.Errorf("merging parameter node: %w", err)
 		}
 	}
+	for _, n := range result.BasicBlocks {
+		if err := cpg.AddNode(n); err != nil {
+			return fmt.Errorf("merging basic block node: %w", err)
+		}
+	}
 	for _, e := range result.Edges {
 		cpg.AddEdge(e)
 	}

@@ -18,6 +18,7 @@ var kindPrefix = map[NodeKind]string{
 	NodeK8sResource:     "k8s",
 	NodeStructLiteral:   "struct",
 	NodeExternalFinding: "extf",
+	NodeBasicBlock:      "bb",
 }
 
 // NodeID produces a deterministic, stable node ID from the node's identity fields.
