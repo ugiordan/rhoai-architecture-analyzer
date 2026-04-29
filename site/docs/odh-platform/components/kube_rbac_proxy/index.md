@@ -1,11 +1,11 @@
 # kube-rbac-proxy
 
-> **Architecture snapshot: 2026-04-27** (2026-04-27)
+> **Architecture snapshot: 2026-04-29** (2026-04-29)
 
 
 **Repository:** brancz/kube-rbac-proxy  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-27T08:21:37Z
+**Extracted:** 2026-04-29T11:05:58Z
 
 ## Summary
 
@@ -60,8 +60,8 @@ No CRDs defined.
 
 | Module | Version |
 |--------|---------|
-| k8s.io/api | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apiserver | v0.35.4 |
-| k8s.io/client-go | v0.35.4 |
+| k8s.io/api | v0.36.0 |
+| k8s.io/apimachinery | v0.36.0 |
+| k8s.io/apiserver | v0.36.0 |
+| k8s.io/client-go | v0.36.0 |
 

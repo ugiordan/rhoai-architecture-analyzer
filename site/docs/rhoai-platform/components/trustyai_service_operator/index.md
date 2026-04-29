@@ -1,11 +1,11 @@
 # trustyai-service-operator
 
-> **Architecture snapshot: 2026-04-27** (2026-04-27)
+> **Architecture snapshot: 2026-04-29** (2026-04-29)
 
 
 **Repository:** trustyai-explainability/trustyai-service-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-27T08:21:31Z
+**Extracted:** 2026-04-29T11:05:38Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 0 |
 | Secrets | 0 |
 | Cluster Roles | 0 |
-| Controller Watches | 13 |
+| Controller Watches | 14 |
 
 ## Component Architecture
 
@@ -59,7 +59,7 @@ No CRDs defined.
 
 | Module | Version |
 |--------|---------|
-| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.3 |
 | github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring | v0.64.1 |
 | github.com/prometheus/client_golang | v1.18.0 |
 | k8s.io/api | v0.29.2 |

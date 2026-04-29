@@ -6,8 +6,8 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 
 | Type | GVK | Source |
 |------|-----|--------|
-| For | serving/v1beta1/InferenceService | [`cmd/controller/internal/controllers/inferenceservice_controller.go:44`](https://github.com/kubeflow/model-registry/blob/15661b34e1a6bef25267fe9a6619131c01335550/cmd/controller/internal/controllers/inferenceservice_controller.go#L44) |
-| For | serving/v1beta1/InferenceService | [`pkg/inferenceservice-controller/controller.go:239`](https://github.com/kubeflow/model-registry/blob/15661b34e1a6bef25267fe9a6619131c01335550/pkg/inferenceservice-controller/controller.go#L239) |
+| For | serving/v1beta1/InferenceService | [`cmd/controller/internal/controllers/inferenceservice_controller.go:44`](https://github.com/kubeflow/model-registry/blob/2fb9b5886d8856a8fdeff0947dce7eba0132088e/cmd/controller/internal/controllers/inferenceservice_controller.go#L44) |
+| For | serving/v1beta1/InferenceService | [`pkg/inferenceservice-controller/controller.go:239`](https://github.com/kubeflow/model-registry/blob/2fb9b5886d8856a8fdeff0947dce7eba0132088e/pkg/inferenceservice-controller/controller.go#L239) |
 
 ## Reconciliation Flow
 
@@ -37,6 +37,6 @@ ConfigMaps and Helm values that control this component's runtime behavior.
 
 | Name | Data Keys | Source |
 |------|-----------|--------|
-| auth-proxy-config | nginx.conf | [`manifests/kustomize/options/ui/overlays/standalone/auth-proxy-configmap.yaml`](https://github.com/kubeflow/model-registry/blob/15661b34e1a6bef25267fe9a6619131c01335550/manifests/kustomize/options/ui/overlays/standalone/auth-proxy-configmap.yaml) |
-| model-registry-configmap | MODEL_REGISTRY_DATA_STORE_TYPE, MODEL_REGISTRY_REST_SERVICE_HOST, MODEL_REGISTRY_REST_SERVICE_PORT | [`manifests/kustomize/base/model-registry-configmap.yaml`](https://github.com/kubeflow/model-registry/blob/15661b34e1a6bef25267fe9a6619131c01335550/manifests/kustomize/base/model-registry-configmap.yaml) |
+| auth-proxy-config | nginx.conf | [`manifests/kustomize/options/ui/overlays/standalone/auth-proxy-configmap.yaml`](https://github.com/kubeflow/model-registry/blob/2fb9b5886d8856a8fdeff0947dce7eba0132088e/manifests/kustomize/options/ui/overlays/standalone/auth-proxy-configmap.yaml) |
+| model-registry-configmap | MODEL_REGISTRY_DATA_STORE_TYPE, MODEL_REGISTRY_REST_SERVICE_HOST, MODEL_REGISTRY_REST_SERVICE_PORT | [`manifests/kustomize/base/model-registry-configmap.yaml`](https://github.com/kubeflow/model-registry/blob/2fb9b5886d8856a8fdeff0947dce7eba0132088e/manifests/kustomize/base/model-registry-configmap.yaml) |
 

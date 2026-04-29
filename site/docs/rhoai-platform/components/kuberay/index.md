@@ -1,11 +1,11 @@
 # kuberay
 
-> **Architecture snapshot: 2026-04-27** (2026-04-27)
+> **Architecture snapshot: 2026-04-29** (2026-04-29)
 
 
 **Repository:** ray-project/kuberay  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-27T08:22:06Z
+**Extracted:** 2026-04-29T11:05:53Z
 
 ## Summary
 

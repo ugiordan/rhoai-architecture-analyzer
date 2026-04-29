@@ -19,8 +19,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| odh-model-controller | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/962440c5cfac51756f90987cf1a06c3c86a1f39b/config/default/manager_webhook_patch.yaml) |
-| odh-model-controller | manager | ? | ? | ? | [`config/manager/manager.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/962440c5cfac51756f90987cf1a06c3c86a1f39b/config/manager/manager.yaml) |
+| odh-model-controller | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/b7301e61008127f65f7c5794adfabc8c27068b0c/config/default/manager_webhook_patch.yaml) |
+| odh-model-controller | manager | ? | ? | ? | [`config/manager/manager.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/b7301e61008127f65f7c5794adfabc8c27068b0c/config/manager/manager.yaml) |
 
 ## Build Security
 

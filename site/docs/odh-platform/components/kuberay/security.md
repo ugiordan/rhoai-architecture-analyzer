@@ -18,9 +18,9 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/overlays/test-overrides/deployment-override.yaml`](https://github.com/ray-project/kuberay/blob/262d0f458af7fc9e820307fa72371acdd8df704a/ray-operator/config/overlays/test-overrides/deployment-override.yaml) |
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/262d0f458af7fc9e820307fa72371acdd8df704a/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
-| kuberay-operator | kuberay-operator | ? | true | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/262d0f458af7fc9e820307fa72371acdd8df704a/ray-operator/config/manager/manager.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/overlays/test-overrides/deployment-override.yaml`](https://github.com/ray-project/kuberay/blob/c8eb1020e2fc4b05c79ede7416ff745177f258dd/ray-operator/config/overlays/test-overrides/deployment-override.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/c8eb1020e2fc4b05c79ede7416ff745177f258dd/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
+| kuberay-operator | kuberay-operator | ? | true | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/c8eb1020e2fc4b05c79ede7416ff745177f258dd/ray-operator/config/manager/manager.yaml) |
 
 ## Build Security
 

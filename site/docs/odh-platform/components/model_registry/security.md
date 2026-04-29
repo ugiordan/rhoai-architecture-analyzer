@@ -20,9 +20,9 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | ? | ? | [`manifests/kustomize/options/controller/manager/manager.yaml`](https://github.com/kubeflow/model-registry/blob/15661b34e1a6bef25267fe9a6619131c01335550/manifests/kustomize/options/controller/manager/manager.yaml) |
-| minio | minio | ? | ? | ? | [`scripts/manifests/minio/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/15661b34e1a6bef25267fe9a6619131c01335550/scripts/manifests/minio/deployment.yaml) |
-| model-catalog-server | catalog | ? | ? | ? | [`manifests/kustomize/options/catalog/base/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/15661b34e1a6bef25267fe9a6619131c01335550/manifests/kustomize/options/catalog/base/deployment.yaml) |
+| controller-manager | manager | ? | ? | ? | [`manifests/kustomize/options/controller/manager/manager.yaml`](https://github.com/kubeflow/model-registry/blob/2fb9b5886d8856a8fdeff0947dce7eba0132088e/manifests/kustomize/options/controller/manager/manager.yaml) |
+| minio | minio | ? | ? | ? | [`scripts/manifests/minio/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/2fb9b5886d8856a8fdeff0947dce7eba0132088e/scripts/manifests/minio/deployment.yaml) |
+| model-catalog-server | catalog | ? | ? | ? | [`manifests/kustomize/options/catalog/base/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/2fb9b5886d8856a8fdeff0947dce7eba0132088e/manifests/kustomize/options/catalog/base/deployment.yaml) |
 
 ## Build Security
 

@@ -20,9 +20,9 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | ? | ? | [`manifests/kustomize/options/controller/manager/manager.yaml`](https://github.com/kubeflow/model-registry/blob/99b0d59bdb3b4aedf5e79cee73eed100ca6c3c6c/manifests/kustomize/options/controller/manager/manager.yaml) |
-| minio | minio | ? | ? | ? | [`scripts/manifests/minio/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/99b0d59bdb3b4aedf5e79cee73eed100ca6c3c6c/scripts/manifests/minio/deployment.yaml) |
-| model-catalog-server | catalog | ? | ? | ? | [`manifests/kustomize/options/catalog/base/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/99b0d59bdb3b4aedf5e79cee73eed100ca6c3c6c/manifests/kustomize/options/catalog/base/deployment.yaml) |
+| controller-manager | manager | ? | ? | ? | [`manifests/kustomize/options/controller/manager/manager.yaml`](https://github.com/kubeflow/model-registry/blob/5518b56632eeb4447d35ee08cee1a4ebb89b5122/manifests/kustomize/options/controller/manager/manager.yaml) |
+| minio | minio | ? | ? | ? | [`scripts/manifests/minio/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/5518b56632eeb4447d35ee08cee1a4ebb89b5122/scripts/manifests/minio/deployment.yaml) |
+| model-catalog-server | catalog | ? | ? | ? | [`manifests/kustomize/options/catalog/base/deployment.yaml`](https://github.com/kubeflow/model-registry/blob/5518b56632eeb4447d35ee08cee1a4ebb89b5122/manifests/kustomize/options/catalog/base/deployment.yaml) |
 
 ## Build Security
 
@@ -39,5 +39,5 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `cmd/controller/Dockerfile.controller` | registry.access.redhat.com/ubi9/ubi-minimal:latest | 2 | 65532:65532 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest |
 | `cmd/csi/Dockerfile.csi` | registry.access.redhat.com/ubi9/ubi-minimal:latest | 3 | 65532:65532 |  | multi-arch |  | Unpinned base image: common; Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest |
 | `jobs/async-upload/Dockerfile` | registry.access.redhat.com/ubi9/python-312-minimal | 2 | 1000 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/python-312-minimal |
-| `jobs/async-upload/Dockerfile.konflux` | registry.access.redhat.com/ubi9/python-312-minimal@sha256:48b9c3b0c438e5248dd43b325930a1f0b28b7ef201d2c2b78fbf9f8704a686bd | 1 | 1000 |  | multi-arch |  |  |
+| `jobs/async-upload/Dockerfile.konflux` | registry.access.redhat.com/ubi9/python-312-minimal@sha256:3748c2b2908ade249fc7197f3d357562e18adeb37ce15621bda818fc7e8c0582 | 1 | 1000 |  | multi-arch |  |  |
 

@@ -1,11 +1,11 @@
 # data-science-pipelines
 
-> **Architecture snapshot: 2026-04-27** (2026-04-27)
+> **Architecture snapshot: 2026-04-29** (2026-04-29)
 
 
 **Repository:** kubeflow/data-science-pipelines  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-27T08:21:34Z
+**Extracted:** 2026-04-29T11:05:37Z
 
 ## Summary
 

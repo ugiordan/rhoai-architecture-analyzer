@@ -146,5 +146,5 @@ Kubebuilder `+kubebuilder:rbac` markers declare the RBAC requirements of control
 
 | File | Line | Groups | Resources | Verbs |
 |------|------|--------|-----------|-------|
-| [`pkg/cert/cert.go:43`](https://github.com/kubeflow/training-operator/blob/d843b21596b8c611b9747fcbf3aa1a3fc23e8625/pkg/cert/cert.go#L43) | 43 |  |  | get, list, watch, update |
+| [`pkg/cert/cert.go:43`](https://github.com/kubeflow/training-operator/blob/d843b21596b8c611b9747fcbf3aa1a3fc23e8625/pkg/cert/cert.go#L43) | 43 | "admissionregistration.k8s.io" | validatingwebhookconfigurations | get, list, watch, update |
 

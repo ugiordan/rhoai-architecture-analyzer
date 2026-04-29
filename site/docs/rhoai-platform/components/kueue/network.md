@@ -18,8 +18,8 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| visibility-server | ClusterIP | 443/TCP | [`config/components/visibility/service.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/components/visibility/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`config/components/webhook/service.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/components/webhook/service.yaml) |
+| visibility-server | ClusterIP | 443/TCP | [`config/components/visibility/service.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/components/visibility/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`config/components/webhook/service.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/components/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

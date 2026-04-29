@@ -18,17 +18,17 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | ? | ? | [`config/alpha-enabled/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/alpha-enabled/manager_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/components/manager/manager.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/components/manager/manager.yaml) |
-| controller-manager | kube-rbac-proxy | ? | ? | ? | [`config/default/manager_auth_proxy_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/default/manager_auth_proxy_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/default/manager_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_metrics_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/default/manager_metrics_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_visibility_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/default/manager_visibility_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/default/manager_webhook_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/dev/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/dev/manager_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/rhoai/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/rhoai/manager_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/rhoai/manager_metrics_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/rhoai/manager_metrics_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/rhoai/manager_webhook_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/677d85bbbe2e9fbc809dee5641c2e76e2785c0e4/config/rhoai/manager_webhook_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/alpha-enabled/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/alpha-enabled/manager_config_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/components/manager/manager.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/components/manager/manager.yaml) |
+| controller-manager | kube-rbac-proxy | ? | ? | ? | [`config/default/manager_auth_proxy_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/default/manager_auth_proxy_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/default/manager_config_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_metrics_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/default/manager_metrics_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_visibility_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/default/manager_visibility_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/default/manager_webhook_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/dev/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/dev/manager_config_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/rhoai/manager_config_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/rhoai/manager_config_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/rhoai/manager_metrics_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/rhoai/manager_metrics_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/rhoai/manager_webhook_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/e4afc39d2dcacc94adb71be812ae892b5e49caf1/config/rhoai/manager_webhook_patch.yaml) |
 
 ## Build Security
 

@@ -12,20 +12,20 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/non-resource-url/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/non-resource-url/deployment.yaml) |
-| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/non-resource-url/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/non-resource-url/deployment.yaml) |
-| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/non-resource-url-token-request/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/non-resource-url-token-request/deployment.yaml) |
-| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/non-resource-url-token-request/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/non-resource-url-token-request/deployment.yaml) |
-| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/oidc/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/oidc/deployment.yaml) |
-| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/oidc/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/oidc/deployment.yaml) |
-| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/resource-attributes/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/resource-attributes/deployment.yaml) |
-| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/resource-attributes/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/resource-attributes/deployment.yaml) |
-| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/rewrites/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/rewrites/deployment.yaml) |
-| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/rewrites/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/rewrites/deployment.yaml) |
-| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/static-auth/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/static-auth/deployment.yaml) |
-| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/static-auth/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/examples/static-auth/deployment.yaml) |
-| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`test/kubetest/testtemplates/data/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/test/kubetest/testtemplates/data/deployment.yaml) |
-| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`test/kubetest/testtemplates/data/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/test/kubetest/testtemplates/data/deployment.yaml) |
+| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/non-resource-url/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/non-resource-url/deployment.yaml) |
+| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/non-resource-url/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/non-resource-url/deployment.yaml) |
+| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/non-resource-url-token-request/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/non-resource-url-token-request/deployment.yaml) |
+| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/non-resource-url-token-request/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/non-resource-url-token-request/deployment.yaml) |
+| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/oidc/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/oidc/deployment.yaml) |
+| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/oidc/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/oidc/deployment.yaml) |
+| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/resource-attributes/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/resource-attributes/deployment.yaml) |
+| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/resource-attributes/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/resource-attributes/deployment.yaml) |
+| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/rewrites/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/rewrites/deployment.yaml) |
+| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/rewrites/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/rewrites/deployment.yaml) |
+| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`examples/static-auth/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/static-auth/deployment.yaml) |
+| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`examples/static-auth/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/examples/static-auth/deployment.yaml) |
+| kube-rbac-proxy | kube-rbac-proxy | ? | ? | ? | [`test/kubetest/testtemplates/data/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/test/kubetest/testtemplates/data/deployment.yaml) |
+| kube-rbac-proxy | prometheus-example-app | ? | ? | ? | [`test/kubetest/testtemplates/data/deployment.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/test/kubetest/testtemplates/data/deployment.yaml) |
 
 ## Build Security
 

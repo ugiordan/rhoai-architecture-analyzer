@@ -19,14 +19,14 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_auth_proxy_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/default/manager_auth_proxy_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_config_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/default/manager_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/default/manager_webhook_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/manager/manager.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/manager/manager.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_auth_proxy_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/overlays/odh/patches/manager_auth_proxy_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_istio_config_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/overlays/odh/patches/manager_istio_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_migration_env_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/overlays/odh/patches/manager_migration_env_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_webhook_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/overlays/odh/patches/manager_webhook_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_auth_proxy_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/default/manager_auth_proxy_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_config_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/default/manager_config_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/default/manager_webhook_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/manager/manager.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/manager/manager.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_auth_proxy_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/overlays/odh/patches/manager_auth_proxy_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_istio_config_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/overlays/odh/patches/manager_istio_config_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_migration_env_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/overlays/odh/patches/manager_migration_env_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/patches/manager_webhook_patch.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/overlays/odh/patches/manager_webhook_patch.yaml) |
 
 ## Build Security
 

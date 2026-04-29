@@ -123,6 +123,6 @@ Kubebuilder `+kubebuilder:rbac` markers declare the RBAC requirements of control
 
 | File | Line | Groups | Resources | Verbs |
 |------|------|--------|-----------|-------|
-| [`pkg/util/cert/cert.go:51`](https://github.com/kubeflow/trainer/blob/841b1745e453f0cb9af4197761a23bcdc3a23b61/pkg/util/cert/cert.go#L51) | 51 |  |  | get, list, watch, update |
-| [`pkg/util/cert/cert.go:52`](https://github.com/kubeflow/trainer/blob/841b1745e453f0cb9af4197761a23bcdc3a23b61/pkg/util/cert/cert.go#L52) | 52 |  |  | get, list, watch, update |
+| [`pkg/util/cert/cert.go:51`](https://github.com/kubeflow/trainer/blob/841b1745e453f0cb9af4197761a23bcdc3a23b61/pkg/util/cert/cert.go#L51) | 51 | "" | secrets | get, list, watch, update |
+| [`pkg/util/cert/cert.go:52`](https://github.com/kubeflow/trainer/blob/841b1745e453f0cb9af4197761a23bcdc3a23b61/pkg/util/cert/cert.go#L52) | 52 | "admissionregistration.k8s.io" | validatingwebhookconfigurations | get, list, watch, update |
 

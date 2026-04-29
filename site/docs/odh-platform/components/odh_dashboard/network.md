@@ -22,29 +22,29 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| odh-dashboard | ClusterIP | 8443/TCP | [`manifests/core-bases/base/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/manifests/core-bases/base/service.yaml) |
-| workspaces-backend | ClusterIP | 4000/TCP | [`packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml) |
-| workspaces-controller-metrics-service | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml) |
-| workspaces-frontend | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml) |
-| workspaces-webhook-service | ClusterIP | 443/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml) |
+| odh-dashboard | ClusterIP | 8443/TCP | [`manifests/core-bases/base/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/manifests/core-bases/base/service.yaml) |
+| workspaces-backend | ClusterIP | 4000/TCP | [`packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/packages/notebooks/upstream/workspaces/backend/manifests/kustomize/base/service.yaml) |
+| workspaces-controller-metrics-service | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/prometheus/service.yaml) |
+| workspaces-frontend | ClusterIP | 8080/TCP | [`packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/packages/notebooks/upstream/workspaces/frontend/manifests/kustomize/base/service.yaml) |
+| workspaces-webhook-service | ClusterIP | 443/TCP | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/base/webhook/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Gateway | kubeflow-gateway |  |  | no | [`packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml) |
-| HTTPRoute | odh-dashboard |  | / | no | [`manifests/core-bases/base/httproute.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/manifests/core-bases/base/httproute.yaml) |
-| Route | odh-dashboard |  |  | yes | [`manifests/core-bases/base/routes.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/manifests/core-bases/base/routes.yaml) |
+| Gateway | kubeflow-gateway |  |  | no | [`packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/packages/notebooks/upstream/developing/manifests/istio-gateway/gateway.yaml) |
+| HTTPRoute | odh-dashboard |  | / | no | [`manifests/core-bases/base/httproute.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/manifests/core-bases/base/httproute.yaml) |
+| Route | odh-dashboard |  |  | yes | [`manifests/core-bases/base/routes.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/manifests/core-bases/base/routes.yaml) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| allow-perses-operator-access | Ingress | [`packages/observability/setup/network-policy-perses-operator-access.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/packages/observability/setup/network-policy-perses-operator-access.yaml) |
-| dashboard-perses-access | Ingress | [`manifests/observability/odh/network-policy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/manifests/observability/odh/network-policy.yaml) |
-| dashboard-perses-access | Ingress | [`manifests/observability/rhoai/network-policy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/manifests/observability/rhoai/network-policy.yaml) |
-| odh-dashboard-allow-ports | Ingress, Egress | [`manifests/modular-architecture/networkpolicy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/manifests/modular-architecture/networkpolicy.yaml) |
-| workspaces-controller | Ingress | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/4ef891e2da5fa16e5af6f2891c9d068cfc7a9aad/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml) |
+| allow-perses-operator-access | Ingress | [`packages/observability/setup/network-policy-perses-operator-access.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/packages/observability/setup/network-policy-perses-operator-access.yaml) |
+| dashboard-perses-access | Ingress | [`manifests/observability/odh/network-policy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/manifests/observability/odh/network-policy.yaml) |
+| dashboard-perses-access | Ingress | [`manifests/observability/rhoai/network-policy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/manifests/observability/rhoai/network-policy.yaml) |
+| odh-dashboard-allow-ports | Ingress, Egress | [`manifests/modular-architecture/networkpolicy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/manifests/modular-architecture/networkpolicy.yaml) |
+| workspaces-controller | Ingress | [`packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml`](https://github.com/opendatahub-io/odh-dashboard/blob/8c2595e0d870b094867a26d5c08d725448612327/packages/notebooks/upstream/workspaces/controller/manifests/kustomize/components/istio/network-policy.yaml) |
 
 ## Network Policy Graph
 

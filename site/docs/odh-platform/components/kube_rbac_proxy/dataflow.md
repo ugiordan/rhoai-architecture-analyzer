@@ -26,7 +26,7 @@ sequenceDiagram
 
 | Method | Path | Source |
 |--------|------|--------|
-| * | / | [`cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:317`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L317) |
+| * | / | [`cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:317`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L317) |
 
 ## Configuration
 

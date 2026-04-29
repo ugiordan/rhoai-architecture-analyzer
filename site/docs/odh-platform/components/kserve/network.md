@@ -25,20 +25,20 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kserve-controller-manager-service | ClusterIP | 8443/TCP | [`config/manager/service.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/config/manager/service.yaml) |
-| kserve-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/config/webhook/service.yaml) |
-| llmisvc-controller-manager-service | ClusterIP | 8443/TCP | [`config/llmisvc/service.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/config/llmisvc/service.yaml) |
-| llmisvc-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/llmisvc/service.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/config/webhook/llmisvc/service.yaml) |
-| localmodel-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/localmodel/service.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/config/webhook/localmodel/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`test/webhooks/service.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/test/webhooks/service.yaml) |
+| kserve-controller-manager-service | ClusterIP | 8443/TCP | [`config/manager/service.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/config/manager/service.yaml) |
+| kserve-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/config/webhook/service.yaml) |
+| llmisvc-controller-manager-service | ClusterIP | 8443/TCP | [`config/llmisvc/service.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/config/llmisvc/service.yaml) |
+| llmisvc-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/llmisvc/service.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/config/webhook/llmisvc/service.yaml) |
+| localmodel-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/localmodel/service.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/config/webhook/localmodel/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`test/webhooks/service.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/test/webhooks/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Gateway | ai-gateway |  |  | no | [`docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml) |
-| Gateway | knative-ingress-gateway |  |  | no | [`docs/openshift/serverless/gateways.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/docs/openshift/serverless/gateways.yaml) |
-| Gateway | knative-local-gateway |  |  | no | [`docs/openshift/serverless/gateways.yaml`](https://github.com/kserve/kserve/blob/93701d774a5f0dd8852aa8261b31e2b917695bf7/docs/openshift/serverless/gateways.yaml) |
+| Gateway | ai-gateway |  |  | no | [`docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml) |
+| Gateway | knative-ingress-gateway |  |  | no | [`docs/openshift/serverless/gateways.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/docs/openshift/serverless/gateways.yaml) |
+| Gateway | knative-local-gateway |  |  | no | [`docs/openshift/serverless/gateways.yaml`](https://github.com/kserve/kserve/blob/ca71667678eacbcf0e4dddbc6928fe4f4b7b5c31/docs/openshift/serverless/gateways.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

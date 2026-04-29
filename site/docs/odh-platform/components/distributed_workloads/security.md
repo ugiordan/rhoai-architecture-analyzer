@@ -32,9 +32,9 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `images/runtime/training/py312-cuda128-torch280/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
 | `images/runtime/training/py312-cuda128-torch290/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
 | `images/runtime/training/py312-cuda130-torch210-openmpi41/Dockerfile` | quay.io/opendatahub/odh-midstream-cuda-base-13-0:odh-midstream-cuda-base-13-0-on-push-p7nn6-build-images | 1 | 1001 |  |  |  |  |
-| `images/runtime/training/py312-cuda130-torch210-openmpi41/Dockerfile.konflux` | quay.io/aipcc/base-images/cuda-13.0-el9.6:3.4.0-1774635924 | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-cuda130-torch210-openmpi41/Dockerfile.konflux` | quay.io/aipcc/base-images/cuda-13.0-el9.6@sha256:3de8a37c9172aea6a15fe12aeeb9fd6be09a5a5ca419ec2e9fc2e16c3f0b138d | 1 | 1001 |  |  |  |  |
 | `images/runtime/training/py312-rocm64-torch280/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
-| `images/runtime/training/py312-rocm64-torch29-openmpi41/Dockerfile.konflux` | quay.io/aipcc/base-images/rocm-6.4-el9.6:3.4.0-1774635772 | 1 | 1001 |  |  |  |  |
+| `images/runtime/training/py312-rocm64-torch29-openmpi41/Dockerfile.konflux` | quay.io/aipcc/base-images/rocm-6.4-el9.6@sha256:444b1345c0bcf09ae1cb9a4f618c349522930021c8fc3e105276768beaf322cd | 1 | 1001 |  |  |  |  |
 | `images/runtime/training/py312-rocm64-torch290/Dockerfile` | registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}:${IMAGE_TAG} | 1 | 1001 |  |  |  |  |
 | `images/tests/Dockerfile` | golang:1.24 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `images/universal/training/th06-cpu-torch291-py312/Dockerfile` | ${BASE_IMAGE} | 2 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: ${BASE_IMAGE} |

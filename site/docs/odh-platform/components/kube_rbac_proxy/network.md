@@ -17,7 +17,7 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kube-rbac-proxy | ClusterIP | 8443/TCP | [`test/kubetest/testtemplates/data/service.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/d1195a883e22af75d26a0dd7e31e6172c659f81c/test/kubetest/testtemplates/data/service.yaml) |
+| kube-rbac-proxy | ClusterIP | 8443/TCP | [`test/kubetest/testtemplates/data/service.yaml`](https://github.com/brancz/kube-rbac-proxy/blob/31f0916cce88f082bd9775a2c73d4536d38bba83/test/kubetest/testtemplates/data/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

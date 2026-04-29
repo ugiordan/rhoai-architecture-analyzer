@@ -17,7 +17,7 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/e9656e897c6afdaabe5a2ff60b58d5d156786b0f/config/webhook/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

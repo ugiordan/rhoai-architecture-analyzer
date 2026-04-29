@@ -18,10 +18,10 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| maas-api | maas-api | true | true | ? | [`deployment/base/maas-api/core/deployment.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/core/deployment.yaml) |
-| maas-api | maas-api | ? | ? | ? | [`deployment/base/maas-api/overlays/tls/deployment-patch.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-api/overlays/tls/deployment-patch.yaml) |
-| maas-controller | manager | ? | ? | ? | [`deployment/base/maas-controller/manager/manager.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/maas-controller/manager/manager.yaml) |
-| payload-processing | payload-processing | ? | true | ? | [`deployment/base/payload-processing/manager/deployment.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/538910dccc8dd44169268d5083d57e5747ac8eb6/deployment/base/payload-processing/manager/deployment.yaml) |
+| maas-api | maas-api | true | true | ? | [`deployment/base/maas-api/core/deployment.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/1fb8b5d9eabf2775af3e781cf351d1d967786ab2/deployment/base/maas-api/core/deployment.yaml) |
+| maas-api | maas-api | ? | ? | ? | [`deployment/base/maas-api/overlays/tls/deployment-patch.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/1fb8b5d9eabf2775af3e781cf351d1d967786ab2/deployment/base/maas-api/overlays/tls/deployment-patch.yaml) |
+| maas-controller | manager | ? | ? | ? | [`deployment/base/maas-controller/manager/manager.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/1fb8b5d9eabf2775af3e781cf351d1d967786ab2/deployment/base/maas-controller/manager/manager.yaml) |
+| payload-processing | payload-processing | ? | true | ? | [`deployment/base/payload-processing/manager/deployment.yaml`](https://github.com/opendatahub-io/models-as-a-service/blob/1fb8b5d9eabf2775af3e781cf351d1d967786ab2/deployment/base/payload-processing/manager/deployment.yaml) |
 
 ## Build Security
 

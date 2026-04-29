@@ -1,11 +1,11 @@
 # models-as-a-service
 
-> **Architecture snapshot: 2026-04-27** (2026-04-27)
+> **Architecture snapshot: 2026-04-29** (2026-04-29)
 
 
 **Repository:** red-hat-data-services/models-as-a-service  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-27T08:21:34Z
+**Extracted:** 2026-04-29T11:05:42Z
 
 ## Summary
 
@@ -73,9 +73,9 @@ No CRDs defined.
 | k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.33.1 |
 | k8s.io/apiextensions-apiserver | v0.33.1 |
-| k8s.io/apimachinery | v0.33.1 |
 | k8s.io/apimachinery | v0.34.1 |
-| k8s.io/client-go | v0.34.1 |
+| k8s.io/apimachinery | v0.33.1 |
 | k8s.io/client-go | v0.33.1 |
+| k8s.io/client-go | v0.34.1 |
 | sigs.k8s.io/controller-runtime | v0.20.4 |
 

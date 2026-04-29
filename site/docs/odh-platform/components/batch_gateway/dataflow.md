@@ -22,7 +22,7 @@ sequenceDiagram
 
 | Method | Path | Source |
 |--------|------|--------|
-| * | / | [`internal/apiserver/common/rest.go:74`](https://github.com/llm-d-incubation/batch-gateway/blob/d07515bb29d744e21a7d0875cadc5f99d2ad9525/internal/apiserver/common/rest.go#L74) |
+| * | / | [`internal/apiserver/common/rest.go:74`](https://github.com/llm-d-incubation/batch-gateway/blob/b47c64718cd06d898da92f616a0f0deef7b2e0b5/internal/apiserver/common/rest.go#L74) |
 
 ## Configuration
 
