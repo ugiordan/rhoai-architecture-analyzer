@@ -17,7 +17,7 @@ func TestGoAnnotatorVersionConversion(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &GoAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -40,7 +40,7 @@ func TestGoAnnotatorFeatureGate(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &GoAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -63,7 +63,7 @@ func TestGoAnnotatorNoFalsePositives(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &GoAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {

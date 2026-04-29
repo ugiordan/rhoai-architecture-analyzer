@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"sync/atomic"
 
 	sitter "github.com/smacker/go-tree-sitter"
 	"github.com/smacker/go-tree-sitter/golang"
@@ -17,40 +16,85 @@ import (
 const MaxFileSize = 10 * 1024 * 1024
 
 // GoParser extracts code property graph nodes from Go source files using tree-sitter.
-// The idSeq counter is safe for concurrent use via atomic operations. The underlying
-// tree-sitter parser is NOT safe for concurrent use even with external locks: each
-// goroutine MUST use its own GoParser instance (call NewGoParser per goroutine).
-// When running multiple GoParser instances in parallel, pass a shared counter via
-// NewGoParserWithSeq to avoid node ID collisions.
+// The underlying tree-sitter parser is NOT safe for concurrent use even with external
+// locks: each goroutine MUST use its own GoParser instance (call NewGoParser per
+// goroutine). Node IDs are deterministic content hashes, so no shared counter is needed.
 type GoParser struct {
 	parser *sitter.Parser
-	idSeq  *atomic.Int64
 }
 
 // NewGoParser creates a parser for Go source files backed by tree-sitter.
 func NewGoParser() *GoParser {
 	p := sitter.NewParser()
 	p.SetLanguage(golang.GetLanguage())
-	return &GoParser{parser: p, idSeq: &atomic.Int64{}}
-}
-
-// NewGoParserWithSeq creates a parser that shares an ID counter with other instances.
-// Use this when running multiple parsers in parallel to avoid node ID collisions.
-func NewGoParserWithSeq(seq *atomic.Int64) *GoParser {
-	p := sitter.NewParser()
-	p.SetLanguage(golang.GetLanguage())
-	return &GoParser{parser: p, idSeq: seq}
+	return &GoParser{parser: p}
 }
 
 func (gp *GoParser) Language() string     { return "go" }
 func (gp *GoParser) Extensions() []string { return []string{".go"} }
-func (gp *GoParser) CloneWithSeq(seq *atomic.Int64) Parser {
-	return NewGoParserWithSeq(seq)
+func (gp *GoParser) Clone() Parser {
+	p := sitter.NewParser()
+	p.SetLanguage(golang.GetLanguage())
+	return &GoParser{parser: p}
 }
 
-func (gp *GoParser) nextID(prefix string) string {
-	id := gp.idSeq.Add(1)
-	return fmt.Sprintf("%s_%d", prefix, id)
+// computeComplexity counts decision points in a function body AST.
+// Complexity = 1 (base) + count of: if, for/range, case (expression/type/default), &&.
+func computeComplexity(node *sitter.Node) int {
+	count := 1
+	countDecisionPoints(node, &count)
+	return count
+}
+
+func countDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_statement":
+		*count++
+	case "for_statement":
+		*count++
+	case "expression_case", "type_case", "default_case":
+		*count++
+	case "binary_expression":
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil && child.Type() == "&&" {
+				*count++
+				break
+			}
+		}
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child == nil {
+			continue
+		}
+		// Skip "else if" chains: an if_statement that is the alternative branch
+		// of a parent if_statement is not a new decision point.
+		if node.Type() == "if_statement" && child.Type() == "if_statement" {
+			// This is the else-if branch. Don't count it as a new if_statement,
+			// but still recurse into its children.
+			countDecisionPointsSkipSelf(child, count)
+			continue
+		}
+		countDecisionPoints(child, count)
+	}
+}
+
+// countDecisionPointsSkipSelf recurses into a node's children without counting
+// the node itself as a decision point. Used for else-if chains.
+func countDecisionPointsSkipSelf(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child != nil {
+			countDecisionPoints(child, count)
+		}
+	}
 }
 
 // ParseFile parses a Go source file and returns extracted nodes and edges.
@@ -94,12 +138,15 @@ func (gp *GoParser) extractFunction(node *sitter.Node, src []byte, file string, 
 		return
 	}
 	name := nameNode.Content(src)
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 	fn := &graph.Node{
-		ID:          gp.nextID("fn"),
+		ID:          NodeID(graph.NodeFunction, name, file, line, col),
 		Kind:        graph.NodeFunction,
 		Name:        name,
 		File:        file,
-		Line:        int(node.StartPoint().Row) + 1,
+		Line:        line,
+		Column:      col,
 		EndLine:     int(node.EndPoint().Row) + 1,
 		Language:    "go",
 		Annotations: make(map[string]bool),
@@ -139,6 +186,12 @@ func (gp *GoParser) extractFunction(node *sitter.Node, src []byte, file string, 
 		}
 	}
 
+	// Compute cyclomatic complexity from function body
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeComplexity(body)
+	}
+
 	// Extract switch/case statements from function body
 	gp.extractSwitchCases(node, src, fn)
 
@@ -152,13 +205,15 @@ func (gp *GoParser) extractCallSite(node *sitter.Node, src []byte, file string, 
 	}
 	callText := fnNode.Content(src)
 	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 
 	cs := &graph.Node{
-		ID:         gp.nextID("call"),
+		ID:         NodeID(graph.NodeCallSite, callText, file, line, col),
 		Kind:       graph.NodeCallSite,
 		Name:       callText,
 		File:       file,
 		Line:       line,
+		Column:     col,
 		Language:   "go",
 		Properties: make(map[string]string),
 	}
@@ -200,11 +255,12 @@ func (gp *GoParser) extractCallSite(node *sitter.Node, src []byte, file string, 
 	if callText == "http.HandleFunc" || callText == "mux.HandleFunc" || callText == "router.HandleFunc" {
 		if args != nil {
 			handler := &graph.Node{
-				ID:         gp.nextID("http"),
+				ID:         NodeID(graph.NodeHTTPEndpoint, callText, file, line, col),
 				Kind:       graph.NodeHTTPEndpoint,
 				Name:       callText,
 				File:       file,
 				Line:       line,
+				Column:     col,
 				Language:   "go",
 				Properties: make(map[string]string),
 			}
@@ -223,11 +279,12 @@ func (gp *GoParser) extractCallSite(node *sitter.Node, src []byte, file string, 
 	// Detect DB operations
 	if isDBWrite(callText) {
 		dbOp := &graph.Node{
-			ID:         gp.nextID("db"),
+			ID:         NodeID(graph.NodeDBOperation, callText, file, line, col),
 			Kind:       graph.NodeDBOperation,
 			Name:       callText,
 			File:       file,
 			Line:       line,
+			Column:     col,
 			Language:   "go",
 			Properties: map[string]string{"operation": "write"},
 			Operation:  "write",
@@ -236,11 +293,12 @@ func (gp *GoParser) extractCallSite(node *sitter.Node, src []byte, file string, 
 		result.DBOperations = append(result.DBOperations, dbOp)
 	} else if isDBRead(callText) {
 		dbOp := &graph.Node{
-			ID:         gp.nextID("db"),
+			ID:         NodeID(graph.NodeDBOperation, callText, file, line, col),
 			Kind:       graph.NodeDBOperation,
 			Name:       callText,
 			File:       file,
 			Line:       line,
+			Column:     col,
 			Language:   "go",
 			Properties: map[string]string{"operation": "read"},
 			Operation:  "read",
@@ -435,12 +493,15 @@ func (gp *GoParser) extractStructLiteral(node *sitter.Node, src []byte, file str
 		properties["string_values"] = strings.Join(stringValues, ",")
 	}
 
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 	sl := &graph.Node{
-		ID:         gp.nextID("struct"),
+		ID:         NodeID(graph.NodeStructLiteral, typeName, file, line, col),
 		Kind:       graph.NodeStructLiteral,
 		Name:       typeName,
 		File:       file,
-		Line:       int(node.StartPoint().Row) + 1,
+		Line:       line,
+		Column:     col,
 		EndLine:    int(node.EndPoint().Row) + 1,
 		Language:   "go",
 		Properties: properties,

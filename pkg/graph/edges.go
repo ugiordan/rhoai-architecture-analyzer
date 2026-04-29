@@ -9,6 +9,7 @@ const (
 	EdgeControlFlow   EdgeKind = "CONTROL_FLOW"
 	EdgeStorageLink   EdgeKind = "STORAGE_LINK"
 	EdgeAnnotatedWith EdgeKind = "ANNOTATED_WITH"
+	EdgeReportedBy    EdgeKind = "REPORTED_BY"
 )
 
 // EdgeConfidence expresses how reliable a call resolution is.

@@ -26,7 +26,19 @@ func (a *TypeScriptAnnotator) Annotate(g *graph.CPG, archData *domains.Architect
 		a.annotateFunction(g, fn)
 	}
 
+	// Third pass: classify trust levels
+	a.classifyTrust(g)
+
 	return nil
+}
+
+func (a *TypeScriptAnnotator) classifyTrust(g *graph.CPG) {
+	for _, ep := range g.NodesByKind(graph.NodeHTTPEndpoint) {
+		if ep.Language != "typescript" {
+			continue
+		}
+		ep.TrustLevel = graph.TrustUntrusted
+	}
 }
 
 func (a *TypeScriptAnnotator) annotateFunction(g *graph.CPG, fn *graph.Node) {

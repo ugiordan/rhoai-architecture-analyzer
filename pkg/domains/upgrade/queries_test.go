@@ -18,7 +18,7 @@ func TestQueryDeprecatedAPIUsage(t *testing.T) {
 		Annotations: map[string]bool{AnnotPreReleaseAPI: true},
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	findings := queryDeprecatedAPIUsage(g)
 	if len(findings) != 1 {
@@ -40,7 +40,7 @@ func TestQueryDeprecatedAPISkipsTests(t *testing.T) {
 		Annotations: map[string]bool{AnnotPreReleaseAPI: true},
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	findings := queryDeprecatedAPIUsage(g)
 	if len(findings) != 0 {
@@ -90,7 +90,7 @@ func TestQueryUnconvertedCRD_MultiVersionWithConversion(t *testing.T) {
 			AnnotVersionConversion: true,
 		},
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	findings := queryUnconvertedCRD(g)
 	if len(findings) != 0 {
@@ -139,7 +139,7 @@ func TestQueryUnconvertedCRD_PackageQualifiedReceiver(t *testing.T) {
 			AnnotVersionConversion: true,
 		},
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	findings := queryUnconvertedCRD(g)
 	if len(findings) != 0 {
@@ -173,7 +173,7 @@ func TestQueryUngatedFeature_NoGatesRegistered(t *testing.T) {
 		Annotations: map[string]bool{AnnotFeatureGate: true},
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	findings := queryUngatedFeature(g)
 	if len(findings) != 0 {
@@ -198,7 +198,7 @@ func TestQueryUngatedFeature_UnregisteredGateCheck(t *testing.T) {
 		Annotations: map[string]bool{AnnotFeatureGate: true},
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	findings := queryUngatedFeature(g)
 	if len(findings) != 1 {
@@ -226,7 +226,7 @@ func TestQueryUngatedFeature_RegisteredGateInProperties(t *testing.T) {
 		Annotations: map[string]bool{AnnotFeatureGate: true},
 		Properties:  map[string]string{"arg": "PipelineReuse"},
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	findings := queryUngatedFeature(g)
 	if len(findings) != 0 {
@@ -251,7 +251,7 @@ func TestQueryUngatedFeature_FeatureNamedFunctionWithoutGate(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	findings := queryUngatedFeature(g)
 	if len(findings) != 1 {
@@ -279,7 +279,7 @@ func TestQueryUngatedFeature_FeatureNamedFunctionWithGate(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	// Gate check call inside that function
 	cs := &graph.Node{
@@ -291,7 +291,7 @@ func TestQueryUngatedFeature_FeatureNamedFunctionWithGate(t *testing.T) {
 		Annotations: map[string]bool{AnnotFeatureGate: true},
 		Properties:  map[string]string{"arg": "PipelineReuse"},
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	// Edge from function to call site (function contains the call)
 	g.AddEdge(&graph.Edge{From: fn.ID, To: cs.ID, Kind: "contains"})
@@ -318,7 +318,7 @@ func TestQueryUngatedFeature_SkipsTestFiles(t *testing.T) {
 		Annotations: map[string]bool{AnnotFeatureGate: true},
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	findings := queryUngatedFeature(g)
 	if len(findings) != 0 {
@@ -364,7 +364,7 @@ func TestQueryUncheckedVersionAccess_SeverityIsLow(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 	cs := &graph.Node{
 		ID:          "call1",
 		Kind:        graph.NodeCallSite,
@@ -374,7 +374,7 @@ func TestQueryUncheckedVersionAccess_SeverityIsLow(t *testing.T) {
 		Annotations: map[string]bool{AnnotVersionCheck: true},
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 	g.AddEdge(&graph.Edge{From: fn.ID, To: cs.ID, Kind: "contains"})
 
 	findings := queryUncheckedVersionAccess(g)

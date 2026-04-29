@@ -19,7 +19,7 @@ func TestStorageLinkerLinksWriteToRead(t *testing.T) {
 		Operation:  "write",
 		Properties: map[string]string{"operation": "write", "table": "users"},
 	}
-	cpg.AddNode(writeOp)
+	if err := cpg.AddNode(writeOp); err != nil { t.Fatal(err) }
 
 	readOp := &graph.Node{
 		ID:         "db_read_1",
@@ -31,7 +31,7 @@ func TestStorageLinkerLinksWriteToRead(t *testing.T) {
 		Operation:  "read",
 		Properties: map[string]string{"operation": "read", "table": "users"},
 	}
-	cpg.AddNode(readOp)
+	if err := cpg.AddNode(readOp); err != nil { t.Fatal(err) }
 
 	otherRead := &graph.Node{
 		ID:         "db_read_2",
@@ -43,7 +43,7 @@ func TestStorageLinkerLinksWriteToRead(t *testing.T) {
 		Operation:  "read",
 		Properties: map[string]string{"operation": "read", "table": "products"},
 	}
-	cpg.AddNode(otherRead)
+	if err := cpg.AddNode(otherRead); err != nil { t.Fatal(err) }
 
 	linker := NewStorageLinker()
 	linked := linker.Link(cpg)

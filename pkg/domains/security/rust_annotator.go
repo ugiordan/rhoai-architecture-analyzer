@@ -34,7 +34,19 @@ func (a *RustAnnotator) Annotate(g *graph.CPG, archData *domains.ArchitectureDat
 		a.annotateFunction(g, fn, endpointNames)
 	}
 
+	// Third pass: classify trust levels
+	a.classifyTrust(g)
+
 	return nil
+}
+
+func (a *RustAnnotator) classifyTrust(g *graph.CPG) {
+	for _, ep := range g.NodesByKind(graph.NodeHTTPEndpoint) {
+		if ep.Language != "rust" {
+			continue
+		}
+		ep.TrustLevel = graph.TrustUntrusted
+	}
 }
 
 func (a *RustAnnotator) annotateCallSite(g *graph.CPG, cs *graph.Node) {

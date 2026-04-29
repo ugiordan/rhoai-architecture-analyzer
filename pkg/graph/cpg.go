@@ -1,6 +1,7 @@
 package graph
 
 import (
+	"fmt"
 	"sync"
 
 	"github.com/ugiordan/architecture-analyzer/pkg/arch"
@@ -28,11 +29,16 @@ func NewCPG() *CPG {
 	}
 }
 
-func (g *CPG) AddNode(n *Node) {
+func (g *CPG) AddNode(n *Node) error {
 	g.mu.Lock()
 	defer g.mu.Unlock()
+	if existing, ok := g.nodes[n.ID]; ok {
+		return fmt.Errorf("duplicate node ID %q: existing node %q (%s:%d) collides with %q (%s:%d)",
+			n.ID, existing.Name, existing.File, existing.Line, n.Name, n.File, n.Line)
+	}
 	g.nodes[n.ID] = n
 	g.kindIndex[n.Kind] = append(g.kindIndex[n.Kind], n)
+	return nil
 }
 
 func (g *CPG) GetNode(id string) *Node {

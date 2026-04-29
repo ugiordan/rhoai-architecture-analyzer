@@ -17,7 +17,7 @@ func TestGoAnnotatorTestFunc(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &GoAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -40,7 +40,7 @@ func TestGoAnnotatorNonTestFile(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &GoAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -64,7 +64,7 @@ func TestGoAnnotatorFakeClient(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	cs := &graph.Node{
 		ID:          "call1",
@@ -75,7 +75,7 @@ func TestGoAnnotatorFakeClient(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 	g.AddEdge(&graph.Edge{From: "fn1", To: "call1", Kind: graph.EdgeDataFlow, Label: "contains_call"})
 
 	a := &GoAnnotator{}

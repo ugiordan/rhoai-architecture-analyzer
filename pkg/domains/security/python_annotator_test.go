@@ -20,7 +20,7 @@ func TestPythonAnnotatorHandlesRequest(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -46,7 +46,7 @@ func TestPythonAnnotatorHandlesRequestWithRequestParam(t *testing.T) {
 		Properties:  make(map[string]string),
 		ParamNames:  []string{"request", "data"},
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -70,7 +70,7 @@ func TestPythonAnnotatorAccessesSecret(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"string_args": "SECRET_KEY"},
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -94,7 +94,7 @@ func TestPythonAnnotatorAccessesSecretCaseInsensitive(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"string_args": "api-key"},
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -118,7 +118,7 @@ func TestPythonAnnotatorSubprocessCall(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -142,7 +142,7 @@ func TestPythonAnnotatorDeserializesInput(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -166,7 +166,7 @@ func TestPythonAnnotatorExecutesSQL(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -190,7 +190,7 @@ func TestPythonAnnotatorFileAccess(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -214,7 +214,7 @@ func TestPythonAnnotatorTemplateRender(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -239,7 +239,7 @@ func TestPythonAnnotatorPropagateToFunction(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	cs := &graph.Node{
 		ID:          "call1",
@@ -251,7 +251,7 @@ func TestPythonAnnotatorPropagateToFunction(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 	g.AddEdge(&graph.Edge{From: "fn1", To: "call1", Kind: graph.EdgeDataFlow, Label: "contains_call"})
 
 	a := &PythonAnnotator{}
@@ -279,7 +279,7 @@ func TestPythonAnnotatorNoFalsePositives(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"param_names": "data,config"},
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -298,6 +298,80 @@ func TestPythonAnnotatorNoFalsePositives(t *testing.T) {
 	}
 }
 
+func TestPythonAnnotatorClassifyTrustUntrusted(t *testing.T) {
+	g := graph.NewCPG()
+	fn := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		EndLine:     20,
+		Language:    "python",
+		Decorators:  []string{`@app.route("/users")`},
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	ep := &graph.Node{
+		ID:          "ep1",
+		Kind:        graph.NodeHTTPEndpoint,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		Language:    "python",
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
+	if err := g.AddNode(ep); err != nil { t.Fatal(err) }
+
+	a := &PythonAnnotator{}
+	if err := a.Annotate(g, nil); err != nil {
+		t.Fatalf("Annotate failed: %v", err)
+	}
+
+	if g.GetNode("ep1").TrustLevel != graph.TrustUntrusted {
+		t.Errorf("expected untrusted, got %s", g.GetNode("ep1").TrustLevel)
+	}
+}
+
+func TestPythonAnnotatorClassifyTrustSemiTrusted(t *testing.T) {
+	g := graph.NewCPG()
+	fn := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		EndLine:     20,
+		Language:    "python",
+		Decorators:  []string{`@app.route("/users")`, `@login_required`},
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	ep := &graph.Node{
+		ID:          "ep1",
+		Kind:        graph.NodeHTTPEndpoint,
+		Name:        "get_users",
+		File:        "app.py",
+		Line:        10,
+		Language:    "python",
+		Annotations: make(map[string]bool),
+		Properties:  make(map[string]string),
+	}
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
+	if err := g.AddNode(ep); err != nil { t.Fatal(err) }
+
+	a := &PythonAnnotator{}
+	if err := a.Annotate(g, nil); err != nil {
+		t.Fatalf("Annotate failed: %v", err)
+	}
+
+	if g.GetNode("ep1").TrustLevel != graph.TrustSemiTrusted {
+		t.Errorf("expected semi_trusted, got %s", g.GetNode("ep1").TrustLevel)
+	}
+}
+
 func TestPythonAnnotatorIgnoresOtherLanguages(t *testing.T) {
 	g := graph.NewCPG()
 	cs := &graph.Node{
@@ -310,7 +384,7 @@ func TestPythonAnnotatorIgnoresOtherLanguages(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 
 	a := &PythonAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {

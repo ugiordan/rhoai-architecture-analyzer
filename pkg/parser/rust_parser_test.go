@@ -220,6 +220,38 @@ func TestRustParserAllFunctionsHaveLanguage(t *testing.T) {
 	}
 }
 
+func TestRustParserComputesComplexity(t *testing.T) {
+	content, err := os.ReadFile("../../testdata/complexity_sample.rs")
+	if err != nil {
+		t.Fatalf("Failed to read test fixture: %v", err)
+	}
+
+	p := NewRustParser()
+	result, err := p.ParseFile("testdata/complexity_sample.rs", content)
+	if err != nil {
+		t.Fatalf("ParseFile failed: %v", err)
+	}
+
+	expected := map[string]int{
+		"simple_func":  1,
+		"complex_func": 4,
+		"match_func":   5,
+		"loop_func":    4,
+	}
+
+	for _, fn := range result.Functions {
+		if want, ok := expected[fn.Name]; ok {
+			if fn.Complexity != want {
+				t.Errorf("function %s: complexity = %d, want %d", fn.Name, fn.Complexity, want)
+			}
+			delete(expected, fn.Name)
+		}
+	}
+	for name := range expected {
+		t.Errorf("function %s not found in parse result", name)
+	}
+}
+
 func TestRustParserFileTooLarge(t *testing.T) {
 	p := NewRustParser()
 	bigContent := make([]byte, MaxFileSize+1)

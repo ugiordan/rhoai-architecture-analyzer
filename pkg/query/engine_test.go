@@ -20,7 +20,7 @@ func TestQueryMissingAuth(t *testing.T) {
 			"mutates_state":     true,
 		},
 	}
-	cpg.AddNode(noAuth)
+	if err := cpg.AddNode(noAuth); err != nil { t.Fatal(err) }
 
 	withAuth := &graph.Node{
 		ID:          "fn2",
@@ -34,7 +34,7 @@ func TestQueryMissingAuth(t *testing.T) {
 			"has_auth":          true,
 		},
 	}
-	cpg.AddNode(withAuth)
+	if err := cpg.AddNode(withAuth); err != nil { t.Fatal(err) }
 
 	engine := NewEngine()
 	findings := engine.QueryMissingAuth(cpg)
@@ -56,21 +56,21 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 		Name:        "handler",
 		Annotations: map[string]bool{"handles_user_input": true},
 	}
-	cpg.AddNode(handler)
+	if err := cpg.AddNode(handler); err != nil { t.Fatal(err) }
 
 	dbWrite := &graph.Node{
 		ID:         "db_w",
 		Kind:       graph.NodeDBOperation,
 		Properties: map[string]string{"operation": "write", "table": "templates"},
 	}
-	cpg.AddNode(dbWrite)
+	if err := cpg.AddNode(dbWrite); err != nil { t.Fatal(err) }
 
 	dbRead := &graph.Node{
 		ID:         "db_r",
 		Kind:       graph.NodeDBOperation,
 		Properties: map[string]string{"operation": "read", "table": "templates"},
 	}
-	cpg.AddNode(dbRead)
+	if err := cpg.AddNode(dbRead); err != nil { t.Fatal(err) }
 
 	extCall := &graph.Node{
 		ID:          "ext1",
@@ -78,7 +78,7 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 		Name:        "llmClient.Complete",
 		Annotations: map[string]bool{"calls_external": true},
 	}
-	cpg.AddNode(extCall)
+	if err := cpg.AddNode(extCall); err != nil { t.Fatal(err) }
 
 	cpg.AddEdge(&graph.Edge{From: "fn1", To: "db_w", Kind: graph.EdgeDataFlow})
 	cpg.AddEdge(&graph.Edge{From: "db_w", To: "db_r", Kind: graph.EdgeStorageLink})
@@ -102,7 +102,7 @@ func TestRunRules(t *testing.T) {
 		Line:        1,
 		Annotations: map[string]bool{"test_annotation": true},
 	}
-	cpg.AddNode(fn)
+	if err := cpg.AddNode(fn); err != nil { t.Fatal(err) }
 
 	rules := []Rule{
 		{

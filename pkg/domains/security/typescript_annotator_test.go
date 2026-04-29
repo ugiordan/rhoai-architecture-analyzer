@@ -20,7 +20,7 @@ func TestTypeScriptAnnotatorHandlesRequest(t *testing.T) {
 		Properties:  make(map[string]string),
 		ParamTypes:  []string{"req: Request", "res: Response"},
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &TypeScriptAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -40,7 +40,7 @@ func TestTypeScriptAnnotatorAccessesSecret(t *testing.T) {
 		Language:    "typescript",
 		Annotations: make(map[string]bool), Properties: make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	cs := &graph.Node{
 		ID: "call1", Kind: graph.NodeCallSite, Name: "process.env.DB_PASSWORD",
@@ -50,7 +50,7 @@ func TestTypeScriptAnnotatorAccessesSecret(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 	g.AddEdge(&graph.Edge{From: "fn1", To: "call1", Kind: graph.EdgeDataFlow, Label: "contains_call"})
 
 	a := &TypeScriptAnnotator{}
@@ -74,7 +74,7 @@ func TestTypeScriptAnnotatorRendersHTML(t *testing.T) {
 		Language:    "typescript",
 		Annotations: make(map[string]bool), Properties: make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	cs := &graph.Node{
 		ID: "call1", Kind: graph.NodeCallSite, Name: "res.send",
@@ -84,7 +84,7 @@ func TestTypeScriptAnnotatorRendersHTML(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 	g.AddEdge(&graph.Edge{From: "fn1", To: "call1", Kind: graph.EdgeDataFlow, Label: "contains_call"})
 
 	a := &TypeScriptAnnotator{}
@@ -108,7 +108,7 @@ func TestTypeScriptAnnotatorEvalUsage(t *testing.T) {
 		Language:    "typescript",
 		Annotations: make(map[string]bool), Properties: make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	cs := &graph.Node{
 		ID: "call1", Kind: graph.NodeCallSite, Name: "eval",
@@ -118,7 +118,7 @@ func TestTypeScriptAnnotatorEvalUsage(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(cs)
+	if err := g.AddNode(cs); err != nil { t.Fatal(err) }
 	g.AddEdge(&graph.Edge{From: "fn1", To: "call1", Kind: graph.EdgeDataFlow, Label: "contains_call"})
 
 	a := &TypeScriptAnnotator{}
@@ -144,7 +144,7 @@ func TestTypeScriptAnnotatorNoFalsePositives(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"param_types": "(x: number)"},
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &TypeScriptAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {

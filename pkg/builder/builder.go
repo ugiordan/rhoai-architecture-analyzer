@@ -9,7 +9,6 @@ import (
 	"runtime"
 	"strings"
 	"sync"
-	"sync/atomic"
 
 	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 	"github.com/ugiordan/architecture-analyzer/pkg/parser"
@@ -107,17 +106,14 @@ func (b *Builder) BuildFromDir(dir string) (*graph.CPG, error) {
 	}
 	close(ch)
 
-	// Shared ID counter across all worker parsers to avoid node ID collisions
-	var sharedSeq atomic.Int64
-
 	for w := 0; w < workers; w++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			// Each goroutine gets its own parser instance with a shared ID counter
+			// Each goroutine gets its own parser instance (tree-sitter is not thread-safe)
 			localParsers := make([]parser.Parser, len(b.parsers))
 			for i := range b.parsers {
-				localParsers[i] = b.parsers[i].CloneWithSeq(&sharedSeq)
+				localParsers[i] = b.parsers[i].Clone()
 			}
 
 			for idx := range ch {
@@ -152,7 +148,9 @@ func (b *Builder) BuildFromDir(dir string) (*graph.CPG, error) {
 	// Phase 3: merge results (single-threaded, fast)
 	for _, r := range results {
 		if r.result != nil {
-			b.mergeResult(cpg, r.result)
+			if err := b.mergeResult(cpg, r.result); err != nil {
+				return nil, fmt.Errorf("merging parse results: %w", err)
+			}
 		}
 	}
 
@@ -161,25 +159,36 @@ func (b *Builder) BuildFromDir(dir string) (*graph.CPG, error) {
 	return cpg, nil
 }
 
-func (b *Builder) mergeResult(cpg *graph.CPG, result *parser.ParseResult) {
+func (b *Builder) mergeResult(cpg *graph.CPG, result *parser.ParseResult) error {
 	for _, n := range result.Functions {
-		cpg.AddNode(n)
+		if err := cpg.AddNode(n); err != nil {
+			return fmt.Errorf("merging function node: %w", err)
+		}
 	}
 	for _, n := range result.CallSites {
-		cpg.AddNode(n)
+		if err := cpg.AddNode(n); err != nil {
+			return fmt.Errorf("merging call site node: %w", err)
+		}
 	}
 	for _, n := range result.HTTPHandlers {
-		cpg.AddNode(n)
+		if err := cpg.AddNode(n); err != nil {
+			return fmt.Errorf("merging HTTP handler node: %w", err)
+		}
 	}
 	for _, n := range result.DBOperations {
-		cpg.AddNode(n)
+		if err := cpg.AddNode(n); err != nil {
+			return fmt.Errorf("merging DB operation node: %w", err)
+		}
 	}
 	for _, n := range result.StructLiterals {
-		cpg.AddNode(n)
+		if err := cpg.AddNode(n); err != nil {
+			return fmt.Errorf("merging struct literal node: %w", err)
+		}
 	}
 	for _, e := range result.Edges {
 		cpg.AddEdge(e)
 	}
+	return nil
 }
 
 func (b *Builder) resolveCallEdges(cpg *graph.CPG) {

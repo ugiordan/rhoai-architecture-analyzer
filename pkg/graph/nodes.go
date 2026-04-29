@@ -13,7 +13,8 @@ const (
 	NodeDBOperation   NodeKind = "DBOperation"
 	NodeExternalCall  NodeKind = "ExternalCall"
 	NodeK8sResource   NodeKind = "K8sResource"
-	NodeStructLiteral NodeKind = "StructLiteral"
+	NodeStructLiteral   NodeKind = "StructLiteral"
+	NodeExternalFinding NodeKind = "ExternalFinding"
 )
 
 // TrustLevel classifies HTTP handlers and entrypoints by trust level.
@@ -34,6 +35,7 @@ type Node struct {
 	Name        string          `json:"name"`
 	File        string          `json:"file"`
 	Line        int             `json:"line"`
+	Column      int             `json:"column,omitempty"`
 	EndLine     int             `json:"end_line,omitempty"`
 	Language    string          `json:"language,omitempty"`
 	TypeName    string          `json:"type_name,omitempty"`
@@ -67,6 +69,14 @@ type Node struct {
 
 	// Entrypoint classification (populated in A2)
 	TrustLevel TrustLevel `json:"trust_level,omitempty"`
+
+	// External finding fields (populated by SARIF ingestion)
+	RuleID      string   `json:"rule_id,omitempty"`
+	Severity    string   `json:"severity,omitempty"`
+	Message     string   `json:"message,omitempty"`
+	ToolName    string   `json:"tool_name,omitempty"`
+	ToolVersion string   `json:"tool_version,omitempty"`
+	CWEs        []string `json:"cwes,omitempty"`
 
 	// Preserved for language-specific edge cases
 	Properties map[string]string `json:"properties,omitempty"`

@@ -17,7 +17,7 @@ func TestAnnotateHTTPHandler(t *testing.T) {
 		Annotations: map[string]bool{"handles_user_input": true},
 		Properties:  map[string]string{"handler_type": "http"},
 	}
-	cpg.AddNode(fn)
+	if err := cpg.AddNode(fn); err != nil { t.Fatal(err) }
 
 	dbWrite := &graph.Node{
 		ID:         "db1",
@@ -28,7 +28,7 @@ func TestAnnotateHTTPHandler(t *testing.T) {
 		Operation:  "write",
 		Properties: map[string]string{"operation": "write"},
 	}
-	cpg.AddNode(dbWrite)
+	if err := cpg.AddNode(dbWrite); err != nil { t.Fatal(err) }
 	cpg.AddEdge(&graph.Edge{From: "fn1", To: "db1", Kind: graph.EdgeDataFlow})
 
 	a := NewSecurityAnnotator()
@@ -52,7 +52,7 @@ func TestAnnotateExternalCall(t *testing.T) {
 		Properties:  make(map[string]string),
 		Annotations: make(map[string]bool),
 	}
-	cpg.AddNode(call)
+	if err := cpg.AddNode(call); err != nil { t.Fatal(err) }
 
 	a := NewSecurityAnnotator()
 	a.Annotate(cpg)

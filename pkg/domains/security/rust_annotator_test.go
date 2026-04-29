@@ -20,7 +20,7 @@ func TestRustAnnotatorUnsafeBlock(t *testing.T) {
 		Properties:  make(map[string]string),
 		IsUnsafe:    true,
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &RustAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -46,7 +46,7 @@ func TestRustAnnotatorFFICall(t *testing.T) {
 		Properties:  make(map[string]string),
 		IsExtern:    true,
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	a := &RustAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -71,7 +71,7 @@ func TestRustAnnotatorHandlesRequest(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	handler := &graph.Node{
 		ID:          "http1",
@@ -82,7 +82,7 @@ func TestRustAnnotatorHandlesRequest(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"route": "/items"},
 	}
-	g.AddNode(handler)
+	if err := g.AddNode(handler); err != nil { t.Fatal(err) }
 
 	a := &RustAnnotator{}
 	if err := a.Annotate(g, nil); err != nil {
@@ -107,7 +107,7 @@ func TestRustAnnotatorAccessesSecret(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	call := &graph.Node{
 		ID:          "call1",
@@ -119,7 +119,7 @@ func TestRustAnnotatorAccessesSecret(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"string_args": "API_KEY"},
 	}
-	g.AddNode(call)
+	if err := g.AddNode(call); err != nil { t.Fatal(err) }
 
 	g.AddEdge(&graph.Edge{
 		Kind: graph.EdgeDataFlow,
@@ -154,7 +154,7 @@ func TestRustAnnotatorCommandExecution(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	call := &graph.Node{
 		ID:          "call1",
@@ -166,7 +166,7 @@ func TestRustAnnotatorCommandExecution(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(call)
+	if err := g.AddNode(call); err != nil { t.Fatal(err) }
 
 	g.AddEdge(&graph.Edge{
 		Kind: graph.EdgeDataFlow,
@@ -201,7 +201,7 @@ func TestRustAnnotatorDeserializesInput(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	call := &graph.Node{
 		ID:          "call1",
@@ -213,7 +213,7 @@ func TestRustAnnotatorDeserializesInput(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(call)
+	if err := g.AddNode(call); err != nil { t.Fatal(err) }
 
 	g.AddEdge(&graph.Edge{
 		Kind: graph.EdgeDataFlow,
@@ -248,7 +248,7 @@ func TestRustAnnotatorNoFalsePositives(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	call := &graph.Node{
 		ID:          "call1",
@@ -260,7 +260,7 @@ func TestRustAnnotatorNoFalsePositives(t *testing.T) {
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{"string_args": "Hello world"},
 	}
-	g.AddNode(call)
+	if err := g.AddNode(call); err != nil { t.Fatal(err) }
 
 	g.AddEdge(&graph.Edge{
 		Kind: graph.EdgeDataFlow,

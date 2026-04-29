@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"sync/atomic"
 
 	sitter "github.com/smacker/go-tree-sitter"
 	"github.com/smacker/go-tree-sitter/typescript/tsx"
@@ -42,11 +41,9 @@ var tsDBOps = map[string]string{
 
 // TypeScriptParser extracts code property graph nodes from TypeScript/TSX source files
 // using tree-sitter. Each goroutine MUST use its own TypeScriptParser instance
-// (tree-sitter parsers are not thread-safe). When running multiple instances in
-// parallel, pass a shared counter via NewTypeScriptParserWithSeq.
+// (tree-sitter parsers are not thread-safe).
 type TypeScriptParser struct {
 	parser *sitter.Parser
-	idSeq  *atomic.Int64
 }
 
 // NewTypeScriptParser creates a parser for TypeScript source files backed by tree-sitter.
@@ -54,26 +51,82 @@ type TypeScriptParser struct {
 func NewTypeScriptParser() *TypeScriptParser {
 	p := sitter.NewParser()
 	p.SetLanguage(tsx.GetLanguage())
-	return &TypeScriptParser{parser: p, idSeq: &atomic.Int64{}}
-}
-
-// NewTypeScriptParserWithSeq creates a parser that shares an ID counter with other instances.
-// Use this when running multiple parsers in parallel to avoid node ID collisions.
-func NewTypeScriptParserWithSeq(seq *atomic.Int64) *TypeScriptParser {
-	p := sitter.NewParser()
-	p.SetLanguage(tsx.GetLanguage())
-	return &TypeScriptParser{parser: p, idSeq: seq}
+	return &TypeScriptParser{parser: p}
 }
 
 func (tp *TypeScriptParser) Language() string     { return "typescript" }
 func (tp *TypeScriptParser) Extensions() []string { return []string{".ts", ".tsx"} }
-func (tp *TypeScriptParser) CloneWithSeq(seq *atomic.Int64) Parser {
-	return NewTypeScriptParserWithSeq(seq)
+func (tp *TypeScriptParser) Clone() Parser {
+	p := sitter.NewParser()
+	p.SetLanguage(tsx.GetLanguage())
+	return &TypeScriptParser{parser: p}
 }
 
-func (tp *TypeScriptParser) nextID(prefix string) string {
-	id := tp.idSeq.Add(1)
-	return fmt.Sprintf("%s_%d", prefix, id)
+// computeTypeScriptComplexity counts decision points in a TypeScript function body.
+// Complexity = 1 (base) + count of: if, for, for-in, while, do, switch_case, switch_default, catch, &&, ternary.
+func computeTypeScriptComplexity(node *sitter.Node) int {
+	count := 1
+	countTypeScriptDecisionPoints(node, &count)
+	return count
+}
+
+func countTypeScriptDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_statement":
+		*count++
+	case "for_statement", "for_in_statement":
+		*count++
+	case "while_statement", "do_statement":
+		*count++
+	case "switch_case", "switch_default":
+		*count++
+	case "catch_clause":
+		*count++
+	case "ternary_expression":
+		*count++
+	case "binary_expression":
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil {
+				op := child.Type()
+				if op == "&&" {
+					*count++
+					break
+				}
+			}
+		}
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child == nil {
+			continue
+		}
+		// Handle else-if chains: when an else_clause contains an if_statement,
+		// skip counting that if_statement itself (it's not a new branch, just a
+		// continuation of the chain) but still recurse into its children.
+		if node.Type() == "else_clause" && child.Type() == "if_statement" {
+			countTypeScriptDecisionPointsSkipSelf(child, count)
+			continue
+		}
+		countTypeScriptDecisionPoints(child, count)
+	}
+}
+
+// countTypeScriptDecisionPointsSkipSelf recurses into a node's children without
+// counting the node itself. Used for else-if chains to avoid double-counting.
+func countTypeScriptDecisionPointsSkipSelf(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		child := node.Child(i)
+		if child != nil {
+			countTypeScriptDecisionPoints(child, count)
+		}
+	}
 }
 
 // ParseFile parses a TypeScript/TSX source file and returns extracted nodes and edges.
@@ -136,12 +189,15 @@ func (tp *TypeScriptParser) extractFunction(node *sitter.Node, src []byte, file 
 	if nameNode == nil {
 		return
 	}
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 	fn := &graph.Node{
-		ID:          tp.nextID("fn"),
+		ID:          NodeID(graph.NodeFunction, nameNode.Content(src), file, line, col),
 		Kind:        graph.NodeFunction,
 		Name:        nameNode.Content(src),
 		File:        file,
-		Line:        int(node.StartPoint().Row) + 1,
+		Line:        line,
+		Column:      col,
 		EndLine:     int(node.EndPoint().Row) + 1,
 		Language:    "typescript",
 		Annotations: make(map[string]bool),
@@ -151,6 +207,10 @@ func (tp *TypeScriptParser) extractFunction(node *sitter.Node, src []byte, file 
 	params := node.ChildByFieldName("parameters")
 	if params != nil {
 		fn.ParamTypes = extractParamTypes(params, src)
+	}
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeTypeScriptComplexity(body)
 	}
 	result.Functions = append(result.Functions, fn)
 }
@@ -161,12 +221,15 @@ func (tp *TypeScriptParser) extractMethod(node *sitter.Node, src []byte, file, c
 	if nameNode == nil {
 		return
 	}
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 	fn := &graph.Node{
-		ID:          tp.nextID("fn"),
+		ID:          NodeID(graph.NodeFunction, nameNode.Content(src), file, line, col),
 		Kind:        graph.NodeFunction,
 		Name:        nameNode.Content(src),
 		File:        file,
-		Line:        int(node.StartPoint().Row) + 1,
+		Line:        line,
+		Column:      col,
 		EndLine:     int(node.EndPoint().Row) + 1,
 		Language:    "typescript",
 		TypeName:    className,
@@ -177,6 +240,10 @@ func (tp *TypeScriptParser) extractMethod(node *sitter.Node, src []byte, file, c
 	params := node.ChildByFieldName("parameters")
 	if params != nil {
 		fn.ParamTypes = extractParamTypes(params, src)
+	}
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeTypeScriptComplexity(body)
 	}
 	result.Functions = append(result.Functions, fn)
 }
@@ -216,12 +283,15 @@ func (tp *TypeScriptParser) extractArrowFunctions(node *sitter.Node, src []byte,
 		}
 		// The value might be an arrow_function directly or wrapped in a type assertion/parenthesized expression.
 		if isArrowFunction(valueNode) {
+			line := int(child.StartPoint().Row) + 1
+			col := int(child.StartPoint().Column)
 			fn := &graph.Node{
-				ID:          tp.nextID("fn"),
+				ID:          NodeID(graph.NodeFunction, nameNode.Content(src), file, line, col),
 				Kind:        graph.NodeFunction,
 				Name:        nameNode.Content(src),
 				File:        file,
-				Line:        int(child.StartPoint().Row) + 1,
+				Line:        line,
+				Column:      col,
 				EndLine:     int(child.EndPoint().Row) + 1,
 				Language:    "typescript",
 				Annotations: make(map[string]bool),
@@ -233,6 +303,10 @@ func (tp *TypeScriptParser) extractArrowFunctions(node *sitter.Node, src []byte,
 				params := arrowNode.ChildByFieldName("parameters")
 				if params != nil {
 					fn.ParamTypes = extractParamTypes(params, src)
+				}
+				arrowBody := arrowNode.ChildByFieldName("body")
+				if arrowBody != nil {
+					fn.Complexity = computeTypeScriptComplexity(arrowBody)
 				}
 			}
 			result.Functions = append(result.Functions, fn)
@@ -264,13 +338,15 @@ func (tp *TypeScriptParser) extractCallSite(node *sitter.Node, src []byte, file 
 	}
 	callText := fnNode.Content(src)
 	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 
 	cs := &graph.Node{
-		ID:         tp.nextID("call"),
+		ID:         NodeID(graph.NodeCallSite, callText, file, line, col),
 		Kind:       graph.NodeCallSite,
 		Name:       callText,
 		File:       file,
 		Line:       line,
+		Column:     col,
 		Language:   "typescript",
 		Properties: make(map[string]string),
 	}
@@ -282,15 +358,16 @@ func (tp *TypeScriptParser) extractCallSite(node *sitter.Node, src []byte, file 
 		if propNode != nil {
 			method := propNode.Content(src)
 			if httpMethod, ok := tsHTTPMethods[method]; ok {
-				tp.maybeExtractExpressHandler(node, src, file, line, callText, httpMethod, result)
+				tp.maybeExtractExpressHandler(node, src, file, line, col, callText, httpMethod, result)
 			} else if op, ok := tsDBOps[method]; ok {
 				// Only treat as DB operation if not already matched as HTTP handler
 				dbOp := &graph.Node{
-					ID:         tp.nextID("db"),
+					ID:         NodeID(graph.NodeDBOperation, callText, file, line, col),
 					Kind:       graph.NodeDBOperation,
 					Name:       callText,
 					File:       file,
 					Line:       line,
+					Column:     col,
 					Language:   "typescript",
 					Operation:  op,
 					Properties: map[string]string{"operation": op},
@@ -302,7 +379,7 @@ func (tp *TypeScriptParser) extractCallSite(node *sitter.Node, src []byte, file 
 }
 
 // maybeExtractExpressHandler creates an HTTP endpoint node for Express-style route registrations.
-func (tp *TypeScriptParser) maybeExtractExpressHandler(node *sitter.Node, src []byte, file string, line int, callText, httpMethod string, result *ParseResult) {
+func (tp *TypeScriptParser) maybeExtractExpressHandler(node *sitter.Node, src []byte, file string, line, col int, callText, httpMethod string, result *ParseResult) {
 	args := node.ChildByFieldName("arguments")
 	if args == nil {
 		return
@@ -322,11 +399,12 @@ func (tp *TypeScriptParser) maybeExtractExpressHandler(node *sitter.Node, src []
 	}
 
 	handler := &graph.Node{
-		ID:       tp.nextID("http"),
+		ID:       NodeID(graph.NodeHTTPEndpoint, callText, file, line, col),
 		Kind:     graph.NodeHTTPEndpoint,
 		Name:     callText,
 		File:     file,
 		Line:     line,
+		Column:   col,
 		Language: "typescript",
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{
@@ -350,12 +428,15 @@ func (tp *TypeScriptParser) extractNewExpression(node *sitter.Node, src []byte, 
 	}
 	name := ctorNode.Content(src)
 
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 	sl := &graph.Node{
-		ID:         tp.nextID("struct"),
+		ID:         NodeID(graph.NodeStructLiteral, name, file, line, col),
 		Kind:       graph.NodeStructLiteral,
 		Name:       name,
 		File:       file,
-		Line:       int(node.StartPoint().Row) + 1,
+		Line:       line,
+		Column:     col,
 		Language:   "typescript",
 		Properties: make(map[string]string),
 	}
@@ -420,12 +501,15 @@ func (tp *TypeScriptParser) extractJSXRoute(node *sitter.Node, src []byte, file 
 		}
 	}
 
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 	handler := &graph.Node{
-		ID:       tp.nextID("http"),
+		ID:       NodeID(graph.NodeHTTPEndpoint, "Route", file, line, col),
 		Kind:     graph.NodeHTTPEndpoint,
 		Name:     "Route",
 		File:     file,
-		Line:     int(node.StartPoint().Row) + 1,
+		Line:     line,
+		Column:   col,
 		Language: "typescript",
 		Annotations: make(map[string]bool),
 		Properties:  map[string]string{

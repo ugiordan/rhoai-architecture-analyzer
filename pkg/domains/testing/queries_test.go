@@ -19,7 +19,7 @@ func TestQueryUntestedSecurityFunc(t *testing.T) {
 		Annotations: map[string]bool{security.AnnotHandlesAdmission: true},
 		Properties:  make(map[string]string),
 	}
-	g.AddNode(fn)
+	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 
 	findings := queryUntestedSecurityFunc(g)
 	if len(findings) != 1 {

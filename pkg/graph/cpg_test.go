@@ -2,6 +2,42 @@ package graph
 
 import "testing"
 
+func mustAddNode(t *testing.T, cpg *CPG, n *Node) {
+	t.Helper()
+	if err := cpg.AddNode(n); err != nil {
+		t.Fatalf("AddNode failed: %v", err)
+	}
+}
+
+func TestAddNodeDuplicateIDReturnsError(t *testing.T) {
+	cpg := NewCPG()
+	n1 := &Node{ID: "fn_abc123", Kind: NodeFunction, Name: "foo", File: "a.go", Line: 1}
+	n2 := &Node{ID: "fn_abc123", Kind: NodeFunction, Name: "bar", File: "b.go", Line: 5}
+
+	if err := cpg.AddNode(n1); err != nil {
+		t.Fatalf("first AddNode should succeed: %v", err)
+	}
+	if err := cpg.AddNode(n2); err == nil {
+		t.Fatal("second AddNode with same ID should return error")
+	}
+}
+
+func TestAddNodeUniqueIDsSucceed(t *testing.T) {
+	cpg := NewCPG()
+	n1 := &Node{ID: "fn_aaa", Kind: NodeFunction, Name: "foo"}
+	n2 := &Node{ID: "fn_bbb", Kind: NodeFunction, Name: "bar"}
+
+	if err := cpg.AddNode(n1); err != nil {
+		t.Fatalf("AddNode n1 failed: %v", err)
+	}
+	if err := cpg.AddNode(n2); err != nil {
+		t.Fatalf("AddNode n2 failed: %v", err)
+	}
+	if len(cpg.Nodes()) != 2 {
+		t.Errorf("expected 2 nodes, got %d", len(cpg.Nodes()))
+	}
+}
+
 func TestNewCPG(t *testing.T) {
 	cpg := NewCPG()
 	if cpg == nil {
@@ -18,9 +54,9 @@ func TestNewCPG(t *testing.T) {
 func TestAddNodeAndEdge(t *testing.T) {
 	cpg := NewCPG()
 	fn := &Node{ID: "fn1", Kind: NodeFunction, Name: "handleRequest", File: "server.go", Line: 10, Language: "go"}
-	cpg.AddNode(fn)
+	mustAddNode(t, cpg, fn)
 	param := &Node{ID: "param1", Kind: NodeParameter, Name: "r", File: "server.go", Line: 10, Language: "go"}
-	cpg.AddNode(param)
+	mustAddNode(t, cpg, param)
 	cpg.AddEdge(&Edge{From: "fn1", To: "param1", Kind: EdgeDataFlow, Label: "parameter"})
 
 	if len(cpg.Nodes()) != 2 { t.Errorf("expected 2 nodes, got %d", len(cpg.Nodes())) }
@@ -38,9 +74,9 @@ func TestAddNodeAndEdge(t *testing.T) {
 
 func TestNodesByKind(t *testing.T) {
 	cpg := NewCPG()
-	cpg.AddNode(&Node{ID: "fn1", Kind: NodeFunction, Name: "a"})
-	cpg.AddNode(&Node{ID: "fn2", Kind: NodeFunction, Name: "b"})
-	cpg.AddNode(&Node{ID: "p1", Kind: NodeParameter, Name: "x"})
+	mustAddNode(t, cpg, &Node{ID: "fn1", Kind: NodeFunction, Name: "a"})
+	mustAddNode(t, cpg, &Node{ID: "fn2", Kind: NodeFunction, Name: "b"})
+	mustAddNode(t, cpg, &Node{ID: "p1", Kind: NodeParameter, Name: "x"})
 
 	fns := cpg.NodesByKind(NodeFunction)
 	if len(fns) != 2 { t.Errorf("expected 2 functions, got %d", len(fns)) }
@@ -51,7 +87,7 @@ func TestSecurityAnnotations(t *testing.T) {
 	fn := &Node{ID: "fn1", Kind: NodeFunction, Name: "handler", Annotations: make(map[string]bool)}
 	fn.Annotations["has_auth"] = true
 	fn.Annotations["handles_user_input"] = true
-	cpg.AddNode(fn)
+	mustAddNode(t, cpg, fn)
 
 	n := cpg.GetNode("fn1")
 	if !n.Annotations["has_auth"] { t.Error("expected has_auth annotation") }
@@ -73,7 +109,7 @@ func TestTypedNodeFields(t *testing.T) {
 		IsUnsafe:   false,
 		Route:      "",
 	}
-	cpg.AddNode(fn)
+	mustAddNode(t, cpg, fn)
 
 	n := cpg.GetNode("fn1")
 	if len(n.ParamTypes) != 2 || n.ParamTypes[0] != "string" {
@@ -95,7 +131,7 @@ func TestTypedNodeHTTPEndpoint(t *testing.T) {
 		Route:      "/users",
 		HTTPMethod: "GET",
 	}
-	cpg.AddNode(ep)
+	mustAddNode(t, cpg, ep)
 
 	n := cpg.GetNode("ep1")
 	if n.Route != "/users" {
@@ -117,7 +153,7 @@ func TestTypedNodeDBOperation(t *testing.T) {
 		Operation: "read",
 		Table:     "users",
 	}
-	cpg.AddNode(op)
+	mustAddNode(t, cpg, op)
 
 	n := cpg.GetNode("db1")
 	if n.Operation != "read" {
@@ -139,7 +175,7 @@ func TestTypedNodeStructLiteral(t *testing.T) {
 		StructType: "Config",
 		FieldNames: []string{"Host", "Port"},
 	}
-	cpg.AddNode(sl)
+	mustAddNode(t, cpg, sl)
 
 	n := cpg.GetNode("sl1")
 	if n.StructType != "Config" {
@@ -152,8 +188,8 @@ func TestTypedNodeStructLiteral(t *testing.T) {
 
 func TestEdgeConfidence(t *testing.T) {
 	cpg := NewCPG()
-	cpg.AddNode(&Node{ID: "cs1", Kind: NodeCallSite, Name: "doStuff"})
-	cpg.AddNode(&Node{ID: "fn1", Kind: NodeFunction, Name: "doStuff"})
+	mustAddNode(t, cpg, &Node{ID: "cs1", Kind: NodeCallSite, Name: "doStuff"})
+	mustAddNode(t, cpg, &Node{ID: "fn1", Kind: NodeFunction, Name: "doStuff"})
 
 	cpg.AddEdge(&Edge{
 		From:       "cs1",

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"sync/atomic"
 
 	sitter "github.com/smacker/go-tree-sitter"
 	"github.com/smacker/go-tree-sitter/rust"
@@ -37,35 +36,67 @@ var rustDBPatterns = map[string]string{
 
 // RustParser extracts code property graph nodes from Rust source files using tree-sitter.
 // Each goroutine MUST use its own RustParser instance (tree-sitter parsers are not thread-safe).
-// When running multiple instances in parallel, pass a shared counter via NewRustParserWithSeq.
 type RustParser struct {
 	parser *sitter.Parser
-	idSeq  *atomic.Int64
 }
 
 // NewRustParser creates a parser for Rust source files backed by tree-sitter.
 func NewRustParser() *RustParser {
 	p := sitter.NewParser()
 	p.SetLanguage(rust.GetLanguage())
-	return &RustParser{parser: p, idSeq: &atomic.Int64{}}
-}
-
-// NewRustParserWithSeq creates a parser that shares an ID counter with other instances.
-func NewRustParserWithSeq(seq *atomic.Int64) *RustParser {
-	p := sitter.NewParser()
-	p.SetLanguage(rust.GetLanguage())
-	return &RustParser{parser: p, idSeq: seq}
+	return &RustParser{parser: p}
 }
 
 func (rp *RustParser) Language() string     { return "rust" }
 func (rp *RustParser) Extensions() []string { return []string{".rs"} }
-func (rp *RustParser) CloneWithSeq(seq *atomic.Int64) Parser {
-	return NewRustParserWithSeq(seq)
+func (rp *RustParser) Clone() Parser {
+	p := sitter.NewParser()
+	p.SetLanguage(rust.GetLanguage())
+	return &RustParser{parser: p}
 }
 
-func (rp *RustParser) nextID(prefix string) string {
-	id := rp.idSeq.Add(1)
-	return fmt.Sprintf("%s_%d", prefix, id)
+// computeRustComplexity counts decision points in a Rust function body.
+// Complexity = 1 (base) + count of: if, match arm, for, while, loop, &&, ? operator.
+func computeRustComplexity(node *sitter.Node) int {
+	count := 1
+	countRustDecisionPoints(node, &count)
+	return count
+}
+
+func countRustDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_expression":
+		// Skip if this if_expression is the direct child of an else_clause
+		// (i.e. "else if"), because it is already counted by the parent if.
+		parent := node.Parent()
+		if parent == nil || parent.Type() != "else_clause" {
+			*count++
+		}
+	case "for_expression":
+		*count++
+	case "while_expression":
+		*count++
+	case "loop_expression":
+		*count++
+	case "match_arm":
+		*count++
+	case "try_expression":
+		*count++ // the ? operator
+	case "binary_expression":
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil && child.Type() == "&&" {
+				*count++
+				break
+			}
+		}
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		countRustDecisionPoints(node.Child(i), count)
+	}
 }
 
 // ParseFile parses a Rust source file and returns extracted nodes and edges.
@@ -137,13 +168,16 @@ func (rp *RustParser) extractFunction(node *sitter.Node, src []byte, file, implT
 		return
 	}
 	name := nameNode.Content(src)
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 
 	fn := &graph.Node{
-		ID:          rp.nextID("fn"),
+		ID:          NodeID(graph.NodeFunction, name, file, line, col),
 		Kind:        graph.NodeFunction,
 		Name:        name,
 		File:        file,
-		Line:        int(node.StartPoint().Row) + 1,
+		Line:        line,
+		Column:      col,
 		EndLine:     int(node.EndPoint().Row) + 1,
 		Language:    "rust",
 		TypeName:    implType,
@@ -168,6 +202,12 @@ func (rp *RustParser) extractFunction(node *sitter.Node, src []byte, file, implT
 				fn.IsExtern = true
 			}
 		}
+	}
+
+	// Compute cyclomatic complexity from function body.
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computeRustComplexity(body)
 	}
 
 	// Check preceding siblings for attribute_items (HTTP routes, #[test], etc.)
@@ -240,11 +280,12 @@ func (rp *RustParser) checkPrecedingAttributes(fnNode *sitter.Node, src []byte, 
 				route := rp.extractRouteFromTokenTree(tokenTree, src)
 				method := strings.ToUpper(attrName)
 				handler := &graph.Node{
-					ID:          rp.nextID("http"),
+					ID:          NodeID(graph.NodeHTTPEndpoint, fn.Name, file, fn.Line, fn.Column),
 					Kind:        graph.NodeHTTPEndpoint,
 					Name:        fn.Name,
 					File:        file,
 					Line:        fn.Line,
+					Column:      fn.Column,
 					Language:    "rust",
 					Annotations: make(map[string]bool),
 					Properties:  make(map[string]string),
@@ -292,13 +333,15 @@ func (rp *RustParser) extractCallSite(node *sitter.Node, src []byte, file string
 	}
 	callText := fnNode.Content(src)
 	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 
 	cs := &graph.Node{
-		ID:         rp.nextID("call"),
+		ID:         NodeID(graph.NodeCallSite, callText, file, line, col),
 		Kind:       graph.NodeCallSite,
 		Name:       callText,
 		File:       file,
 		Line:       line,
+		Column:     col,
 		Language:   "rust",
 		Properties: make(map[string]string),
 	}
@@ -328,12 +371,12 @@ func (rp *RustParser) extractCallSite(node *sitter.Node, src []byte, file string
 	}
 
 	// Check for DB operations by looking at the full call chain text
-	rp.maybeExtractDBFromCall(callText, node, src, file, line, result)
+	rp.maybeExtractDBFromCall(callText, node, src, file, line, col, result)
 }
 
 // maybeExtractDBFromCall checks if a call expression's direct function name matches a known DB pattern.
 // Only matches on the innermost call to avoid duplicates from chained method calls.
-func (rp *RustParser) maybeExtractDBFromCall(callText string, _ *sitter.Node, _ []byte, file string, line int, result *ParseResult) {
+func (rp *RustParser) maybeExtractDBFromCall(callText string, _ *sitter.Node, _ []byte, file string, line, col int, result *ParseResult) {
 	// Check if the direct call name matches a DB pattern exactly.
 	// callText is the function field content. For chained calls like
 	// diesel::insert_into(items::table).values(...).execute(...), the outer calls have
@@ -341,11 +384,12 @@ func (rp *RustParser) maybeExtractDBFromCall(callText string, _ *sitter.Node, _ 
 	for pattern, op := range rustDBPatterns {
 		if callText == pattern {
 			dbOp := &graph.Node{
-				ID:         rp.nextID("db"),
+				ID:         NodeID(graph.NodeDBOperation, pattern, file, line, col),
 				Kind:       graph.NodeDBOperation,
 				Name:       pattern,
 				File:       file,
 				Line:       line,
+				Column:     col,
 				Language:   "rust",
 				Properties: map[string]string{"operation": op},
 				Operation:  op,
@@ -382,13 +426,15 @@ func (rp *RustParser) extractMacroInvocation(node *sitter.Node, src []byte, file
 	// Append "!" for macro naming convention
 	displayName := macroName + "!"
 	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 
 	cs := &graph.Node{
-		ID:         rp.nextID("call"),
+		ID:         NodeID(graph.NodeCallSite, displayName, file, line, col),
 		Kind:       graph.NodeCallSite,
 		Name:       displayName,
 		File:       file,
 		Line:       line,
+		Column:     col,
 		Language:   "rust",
 		Properties: map[string]string{"is_macro": "true"},
 		IsMacro:    true,
@@ -405,11 +451,12 @@ func (rp *RustParser) extractMacroInvocation(node *sitter.Node, src []byte, file
 		}
 
 		dbOp := &graph.Node{
-			ID:         rp.nextID("db"),
+			ID:         NodeID(graph.NodeDBOperation, displayName, file, line, col),
 			Kind:       graph.NodeDBOperation,
 			Name:       displayName,
 			File:       file,
 			Line:       line,
+			Column:     col,
 			Language:   "rust",
 			Properties: map[string]string{"operation": actualOp},
 			Operation:  actualOp,
@@ -446,12 +493,16 @@ func (rp *RustParser) extractStructExpression(node *sitter.Node, src []byte, fil
 		}
 	}
 
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
+
 	sl := &graph.Node{
-		ID:         rp.nextID("struct"),
+		ID:         NodeID(graph.NodeStructLiteral, name, file, line, col),
 		Kind:       graph.NodeStructLiteral,
 		Name:       name,
 		File:       file,
-		Line:       int(node.StartPoint().Row) + 1,
+		Line:       line,
+		Column:     col,
 		EndLine:    int(node.EndPoint().Row) + 1,
 		Language:   "rust",
 		Properties: map[string]string{

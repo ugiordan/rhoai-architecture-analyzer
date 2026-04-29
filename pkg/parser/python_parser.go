@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strings"
-	"sync/atomic"
 	"unicode"
 
 	sitter "github.com/smacker/go-tree-sitter"
@@ -51,35 +50,66 @@ var dbCallOps = map[string]string{
 
 // PythonParser extracts code property graph nodes from Python source files using tree-sitter.
 // Each goroutine MUST use its own PythonParser instance (tree-sitter parsers are not thread-safe).
-// When running multiple instances in parallel, pass a shared counter via NewPythonParserWithSeq.
 type PythonParser struct {
 	parser *sitter.Parser
-	idSeq  *atomic.Int64
 }
 
 // NewPythonParser creates a parser for Python source files backed by tree-sitter.
 func NewPythonParser() *PythonParser {
 	p := sitter.NewParser()
 	p.SetLanguage(python.GetLanguage())
-	return &PythonParser{parser: p, idSeq: &atomic.Int64{}}
-}
-
-// NewPythonParserWithSeq creates a parser that shares an ID counter with other instances.
-func NewPythonParserWithSeq(seq *atomic.Int64) *PythonParser {
-	p := sitter.NewParser()
-	p.SetLanguage(python.GetLanguage())
-	return &PythonParser{parser: p, idSeq: seq}
+	return &PythonParser{parser: p}
 }
 
 func (pp *PythonParser) Language() string     { return "python" }
 func (pp *PythonParser) Extensions() []string { return []string{".py"} }
-func (pp *PythonParser) CloneWithSeq(seq *atomic.Int64) Parser {
-	return NewPythonParserWithSeq(seq)
+func (pp *PythonParser) Clone() Parser {
+	p := sitter.NewParser()
+	p.SetLanguage(python.GetLanguage())
+	return &PythonParser{parser: p}
 }
 
-func (pp *PythonParser) nextID(prefix string) string {
-	id := pp.idSeq.Add(1)
-	return fmt.Sprintf("%s_%d", prefix, id)
+// computePythonComplexity counts decision points in a Python function body.
+// Complexity = 1 (base) + count of: if, elif, for, while, except, and, ternary, comprehension if.
+func computePythonComplexity(node *sitter.Node) int {
+	count := 1
+	countPythonDecisionPoints(node, &count)
+	return count
+}
+
+func countPythonDecisionPoints(node *sitter.Node, count *int) {
+	if node == nil {
+		return
+	}
+	switch node.Type() {
+	case "if_statement":
+		*count++
+	case "elif_clause":
+		*count++
+	case "for_statement":
+		*count++
+	case "while_statement":
+		*count++
+	case "except_clause":
+		*count++
+	case "boolean_operator":
+		// Only count "and" (short-circuit logical AND), not "or".
+		// This aligns with Go/Rust/TypeScript which count only &&.
+		for i := 0; i < int(node.ChildCount()); i++ {
+			child := node.Child(i)
+			if child != nil && child.Type() == "and" {
+				*count++
+				break
+			}
+		}
+	case "conditional_expression":
+		*count++ // ternary: x if cond else y
+	case "if_clause":
+		*count++ // list comprehension if
+	}
+	for i := 0; i < int(node.ChildCount()); i++ {
+		countPythonDecisionPoints(node.Child(i), count)
+	}
 }
 
 // ParseFile parses a Python source file and returns extracted nodes and edges.
@@ -174,19 +204,27 @@ func (pp *PythonParser) extractFunction(node *sitter.Node, src []byte, file, cla
 		return
 	}
 	name := nameNode.Content(src)
+	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 
 	fn := &graph.Node{
-		ID:          pp.nextID("fn"),
+		ID:          NodeID(graph.NodeFunction, name, file, line, col),
 		Kind:        graph.NodeFunction,
 		Name:        name,
 		File:        file,
-		Line:        int(node.StartPoint().Row) + 1,
+		Line:        line,
+		Column:      col,
 		EndLine:     int(node.EndPoint().Row) + 1,
 		Language:    "python",
 		TypeName:    className,
 		Decorators:  decorators,
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
+	}
+	// Compute complexity from function body
+	body := node.ChildByFieldName("body")
+	if body != nil {
+		fn.Complexity = computePythonComplexity(body)
 	}
 	result.Functions = append(result.Functions, fn)
 
@@ -237,7 +275,6 @@ func (pp *PythonParser) extractFunction(node *sitter.Node, src []byte, file, cla
 	}
 
 	// Walk function body for call sites, etc.
-	body := node.ChildByFieldName("body")
 	if body != nil {
 		for i := 0; i < int(body.ChildCount()); i++ {
 			child := body.Child(i)
@@ -275,11 +312,12 @@ func (pp *PythonParser) maybeExtractHTTPHandler(decorator string, fn *graph.Node
 	route := extractStringArg(argPart)
 
 	handler := &graph.Node{
-		ID:          pp.nextID("http"),
+		ID:          NodeID(graph.NodeHTTPEndpoint, fn.Name, file, fn.Line, fn.Column),
 		Kind:        graph.NodeHTTPEndpoint,
 		Name:        fn.Name,
 		File:        file,
 		Line:        fn.Line,
+		Column:      fn.Column,
 		Language:    "python",
 		Annotations: make(map[string]bool),
 		Properties:  make(map[string]string),
@@ -338,13 +376,15 @@ func (pp *PythonParser) extractCallSite(node *sitter.Node, src []byte, file stri
 	}
 	callText := fnNode.Content(src)
 	line := int(node.StartPoint().Row) + 1
+	col := int(node.StartPoint().Column)
 
 	cs := &graph.Node{
-		ID:         pp.nextID("call"),
+		ID:         NodeID(graph.NodeCallSite, callText, file, line, col),
 		Kind:       graph.NodeCallSite,
 		Name:       callText,
 		File:       file,
 		Line:       line,
+		Column:     col,
 		Language:   "python",
 		Properties: make(map[string]string),
 	}
@@ -385,11 +425,12 @@ func (pp *PythonParser) extractCallSite(node *sitter.Node, src []byte, file stri
 	// Check for DB operations
 	if op, ok := classifyDBCall(callText); ok {
 		dbOp := &graph.Node{
-			ID:         pp.nextID("db"),
+			ID:         NodeID(graph.NodeDBOperation, callText, file, line, col),
 			Kind:       graph.NodeDBOperation,
 			Name:       callText,
 			File:       file,
 			Line:       line,
+			Column:     col,
 			Language:   "python",
 			Properties: map[string]string{"operation": op},
 			Operation:  op,
@@ -400,13 +441,13 @@ func (pp *PythonParser) extractCallSite(node *sitter.Node, src []byte, file stri
 
 	// For non-DB, non-dotted calls, check if it's a PascalCase class instantiation
 	if !strings.Contains(callText, ".") {
-		pp.maybeExtractStructLiteral(callText, node, src, file, line, result)
+		pp.maybeExtractStructLiteral(callText, node, src, file, line, col, result)
 	}
 }
 
 // maybeExtractStructLiteral checks if a simple (non-dotted) call name looks like
 // a PascalCase class instantiation and, if so, creates a StructLiteral node.
-func (pp *PythonParser) maybeExtractStructLiteral(name string, node *sitter.Node, src []byte, file string, line int, result *ParseResult) {
+func (pp *PythonParser) maybeExtractStructLiteral(name string, node *sitter.Node, src []byte, file string, line, col int, result *ParseResult) {
 	if len(name) == 0 {
 		return
 	}
@@ -420,11 +461,12 @@ func (pp *PythonParser) maybeExtractStructLiteral(name string, node *sitter.Node
 	}
 
 	sl := &graph.Node{
-		ID:         pp.nextID("struct"),
+		ID:         NodeID(graph.NodeStructLiteral, name, file, line, col),
 		Kind:       graph.NodeStructLiteral,
 		Name:       name,
 		File:       file,
 		Line:       line,
+		Column:     col,
 		Language:   "python",
 		Properties: make(map[string]string),
 	}
