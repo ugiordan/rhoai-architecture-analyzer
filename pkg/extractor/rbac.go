@@ -161,7 +161,7 @@ func parseKubebuilderMarker(body string) map[string]interface{} {
 			if strings.Contains(value, ";") {
 				result[key] = strings.Split(value, ";")
 			} else {
-				result[key] = value
+				result[key] = []string{value}
 			}
 		}
 	}
