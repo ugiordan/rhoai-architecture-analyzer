@@ -56,8 +56,10 @@ func OCPToKubeVersion(ocpVersion string) (KubeVersion, error) {
 	if v.Major == 4 {
 		return KubeVersion{Major: 1, Minor: v.Minor + 13}, nil
 	}
-	// Already a kube version
-	return v, nil
+	if v.Major == 1 {
+		return v, nil // already a Kubernetes version
+	}
+	return KubeVersion{}, fmt.Errorf("unsupported version %q: only OCP 4.x and Kubernetes 1.x are supported", ocpVersion)
 }
 
 // APIDeprecation records when a Kubernetes API was deprecated and removed.
@@ -201,15 +203,7 @@ func CheckVersionCompat(archData map[string]interface{}, targetVersion string) (
 }
 
 func resolveTargetVersion(ver string) (KubeVersion, error) {
-	v, err := ParseKubeVersion(ver)
-	if err != nil {
-		return KubeVersion{}, err
-	}
-	// OCP version detection: major == 4
-	if v.Major == 4 {
-		return OCPToKubeVersion(ver)
-	}
-	return v, nil
+	return OCPToKubeVersion(ver)
 }
 
 var apiVersionRe = regexp.MustCompile(`^([a-z0-9.-]+)/([a-z0-9]+)$`)

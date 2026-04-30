@@ -430,7 +430,7 @@ func aggregateVersionCompat(resultsDir, outDir, scanConfigPath, platformName str
 	totalIssues := 0
 
 	// Walk results dir for component architecture files
-	filepath.Walk(resultsDir, func(path string, fi os.FileInfo, walkErr error) error {
+	walkErr := filepath.Walk(resultsDir, func(path string, fi os.FileInfo, walkErr error) error {
 		if walkErr != nil || fi.IsDir() || fi.Name() != "component-architecture.json" {
 			return nil
 		}
@@ -460,6 +460,10 @@ func aggregateVersionCompat(resultsDir, outDir, scanConfigPath, platformName str
 		}
 		return nil
 	})
+	if walkErr != nil {
+		fmt.Fprintf(os.Stderr, "Warning: failed to walk results dir for version-compat: %v\n", walkErr)
+		return
+	}
 
 	if totalIssues == 0 {
 		fmt.Printf("All %d components compatible with OCP %s\n", len(results), targetVersion)
