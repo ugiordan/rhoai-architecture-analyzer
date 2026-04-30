@@ -5,7 +5,7 @@
 
 **Repository:** llamastack/llama-stack-k8s-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-30T14:42:45Z
+**Extracted:** 2026-04-30T15:05:23Z
 
 ## Summary
 

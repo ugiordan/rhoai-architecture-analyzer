@@ -5,7 +5,7 @@
 
 **Repository:** ray-project/kuberay  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-30T14:43:01Z
+**Extracted:** 2026-04-30T15:05:30Z
 
 ## Summary
 

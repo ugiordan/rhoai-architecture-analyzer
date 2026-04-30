@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/fms-guardrails-orchestrator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-30T14:42:11Z
+**Extracted:** 2026-04-30T15:06:01Z
 
 ## Summary
 

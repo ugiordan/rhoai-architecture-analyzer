@@ -22,23 +22,23 @@ sequenceDiagram
 
 | Method | Path | Source |
 |--------|------|--------|
-| GET | /api/v1/evaluations/collections | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| POST | /api/v1/evaluations/collections | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| DELETE | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| GET | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| PATCH | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| PUT | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| GET | /api/v1/evaluations/jobs | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| POST | /api/v1/evaluations/jobs | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| DELETE | /api/v1/evaluations/jobs/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| GET | /api/v1/evaluations/jobs/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| GET | /api/v1/evaluations/providers | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| POST | /api/v1/evaluations/providers | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| DELETE | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| GET | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| PATCH | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| PUT | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
-| GET | /api/v1/health | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/2d0fa9f6d1de473ef68aa160bfb270d95bb3c19c/docs/openapi.yaml) |
+| GET | /api/v1/evaluations/collections | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| POST | /api/v1/evaluations/collections | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| DELETE | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| GET | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| PATCH | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| PUT | /api/v1/evaluations/collections/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| GET | /api/v1/evaluations/jobs | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| POST | /api/v1/evaluations/jobs | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| DELETE | /api/v1/evaluations/jobs/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| GET | /api/v1/evaluations/jobs/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| GET | /api/v1/evaluations/providers | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| POST | /api/v1/evaluations/providers | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| DELETE | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| GET | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| PATCH | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| PUT | /api/v1/evaluations/providers/{id} | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
+| GET | /api/v1/health | [`docs/openapi.yaml`](https://github.com/eval-hub/eval-hub/blob/53b8fa21e439b1439834f98216588e0b6add14ba/docs/openapi.yaml) |
 
 ## Configuration
 
