@@ -1,0 +1,28 @@
+{
+  "components": [
+    "batch-gateway",
+    "codeflare-operator",
+    "data-science-pipelines-operator",
+    "eval-hub",
+    "fms-guardrails-orchestrator",
+    "kube-auth-proxy",
+    "kube-rbac-proxy",
+    "kubeflow",
+    "kuberay",
+    "llama-stack-k8s-operator",
+    "llm-d-inference-scheduler",
+    "model-registry-operator",
+    "modelmesh-serving",
+    "models-as-a-service",
+    "odh-model-controller",
+    "opendatahub-operator",
+    "spark-operator",
+    "trustyai-service-operator",
+    "workload-variant-autoscaler"
+  ],
+  "component_count": 19,
+  "total_nodes": 552137,
+  "total_edges": 871967,
+  "cross_component_edges": 0,
+  "cross_component_links": null
+}

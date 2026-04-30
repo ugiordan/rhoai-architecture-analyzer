@@ -1,0 +1,286 @@
+{
+  "components": [
+    {
+      "component": "argo-workflows",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "batch-gateway",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "codeflare-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "data-science-pipelines",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "data-science-pipelines-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "distributed-workloads",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "eval-hub",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "fms-guardrails-orchestrator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "kserve",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "kube-auth-proxy",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "kube-rbac-proxy",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "kubeflow",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "kuberay",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "kueue",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "llama-stack-k8s-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "llm-d-inference-scheduler",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "llm-d-kv-cache",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "mlflow-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "model-registry",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "model-registry-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "modelmesh-serving",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "models-as-a-service",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "notebooks",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "odh-dashboard",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "odh-model-controller",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "opendatahub-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "spark-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "trainer",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "training-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "trustyai-service-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "workload-variant-autoscaler",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    }
+  ],
+  "platform": "rhoai",
+  "target_ocp_version": "4.14",
+  "total_issues": 0
+}
