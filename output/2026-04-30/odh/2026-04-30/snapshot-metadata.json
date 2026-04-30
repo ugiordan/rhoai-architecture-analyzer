@@ -1,6 +1,6 @@
 {
   "version": "2026-04-30",
-  "timestamp": "2026-04-30T15:36:45Z",
+  "timestamp": "2026-04-30T16:26:24Z",
   "analyzer_version": "0.2.0",
   "repos_analyzed": {
     "argoproj/argo-workflows": "d07b4418769855f690fa23709472fd173761b4da",
@@ -28,9 +28,9 @@
     "opendatahub-io/model-registry-operator": "d56c75fadb1ee4aa2b162859055bf91734084a03",
     "opendatahub-io/models-as-a-service": "10a153843aa3ebd155736fedf5b054bd3ffe0288",
     "opendatahub-io/notebooks": "8fdada2c88c14951558cdc2ce7b3f6869b227739",
-    "opendatahub-io/odh-dashboard": "cb87921832dd371d3ebc8f03def92655b075597f",
+    "opendatahub-io/odh-dashboard": "abdfc40d8bb0557d22a05b083b958d816ea39a68",
     "opendatahub-io/odh-model-controller": "6f0cf6e87512953761c199bfd65366ce9ee378ce",
-    "opendatahub-io/opendatahub-operator": "50d6d47150a74b858e03b7e33cfd47885e488aa5",
+    "opendatahub-io/opendatahub-operator": "c26b319260b4c5d2b199ff896b4be625ed160738",
     "project-codeflare/codeflare-operator": "fb0d403419a114d26adcf65215b6a89e723667d8",
     "ray-project/kuberay": "c8eb1020e2fc4b05c79ede7416ff745177f258dd",
     "trustyai-explainability/trustyai-service-operator": "52fa0632c89259e4b8a3246ddf94bbbb5796a718"

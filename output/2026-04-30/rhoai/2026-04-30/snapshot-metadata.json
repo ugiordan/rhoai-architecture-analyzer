@@ -1,6 +1,6 @@
 {
   "version": "2026-04-30",
-  "timestamp": "2026-04-30T15:36:51Z",
+  "timestamp": "2026-04-30T16:26:30Z",
   "analyzer_version": "0.2.0",
   "repos_analyzed": {
     "argoproj/argo-workflows": "003ed2b35a398772211441cb7c866c51f6f87e2d",
@@ -17,7 +17,7 @@
     "llm-d-incubation/batch-gateway": "90be6106215ba631b72100824544fd9bea2692fa",
     "llm-d/llm-d-inference-scheduler": "eb2ef5d06644cdf1726fcbc3276d41d8f91f70eb",
     "llm-d/llm-d-kv-cache": "c0e51570d277baaf2e0ac43515959ddf4eaf8837",
-    "llm-d/workload-variant-autoscaler": "958740f7b8a7ac2e9de13b1fbd1edfbfc8b6b782",
+    "llm-d/workload-variant-autoscaler": "735a0461e794c9f4e635bb6ab004e84b04a18c45",
     "opendatahub-io/data-science-pipelines-operator": "72aa6b5ea346af4d8c9b519dcf226485db7294f0",
     "opendatahub-io/distributed-workloads": "523cd4f60a51b589a31fb1104d765e8083cb019f",
     "opendatahub-io/kube-auth-proxy": "452fcec5cce53126a3271c145497d444f4e7f5e8",

@@ -26,8 +26,8 @@
     "workload-variant-autoscaler"
   ],
   "component_count": 24,
-  "total_nodes": 641482,
-  "total_edges": 997027,
+  "total_nodes": 641739,
+  "total_edges": 998159,
   "cross_component_edges": 0,
   "cross_component_links": null
 }
