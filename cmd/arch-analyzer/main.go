@@ -1163,9 +1163,14 @@ func cmdFullAnalysis(args []string) error {
 		fmt.Printf("Extracted architecture to: %s\n", jsonPath)
 
 		// Prepare arch data for domain analyzers
-		raw, _ := json.Marshal(archResult)
+		raw, mErr := json.Marshal(archResult)
+		if mErr != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to marshal architecture data: %v\n", mErr)
+		}
 		var data map[string]interface{}
-		json.Unmarshal(raw, &data)
+		if err := json.Unmarshal(raw, &data); err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to unmarshal architecture data: %v\n", err)
+		}
 		archData = &domains.ArchitectureData{Raw: data}
 
 		parsed, parseErr := arch.Parse(data)
@@ -1572,9 +1577,14 @@ func prepareArchData(repoPath string, cpg *graph.CPG, org string) *domains.Archi
 		return nil
 	}
 
-	raw, _ := json.Marshal(archResult)
+	raw, mErr := json.Marshal(archResult)
+	if mErr != nil {
+		fmt.Fprintf(os.Stderr, "Warning: failed to marshal architecture data: %v\n", mErr)
+	}
 	var data map[string]interface{}
-	json.Unmarshal(raw, &data)
+	if err := json.Unmarshal(raw, &data); err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: failed to unmarshal architecture data: %v\n", err)
+	}
 	archData := &domains.ArchitectureData{Raw: data}
 
 	parsed, parseErr := arch.Parse(data)

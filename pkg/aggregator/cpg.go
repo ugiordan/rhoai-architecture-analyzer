@@ -275,8 +275,11 @@ func mergeCPGs(snapshots []CPGSnapshot) *PlatformCPG {
 		}
 	}
 
-	// Add cross-component edges to the merged graph
+	// Add cross-component edges to the merged graph (only for node-level links)
 	for _, link := range dedupedLinks {
+		if link.FromNode == "" || link.ToNode == "" {
+			continue // component-level links (shared-secret, shared-crd) lack node IDs
+		}
 		platform.Edges = append(platform.Edges, map[string]interface{}{
 			"from":           link.FromNode,
 			"to":             link.ToNode,

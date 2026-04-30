@@ -77,7 +77,7 @@ func extractKustomizeComponents(repoPath string) []KustomizeComponent {
 // *_support.go or *_component.go, which typically define component metadata.
 func findSupportFiles(repoPath string) []string {
 	var files []string
-	filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
+	_ = filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return nil
 		}
@@ -305,7 +305,7 @@ func findParamsEnv(repoPath string) []string {
 	}
 
 	// Also search more broadly
-	filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
+	_ = filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return nil
 		}

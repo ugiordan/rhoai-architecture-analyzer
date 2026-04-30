@@ -193,7 +193,7 @@ func parseCSVTemplate(dir string, bc *BuildConfig) {
 	// Walk directory tree for ClusterServiceVersion YAML files.
 	// Note: filepath.Glob does not support "**" recursive patterns,
 	// so we use filepath.WalkDir instead.
-	filepath.WalkDir(dir, func(path string, d os.DirEntry, err error) error {
+	_ = filepath.WalkDir(dir, func(path string, d os.DirEntry, err error) error {
 		if err != nil || d.IsDir() {
 			return nil
 		}
