@@ -57,6 +57,9 @@ platforms:
   rhoai:
     name: "Red Hat OpenShift AI"
     description: "Enterprise ML platform on OpenShift (downstream of ODH)"
+    ocp_versions:
+      min: "4.14"
+      max: "4.17"
     orgs:
       red-hat-data-services:
         # Operators (downstream of opendatahub-io)

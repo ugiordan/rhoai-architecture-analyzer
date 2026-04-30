@@ -334,10 +334,11 @@ func cmdAggregate(args []string) error {
 	outputDir := fs.String("output-dir", "platform-output", "Output directory")
 	ver := fs.String("version", "", "Version label for snapshot output (e.g. v2.15.0)")
 	platform := fs.String("platform", "", "Platform name for snapshot metadata (e.g. rhoai, odh)")
+	scanConfig := fs.String("scan-config", "", "Path to scan-config.yaml for platform-aware features (OCP version-compat, overrides)")
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: arch-analyzer aggregate <results-dir> [--output-dir dir] [--version label] [--platform name]")
+		return fmt.Errorf("usage: arch-analyzer aggregate <results-dir> [--output-dir dir] [--version label] [--platform name] [--scan-config path]")
 	}
 
 	if *ver != "" {
@@ -346,7 +347,9 @@ func cmdAggregate(args []string) error {
 		}
 	}
 
-	platformData, err := aggregator.Aggregate(fs.Arg(0))
+	resultsDir := fs.Arg(0)
+
+	platformData, err := aggregator.Aggregate(resultsDir)
 	if err != nil {
 		return err
 	}
@@ -369,8 +372,27 @@ func cmdAggregate(args []string) error {
 	}
 	fmt.Printf("Rendered %d platform diagram(s) to: %s\n", len(diagrams), diagramsDir)
 
+	// CPG aggregation: merge code-graph.json files into platform-wide CPG
+	platformCPG, cpgErr := aggregator.AggregateCPGs(resultsDir)
+	if cpgErr != nil {
+		fmt.Fprintf(os.Stderr, "Warning: CPG aggregation failed: %v\n", cpgErr)
+	} else if platformCPG.ComponentCount > 0 {
+		cpgPath := filepath.Join(outDir, "platform-cpg.json")
+		if wErr := writeJSON(cpgPath, platformCPG); wErr != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to write platform CPG: %v\n", wErr)
+		} else {
+			fmt.Printf("Platform CPG: %d components, %d nodes, %d edges, %d cross-component links\n",
+				platformCPG.ComponentCount, platformCPG.TotalNodes, platformCPG.TotalEdges, platformCPG.CrossEdges)
+		}
+	}
+
+	// Version compatibility check using platform OCP versions from scan-config
+	if *scanConfig != "" && *platform != "" {
+		aggregateVersionCompat(resultsDir, outDir, *scanConfig, *platform)
+	}
+
 	if *ver != "" {
-		repos, err := collectRepoSHAs(fs.Arg(0))
+		repos, err := collectRepoSHAs(resultsDir)
 		if err != nil {
 			return fmt.Errorf("collecting repo SHAs: %w", err)
 		}
@@ -381,6 +403,81 @@ func cmdAggregate(args []string) error {
 	}
 
 	return nil
+}
+
+// aggregateVersionCompat runs version compatibility checks against platform OCP versions.
+func aggregateVersionCompat(resultsDir, outDir, scanConfigPath, platformName string) {
+	_, platCfg, err := config.LoadPlatformConfig(scanConfigPath, platformName)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: failed to load platform config for version-compat: %v\n", err)
+		return
+	}
+	if platCfg.OCPVersions == nil || platCfg.OCPVersions.Min == "" {
+		fmt.Println("No OCP version constraints defined for platform, skipping version-compat")
+		return
+	}
+
+	targetVersion := platCfg.OCPVersions.Min
+	fmt.Printf("\n=== Version Compatibility Check (target OCP %s) ===\n", targetVersion)
+
+	type componentCompat struct {
+		Component string                        `json:"component"`
+		Result    *validator.VersionCompatResult `json:"result"`
+	}
+
+	var results []componentCompat
+	totalIssues := 0
+
+	// Walk results dir for component architecture files
+	filepath.Walk(resultsDir, func(path string, fi os.FileInfo, walkErr error) error {
+		if walkErr != nil || fi.IsDir() || fi.Name() != "component-architecture.json" {
+			return nil
+		}
+
+		data, err := loadJSON(path)
+		if err != nil {
+			return nil
+		}
+
+		component := filepath.Base(filepath.Dir(path))
+		result, err := validator.CheckVersionCompat(data, targetVersion)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "  Warning: version-compat for %s: %v\n", component, err)
+			return nil
+		}
+
+		results = append(results, componentCompat{Component: component, Result: result})
+		if len(result.Issues) > 0 {
+			totalIssues += len(result.Issues)
+			for _, issue := range result.Issues {
+				icon := "WARNING"
+				if issue.Severity == "error" {
+					icon = "ERROR"
+				}
+				fmt.Printf("  [%s] %s: %s\n", icon, component, issue.Message)
+			}
+		}
+		return nil
+	})
+
+	if totalIssues == 0 {
+		fmt.Printf("All %d components compatible with OCP %s\n", len(results), targetVersion)
+	} else {
+		fmt.Printf("%d issue(s) found across %d components\n", totalIssues, len(results))
+	}
+
+	compatPath := filepath.Join(outDir, "version-compat.json")
+	output := map[string]interface{}{
+		"target_ocp_version": targetVersion,
+		"platform":           platformName,
+		"components":         results,
+		"total_issues":       totalIssues,
+	}
+	if wErr := writeJSON(compatPath, output); wErr != nil {
+		fmt.Fprintf(os.Stderr, "Warning: failed to write version-compat: %v\n", wErr)
+	} else {
+		fmt.Printf("Version compatibility report: %s\n", compatPath)
+	}
 }
 
 // cmdDocs generates a browsable documentation site from architecture JSON.
@@ -1083,6 +1180,26 @@ func cmdFullAnalysis(args []string) error {
 				fmt.Fprintf(os.Stderr, "Warning: failed to write diagrams: %v\n", wErr)
 			} else {
 				fmt.Printf("Rendered %d diagram(s) to: %s\n", len(diagrams), diagramsDir)
+			}
+		}
+	}
+
+	// Build config extraction
+	fmt.Println("\n=== Build Config Extraction ===")
+	bc, bcErr := extractor.ParseBuildConfig(repoPath)
+	if bcErr != nil {
+		fmt.Fprintf(os.Stderr, "Warning: build config extraction failed: %v\n", bcErr)
+	} else {
+		bcPath := filepath.Join(outDir, "build-config.json")
+		if wErr := writeJSON(bcPath, bc); wErr != nil {
+			fmt.Fprintf(os.Stderr, "Warning: failed to write build config: %v\n", wErr)
+		} else {
+			fmt.Printf("Build config written to: %s\n", bcPath)
+			if bc.OCPVersions.Min != "" || bc.OCPVersions.Max != "" {
+				fmt.Printf("  OCP versions: %s - %s\n", bc.OCPVersions.Min, bc.OCPVersions.Max)
+			}
+			if len(bc.Architectures) > 0 {
+				fmt.Printf("  Architectures: %s\n", strings.Join(bc.Architectures, ", "))
 			}
 		}
 	}

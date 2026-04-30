@@ -181,7 +181,8 @@ jobs:
 
           if [ -d odh-results ] && [ "$(ls -A odh-results)" ]; then
             echo "=== Aggregating ODH ==="
-            ./arch-analyzer aggregate -output-dir platform-output/odh -version "$VERSION" -platform odh odh-results
+            ./arch-analyzer aggregate -output-dir platform-output/odh -version "$VERSION" -platform odh \
+              -scan-config scan-config.yaml odh-results
             echo "=== Generating ODH docs ==="
             ./arch-analyzer docs -output-dir site/docs/odh-platform -prefix odh-platform \
               "platform-output/odh/${VERSION}/platform-architecture.json"
@@ -189,7 +190,8 @@ jobs:
 
           if [ -d rhoai-results ] && [ "$(ls -A rhoai-results)" ]; then
             echo "=== Aggregating RHOAI ==="
-            ./arch-analyzer aggregate -output-dir platform-output/rhoai -version "$VERSION" -platform rhoai rhoai-results
+            ./arch-analyzer aggregate -output-dir platform-output/rhoai -version "$VERSION" -platform rhoai \
+              -scan-config scan-config.yaml rhoai-results
             echo "=== Generating RHOAI docs ==="
             ./arch-analyzer docs -output-dir site/docs/rhoai-platform -prefix rhoai-platform \
               "platform-output/rhoai/${VERSION}/platform-architecture.json"
