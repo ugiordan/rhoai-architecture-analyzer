@@ -1089,7 +1089,7 @@ func (pp *PythonParser) buildCFGIfPy(node *sitter.Node, src []byte, file string,
 	}
 
 	// All branches terminated and no implicit fall-through needed
-	if len(branchEnds) == 0 || (len(branchEnds) == 1 && branchEnds[0] == nil && thenEnd == nil) {
+	if len(branchEnds) == 0 {
 		return nil
 	}
 

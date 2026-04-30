@@ -1249,30 +1249,32 @@ func buildPositionMap(nodes []*graph.Node) map[posKey][]string {
 // at positions within it, using the position map. Depth-limited to prevent
 // stack overflow on deeply nested input (see dataflow.MaxASTDepth).
 func collectNodeIDs(node *sitter.Node, posMap map[posKey][]string) []string {
-	return collectNodeIDsDepth(node, posMap, 0)
-}
-
-func collectNodeIDsDepth(node *sitter.Node, posMap map[posKey][]string, depth int) []string {
-	if node == nil || depth > dataflow.MaxASTDepth {
+	if len(posMap) == 0 {
 		return nil
 	}
+	var result []string
+	collectNodeIDsDepth(node, posMap, 0, &result)
+	return result
+}
 
-	var ids []string
+func collectNodeIDsDepth(node *sitter.Node, posMap map[posKey][]string, depth int, result *[]string) {
+	if node == nil || depth > dataflow.MaxASTDepth {
+		return
+	}
+
 	line := int(node.StartPoint().Row) + 1
 	col := int(node.StartPoint().Column)
 	key := posKey{Line: line, Col: col}
 	if nodeIDs, ok := posMap[key]; ok {
-		ids = append(ids, nodeIDs...)
+		*result = append(*result, nodeIDs...)
 	}
 
 	for i := 0; i < int(node.ChildCount()); i++ {
 		child := node.Child(i)
 		if child != nil {
-			ids = append(ids, collectNodeIDsDepth(child, posMap, depth+1)...)
+			collectNodeIDsDepth(child, posMap, depth+1, result)
 		}
 	}
-
-	return ids
 }
 
 // buildCFG constructs a control flow graph for a function body.
