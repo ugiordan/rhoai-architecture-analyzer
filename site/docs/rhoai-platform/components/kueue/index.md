@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/kueue  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-30T15:12:11Z
+**Extracted:** 2026-04-30T15:35:17Z
 
 ## Summary
 

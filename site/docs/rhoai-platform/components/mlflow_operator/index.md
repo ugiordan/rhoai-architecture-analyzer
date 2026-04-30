@@ -5,7 +5,7 @@
 
 **Repository:** opendatahub-io/mlflow-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-30T15:11:59Z
+**Extracted:** 2026-04-30T15:34:42Z
 
 ## Summary
 

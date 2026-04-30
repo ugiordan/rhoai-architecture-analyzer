@@ -19,14 +19,14 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/cafca7062743244618610b9bfa8d31bc78e67be8/ray-operator/config/manager/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/cafca7062743244618610b9bfa8d31bc78e67be8/ray-operator/config/webhook/service.yaml) |
+| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/778f62026317c27d83061a9e6a44287bd57e31cb/ray-operator/config/manager/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/778f62026317c27d83061a9e6a44287bd57e31cb/ray-operator/config/webhook/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Ingress | rayclient-ingress | localhost | / | no | [`ray-operator/config/samples/ingress-rayclient-tls.yaml`](https://github.com/ray-project/kuberay/blob/cafca7062743244618610b9bfa8d31bc78e67be8/ray-operator/config/samples/ingress-rayclient-tls.yaml) |
+| Ingress | rayclient-ingress | localhost | / | no | [`ray-operator/config/samples/ingress-rayclient-tls.yaml`](https://github.com/ray-project/kuberay/blob/778f62026317c27d83061a9e6a44287bd57e31cb/ray-operator/config/samples/ingress-rayclient-tls.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

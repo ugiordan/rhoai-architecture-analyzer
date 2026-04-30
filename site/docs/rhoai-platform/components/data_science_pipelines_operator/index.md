@@ -5,7 +5,7 @@
 
 **Repository:** opendatahub-io/data-science-pipelines-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-30T15:11:17Z
+**Extracted:** 2026-04-30T15:34:29Z
 
 ## Summary
 

@@ -5,7 +5,7 @@
 
 **Repository:** kserve/kserve  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-04-30T15:11:37Z
+**Extracted:** 2026-04-30T15:34:41Z
 
 ## Summary
 
