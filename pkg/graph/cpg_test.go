@@ -22,6 +22,24 @@ func TestAddNodeDuplicateIDReturnsError(t *testing.T) {
 	}
 }
 
+func TestAddNodeIdenticalDuplicateSkipped(t *testing.T) {
+	cpg := NewCPG()
+	// Same kind, name, file, line: should be silently skipped (Python/TS parsers
+	// emit duplicate Variable nodes for re-assignments at the same location).
+	n1 := &Node{ID: "var_abc123", Kind: NodeVariable, Name: "x", File: "app.py", Line: 10}
+	n2 := &Node{ID: "var_abc123", Kind: NodeVariable, Name: "x", File: "app.py", Line: 10}
+
+	if err := cpg.AddNode(n1); err != nil {
+		t.Fatalf("first AddNode should succeed: %v", err)
+	}
+	if err := cpg.AddNode(n2); err != nil {
+		t.Fatalf("identical duplicate should be silently skipped, got error: %v", err)
+	}
+	if len(cpg.Nodes()) != 1 {
+		t.Errorf("expected 1 node (duplicate skipped), got %d", len(cpg.Nodes()))
+	}
+}
+
 func TestAddNodeUniqueIDsSucceed(t *testing.T) {
 	cpg := NewCPG()
 	n1 := &Node{ID: "fn_aaa", Kind: NodeFunction, Name: "foo"}

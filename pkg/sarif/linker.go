@@ -170,8 +170,11 @@ func Ingest(cpg *graph.CPG, report *Report, repoRoot string) (*IngestResult, err
 					CWEs:        cwes,
 				}
 
+				// Check for existing node first (idempotent re-ingestion)
+				if cpg.GetNode(nodeID) != nil {
+					continue
+				}
 				if err := cpg.AddNode(efNode); err != nil {
-					// Duplicate node (idempotent re-ingestion), skip without counting
 					continue
 				}
 				result.FindingsTotal++

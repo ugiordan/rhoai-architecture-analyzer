@@ -33,6 +33,13 @@ func (g *CPG) AddNode(n *Node) error {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 	if existing, ok := g.nodes[n.ID]; ok {
+		// Skip silently when the collision is an identical node (same name, file, line).
+		// Python/TypeScript parsers emit duplicate Variable nodes for re-assignments,
+		// augmented assignments, and list comprehensions at the same source location.
+		if existing.Kind == n.Kind && existing.Name == n.Name &&
+			existing.File == n.File && existing.Line == n.Line {
+			return nil
+		}
 		return fmt.Errorf("duplicate node ID %q: existing node %q (%s:%d) collides with %q (%s:%d)",
 			n.ID, existing.Name, existing.File, existing.Line, n.Name, n.File, n.Line)
 	}
