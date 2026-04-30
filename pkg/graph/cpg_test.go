@@ -214,3 +214,52 @@ func TestEdgeConfidenceOmitsEmpty(t *testing.T) {
 		t.Errorf("expected empty confidence for non-CALLS edge, got %q", e.Confidence)
 	}
 }
+
+func TestEdgesByKindFrom(t *testing.T) {
+	cpg := NewCPG()
+	cpg.AddNode(&Node{ID: "src", Kind: NodeFunction, Name: "src"})
+	cpg.AddNode(&Node{ID: "dst1", Kind: NodeVariable, Name: "dst1"})
+	cpg.AddNode(&Node{ID: "dst2", Kind: NodeVariable, Name: "dst2"})
+	cpg.AddNode(&Node{ID: "dst3", Kind: NodeVariable, Name: "dst3"})
+
+	cpg.AddEdge(&Edge{From: "src", To: "dst1", Kind: EdgeTaint, Label: "test->sink"})
+	cpg.AddEdge(&Edge{From: "src", To: "dst2", Kind: EdgeDataFlow, Label: "assigns"})
+	cpg.AddEdge(&Edge{From: "src", To: "dst3", Kind: EdgeTaint, Label: "test->sink2"})
+
+	edges := cpg.EdgesByKindFrom(EdgeTaint, "src")
+	if len(edges) != 2 {
+		t.Fatalf("got %d edges, want 2", len(edges))
+	}
+	for _, e := range edges {
+		if e.Kind != EdgeTaint {
+			t.Errorf("edge kind = %s, want TAINT", e.Kind)
+		}
+	}
+
+	// No taint edges from dst1
+	edges = cpg.EdgesByKindFrom(EdgeTaint, "dst1")
+	if len(edges) != 0 {
+		t.Fatalf("got %d edges from dst1, want 0", len(edges))
+	}
+
+	// Nonexistent node
+	edges = cpg.EdgesByKindFrom(EdgeTaint, "nonexistent")
+	if len(edges) != 0 {
+		t.Fatalf("got %d edges from nonexistent, want 0", len(edges))
+	}
+}
+
+func TestEdgePathField(t *testing.T) {
+	e := &Edge{
+		From: "a",
+		To:   "b",
+		Kind: EdgeTaint,
+		Path: []string{"a", "x", "y", "b"},
+	}
+	if len(e.Path) != 4 {
+		t.Fatalf("Path length = %d, want 4", len(e.Path))
+	}
+	if e.Path[0] != "a" || e.Path[3] != "b" {
+		t.Errorf("Path = %v, want [a x y b]", e.Path)
+	}
+}

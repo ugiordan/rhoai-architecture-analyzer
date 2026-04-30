@@ -55,36 +55,26 @@ func (e *Engine) QueryMissingAuth(cpg *graph.CPG) []Finding {
 	return findings
 }
 
-// QueryCrossStorageTaint traces data flow from user input through storage boundaries to external sinks.
+// QueryCrossStorageTaint queries pre-computed EdgeTaint edges from user input nodes to sinks.
 func (e *Engine) QueryCrossStorageTaint(cpg *graph.CPG) []Finding {
 	var findings []Finding
-
-	var inputNodes []*graph.Node
-	for _, n := range cpg.Nodes() {
-		if n.Annotations != nil && n.Annotations["handles_user_input"] {
-			inputNodes = append(inputNodes, n)
+	for _, node := range cpg.Nodes() {
+		if node.Annotations == nil || !node.Annotations["handles_user_input"] {
+			continue
 		}
-	}
-
-	for _, input := range inputNodes {
-		paths := traceToExternalSink(cpg, input.ID, 10)
-		for _, path := range paths {
-			msg := "User input flows through storage boundary to external sink"
-			if len(paths) >= maxPaths {
-				msg += " (results truncated, more paths may exist)"
-			}
+		taintEdges := cpg.EdgesByKindFrom(graph.EdgeTaint, node.ID)
+		for _, edge := range taintEdges {
 			findings = append(findings, Finding{
 				RuleID:   "CGA-002",
 				Severity: "critical",
-				Message:  msg,
-				File:     input.File,
-				Line:     input.Line,
-				NodeID:   input.ID,
-				Path:     path,
+				Message:  "Taint path from user input to sink: " + edge.Label,
+				File:     node.File,
+				Line:     node.Line,
+				NodeID:   node.ID,
+				Path:     edge.Path,
 			})
 		}
 	}
-
 	return findings
 }
 

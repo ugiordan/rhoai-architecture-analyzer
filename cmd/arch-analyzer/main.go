@@ -15,6 +15,7 @@ import (
 	"github.com/ugiordan/architecture-analyzer/pkg/aggregator"
 	"github.com/ugiordan/architecture-analyzer/pkg/diff"
 	"github.com/ugiordan/architecture-analyzer/pkg/annotator"
+	"github.com/ugiordan/architecture-analyzer/pkg/dataflow"
 	"github.com/ugiordan/architecture-analyzer/pkg/arch"
 	"github.com/ugiordan/architecture-analyzer/pkg/builder"
 	"github.com/ugiordan/architecture-analyzer/pkg/domains"
@@ -1095,12 +1096,11 @@ func collectRepoSHAs(resultsDir string) (map[string]string, error) {
 	return repos, nil
 }
 
-// runSecurityScan runs legacy queries and domain analyzers against a CPG,
-// returning all findings. If domainList is non-empty, only those domains run.
+// runSecurityScan runs domain annotations, taint propagation, legacy queries,
+// and domain queries against a CPG, returning all findings.
+// If domainList is non-empty, only those domains run.
 func runSecurityScan(cpg *graph.CPG, domainList string, archData *domains.ArchitectureData) ([]query.Finding, error) {
-	engine := query.NewEngine()
-	findings := engine.RunAll(cpg)
-
+	// Resolve domain analyzers
 	var analyzers []domains.DomainAnalyzer
 	if domainList != "" {
 		names := strings.Split(domainList, ",")
@@ -1117,15 +1117,37 @@ func runSecurityScan(cpg *graph.CPG, domainList string, archData *domains.Archit
 		analyzers = domains.All()
 	}
 
+	// Phase 1: Run all domain annotations
+	var orch *domains.Orchestrator
 	if len(analyzers) > 0 {
-		orch := domains.NewOrchestrator(analyzers)
-		results, runErr := orch.Run(cpg, "go", archData)
+		orch = domains.NewOrchestrator(analyzers)
+		if err := orch.AnnotateAll(cpg, "go", archData); err != nil {
+			return nil, fmt.Errorf("domain annotation: %w", err)
+		}
+	}
+
+	// Phase 2: Run taint propagation engine
+	te := dataflow.NewTaintEngine()
+	taintEdges := te.Run(cpg)
+	for _, e := range taintEdges {
+		cpg.AddEdge(e)
+	}
+	if len(taintEdges) > 0 {
+		fmt.Printf("Taint engine: %d taint paths found\n", len(taintEdges))
+	}
+
+	// Phase 3: Run legacy queries (CGA-002 now uses EdgeTaint)
+	engine := query.NewEngine()
+	findings := engine.RunAll(cpg)
+
+	// Phase 4: Run domain queries
+	if orch != nil {
+		results, runErr := orch.RunQueries(cpg)
 		if runErr != nil {
-			return nil, fmt.Errorf("domain analysis: %w", runErr)
+			return nil, fmt.Errorf("domain queries: %w", runErr)
 		}
 		for _, dr := range results {
-			fmt.Printf("Domain %s: %d annotations, %d findings\n",
-				dr.Domain, dr.AnnotationsAdded, len(dr.Findings))
+			fmt.Printf("Domain %s: %d findings\n", dr.Domain, len(dr.Findings))
 			findings = append(findings, dr.Findings...)
 		}
 	}

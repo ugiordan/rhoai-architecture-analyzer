@@ -54,23 +54,11 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 		ID:          "fn1",
 		Kind:        graph.NodeFunction,
 		Name:        "handler",
+		File:        "handler.go",
+		Line:        5,
 		Annotations: map[string]bool{"handles_user_input": true},
 	}
 	if err := cpg.AddNode(handler); err != nil { t.Fatal(err) }
-
-	dbWrite := &graph.Node{
-		ID:         "db_w",
-		Kind:       graph.NodeDBOperation,
-		Properties: map[string]string{"operation": "write", "table": "templates"},
-	}
-	if err := cpg.AddNode(dbWrite); err != nil { t.Fatal(err) }
-
-	dbRead := &graph.Node{
-		ID:         "db_r",
-		Kind:       graph.NodeDBOperation,
-		Properties: map[string]string{"operation": "read", "table": "templates"},
-	}
-	if err := cpg.AddNode(dbRead); err != nil { t.Fatal(err) }
 
 	extCall := &graph.Node{
 		ID:          "ext1",
@@ -80,15 +68,29 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 	}
 	if err := cpg.AddNode(extCall); err != nil { t.Fatal(err) }
 
-	cpg.AddEdge(&graph.Edge{From: "fn1", To: "db_w", Kind: graph.EdgeDataFlow})
-	cpg.AddEdge(&graph.Edge{From: "db_w", To: "db_r", Kind: graph.EdgeStorageLink})
-	cpg.AddEdge(&graph.Edge{From: "db_r", To: "ext1", Kind: graph.EdgeDataFlow})
+	// Pre-computed EdgeTaint edge (produced by TaintEngine)
+	cpg.AddEdge(&graph.Edge{
+		From:  "fn1",
+		To:    "ext1",
+		Kind:  graph.EdgeTaint,
+		Label: "calls_external",
+		Path:  []string{"fn1", "db_w", "db_r", "ext1"},
+	})
 
 	engine := NewEngine()
 	findings := engine.QueryCrossStorageTaint(cpg)
 
-	if len(findings) == 0 {
-		t.Error("expected cross-storage taint finding, got 0")
+	if len(findings) != 1 {
+		t.Fatalf("expected 1 finding, got %d", len(findings))
+	}
+	if findings[0].RuleID != "CGA-002" {
+		t.Errorf("expected rule CGA-002, got %s", findings[0].RuleID)
+	}
+	if findings[0].File != "handler.go" {
+		t.Errorf("expected file handler.go, got %s", findings[0].File)
+	}
+	if len(findings[0].Path) != 4 {
+		t.Errorf("expected path length 4, got %d", len(findings[0].Path))
 	}
 }
 

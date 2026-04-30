@@ -10,6 +10,7 @@ const (
 	EdgeStorageLink   EdgeKind = "STORAGE_LINK"
 	EdgeAnnotatedWith EdgeKind = "ANNOTATED_WITH"
 	EdgeReportedBy    EdgeKind = "REPORTED_BY"
+	EdgeTaint         EdgeKind = "TAINT"
 )
 
 // EdgeConfidence expresses how reliable a call resolution is.
@@ -28,4 +29,5 @@ type Edge struct {
 	Kind       EdgeKind       `json:"kind"`
 	Label      string         `json:"label,omitempty"`
 	Confidence EdgeConfidence `json:"confidence,omitempty"`
+	Path       []string       `json:"path,omitempty"`
 }

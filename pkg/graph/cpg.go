@@ -91,6 +91,19 @@ func (g *CPG) InEdges(nodeID string) []*Edge {
 	return result
 }
 
+// EdgesByKindFrom returns all edges of the given kind originating from a specific node.
+func (g *CPG) EdgesByKindFrom(kind EdgeKind, fromID string) []*Edge {
+	g.mu.RLock()
+	defer g.mu.RUnlock()
+	var result []*Edge
+	for _, e := range g.outEdges[fromID] {
+		if e.Kind == kind {
+			result = append(result, e)
+		}
+	}
+	return result
+}
+
 // SetAnnotation sets an annotation on a node in a thread-safe manner.
 func (g *CPG) SetAnnotation(nodeID string, key string, value bool) {
 	g.mu.Lock()
