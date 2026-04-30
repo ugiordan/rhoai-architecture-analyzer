@@ -29,6 +29,30 @@ type PlatformCPG struct {
 	CrossLinks     []CrossComponentLink       `json:"cross_component_links"`
 }
 
+// Summary returns a lightweight version without full node/edge data,
+// suitable for storage in git (the full CPG can be hundreds of MB).
+func (p *PlatformCPG) Summary() *PlatformCPGSummary {
+	return &PlatformCPGSummary{
+		Components:     p.Components,
+		ComponentCount: p.ComponentCount,
+		TotalNodes:     p.TotalNodes,
+		TotalEdges:     p.TotalEdges,
+		CrossEdges:     p.CrossEdges,
+		CrossLinks:     p.CrossLinks,
+	}
+}
+
+// PlatformCPGSummary is a lightweight version of PlatformCPG without
+// the full node/edge arrays (which can be hundreds of MB).
+type PlatformCPGSummary struct {
+	Components     []string               `json:"components"`
+	ComponentCount int                    `json:"component_count"`
+	TotalNodes     int                    `json:"total_nodes"`
+	TotalEdges     int                    `json:"total_edges"`
+	CrossEdges     int                    `json:"cross_component_edges"`
+	CrossLinks     []CrossComponentLink   `json:"cross_component_links"`
+}
+
 // CrossComponentLink represents a detected dependency between two components
 // at the code level (not just the architecture level).
 type CrossComponentLink struct {

@@ -377,8 +377,9 @@ func cmdAggregate(args []string) error {
 	if cpgErr != nil {
 		fmt.Fprintf(os.Stderr, "Warning: CPG aggregation failed: %v\n", cpgErr)
 	} else if platformCPG.ComponentCount > 0 {
+		// Write summary (without full node/edge arrays) to keep file size manageable
 		cpgPath := filepath.Join(outDir, "platform-cpg.json")
-		if wErr := writeJSON(cpgPath, platformCPG); wErr != nil {
+		if wErr := writeJSON(cpgPath, platformCPG.Summary()); wErr != nil {
 			fmt.Fprintf(os.Stderr, "Warning: failed to write platform CPG: %v\n", wErr)
 		} else {
 			fmt.Printf("Platform CPG: %d components, %d nodes, %d edges, %d cross-component links\n",
