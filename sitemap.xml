@@ -2,1490 +2,1490 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/architecture/cache-analysis/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/architecture/cpg/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/architecture/domain-framework/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/architecture/overview/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/contributing/adding-extractors/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/contributing/development-setup/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/getting-started/installation/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/getting-started/quickstart/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/getting-started/scan-config/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/guides/analyzing-repos/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/guides/ci-integration/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/guides/crd-validation/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/guides/example-output/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/guides/platform-aggregation/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/guides/security-scanning/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/guides/skill-integration/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/network-topology/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/platform-architecture/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/rbac-surface/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/secrets-inventory/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/argo_workflows/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/argo_workflows/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/argo_workflows/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/argo_workflows/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/argo_workflows/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/batch_gateway/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/batch_gateway/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/batch_gateway/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/batch_gateway/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/batch_gateway/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/codeflare_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/codeflare_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/codeflare_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/codeflare_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/codeflare_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/codeflare_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/data_science_pipelines_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/distributed_workloads/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/distributed_workloads/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/distributed_workloads/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/distributed_workloads/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/distributed_workloads/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/eval_hub/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/eval_hub/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/eval_hub/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/eval_hub/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/eval_hub/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/fms_guardrails_orchestrator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/fms_guardrails_orchestrator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/fms_guardrails_orchestrator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/fms_guardrails_orchestrator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/fms_guardrails_orchestrator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kserve/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kserve/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kserve/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kserve/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kserve/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kserve/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_auth_proxy/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_auth_proxy/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_auth_proxy/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_auth_proxy/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_auth_proxy/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_rbac_proxy/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_rbac_proxy/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_rbac_proxy/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_rbac_proxy/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kube_rbac_proxy/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kubeflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kubeflow/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kubeflow/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kubeflow/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kubeflow/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kuberay/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kuberay/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kuberay/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kuberay/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kuberay/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kueue/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kueue/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kueue/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kueue/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kueue/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/kueue/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llama_stack_k8s_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llama_stack_k8s_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llama_stack_k8s_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llama_stack_k8s_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llama_stack_k8s_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llama_stack_k8s_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_inference_scheduler/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_inference_scheduler/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_inference_scheduler/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_inference_scheduler/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_inference_scheduler/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_kv_cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_kv_cache/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_kv_cache/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_kv_cache/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/llm_d_kv_cache/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/mlflow_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/mlflow_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/mlflow_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/mlflow_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/mlflow_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/mlflow_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/model_registry_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/modelmesh_serving/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/modelmesh_serving/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/modelmesh_serving/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/modelmesh_serving/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/modelmesh_serving/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/modelmesh_serving/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/models_as_a_service/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/models_as_a_service/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/models_as_a_service/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/models_as_a_service/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/models_as_a_service/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/notebooks/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/notebooks/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/notebooks/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/notebooks/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/notebooks/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_dashboard/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_dashboard/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_dashboard/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_dashboard/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_dashboard/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_model_controller/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_model_controller/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_model_controller/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_model_controller/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_model_controller/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/odh_model_controller/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/opendatahub_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/opendatahub_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/opendatahub_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/opendatahub_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/opendatahub_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/opendatahub_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/spark_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/spark_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/spark_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/spark_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/spark_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trainer/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trainer/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trainer/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trainer/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trainer/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trainer/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/training_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/training_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/training_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/training_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/training_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/training_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trustyai_service_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trustyai_service_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trustyai_service_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trustyai_service_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trustyai_service_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/trustyai_service_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/workload_variant_autoscaler/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/workload_variant_autoscaler/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/workload_variant_autoscaler/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/workload_variant_autoscaler/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/workload_variant_autoscaler/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/odh-platform/components/workload_variant_autoscaler/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/reference/cli-commands/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/reference/domains/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/reference/extractors/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/reference/output-format/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/reference/renderers/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/network-topology/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/platform-architecture/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/rbac-surface/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/secrets-inventory/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/argo_workflows/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/argo_workflows/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/argo_workflows/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/argo_workflows/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/argo_workflows/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/batch_gateway/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/batch_gateway/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/batch_gateway/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/batch_gateway/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/batch_gateway/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/codeflare_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/codeflare_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/codeflare_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/codeflare_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/codeflare_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/codeflare_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/data_science_pipelines_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/distributed_workloads/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/distributed_workloads/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/distributed_workloads/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/distributed_workloads/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/distributed_workloads/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/eval_hub/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/eval_hub/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/eval_hub/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/eval_hub/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/eval_hub/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/fms_guardrails_orchestrator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/fms_guardrails_orchestrator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/fms_guardrails_orchestrator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/fms_guardrails_orchestrator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/fms_guardrails_orchestrator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kserve/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kserve/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kserve/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kserve/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kserve/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kserve/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_auth_proxy/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_auth_proxy/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_auth_proxy/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_auth_proxy/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_auth_proxy/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kube_rbac_proxy/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kubeflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kubeflow/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kubeflow/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kubeflow/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kubeflow/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kuberay/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kuberay/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kuberay/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kuberay/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kuberay/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kueue/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kueue/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kueue/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kueue/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kueue/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/kueue/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llama_stack_k8s_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llama_stack_k8s_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llama_stack_k8s_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llama_stack_k8s_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llama_stack_k8s_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llama_stack_k8s_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_inference_scheduler/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_inference_scheduler/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_inference_scheduler/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_inference_scheduler/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_inference_scheduler/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_kv_cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_kv_cache/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_kv_cache/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_kv_cache/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/llm_d_kv_cache/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/mlflow_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/mlflow_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/mlflow_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/mlflow_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/mlflow_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/mlflow_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/model_registry_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/modelmesh_serving/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/modelmesh_serving/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/modelmesh_serving/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/modelmesh_serving/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/modelmesh_serving/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/modelmesh_serving/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/models_as_a_service/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/models_as_a_service/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/models_as_a_service/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/models_as_a_service/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/models_as_a_service/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/notebooks/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/notebooks/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/notebooks/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/notebooks/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/notebooks/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_dashboard/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_dashboard/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_dashboard/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_dashboard/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_dashboard/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_model_controller/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_model_controller/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_model_controller/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_model_controller/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_model_controller/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/odh_model_controller/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/opendatahub_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/opendatahub_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/opendatahub_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/opendatahub_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/opendatahub_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/opendatahub_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/spark_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/spark_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/spark_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/spark_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/spark_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trainer/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trainer/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trainer/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trainer/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trainer/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trainer/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/training_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/training_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/training_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/training_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/training_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/training_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trustyai_service_operator/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trustyai_service_operator/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trustyai_service_operator/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trustyai_service_operator/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trustyai_service_operator/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/trustyai_service_operator/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/workload_variant_autoscaler/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/workload_variant_autoscaler/cache/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/workload_variant_autoscaler/dataflow/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/workload_variant_autoscaler/network/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/workload_variant_autoscaler/rbac/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
     <url>
          <loc>https://ugiordan.github.io/architecture-analyzer/rhoai-platform/components/workload_variant_autoscaler/security/</loc>
-         <lastmod>2026-04-30</lastmod>
+         <lastmod>2026-05-04</lastmod>
     </url>
 </urlset>
