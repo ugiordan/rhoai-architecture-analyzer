@@ -1,0 +1,84 @@
+graph LR
+    %% Platform-wide dependency graph
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff,stroke-width:2px
+    classDef gomod fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef crdwatch fill:#e74c3c,stroke:#c0392b,color:#fff
+
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    batch_gateway["batch-gateway"]
+    class batch_gateway component
+    codeflare_operator["codeflare-operator"]
+    class codeflare_operator component
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    distributed_workloads["distributed-workloads"]
+    class distributed_workloads component
+    eval_hub["eval-hub"]
+    class eval_hub component
+    fms_guardrails_orchestrator["fms-guardrails-orchestrator"]
+    class fms_guardrails_orchestrator component
+    kserve["kserve"]
+    class kserve component
+    kube_auth_proxy["kube-auth-proxy"]
+    class kube_auth_proxy component
+    kube_rbac_proxy["kube-rbac-proxy"]
+    class kube_rbac_proxy component
+    kubeflow["kubeflow"]
+    class kubeflow component
+    kuberay["kuberay"]
+    class kuberay component
+    kueue["kueue"]
+    class kueue component
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llm_d_inference_scheduler["llm-d-inference-scheduler"]
+    class llm_d_inference_scheduler component
+    llm_d_kv_cache["llm-d-kv-cache"]
+    class llm_d_kv_cache component
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry["model-registry"]
+    class model_registry component
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    models_as_a_service["models-as-a-service"]
+    class models_as_a_service component
+    notebooks["notebooks"]
+    class notebooks component
+    odh_dashboard["odh-dashboard"]
+    class odh_dashboard component
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    spark_operator["spark-operator"]
+    class spark_operator component
+    trainer["trainer"]
+    class trainer component
+    training_operator["training-operator"]
+    class training_operator component
+    trustyai_service_operator["trustyai-service-operator"]
+    class trustyai_service_operator component
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+
+    codeflare_operator -.->|"go-module"| opendatahub_operator
+    kubeflow -.->|"go-module"| data_science_pipelines_operator
+    mlflow_operator -.->|"go-module"| mlflow_operator
+    model_registry -->|"watches InferenceService"| kserve
+    modelmesh_serving -->|"watches ServingRuntime"| kserve
+    models_as_a_service -.->|"go-module"| kserve
+    odh_dashboard -.->|"go-module"| llama_stack_k8s_operator
+    odh_dashboard -.->|"go-module"| mlflow_go
+    odh_model_controller -.->|"go-module"| kserve
+    odh_model_controller -->|"watches InferenceGraph"| kserve
+    odh_model_controller -->|"watches ServingRuntime"| kserve
+    odh_model_controller -->|"watches LLMInferenceService"| kserve
+    odh_model_controller -->|"watches InferenceService"| kserve
+    opendatahub_operator -.->|"go-module"| opendatahub_operator

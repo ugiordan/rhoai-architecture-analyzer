@@ -1,0 +1,370 @@
+graph TD
+    %% Platform RBAC overview
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff
+    classDef role fill:#e8a838,stroke:#b07828,color:#fff
+
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    argo_workflows --> role_1["argo-aggregate-to-admin\n(14 resources)"]
+    class role_1 role
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    argo_workflows --> role_2["argo-aggregate-to-edit\n(12 resources)"]
+    class role_2 role
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    argo_workflows --> role_3["argo-aggregate-to-view\n(12 resources)"]
+    class role_3 role
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    argo_workflows --> role_4["argo-cluster-role\n(21 resources)"]
+    class role_4 role
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    argo_workflows --> role_5["argo-server-cluster-role\n(14 resources)"]
+    class role_5 role
+    codeflare_operator["codeflare-operator"]
+    class codeflare_operator component
+    codeflare_operator --> role_6["appwrapper-editor-role\n(2 resources)"]
+    class role_6 role
+    codeflare_operator["codeflare-operator"]
+    class codeflare_operator component
+    codeflare_operator --> role_7["manager-role\n(34 resources)"]
+    class role_7 role
+    codeflare_operator["codeflare-operator"]
+    class codeflare_operator component
+    codeflare_operator --> role_8["viewer-role\n(2 resources)"]
+    class role_8 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_9["aggregate-dspa-admin-edit\n(4 resources)"]
+    class role_9 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_10["aggregate-dspa-admin-view\n(4 resources)"]
+    class role_10 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_11["manager-argo-role\n(22 resources)"]
+    class role_11 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_12["manager-role\n(55 resources)"]
+    class role_12 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_13["aggregate-to-kubeflow-pipelines-edit\n(13 resources)"]
+    class role_13 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_14["aggregate-to-kubeflow-pipelines-view\n(7 resources)"]
+    class role_14 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_15["kubeflow-metacontroller\n(12 resources)"]
+    class role_15 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_16["kubeflow-pipelines-cache-deployer-clusterrole\n(4 resources)"]
+    class role_16 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_17["kubeflow-pipelines-cache-role\n(3 resources)"]
+    class role_17 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_18["kubeflow-pipelines-edit\n(0 resources)"]
+    class role_18 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_19["kubeflow-pipelines-metadata-writer-role\n(3 resources)"]
+    class role_19 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_20["kubeflow-pipelines-view\n(0 resources)"]
+    class role_20 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_21["ml-pipeline\n(8 resources)"]
+    class role_21 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_22["ml-pipeline-persistenceagent-role\n(5 resources)"]
+    class role_22 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_23["ml-pipeline-scheduledworkflow-role\n(5 resources)"]
+    class role_23 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_24["ml-pipeline-ui\n(6 resources)"]
+    class role_24 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_25["ml-pipeline-viewer-controller-role\n(4 resources)"]
+    class role_25 role
+    kserve["kserve"]
+    class kserve component
+    kserve --> role_26["kserve-manager-role\n(45 resources)"]
+    class role_26 role
+    kserve["kserve"]
+    class kserve component
+    kserve --> role_27["kserve-proxy-role\n(2 resources)"]
+    class role_27 role
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llama_stack_k8s_operator --> role_28["llsd-editor-role\n(2 resources)"]
+    class role_28 role
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llama_stack_k8s_operator --> role_29["llsd-viewer-role\n(2 resources)"]
+    class role_29 role
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llama_stack_k8s_operator --> role_30["manager-role\n(17 resources)"]
+    class role_30 role
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llama_stack_k8s_operator --> role_31["metrics-reader\n(0 resources)"]
+    class role_31 role
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llama_stack_k8s_operator --> role_32["proxy-role\n(2 resources)"]
+    class role_32 role
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    mlflow_operator --> role_33["manager-role\n(10 resources)"]
+    class role_33 role
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    mlflow_operator --> role_34["metrics-auth-role\n(2 resources)"]
+    class role_34 role
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    mlflow_operator --> role_35["metrics-reader\n(0 resources)"]
+    class role_35 role
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    mlflow_operator --> role_36["mlflow-edit\n(13 resources)"]
+    class role_36 role
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    mlflow_operator --> role_37["mlflow-integration\n(5 resources)"]
+    class role_37 role
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    mlflow_operator --> role_38["mlflow-view\n(8 resources)"]
+    class role_38 role
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry_operator --> role_39["manager-role\n(27 resources)"]
+    class role_39 role
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry_operator --> role_40["metrics-reader\n(0 resources)"]
+    class role_40 role
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry_operator --> role_41["modelregistry-admin-role\n(2 resources)"]
+    class role_41 role
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry_operator --> role_42["modelregistry-editor-role\n(2 resources)"]
+    class role_42 role
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry_operator --> role_43["modelregistry-viewer-role\n(2 resources)"]
+    class role_43 role
+    model_registry_operator["model-registry-operator"]
+    class model_registry_operator component
+    model_registry_operator --> role_44["proxy-role\n(2 resources)"]
+    class role_44 role
+    model_registry["model-registry"]
+    class model_registry component
+    model_registry --> role_45["metrics-auth-role\n(2 resources)"]
+    class role_45 role
+    model_registry["model-registry"]
+    class model_registry component
+    model_registry --> role_46["metrics-reader\n(0 resources)"]
+    class role_46 role
+    model_registry["model-registry"]
+    class model_registry component
+    model_registry --> role_47["model-registry-create-sars\n(1 resources)"]
+    class role_47 role
+    model_registry["model-registry"]
+    class model_registry component
+    model_registry --> role_48["model-registry-manager-role\n(3 resources)"]
+    class role_48 role
+    model_registry["model-registry"]
+    class model_registry component
+    model_registry --> role_49["model-registry-retrieve-clusterrolebindings\n(1 resources)"]
+    class role_49 role
+    model_registry["model-registry"]
+    class model_registry component
+    model_registry --> role_50["model-registry-ui-services-reader\n(1 resources)"]
+    class role_50 role
+    odh_dashboard["odh-dashboard"]
+    class odh_dashboard component
+    odh_dashboard --> role_51["odh-dashboard\n(40 resources)"]
+    class role_51 role
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller --> role_52["account-editor-role\n(2 resources)"]
+    class role_52 role
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller --> role_53["account-viewer-role\n(2 resources)"]
+    class role_53 role
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller --> role_54["kserve-prometheus-k8s\n(3 resources)"]
+    class role_54 role
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller --> role_55["metrics-auth-role\n(2 resources)"]
+    class role_55 role
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller --> role_56["metrics-reader\n(0 resources)"]
+    class role_56 role
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller --> role_57["odh-model-controller-role\n(45 resources)"]
+    class role_57 role
+    odh_model_controller["odh-model-controller"]
+    class odh_model_controller component
+    odh_model_controller --> role_58["proxy-role\n(2 resources)"]
+    class role_58 role
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    opendatahub_operator --> role_59["controller-manager-role\n(30 resources)"]
+    class role_59 role
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    opendatahub_operator --> role_60["datasciencecluster-editor-role\n(2 resources)"]
+    class role_60 role
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    opendatahub_operator --> role_61["datasciencecluster-viewer-role\n(2 resources)"]
+    class role_61 role
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    opendatahub_operator --> role_62["dscinitialization-editor-role\n(2 resources)"]
+    class role_62 role
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    opendatahub_operator --> role_63["dscinitialization-viewer-role\n(2 resources)"]
+    class role_63 role
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    opendatahub_operator --> role_64["metrics-reader\n(0 resources)"]
+    class role_64 role
+    opendatahub_operator["opendatahub-operator"]
+    class opendatahub_operator component
+    opendatahub_operator --> role_65["proxy-role\n(2 resources)"]
+    class role_65 role
+    spark_operator["spark-operator"]
+    class spark_operator component
+    spark_operator --> role_66["spark-operator-controller\n(15 resources)"]
+    class role_66 role
+    spark_operator["spark-operator"]
+    class spark_operator component
+    spark_operator --> role_67["spark-operator-scheduledsparkapplication-editor-role\n(2 resources)"]
+    class role_67 role
+    spark_operator["spark-operator"]
+    class spark_operator component
+    spark_operator --> role_68["spark-operator-scheduledsparkapplication-viewer-role\n(2 resources)"]
+    class role_68 role
+    spark_operator["spark-operator"]
+    class spark_operator component
+    spark_operator --> role_69["spark-operator-sparkapplication-editor-role\n(2 resources)"]
+    class role_69 role
+    spark_operator["spark-operator"]
+    class spark_operator component
+    spark_operator --> role_70["spark-operator-sparkapplication-viewer-role\n(2 resources)"]
+    class role_70 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_71["kubeflow-trainer-admin\n(0 resources)"]
+    class role_71 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_72["kubeflow-trainer-cache-initializer\n(4 resources)"]
+    class role_72 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_73["kubeflow-trainer-controller-manager\n(16 resources)"]
+    class role_73 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_74["kubeflow-trainer-edit\n(7 resources)"]
+    class role_74 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_75["kubeflow-trainer-view\n(4 resources)"]
+    class role_75 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_76["training-admin\n(6 resources)"]
+    class role_76 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_77["training-edit\n(6 resources)"]
+    class role_77 role
+    trainer["trainer"]
+    class trainer component
+    trainer --> role_78["training-view\n(6 resources)"]
+    class role_78 role
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator --> role_79["kubeflow-training-admin\n(0 resources)"]
+    class role_79 role
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator --> role_80["kubeflow-training-edit\n(15 resources)"]
+    class role_80 role
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator --> role_81["kubeflow-training-view\n(13 resources)"]
+    class role_81 role
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator --> role_82["training-edit\n(12 resources)"]
+    class role_82 role
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator --> role_83["training-operator\n(31 resources)"]
+    class role_83 role
+    training_operator["training-operator"]
+    class training_operator component
+    training_operator --> role_84["training-view\n(12 resources)"]
+    class role_84 role
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+    workload_variant_autoscaler --> role_85["VariantAutoscalings-viewer-role\n(2 resources)"]
+    class role_85 role
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+    workload_variant_autoscaler --> role_86["epp-metrics-reader-role\n(0 resources)"]
+    class role_86 role
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+    workload_variant_autoscaler --> role_87["manager-role\n(20 resources)"]
+    class role_87 role
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+    workload_variant_autoscaler --> role_88["metrics-auth-role\n(2 resources)"]
+    class role_88 role
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+    workload_variant_autoscaler --> role_89["metrics-reader\n(0 resources)"]
+    class role_89 role
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+    workload_variant_autoscaler --> role_90["variantautoscaling-admin-role\n(2 resources)"]
+    class role_90 role
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+    workload_variant_autoscaler --> role_91["variantautoscaling-editor-role\n(2 resources)"]
+    class role_91 role
