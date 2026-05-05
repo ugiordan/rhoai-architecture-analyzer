@@ -152,7 +152,7 @@ func classifyTier(name string) ComponentTier {
 	}
 
 	// Core platform components (checked last to avoid shadowing more specific tiers)
-	corePatterns := []string{"operator", "dashboard", "notebook", "odh-"}
+	corePatterns := []string{"operator", "dashboard", "notebook", "controller-manager"}
 	for _, p := range corePatterns {
 		if strings.Contains(lower, p) {
 			return TierCore

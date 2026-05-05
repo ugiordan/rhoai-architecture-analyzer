@@ -35,20 +35,21 @@ type ParamsEnv struct {
 	Params map[string]string `json:"params"`
 }
 
-// Regular expressions for parsing support files.
+// Regular expressions for parsing *_support.go and *_component.go files.
+// These target operator conventions common in kubebuilder/operator-sdk repos
+// (GetComponentName methods, RELATED_IMAGE params, overlay paths).
+// Regex is used instead of go/ast because the patterns are simple string
+// literal extractions from well-structured operator scaffold files. Limitations:
+//   - componentReturnRe only checks the first 5 lines after GetComponentName()
+//   - featureFlagRe may match in comments/strings (mitigated by false positive filter)
+//   - Multi-line or computed return values are not captured
 var (
-	// Matches function declarations like: func (d *Dashboard) GetComponentName() string
-	componentNameRe = regexp.MustCompile(`func\s+\([^)]+\)\s+GetComponentName\(\)\s+string\s*\{`)
-	// Matches return "component-name" in GetComponentName
+	componentNameRe   = regexp.MustCompile(`func\s+\([^)]+\)\s+GetComponentName\(\)\s+string\s*\{`)
 	componentReturnRe = regexp.MustCompile(`return\s+"([^"]+)"`)
-	// Matches imageParamMap entries: "key": "RELATED_IMAGE_VALUE",
-	imageParamRe = regexp.MustCompile(`"([^"]+)":\s*"(RELATED_IMAGE[^"]*)"`)
-	// Matches overlay path strings containing overlay/kustomize/manifests directory names
-	overlayPathRe = regexp.MustCompile(`"([^"]*(?:overlay|kustomize|manifests)[^"]*)"`)
-	// Matches CRD references like &appsv1.Deployment{} or GVK strings
+	imageParamRe      = regexp.MustCompile(`"([^"]+)":\s*"(RELATED_IMAGE[^"]*)"`)
+	overlayPathRe     = regexp.MustCompile(`"([^"]*(?:overlay|kustomize|manifests)[^"]*)"`)
 	managedResourceRe = regexp.MustCompile(`GroupVersionKind\{[^}]*Kind:\s*"([^"]+)"`)
-	// Matches feature gate references like features.SomeFeature
-	featureFlagRe = regexp.MustCompile(`features?\.(\w+)`)
+	featureFlagRe     = regexp.MustCompile(`features?\.(\w+)`)
 )
 
 // extractKustomizeComponents scans for *_support.go files in the repo and
@@ -82,8 +83,7 @@ func findSupportFiles(repoPath string) []string {
 			return nil
 		}
 		if info.IsDir() {
-			base := filepath.Base(path)
-			if base == "vendor" || base == ".git" || base == "testdata" {
+			if isExcludedDir(filepath.Base(path), nil) {
 				return filepath.SkipDir
 			}
 			return nil
@@ -310,8 +310,7 @@ func findParamsEnv(repoPath string) []string {
 			return nil
 		}
 		if info.IsDir() {
-			base := filepath.Base(path)
-			if base == "vendor" || base == ".git" || base == "testdata" {
+			if isExcludedDir(filepath.Base(path), nil) {
 				return filepath.SkipDir
 			}
 			return nil
