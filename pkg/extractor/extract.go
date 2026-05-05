@@ -68,8 +68,58 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 	// Cache analysis runs after watches and deployments are extracted
 	arch.CacheConfig = extractCacheConfig(absPath, arch.ControllerWatch, arch.Deployments)
 
+	// Kustomize build: render overlays and merge rendered resources into extraction.
+	// Rendered resources replace or supplement raw-scanned ones, giving us fully
+	// resolved manifests with patches and substitutions applied.
+	kustomizeResults := kustomizeBuildOverlays(absPath, opts.OverlayPreference)
+	mergeKustomizeResources(arch, kustomizeResults)
+
+	// Extract webhook server port from Go source (controller-runtime webhook.Options).
+	// Runs AFTER kustomize merge so rendered webhooks also get the port.
+	// If not explicitly configured, controller-runtime defaults to 9443.
+	webhookPort := extractWebhookServerPort(absPath)
+	if webhookPort == 0 && len(arch.Webhooks) > 0 {
+		webhookPort = 9443 // controller-runtime default
+	}
+	if webhookPort > 0 {
+		for i := range arch.Webhooks {
+			if arch.Webhooks[i].Port == 0 {
+				arch.Webhooks[i].Port = webhookPort
+			}
+		}
+	}
+
 	// Kustomize component discovery (for operator repos with *_support.go files)
 	arch.KustomizeComponents = extractKustomizeComponents(absPath)
+
+	// Serving runtime discovery (KServe/ModelMesh)
+	arch.ServingRuntimes = extractServingRuntimes(absPath)
+
+	// Resource defaults from configmaps (inference config, deployment defaults)
+	arch.ResourceDefaults = extractResourceDefaults(absPath)
+
+	// Availability: PDB and HPA extraction
+	arch.PodDisruptionBudgets = extractPDBs(absPath)
+	arch.HorizontalPodAutoscalers = extractHPAs(absPath)
+
+	// API types: parse *_types.go files for CR struct definitions
+	arch.APITypes = extractAPITypes(absPath)
+
+	// Template file enumeration: list .tmpl files for operators that use
+	// Go templates to define runtime-rendered Kubernetes resources.
+	arch.TemplateFiles = findTemplateFiles(absPath)
+
+	// Cross-reference pass: link services to deployments, detect runtime deps
+	buildCrossReferences(arch)
+
+	// Availability assessment: flag deployments missing PDB/HPA
+	assessAvailability(arch)
+
+	// Data coverage: assess richness of each section for LLM context
+	arch.DataCoverage = computeDataCoverage(arch)
+
+	// Generate natural-language summary
+	arch.Summary = generateSummary(arch)
 
 	// Normalize output ordering for deterministic JSON
 	SortOutput(arch)

@@ -111,7 +111,7 @@ func TestSortOutput_Deterministic(t *testing.T) {
 				{Type: "Secret"},
 				{Type: "ConfigMap"},
 			},
-			TransformTypes:  []string{"z-type", "a-type"},
+			TransformTypes:  []CacheTransform{{Type: "z-type"}, {Type: "a-type"}},
 			DisabledTypes:   []string{"z-disabled", "a-disabled"},
 			ImplicitInformers: []ImplicitInformer{
 				{Type: "z-informer"},
@@ -226,8 +226,8 @@ func TestSortOutput_Deterministic(t *testing.T) {
 	if arch.CacheConfig.FilteredTypes[0].Type != "ConfigMap" {
 		t.Errorf("CacheConfig FilteredTypes not sorted: got %s first", arch.CacheConfig.FilteredTypes[0].Type)
 	}
-	if arch.CacheConfig.TransformTypes[0] != "a-type" {
-		t.Errorf("CacheConfig TransformTypes not sorted: got %s first", arch.CacheConfig.TransformTypes[0])
+	if arch.CacheConfig.TransformTypes[0].Type != "a-type" {
+		t.Errorf("CacheConfig TransformTypes not sorted: got %s first", arch.CacheConfig.TransformTypes[0].Type)
 	}
 	if arch.CacheConfig.DisabledTypes[0] != "a-disabled" {
 		t.Errorf("CacheConfig DisabledTypes not sorted: got %s first", arch.CacheConfig.DisabledTypes[0])

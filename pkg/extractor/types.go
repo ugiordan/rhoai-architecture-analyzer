@@ -7,6 +7,9 @@ type ExtractOptions struct {
 	// ModulePrefixes lists Go module prefixes considered "internal" dependencies.
 	// Defaults to ["github.com/opendatahub-io/", "github.com/red-hat-data-services/"].
 	ModulePrefixes []string
+	// OverlayPreference lists kustomize overlay directory names in priority order.
+	// Defaults to DefaultPreferredOverlays if empty.
+	OverlayPreference []string
 }
 
 // DefaultModulePrefixes returns the standard internal module prefixes for the analyzed platform.
@@ -24,51 +27,67 @@ type ComponentArchitecture struct {
 	CommitSHA       string             `json:"commit_sha,omitempty"`
 	ExtractedAt     string             `json:"extracted_at"`
 	AnalyzerVersion string             `json:"analyzer_version"`
-	CRDs            []CRD              `json:"crds"`
-	RBAC            *RBACData          `json:"rbac"`
-	Services        []Service          `json:"services"`
-	Deployments     []Deployment       `json:"deployments"`
-	NetworkPolicies []NetworkPolicy    `json:"network_policies"`
-	ControllerWatch []ControllerWatch  `json:"controller_watches"`
-	Dependencies    *DependencyData    `json:"dependencies"`
-	Secrets         []SecretRef        `json:"secrets_referenced"`
-	Dockerfiles     []DockerfileInfo   `json:"dockerfiles"`
-	Helm            *HelmData          `json:"helm"`
-	Webhooks        []WebhookConfig    `json:"webhooks"`
-	ConfigMaps      []ConfigMapRef     `json:"configmaps"`
-	HTTPEndpoints   []HTTPEndpoint     `json:"http_endpoints"`
-	IngressRouting      []IngressResource  `json:"ingress_routing"`
+	CRDs            []CRD              `json:"crds,omitempty"`
+	RBAC            *RBACData          `json:"rbac,omitempty"`
+	Services        []Service          `json:"services,omitempty"`
+	Deployments     []Deployment       `json:"deployments,omitempty"`
+	NetworkPolicies []NetworkPolicy    `json:"network_policies,omitempty"`
+	ControllerWatch []ControllerWatch  `json:"controller_watches,omitempty"`
+	Dependencies    *DependencyData    `json:"dependencies,omitempty"`
+	Secrets         []SecretRef        `json:"secrets_referenced,omitempty"`
+	Dockerfiles     []DockerfileInfo   `json:"dockerfiles,omitempty"`
+	Helm            *HelmData          `json:"helm,omitempty"`
+	Webhooks        []WebhookConfig    `json:"webhooks,omitempty"`
+	ConfigMaps      []ConfigMapRef     `json:"configmaps,omitempty"`
+	HTTPEndpoints   []HTTPEndpoint     `json:"http_endpoints,omitempty"`
+	IngressRouting      []IngressResource  `json:"ingress_routing,omitempty"`
 	ExternalConnections []ExternalConnection `json:"external_connections,omitempty"`
 	FeatureGates        []FeatureGate        `json:"feature_gates,omitempty"`
 	CacheConfig         *CacheConfig       `json:"cache_config,omitempty"`
 	KustomizeComponents []KustomizeComponent `json:"kustomize_components,omitempty"`
+	ServingRuntimes     []ServingRuntime     `json:"serving_runtimes,omitempty"`
+	ResourceDefaults    []ResourceDefault    `json:"resource_defaults,omitempty"`
+	PodDisruptionBudgets    []PodDisruptionBudget    `json:"pod_disruption_budgets,omitempty"`
+	HorizontalPodAutoscalers []HorizontalPodAutoscaler `json:"horizontal_pod_autoscalers,omitempty"`
+	APITypes                []APITypeDefinition        `json:"api_types,omitempty"`
+	TemplateFiles           []string                   `json:"template_files,omitempty"`
+	DataCoverage            map[string]string          `json:"data_coverage,omitempty"`
+	Summary                 string                    `json:"summary,omitempty"`
 }
 
-// CRD represents a single version of a CustomResourceDefinition.
+// CRD represents a CustomResourceDefinition with all its versions.
 type CRD struct {
-	Group           string   `json:"group"`
-	Version         string   `json:"version"`
-	Kind            string   `json:"kind"`
-	Scope           string   `json:"scope"`
-	FieldsCount     int      `json:"fields_count"`
-	ValidationRules []string `json:"validation_rules"`
-	Source          string   `json:"source"`
+	Group           string       `json:"group"`
+	Version         string       `json:"version"`
+	Kind            string       `json:"kind"`
+	Scope           string       `json:"scope,omitempty"`
+	Versions        []CRDVersion `json:"versions,omitempty"`
+	FieldsCount     int          `json:"fields_count,omitempty"`
+	ValidationRules []string     `json:"validation_rules,omitempty"`
+	Source          string       `json:"source"`
+}
+
+// CRDVersion represents a single served version of a CRD.
+type CRDVersion struct {
+	Name    string `json:"name"`
+	Served  bool   `json:"served"`
+	Storage bool   `json:"storage"`
 }
 
 // RBACData holds all RBAC-related extractions.
 type RBACData struct {
-	ClusterRoles        []RBACRole        `json:"cluster_roles"`
-	ClusterRoleBindings []RBACBinding     `json:"cluster_role_bindings"`
-	Roles               []RBACRole        `json:"roles"`
-	RoleBindings        []RBACBinding     `json:"role_bindings"`
-	KubebuilderMarkers  []RBACMarker      `json:"kubebuilder_markers"`
+	ClusterRoles        []RBACRole        `json:"cluster_roles,omitempty"`
+	ClusterRoleBindings []RBACBinding     `json:"cluster_role_bindings,omitempty"`
+	Roles               []RBACRole        `json:"roles,omitempty"`
+	RoleBindings        []RBACBinding     `json:"role_bindings,omitempty"`
+	KubebuilderMarkers  []RBACMarker      `json:"kubebuilder_markers,omitempty"`
 }
 
 // RBACRole is a ClusterRole or Role with its rules.
 type RBACRole struct {
 	Name   string     `json:"name"`
 	Source string     `json:"source"`
-	Rules  []RBACRule `json:"rules"`
+	Rules  []RBACRule `json:"rules,omitempty"`
 }
 
 // RBACRule is a single RBAC policy rule.
@@ -76,14 +95,14 @@ type RBACRule struct {
 	APIGroups     []string `json:"apiGroups"`
 	Resources     []string `json:"resources"`
 	Verbs         []string `json:"verbs"`
-	ResourceNames []string `json:"resourceNames"`
+	ResourceNames []string `json:"resourceNames,omitempty"`
 }
 
 // RBACBinding is a ClusterRoleBinding or RoleBinding.
 type RBACBinding struct {
 	Name     string        `json:"name"`
-	RoleRef  string        `json:"role_ref"`
-	Subjects []RBACSubject `json:"subjects"`
+	RoleRef  string        `json:"role_ref,omitempty"`
+	Subjects []RBACSubject `json:"subjects,omitempty"`
 	Source   string        `json:"source"`
 }
 
@@ -91,7 +110,7 @@ type RBACBinding struct {
 type RBACSubject struct {
 	Kind      string `json:"kind"`
 	Name      string `json:"name"`
-	Namespace string `json:"namespace"`
+	Namespace string `json:"namespace,omitempty"`
 }
 
 // RBACMarker is a kubebuilder RBAC annotation found in Go source.
@@ -104,19 +123,21 @@ type RBACMarker struct {
 
 // Service represents a Kubernetes Service definition.
 type Service struct {
-	Name     string                 `json:"name"`
-	Source   string                 `json:"source"`
-	Type     string                 `json:"type"`
-	Ports    []ServicePort          `json:"ports"`
-	Selector map[string]interface{} `json:"selector"`
+	Name             string                 `json:"name"`
+	Source           string                 `json:"source"`
+	Type             string                 `json:"type,omitempty"`
+	Ports            []ServicePort          `json:"ports,omitempty"`
+	Selector         map[string]interface{} `json:"selector,omitempty"`
+	TargetDeployment string                 `json:"target_deployment,omitempty"`
 }
 
 // ServicePort is a single port entry in a Service.
 type ServicePort struct {
-	Name       string      `json:"name"`
+	Name       string      `json:"name,omitempty"`
 	Port       interface{} `json:"port"`
-	TargetPort interface{} `json:"targetPort"`
-	Protocol   string      `json:"protocol"`
+	TargetPort interface{} `json:"targetPort,omitempty"`
+	Protocol   string      `json:"protocol,omitempty"`
+	Condition  string      `json:"condition,omitempty"`
 }
 
 // Deployment represents a Deployment or StatefulSet.
@@ -124,26 +145,29 @@ type Deployment struct {
 	Name                         string      `json:"name"`
 	Kind                         string      `json:"kind"`
 	Source                       string      `json:"source"`
-	Replicas                     interface{} `json:"replicas"`
-	ServiceAccount               string      `json:"service_account"`
-	AutomountServiceAccountToken interface{} `json:"automount_service_account_token"`
-	Containers                   []Container `json:"containers"`
+	Replicas                     interface{} `json:"replicas,omitempty"`
+	ServiceAccount               string      `json:"service_account,omitempty"`
+	AutomountServiceAccountToken interface{} `json:"automount_service_account_token,omitempty"`
+	Containers                   []Container `json:"containers,omitempty"`
+	InitContainers               []Container `json:"init_containers,omitempty"`
+	Issues                       []string    `json:"issues,omitempty"`
 }
 
 // Container is a container spec within a Deployment.
 type Container struct {
 	Name              string                   `json:"name"`
 	Image             string                   `json:"image"`
-	Ports             []ContainerPort          `json:"ports"`
-	SecurityContext   map[string]interface{}   `json:"security_context"`
-	EnvFromSecrets    []string                 `json:"env_from_secrets"`
-	EnvFromConfigmaps []string                 `json:"env_from_configmaps"`
-	VolumeMounts      []map[string]interface{} `json:"volume_mounts"`
-	Resources         map[string]interface{}   `json:"resources"`
+	Ports             []ContainerPort          `json:"ports,omitempty"`
+	SecurityContext   map[string]interface{}   `json:"security_context,omitempty"`
+	EnvFromSecrets    []string                 `json:"env_from_secrets,omitempty"`
+	EnvFromConfigmaps []string                 `json:"env_from_configmaps,omitempty"`
+	VolumeMounts      []map[string]interface{} `json:"volume_mounts,omitempty"`
+	Resources         map[string]interface{}   `json:"resources,omitempty"`
 	EnvVars           map[string]string        `json:"env_vars,omitempty"`
 	LivenessProbe     *ProbeInfo               `json:"liveness_probe,omitempty"`
 	ReadinessProbe    *ProbeInfo               `json:"readiness_probe,omitempty"`
 	StartupProbe      *ProbeInfo               `json:"startup_probe,omitempty"`
+	Issues            []string                 `json:"issues,omitempty"`
 }
 
 // ProbeInfo holds liveness/readiness/startup probe metadata.
@@ -155,48 +179,53 @@ type ProbeInfo struct {
 
 // ContainerPort is a port exposed by a container.
 type ContainerPort struct {
-	Name          string `json:"name"`
+	Name          string `json:"name,omitempty"`
 	ContainerPort int    `json:"containerPort"`
-	Protocol      string `json:"protocol"`
+	Protocol      string `json:"protocol,omitempty"`
 }
 
 // NetworkPolicy represents a Kubernetes NetworkPolicy.
 type NetworkPolicy struct {
 	Name         string                   `json:"name"`
 	Source       string                   `json:"source"`
-	PodSelector  map[string]interface{}   `json:"pod_selector"`
-	PolicyTypes  []string                 `json:"policy_types"`
-	IngressRules []map[string]interface{} `json:"ingress_rules"`
-	EgressRules  []map[string]interface{} `json:"egress_rules"`
+	PodSelector  map[string]interface{}   `json:"pod_selector,omitempty"`
+	PolicyTypes  []string                 `json:"policy_types,omitempty"`
+	IngressRules []map[string]interface{} `json:"ingress_rules,omitempty"`
+	EgressRules  []map[string]interface{} `json:"egress_rules,omitempty"`
+	Issues       []string                 `json:"issues,omitempty"`
 }
 
 // ControllerWatch represents a For/Owns/Watches call in controller code.
 type ControllerWatch struct {
-	Type   string `json:"type"`
-	GVK    string `json:"gvk"`
-	Source string `json:"source"`
+	Type       string `json:"type"`
+	GVK        string `json:"gvk"`
+	Controller string `json:"controller,omitempty"`
+	Source     string `json:"source"`
 }
 
 // DependencyData holds Go module dependencies.
 type DependencyData struct {
 	GoVersion         string              `json:"go_version,omitempty"`
 	Toolchain         string              `json:"toolchain,omitempty"`
-	GoModules         []GoModule          `json:"go_modules"`
+	GoModules         []GoModule          `json:"go_modules,omitempty"`
 	ReplaceDirectives []ReplaceDirective  `json:"replace_directives,omitempty"`
-	InternalODH       []InternalODH       `json:"internal_odh"`
+	InternalODH       []InternalODH       `json:"internal_odh,omitempty"`
+	Issues            []string            `json:"issues,omitempty"`
 }
 
 // ReplaceDirective represents a go.mod replace directive.
 type ReplaceDirective struct {
 	Original    string `json:"original"`
 	Replacement string `json:"replacement"`
-	Version     string `json:"version"`
+	Version     string `json:"version,omitempty"`
 }
 
 // GoModule is a single Go module dependency.
 type GoModule struct {
-	Module  string `json:"module"`
-	Version string `json:"version"`
+	Module   string `json:"module"`
+	Version  string `json:"version"`
+	Category string `json:"category,omitempty"`
+	Purpose  string `json:"purpose,omitempty"`
 }
 
 // InternalODH is an internal OpenDataHub dependency.
@@ -208,22 +237,23 @@ type InternalODH struct {
 // SecretRef is a reference to a Kubernetes Secret (name only, never values).
 type SecretRef struct {
 	Name           string   `json:"name"`
-	Type           string   `json:"type"`
-	ReferencedBy   []string `json:"referenced_by"`
-	ProvisionedBy  string   `json:"provisioned_by"`
+	Type           string   `json:"type,omitempty"`
+	ReferencedBy   []string `json:"referenced_by,omitempty"`
+	ProvisionedBy  string   `json:"provisioned_by,omitempty"`
 }
 
 // DockerfileInfo holds metadata extracted from a Dockerfile.
 type DockerfileInfo struct {
-	Path           string            `json:"path"`
-	BaseImage      string            `json:"base_image"`
-	Stages         int               `json:"stages"`
-	User           string            `json:"user"`
-	ExposedPorts   []int             `json:"exposed_ports"`
-	Issues         []string          `json:"issues"`
-	Architectures  []string          `json:"architectures,omitempty"`
-	FIPSEnabled    bool              `json:"fips_enabled,omitempty"`
-	BuildArgs      map[string]string `json:"build_args,omitempty"`
+	Path             string            `json:"path"`
+	BaseImage        string            `json:"base_image"`
+	BuildStageImages []string          `json:"build_stage_images,omitempty"`
+	Stages           int               `json:"stages,omitempty"`
+	User             string            `json:"user,omitempty"`
+	ExposedPorts     []int             `json:"exposed_ports,omitempty"`
+	Issues           []string          `json:"issues,omitempty"`
+	Architectures    []string          `json:"architectures,omitempty"`
+	FIPSEnabled      bool              `json:"fips_enabled,omitempty"`
+	BuildArgs        map[string]string `json:"build_args,omitempty"`
 }
 
 // HelmData holds Helm chart metadata and security-relevant value defaults.
@@ -233,36 +263,38 @@ type HelmData struct {
 	ValuesDefaults map[string]interface{} `json:"values_defaults,omitempty"`
 }
 
+
 // WebhookConfig represents a Kubernetes webhook configuration.
 type WebhookConfig struct {
 	Name          string        `json:"name"`
 	Type          string        `json:"type"` // "validating" or "mutating"
 	ServiceRef    string        `json:"service_ref,omitempty"`
 	Path          string        `json:"path,omitempty"`
+	Port          int           `json:"port,omitempty"`
 	FailurePolicy string       `json:"failure_policy,omitempty"`
-	Rules         []WebhookRule `json:"rules"`
+	Rules         []WebhookRule `json:"rules,omitempty"`
 	Source        string        `json:"source"`
 }
 
 // WebhookRule defines what resources a webhook intercepts.
 type WebhookRule struct {
-	APIGroups   []string `json:"apiGroups"`
-	APIVersions []string `json:"apiVersions"`
-	Resources   []string `json:"resources"`
-	Operations  []string `json:"operations"`
+	APIGroups   []string `json:"apiGroups,omitempty"`
+	APIVersions []string `json:"apiVersions,omitempty"`
+	Resources   []string `json:"resources,omitempty"`
+	Operations  []string `json:"operations,omitempty"`
 }
 
 // ConfigMapRef represents a ConfigMap definition with its data keys.
 type ConfigMapRef struct {
 	Name         string   `json:"name"`
-	DataKeys     []string `json:"data_keys"`
-	ReferencedBy []string `json:"referenced_by"`
+	DataKeys     []string `json:"data_keys,omitempty"`
+	ReferencedBy []string `json:"referenced_by,omitempty"`
 	Source       string   `json:"source"`
 }
 
 // HTTPEndpoint represents an HTTP route registration found in source code.
 type HTTPEndpoint struct {
-	Method  string `json:"method"`
+	Method  string `json:"method,omitempty"`
 	Path    string `json:"path"`
 	Handler string `json:"handler,omitempty"`
 	Source  string `json:"source"`
@@ -272,15 +304,23 @@ type HTTPEndpoint struct {
 // from Go source, used to detect OOM risks from unfiltered informers.
 type CacheConfig struct {
 	ManagerFile       string              `json:"manager_file"`
-	CacheScope        string              `json:"cache_scope"`
-	FilteredTypes     []CacheFilteredType `json:"filtered_types"`
-	TransformTypes    []string            `json:"transform_types"`
-	DefaultTransform  bool                `json:"default_transform"`
-	DisabledTypes     []string            `json:"disabled_types"`
-	GoMemLimit        string              `json:"gomemlimit"`
-	MemoryLimit       string              `json:"memory_limit"`
-	ImplicitInformers []ImplicitInformer  `json:"implicit_informers"`
-	Issues            []string            `json:"issues"`
+	CacheScope        string              `json:"cache_scope,omitempty"`
+	FilteredTypes     []CacheFilteredType `json:"filtered_types,omitempty"`
+	TransformTypes    []CacheTransform    `json:"transform_types,omitempty"`
+	DefaultTransform  bool                `json:"default_transform,omitempty"`
+	DefaultTransformFunc string           `json:"default_transform_func,omitempty"`
+	DisabledTypes     []string            `json:"disabled_types,omitempty"`
+	GoMemLimit        string              `json:"gomemlimit,omitempty"`
+	MemoryLimit       string              `json:"memory_limit,omitempty"`
+	GoMemLimitRatio   float64             `json:"gomemlimit_ratio,omitempty"`
+	ImplicitInformers []ImplicitInformer  `json:"implicit_informers,omitempty"`
+	Issues            []string            `json:"issues,omitempty"`
+}
+
+// CacheTransform is a type with a custom cache transform function.
+type CacheTransform struct {
+	Type     string `json:"type"`
+	Function string `json:"function"`
 }
 
 // CacheFilteredType is a type with a cache filter (label, field, or namespace).
@@ -300,11 +340,12 @@ type ImplicitInformer struct {
 
 // ExternalConnection represents a reference to an external service found in Go source.
 type ExternalConnection struct {
-	Type     string `json:"type"`               // database, object-storage, grpc, messaging, api
-	Service  string `json:"service"`             // postgres, mysql, redis, s3, kafka, etc.
-	Target   string `json:"target"`              // redacted connection target
-	Source   string `json:"source"`              // file:line
-	Function string `json:"function,omitempty"`   // enclosing function name
+	Type              string   `json:"type"`                         // database, object-storage, grpc, messaging, api
+	Service           string   `json:"service"`                      // postgres, mysql, redis, s3, kafka, etc.
+	Target            string   `json:"target"`                       // redacted connection target
+	Source            string   `json:"source"`                       // file:line
+	Function          string   `json:"function,omitempty"`           // enclosing function name
+	CredentialSources []string `json:"credential_sources,omitempty"` // secrets/configmaps providing credentials
 }
 
 // FeatureGate represents a feature gate definition found in Go source.
@@ -317,13 +358,96 @@ type FeatureGate struct {
 	RuntimeSet    bool   `json:"runtime_set,omitempty"`     // set via Set() at runtime rather than Add()
 }
 
+// ServingRuntime represents a KServe/ModelMesh serving runtime definition.
+type ServingRuntime struct {
+	Name             string                `json:"name"`
+	Kind             string                `json:"kind"` // ServingRuntime or ClusterServingRuntime
+	Containers       []ServingContainer    `json:"containers,omitempty"`
+	SupportedFormats []SupportedModelFormat `json:"supported_formats,omitempty"`
+	MultiModel       bool                  `json:"multi_model,omitempty"`
+	Disabled         bool                  `json:"disabled,omitempty"`
+	Source           string                `json:"source"`
+}
+
+// ServingContainer is a container within a serving runtime.
+type ServingContainer struct {
+	Name      string                 `json:"name"`
+	Image     string                 `json:"image,omitempty"`
+	Resources map[string]interface{} `json:"resources,omitempty"`
+	Ports     []ContainerPort        `json:"ports,omitempty"`
+	Args      []string               `json:"args,omitempty"`
+}
+
+// SupportedModelFormat describes a model format supported by a serving runtime.
+type SupportedModelFormat struct {
+	Name       string `json:"name"`
+	Version    string `json:"version,omitempty"`
+	AutoSelect bool   `json:"auto_select,omitempty"`
+	Priority   int    `json:"priority,omitempty"`
+}
+
+// ResourceDefault represents a resource default value extracted from configmaps.
+type ResourceDefault struct {
+	Component string                 `json:"component"`
+	Key       string                 `json:"key"`
+	Values    map[string]interface{} `json:"values,omitempty"`
+	Source    string                 `json:"source"`
+}
+
 // IngressResource represents a Gateway API, Istio, or Kubernetes ingress resource.
+// Resources can be extracted from YAML manifests or inferred from RBAC permissions.
 type IngressResource struct {
-	Kind    string   `json:"kind"`
-	Name    string   `json:"name"`
-	Hosts   []string `json:"hosts,omitempty"`
-	Paths   []string `json:"paths,omitempty"`
-	Backend string   `json:"backend,omitempty"`
-	TLS     bool     `json:"tls"`
-	Source  string   `json:"source"`
+	Kind      string   `json:"kind"`
+	Name      string   `json:"name"`
+	Hosts     []string `json:"hosts,omitempty"`
+	Paths     []string `json:"paths,omitempty"`
+	Backend   string   `json:"backend,omitempty"`
+	TLS       bool     `json:"tls"`
+	Source    string   `json:"source"`
+	Note      string   `json:"note,omitempty"`
+	RBACVerbs []string `json:"rbac_verbs,omitempty"`
+}
+
+// PodDisruptionBudget represents a Kubernetes PDB.
+type PodDisruptionBudget struct {
+	Name           string                 `json:"name"`
+	MinAvailable   interface{}            `json:"min_available,omitempty"`
+	MaxUnavailable interface{}            `json:"max_unavailable,omitempty"`
+	Selector       map[string]interface{} `json:"selector,omitempty"`
+	Source         string                 `json:"source"`
+}
+
+// HorizontalPodAutoscaler represents a Kubernetes HPA.
+type HorizontalPodAutoscaler struct {
+	Name        string      `json:"name"`
+	TargetRef   string      `json:"target_ref,omitempty"`
+	MinReplicas interface{} `json:"min_replicas,omitempty"`
+	MaxReplicas interface{} `json:"max_replicas,omitempty"`
+	Metrics     []string    `json:"metrics,omitempty"`
+	Source      string      `json:"source"`
+}
+
+// APITypeDefinition represents a Go struct definition found in *_types.go files,
+// typically defining a Kubernetes Custom Resource spec or its sub-components.
+type APITypeDefinition struct {
+	Name       string     `json:"name"`
+	Doc        string     `json:"doc,omitempty"`
+	Fields     []APIField `json:"fields,omitempty"`
+	Markers    []string   `json:"markers,omitempty"`
+	Source     string     `json:"source"`
+	IsSpec     bool       `json:"is_spec,omitempty"`
+	IsStatus   bool       `json:"is_status,omitempty"`
+}
+
+// APIField represents a single field within an API type struct.
+type APIField struct {
+	Name        string   `json:"name"`
+	GoType      string   `json:"type"`
+	JSONTag     string   `json:"json_tag,omitempty"`
+	Doc         string   `json:"doc,omitempty"`
+	Markers     []string `json:"markers,omitempty"`
+	Required    bool     `json:"required,omitempty"`
+	Default     string   `json:"default,omitempty"`
+	SecretRef   bool     `json:"secret_ref,omitempty"`
+	Embedded    bool     `json:"embedded,omitempty"`
 }
