@@ -1,6 +1,6 @@
 # Secrets Inventory
 
-38 secrets referenced across the platform. No secret values are extracted, only names, types, and which component references them.
+34 secrets referenced across the platform. No secret values are extracted, only names, types, and which component references them.
 
 ## Secret Distribution
 
@@ -80,13 +80,6 @@
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">3</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
-  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">model-registry-operator</span>
-  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
-    <div style="width: 50%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
-  </div>
-  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
-</div>
-<div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">modelmesh-serving</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
     <div style="width: 25%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
@@ -136,13 +129,6 @@
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">1</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
-  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">training-operator</span>
-  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
-    <div style="width: 50%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
-  </div>
-  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">2</span>
-</div>
-<div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">workload-variant-autoscaler</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
     <div style="width: 50%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
@@ -166,7 +152,6 @@
 | llm-d-inference-scheduler | 0 | 3 | 3 |
 | mlflow-operator | 0 | 2 | 2 |
 | model-registry | 0 | 3 | 3 |
-| model-registry-operator | 0 | 2 | 2 |
 | modelmesh-serving | 0 | 1 | 1 |
 | models-as-a-service | 1 | 0 | 1 |
 | odh-dashboard | 1 | 1 | 2 |
@@ -174,7 +159,6 @@
 | opendatahub-operator | 2 | 0 | 2 |
 | spark-operator | 0 | 1 | 1 |
 | trainer | 0 | 1 | 1 |
-| training-operator | 0 | 2 | 2 |
 | workload-variant-autoscaler | 0 | 2 | 2 |
 
 ## Secret Detail
@@ -253,13 +237,6 @@ Per-component secret breakdown by name and type.
 | model-catalog-hf-api-key | Opaque |
 | model-catalog-postgres | Opaque |
 
-### model-registry-operator (2 secrets)
-
-| Secret | Type |
-|--------|------|
-| controller-manager-metrics-service | Opaque |
-| webhook-server-cert | Opaque |
-
 ### modelmesh-serving (1 secrets)
 
 | Secret | Type |
@@ -305,13 +282,6 @@ Per-component secret breakdown by name and type.
 |--------|------|
 | kubeflow-trainer-webhook-cert | Opaque |
 
-### training-operator (2 secrets)
-
-| Secret | Type |
-|--------|------|
-| kubeflow-training-operator-webhook-cert | Opaque |
-| training-operator-webhook-cert | Opaque |
-
 ### workload-variant-autoscaler (2 secrets)
 
 | Secret | Type |
@@ -321,6 +291,6 @@ Per-component secret breakdown by name and type.
 
 ## Patterns
 
-- **Webhook certs** are the dominant secret type (24 of 38 secrets).
+- **Webhook certs** are the dominant secret type (21 of 34 secrets).
 - **kubernetes.io/tls** secrets (7) are used for TLS-terminated services.
 

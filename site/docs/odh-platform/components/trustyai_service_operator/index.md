@@ -5,7 +5,7 @@
 
 **Repository:** trustyai-explainability/trustyai-service-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T13:56:09Z
+**Extracted:** 2026-05-05T15:09:13Z
 
 ## Summary
 

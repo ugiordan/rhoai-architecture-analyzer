@@ -5,7 +5,7 @@
 
 **Repository:** kubeflow/spark-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T13:56:13Z
+**Extracted:** 2026-05-05T15:10:40Z
 
 ## Summary
 

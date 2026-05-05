@@ -37,7 +37,7 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 ### Issues
 
-- No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune)
+- No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune). Set GOMEMLIMIT to 80-90% of container memory limit for optimal GC behavior
 - Type Auth is watched but has no cache filter (cluster-wide informer)
 - Type ConsoleLink is watched but has no cache filter (cluster-wide informer)
 - Type Dashboard is watched but has no cache filter (cluster-wide informer)

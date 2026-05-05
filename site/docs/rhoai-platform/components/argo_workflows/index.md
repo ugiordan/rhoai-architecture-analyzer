@@ -5,7 +5,7 @@
 
 **Repository:** argoproj/argo-workflows  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T13:55:41Z
+**Extracted:** 2026-05-05T15:10:46Z
 
 ## Summary
 

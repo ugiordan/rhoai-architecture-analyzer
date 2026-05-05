@@ -9,11 +9,11 @@
 
 | Metric | Count |
 |--------|-------|
-| Components | 31 |
-| CRDs | 42 |
-| Services | 56 |
-| Secrets | 38 |
-| Cluster Roles | 107 |
+| Components | 29 |
+| CRDs | 35 |
+| Services | 51 |
+| Secrets | 34 |
+| Cluster Roles | 95 |
 | Cross-Component Dependencies | 15 |
 
 ## Component Dependency Graph
@@ -72,7 +72,6 @@ graph LR
 | llm-d-kv-cache | 0 |
 | mlflow-operator | 2 |
 | model-registry | 0 |
-| model-registry-operator | 1 |
 | modelmesh-serving | 4 |
 | models-as-a-service | 0 |
 | notebooks | 0 |
@@ -81,7 +80,6 @@ graph LR
 | opendatahub-operator | 0 |
 | spark-operator | 3 |
 | trainer | 3 |
-| training-operator | 6 |
 | trustyai-service-operator | 0 |
 | workload-variant-autoscaler | 1 |
 

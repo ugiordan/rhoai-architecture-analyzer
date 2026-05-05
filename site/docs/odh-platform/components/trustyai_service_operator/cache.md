@@ -16,7 +16,7 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 ### Issues
 
-- No cache configuration: all informers are cluster-wide (OOM risk)
+- No cache configuration: all informers are cluster-wide (OOM risk). See https://book.kubebuilder.io/reference/watching-resources/filtering for cache filtering patterns
 - Type ConfigMap is watched but has no cache filter (cluster-wide informer)
 - Type Deployment is watched but has no cache filter (cluster-wide informer)
 - Type EvalHub is watched but has no cache filter (cluster-wide informer)

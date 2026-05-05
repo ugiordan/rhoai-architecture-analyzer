@@ -5,7 +5,7 @@
 
 **Repository:** opendatahub-io/kueue  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T13:55:00Z
+**Extracted:** 2026-05-05T15:10:22Z
 
 ## Summary
 

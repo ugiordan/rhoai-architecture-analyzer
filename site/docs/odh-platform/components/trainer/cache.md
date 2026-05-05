@@ -20,5 +20,5 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 ### Issues
 
-- Implicit informer for corev1.Secret via client.Get at pkg/runtime/framework/plugins/mpi/mpi.go:256 (cluster-wide, OOM risk)
+- Implicit informer for corev1.Secret via client.Get at pkg/runtime/framework/plugins/mpi/mpi.go:256 (cluster-wide, OOM risk). This bypasses cache filters and creates a full cluster-wide watch
 

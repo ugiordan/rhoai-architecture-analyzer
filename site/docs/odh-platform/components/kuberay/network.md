@@ -21,8 +21,8 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/e3790d555b59c3a7a59f41fc0c6f8616ec5b9a45/ray-operator/config/manager/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/e3790d555b59c3a7a59f41fc0c6f8616ec5b9a45/ray-operator/config/webhook/service.yaml) |
+| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/acbf7e027447a2ca3057213fc4ebba83ac1547c7/ray-operator/config/manager/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/acbf7e027447a2ca3057213fc4ebba83ac1547c7/ray-operator/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

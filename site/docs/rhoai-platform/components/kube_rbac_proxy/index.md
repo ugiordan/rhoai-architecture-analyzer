@@ -5,7 +5,7 @@
 
 **Repository:** brancz/kube-rbac-proxy  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T13:55:47Z
+**Extracted:** 2026-05-05T15:09:53Z
 
 ## Summary
 

@@ -5,7 +5,7 @@
 
 **Repository:** kserve/modelmesh-serving  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T13:56:14Z
+**Extracted:** 2026-05-05T15:09:04Z
 
 ## Summary
 
