@@ -1,11 +1,11 @@
 # llm-d-kv-cache
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** llm-d/llm-d-kv-cache  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:44Z
+**Extracted:** 2026-05-05T13:55:37Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 0 |
 | Secrets | 0 |
 | Cluster Roles | 0 |
-| Controller Watches | 1 |
+| Controller Watches | 0 |
 
 ## Component Architecture
 

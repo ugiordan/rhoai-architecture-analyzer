@@ -1,19 +1,19 @@
 # kube-rbac-proxy
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** brancz/kube-rbac-proxy  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:36Z
+**Extracted:** 2026-05-05T13:55:47Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
 | CRDs | 0 |
-| Deployments | 10 |
-| Services | 1 |
+| Deployments | 0 |
+| Services | 0 |
 | Secrets | 0 |
 | Cluster Roles | 0 |
 | Controller Watches | 0 |
@@ -33,26 +33,8 @@ graph LR
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["kube-rbac-proxy Controller"]
-        dep_1["kube-rbac-proxy"]
-        class dep_1 controller
-        dep_2["kube-rbac-proxy"]
-        class dep_2 controller
-        dep_3["kube-rbac-proxy"]
-        class dep_3 controller
-        dep_4["kube-rbac-proxy"]
-        class dep_4 controller
-        dep_5["kube-rbac-proxy"]
-        class dep_5 controller
-        dep_6["kube-rbac-proxy"]
-        class dep_6 controller
-        dep_7["kube-rbac-proxy"]
-        class dep_7 controller
-        dep_8["kube-rbac-proxy"]
-        class dep_8 controller
-        dep_9["kube-rbac-proxy"]
-        class dep_9 controller
-        dep_10["kube-rbac-proxy-verb-override"]
-        class dep_10 controller
+        ctrl_1["Controller"]
+        class ctrl_1 controller
     end
 ```
 

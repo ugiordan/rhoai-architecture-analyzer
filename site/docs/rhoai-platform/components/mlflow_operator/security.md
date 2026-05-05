@@ -19,12 +19,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | true | ? | [`config/manager/manager.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/manager/manager.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/overlays/odh/manager_patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/overlays/odh/manager_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/overlays/openshift/manager_patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/overlays/openshift/manager_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/overlays/rhoai/manager_patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/overlays/rhoai/manager_patch.yaml) |
-| mlflow-operator-controller-manager | manager | ? | ? | ? | [`config/overlays/kind/manager-patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/overlays/kind/manager-patch.yaml) |
-| postgres-deployment | postgres | ? | ? | ? | [`config/postgres/base/deployment.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/postgres/base/deployment.yaml) |
+| mlflow-operator-controller-manager | manager | ? | true | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/kustomize:config/overlays/odh) |
+| postgres-deployment | postgres | ? | ? | ? | [`config/postgres/base/deployment.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/config/postgres/base/deployment.yaml) |
 
 ## Build Security
 

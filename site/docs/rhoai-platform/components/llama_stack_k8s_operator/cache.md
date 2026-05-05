@@ -20,7 +20,7 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 |------|-------------|--------|
 | appsv1.Deployment | label | label selector |
 | autoscalingv2.HorizontalPodAutoscaler | label | label selector |
-| corev1.ConfigMap | label | label selector |
+| corev1.ConfigMap | label | controllers.WatchLabelKey=controllers.WatchLabelValue (constants, resolved at runtime) |
 | corev1.PersistentVolumeClaim | label | label selector |
 | corev1.Service | label | label selector |
 | networkingv1.Ingress | label | label selector |
@@ -29,5 +29,6 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 ### Issues
 
+- GOMEMLIMIT ratio 78.1% is below recommended 80% minimum (GC cannot pressure-tune effectively)
 - Type LlamaStackDistribution is watched but has no cache filter (cluster-wide informer)
 

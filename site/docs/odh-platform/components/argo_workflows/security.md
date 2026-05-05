@@ -18,6 +18,4 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `Dockerfile.windows` | argoexec-base | 4 | Administrator |  |  |  | Unpinned base image: builder; Unpinned base image: argoexec-base |
 | `argo-argoexec/Dockerfile.ODH` | registry.redhat.io/ubi9/ubi-minimal:9.5 | 2 | 2000 |  |  |  |  |
 | `argo-workflowcontroller/Dockerfile.ODH` | registry.redhat.io/ubi9/ubi-minimal:9.5 | 2 | 8737 |  |  |  |  |
-| `test/e2e/images/argosay/v1/Dockerfile` | ubuntu:mantic-20230807.1 | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `test/e2e/images/argosay/v2/Dockerfile` | argoproj/argosay:v1 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 

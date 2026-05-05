@@ -11,7 +11,8 @@ graph LR
 
     mlflow_operator["mlflow-operator"]:::component
     mlflow_operator --> svc_0["minio-service\nClusterIP: 9000/TCP"]:::svc
-    mlflow_operator --> svc_1["postgres-service\nClusterIP: 5432/TCP"]:::svc
+    mlflow_operator --> svc_1["mlflow-operator-controller-manager-metrics-service\nClusterIP: 8443/TCP"]:::svc
+    mlflow_operator --> svc_2["postgres-service\nClusterIP: 5432/TCP"]:::svc
 ```
 
 ### Services
@@ -19,7 +20,14 @@ graph LR
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
 | minio-service | ClusterIP | 9000/TCP | [`config/seaweedfs/components/tls/service-tls-patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/c47bea907957a9eeb35ee4ed3b0403e855d096cc/config/seaweedfs/components/tls/service-tls-patch.yaml) |
+| mlflow-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/mlflow-operator/blob/c47bea907957a9eeb35ee4ed3b0403e855d096cc/kustomize:config/overlays/odh) |
 | postgres-service | ClusterIP | 5432/TCP | [`config/postgres/base/service.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/c47bea907957a9eeb35ee4ed3b0403e855d096cc/config/postgres/base/service.yaml) |
+
+### Ingress / Routing
+
+| Kind | Name | Hosts | Paths | TLS | Source |
+|------|------|-------|-------|-----|--------|
+| HTTPRoute | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/opendatahub-io/mlflow-operator/blob/c47bea907957a9eeb35ee4ed3b0403e855d096cc/rbac/manager-role) |
 
 ### Network Policies
 

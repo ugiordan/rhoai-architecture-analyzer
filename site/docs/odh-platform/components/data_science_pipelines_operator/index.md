@@ -1,11 +1,11 @@
 # data-science-pipelines-operator
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** opendatahub-io/data-science-pipelines-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:46Z
+**Extracted:** 2026-05-05T13:56:07Z
 
 ## Summary
 
@@ -13,7 +13,7 @@
 |--------|-------|
 | CRDs | 4 |
 | Deployments | 3 |
-| Services | 3 |
+| Services | 11 |
 | Secrets | 4 |
 | Cluster Roles | 4 |
 | Controller Watches | 11 |
@@ -33,7 +33,7 @@ graph LR
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["data-science-pipelines-operator Controller"]
-        dep_1["controller-manager"]
+        dep_1["data-science-pipelines-operator-controller-manager"]
         class dep_1 controller
         dep_2["mariadb"]
         class dep_2 controller

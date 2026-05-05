@@ -1,11 +1,11 @@
 # kueue
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** opendatahub-io/kueue  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:28:08Z
+**Extracted:** 2026-05-05T13:55:00Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 2 |
 | Secrets | 1 |
 | Cluster Roles | 0 |
-| Controller Watches | 23 |
+| Controller Watches | 21 |
 
 ## Component Architecture
 
@@ -104,5 +104,4 @@ No CRDs defined.
 | k8s.io/client-go | v0.32.3 |
 | k8s.io/client-go | v0.32.3 |
 | sigs.k8s.io/controller-runtime | v0.19.4 |
-| sigs.k8s.io/controller-runtime/tools/setup-envtest | v0.0.0-20240813183042-b901db121e1f |
 

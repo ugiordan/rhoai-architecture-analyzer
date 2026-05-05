@@ -1,11 +1,11 @@
 # odh-model-controller
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** opendatahub-io/odh-model-controller  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:26:59Z
+**Extracted:** 2026-05-05T13:56:36Z
 
 ## Summary
 
@@ -104,7 +104,7 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| nim.opendatahub.io | v1 | Account | Namespaced | 57 | 0 | [`config/crd/bases/nim.opendatahub.io_accounts.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/166cf4c1a29f057a1258d957097934d75682200d/config/crd/bases/nim.opendatahub.io_accounts.yaml) |
+| nim.opendatahub.io | v1 | Account | Namespaced | 57 | 0 | [`config/crd/bases/nim.opendatahub.io_accounts.yaml`](https://github.com/opendatahub-io/odh-model-controller/blob/55c98bf18a3fa4334d31305c836593a7f6dc4d6d/config/crd/bases/nim.opendatahub.io_accounts.yaml) |
 
 ## Dependencies
 

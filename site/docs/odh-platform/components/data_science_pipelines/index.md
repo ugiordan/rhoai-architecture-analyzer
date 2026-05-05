@@ -1,11 +1,11 @@
 # data-science-pipelines
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** kubeflow/data-science-pipelines  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:28:01Z
+**Extracted:** 2026-05-05T13:55:02Z
 
 ## Summary
 
@@ -69,9 +69,9 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| metacontroller.k8s.io | v1alpha1 | CompositeController | Cluster | 109 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
-| metacontroller.k8s.io | v1alpha1 | ControllerRevision | Namespaced | 8 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
-| metacontroller.k8s.io | v1alpha1 | DecoratorController | Cluster | 75 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
+| metacontroller.k8s.io | v1alpha1 | CompositeController | Cluster | 109 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
+| metacontroller.k8s.io | v1alpha1 | ControllerRevision | Namespaced | 8 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
+| metacontroller.k8s.io | v1alpha1 | DecoratorController | Cluster | 75 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
 
 ## Dependencies
 
@@ -81,8 +81,8 @@ graph LR
 |--------|---------|
 | github.com/prometheus/client_golang | v1.23.2 |
 | github.com/prometheus/client_model | v0.6.2 |
-| google.golang.org/grpc | v1.56.3 |
 | google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.56.3 |
 | google.golang.org/grpc/cmd/protoc-gen-go-grpc | v1.5.1 |
 | k8s.io/api | v0.35.2 |
 | k8s.io/apimachinery | v0.35.2 |

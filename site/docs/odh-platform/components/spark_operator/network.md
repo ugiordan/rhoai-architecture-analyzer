@@ -17,14 +17,19 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| spark-operator-webhook-svc | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/config/webhook/service.yaml) |
+| spark-operator-webhook-svc | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh) |
+
+### Ingress / Routing
+
+| Kind | Name | Hosts | Paths | TLS | Source |
+|------|------|-------|-------|-----|--------|
+| Ingress | rbac-inferred |  |  | no | [`rbac/spark-operator-controller`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/rbac/spark-operator-controller) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| spark-operator-allow-internal | Ingress | [`config/overlays/odh/networkpolicy.yaml`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/config/overlays/odh/networkpolicy.yaml) |
-| spark-operator-allow-internal | Ingress | [`config/overlays/rhoai/networkpolicy.yaml`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/config/overlays/rhoai/networkpolicy.yaml) |
+| spark-operator-allow-internal | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh) |
 
 ## Network Policy Graph
 
@@ -39,7 +44,5 @@ graph LR
     spark_operator["spark-operator\nPods"]:::pod
     np_0_spark_operator_allow_internal{{"spark-operator-allow-internal\nIngress"}}:::policy
     np_0_spark_operator_allow_internal --> spark_operator
-    np_1_spark_operator_allow_internal{{"spark-operator-allow-internal\nIngress"}}:::policy
-    np_1_spark_operator_allow_internal --> spark_operator
 ```
 

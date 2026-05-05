@@ -25,21 +25,21 @@ sequenceDiagram
     %% Static dataflow for llama-stack-k8s-operator
 
     participant KubernetesAPI as Kubernetes API
-    participant controller_manager as controller-manager
     participant deployment as deployment
+    participant llama_stack_k8s_operator_controller_manager as llama-stack-k8s-operator-controller-manager
 
-    KubernetesAPI->>+controller_manager: Watch LlamaStackDistribution (reconcile)
-    controller_manager->>KubernetesAPI: Create/Update ConfigMap
-    controller_manager->>KubernetesAPI: Create/Update PersistentVolumeClaim
-    controller_manager->>KubernetesAPI: Create/Update Service
-    controller_manager->>KubernetesAPI: Create/Update Deployment
-    controller_manager->>KubernetesAPI: Create/Update HorizontalPodAutoscaler
-    controller_manager->>KubernetesAPI: Create/Update Ingress
-    controller_manager->>KubernetesAPI: Create/Update NetworkPolicy
-    controller_manager->>KubernetesAPI: Create/Update PodDisruptionBudget
+    KubernetesAPI->>+deployment: Watch LlamaStackDistribution (reconcile)
+    deployment->>KubernetesAPI: Create/Update ConfigMap
+    deployment->>KubernetesAPI: Create/Update PersistentVolumeClaim
+    deployment->>KubernetesAPI: Create/Update Service
+    deployment->>KubernetesAPI: Create/Update Deployment
+    deployment->>KubernetesAPI: Create/Update HorizontalPodAutoscaler
+    deployment->>KubernetesAPI: Create/Update Ingress
+    deployment->>KubernetesAPI: Create/Update NetworkPolicy
+    deployment->>KubernetesAPI: Create/Update PodDisruptionBudget
 
-    Note over controller_manager: Exposed Services
-    Note right of controller_manager: service:0/TCP [http]
+    Note over deployment: Exposed Services
+    Note right of deployment: llama-stack-k8s-operator-controller-manager-metrics-service:8443/TCP [https]
 
     Note over KubernetesAPI: Defined CRDs
     Note right of KubernetesAPI: LlamaStackDistribution (llamastack.io/v1alpha1)
@@ -48,10 +48,4 @@ sequenceDiagram
 ## Configuration
 
 ConfigMaps and Helm values that control this component's runtime behavior.
-
-### ConfigMaps
-
-| Name | Data Keys | Source |
-|------|-----------|--------|
-| llama-stack-config | config.yaml | [`config/samples/example-with-configmap.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/ba8020a4fc5b6ac86e14aea251992ee2ccdde5ef/config/samples/example-with-configmap.yaml) |
 

@@ -23,7 +23,6 @@ sequenceDiagram
     participant n___EPP_NAME_ as ${EPP_NAME}
     participant n___MODEL_NAME_SAFE__vllm_sim as ${MODEL_NAME_SAFE}-vllm-sim
     participant n_0 as 0
-    participant e2e_epp as e2e-epp
     participant istiod_llm_d_gateway as istiod-llm-d-gateway
     participant vllm_sim_d as vllm-sim-d
     participant vllm_sim_e as vllm-sim-e
@@ -38,10 +37,6 @@ sequenceDiagram
     Note right of n___EPP_NAME_: ${EPP_NAME}:9002/TCP [default]
     Note right of n___EPP_NAME_: ${EPP_NAME}:5557/TCP [zmq]
     Note right of n___EPP_NAME_: ${EPP_NAME}:9090/TCP [metrics]
-    Note right of n___EPP_NAME_: e2e-epp:9002/TCP [ext-proc]
-    Note right of n___EPP_NAME_: e2e-epp:5557/TCP [zmq]
-    Note right of n___EPP_NAME_: e2e-epp-health:9003/TCP [health]
-    Note right of n___EPP_NAME_: e2e-epp-metrics:9090/TCP [metrics]
     Note right of n___EPP_NAME_: inference-gateway-istio-nodeport:15021/TCP [status-port]
     Note right of n___EPP_NAME_: inference-gateway-istio-nodeport:80/TCP [default]
     Note right of n___EPP_NAME_: istiod-llm-d-gateway:15010/TCP [grpc-xds]

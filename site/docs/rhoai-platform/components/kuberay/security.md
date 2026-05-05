@@ -18,8 +18,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/d5c3b0dec310b5230cf68c8c82dd3d01cb165597/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/d5c3b0dec310b5230cf68c8c82dd3d01cb165597/ray-operator/config/manager/manager.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/d6c54db15cc2c7cfba73dac1e76302a4b31071e0/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/d6c54db15cc2c7cfba73dac1e76302a4b31071e0/ray-operator/config/manager/manager.yaml) |
 
 ## Build Security
 
@@ -36,5 +36,4 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `ray-operator/Dockerfile.buildx` | gcr.io/distroless/base-debian12:nonroot | 1 | 65532:65532 |  | multi-arch |  |  |
 | `ray-operator/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:8d0a8fb39ec907e8ca62cdd24b62a63ca49a30fe465798a360741fde58437a23 | 2 | 65532:65532 |  | multi-arch |  |  |
 | `ray-operator/Dockerfile.rhoai` | registry.access.redhat.com/ubi9/ubi:latest | 2 | 65532:65532 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi:latest |
-| `ray-operator/images/tests/Dockerfile` | golang:1.24 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 

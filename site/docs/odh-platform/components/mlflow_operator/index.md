@@ -1,19 +1,19 @@
 # mlflow-operator
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** opendatahub-io/mlflow-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:28:11Z
+**Extracted:** 2026-05-05T13:56:23Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
 | CRDs | 2 |
-| Deployments | 6 |
-| Services | 2 |
+| Deployments | 2 |
+| Services | 3 |
 | Secrets | 2 |
 | Cluster Roles | 6 |
 | Controller Watches | 12 |
@@ -33,18 +33,10 @@ graph LR
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["mlflow-operator Controller"]
-        dep_1["controller-manager"]
+        dep_1["mlflow-operator-controller-manager"]
         class dep_1 controller
-        dep_2["controller-manager"]
+        dep_2["postgres-deployment"]
         class dep_2 controller
-        dep_3["controller-manager"]
-        class dep_3 controller
-        dep_4["controller-manager"]
-        class dep_4 controller
-        dep_5["mlflow-operator-controller-manager"]
-        class dep_5 controller
-        dep_6["postgres-deployment"]
-        class dep_6 controller
     end
 
     crd_MLflowConfig{{"MLflowConfig\nmlflow.kubeflow.org/v1"}}
@@ -52,30 +44,30 @@ graph LR
     crd_MLflow{{"MLflow\nmlflow.opendatahub.io/v1"}}
     class crd_MLflow crd
     crd_MLflow -->|"For (reconciles)"| controller
-    controller -->|"Owns"| owned_7["ClusterRoleBinding"]
+    controller -->|"Owns"| owned_3["ClusterRoleBinding"]
+    class owned_3 owned
+    controller -->|"Owns"| owned_4["ConsoleLink"]
+    class owned_4 owned
+    controller -->|"Owns"| owned_5["CronJob"]
+    class owned_5 owned
+    controller -->|"Owns"| owned_6["Deployment"]
+    class owned_6 owned
+    controller -->|"Owns"| owned_7["HTTPRoute"]
     class owned_7 owned
-    controller -->|"Owns"| owned_8["ConsoleLink"]
+    controller -->|"Owns"| owned_8["PersistentVolumeClaim"]
     class owned_8 owned
-    controller -->|"Owns"| owned_9["CronJob"]
+    controller -->|"Owns"| owned_9["Secret"]
     class owned_9 owned
-    controller -->|"Owns"| owned_10["Deployment"]
+    controller -->|"Owns"| owned_10["Service"]
     class owned_10 owned
-    controller -->|"Owns"| owned_11["HTTPRoute"]
+    controller -->|"Owns"| owned_11["ServiceAccount"]
     class owned_11 owned
-    controller -->|"Owns"| owned_12["PersistentVolumeClaim"]
+    controller -->|"Owns"| owned_12["ServiceMonitor"]
     class owned_12 owned
-    controller -->|"Owns"| owned_13["Secret"]
-    class owned_13 owned
-    controller -->|"Owns"| owned_14["Service"]
-    class owned_14 owned
-    controller -->|"Owns"| owned_15["ServiceAccount"]
-    class owned_15 owned
-    controller -->|"Owns"| owned_16["ServiceMonitor"]
-    class owned_16 owned
-    watch_17["ClusterRole"] -->|"Watches"| controller
-    class watch_17 external
-    controller -.->|"depends on"| odh_18["mlflow-operator"]
-    class odh_18 dep
+    watch_13["ClusterRole"] -->|"Watches"| controller
+    class watch_13 external
+    controller -.->|"depends on"| odh_14["mlflow-operator"]
+    class odh_14 dep
 ```
 
 ### CRDs

@@ -34,6 +34,7 @@ sequenceDiagram
 
     participant KubernetesAPI as Kubernetes API
     participant controller_manager as controller-manager
+    participant etcd as etcd
     participant modelmesh_controller as modelmesh-controller
 
     KubernetesAPI->>+controller_manager: Watch Namespace (reconcile)
@@ -55,6 +56,7 @@ sequenceDiagram
     KubernetesAPI-->>+controller_manager: Watch InferenceService (informer)
 
     Note over controller_manager: Exposed Services
+    Note right of controller_manager: etcd:2379/TCP [etcd-client-port]
     Note right of controller_manager: modelmesh-controller:8080/TCP []
     Note right of controller_manager: modelmesh-webhook-server-service:9443/TCP []
 
@@ -69,7 +71,7 @@ sequenceDiagram
 
 | Name | Type | Path | Failure Policy | Service | Source |
 |------|------|------|----------------|---------|--------|
-| servingruntime.modelmesh-webhook-server.default | validating | /validate-serving-modelmesh-io-v1alpha1-servingruntime | Fail | /modelmesh-webhook-server-service | [`config/webhook/manifests.yaml`](https://github.com/kserve/modelmesh-serving/blob/056bc2e855779c02536db9ef786b26cc73c63f20/config/webhook/manifests.yaml) |
+| servingruntime.modelmesh-webhook-server.default | validating | /validate-serving-modelmesh-io-v1alpha1-servingruntime | Fail | opendatahub/modelmesh-webhook-server-service | [`kustomize:config/overlays/odh (modelmesh-servingruntime.serving.kserve.io)`](https://github.com/kserve/modelmesh-serving/blob/056bc2e855779c02536db9ef786b26cc73c63f20/kustomize:config/overlays/odh (modelmesh-servingruntime.serving.kserve.io)) |
 
 ### HTTP Endpoints
 

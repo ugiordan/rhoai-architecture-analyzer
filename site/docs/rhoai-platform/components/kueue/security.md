@@ -42,7 +42,4 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `cmd/experimental/kueue-viz/backend/Dockerfile` | ${BASE_IMAGE} | 2 | 65532:65532 |  |  |  | Unpinned base image: ${BUILDER_IMAGE}; Unpinned base image: ${BASE_IMAGE} |
 | `cmd/experimental/kueue-viz/frontend/Dockerfile` | node:23 | 2 |  |  |  |  | No USER directive found (defaults to root) |
 | `cmd/importer/Dockerfile` | ${BASE_IMAGE} | 2 | 65532:65532 |  | multi-arch |  | Unpinned base image: ${BUILDER_IMAGE}; Unpinned base image: ${BASE_IMAGE} |
-| `hack/debugpod/Dockerfile` | debian:stable | 1 | 65532:65532 |  |  |  |  |
-| `hack/internal/test-images/ray/Dockerfile` | python:3.12-slim | 1 | $RAY_UID |  |  |  |  |
-| `hack/shellcheck/Dockerfile` | docker.io/koalaman/shellcheck-alpine:v0.10.0 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 

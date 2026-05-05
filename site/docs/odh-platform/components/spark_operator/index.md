@@ -1,11 +1,11 @@
 # spark-operator
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** kubeflow/spark-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:23Z
+**Extracted:** 2026-05-05T13:56:13Z
 
 ## Summary
 

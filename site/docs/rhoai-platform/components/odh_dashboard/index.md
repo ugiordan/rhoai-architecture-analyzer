@@ -1,11 +1,11 @@
 # odh-dashboard
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** red-hat-data-services/odh-dashboard  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:40Z
+**Extracted:** 2026-05-05T13:55:14Z
 
 ## Summary
 

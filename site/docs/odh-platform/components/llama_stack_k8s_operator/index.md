@@ -1,18 +1,18 @@
 # llama-stack-k8s-operator
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** llamastack/llama-stack-k8s-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:17Z
+**Extracted:** 2026-05-05T13:55:59Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
 | CRDs | 1 |
-| Deployments | 4 |
+| Deployments | 2 |
 | Services | 1 |
 | Secrets | 0 |
 | Cluster Roles | 5 |
@@ -33,35 +33,31 @@ graph LR
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["llama-stack-k8s-operator Controller"]
-        dep_1["controller-manager"]
+        dep_1["deployment"]
         class dep_1 controller
-        dep_2["controller-manager"]
+        dep_2["llama-stack-k8s-operator-controller-manager"]
         class dep_2 controller
-        dep_3["controller-manager"]
-        class dep_3 controller
-        dep_4["deployment"]
-        class dep_4 controller
     end
 
     crd_LlamaStackDistribution{{"LlamaStackDistribution\nllamastack.io/v1alpha1"}}
     class crd_LlamaStackDistribution crd
     crd_LlamaStackDistribution -->|"For (reconciles)"| controller
-    controller -->|"Owns"| owned_5["ConfigMap"]
+    controller -->|"Owns"| owned_3["ConfigMap"]
+    class owned_3 owned
+    controller -->|"Owns"| owned_4["Deployment"]
+    class owned_4 owned
+    controller -->|"Owns"| owned_5["HorizontalPodAutoscaler"]
     class owned_5 owned
-    controller -->|"Owns"| owned_6["Deployment"]
+    controller -->|"Owns"| owned_6["Ingress"]
     class owned_6 owned
-    controller -->|"Owns"| owned_7["HorizontalPodAutoscaler"]
+    controller -->|"Owns"| owned_7["NetworkPolicy"]
     class owned_7 owned
-    controller -->|"Owns"| owned_8["Ingress"]
+    controller -->|"Owns"| owned_8["PersistentVolumeClaim"]
     class owned_8 owned
-    controller -->|"Owns"| owned_9["NetworkPolicy"]
+    controller -->|"Owns"| owned_9["PodDisruptionBudget"]
     class owned_9 owned
-    controller -->|"Owns"| owned_10["PersistentVolumeClaim"]
+    controller -->|"Owns"| owned_10["Service"]
     class owned_10 owned
-    controller -->|"Owns"| owned_11["PodDisruptionBudget"]
-    class owned_11 owned
-    controller -->|"Owns"| owned_12["Service"]
-    class owned_12 owned
 ```
 
 ### CRDs

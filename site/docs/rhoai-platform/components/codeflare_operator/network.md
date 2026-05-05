@@ -19,6 +19,13 @@ graph LR
 |------|------|-------|--------|
 | webhook-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/project-codeflare/codeflare-operator/blob/d5d580dead94697e06a15f97c27cd2a9819e04a3/config/webhook/service.yaml) |
 
+### Ingress / Routing
+
+| Kind | Name | Hosts | Paths | TLS | Source |
+|------|------|-------|-------|-----|--------|
+| Ingress | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/project-codeflare/codeflare-operator/blob/d5d580dead94697e06a15f97c27cd2a9819e04a3/rbac/manager-role) |
+| Route | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/project-codeflare/codeflare-operator/blob/d5d580dead94697e06a15f97c27cd2a9819e04a3/rbac/manager-role) |
+
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
 

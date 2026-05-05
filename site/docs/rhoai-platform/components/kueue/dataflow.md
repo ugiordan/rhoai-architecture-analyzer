@@ -9,7 +9,6 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 | For | /v1/Pod | [`pkg/controller/jobs/leaderworkerset/leaderworkerset_pod_reconciler.go:57`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/jobs/leaderworkerset/leaderworkerset_pod_reconciler.go#L57) |
 | For | apps/v1/StatefulSet | [`pkg/controller/jobs/statefulset/statefulset_reconciler.go:145`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/jobs/statefulset/statefulset_reconciler.go#L145) |
 | For | kueue/v1beta1/AdmissionCheck | [`pkg/controller/admissionchecks/provisioning/controller.go:849`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/admissionchecks/provisioning/controller.go#L849) |
-| For | kueue/v1beta1/Workload | [`test/performance/scheduler/runner/controller/controller.go:203`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/test/performance/scheduler/runner/controller/controller.go#L203) |
 | For | kueue/v1beta1/Workload | [`pkg/controller/admissionchecks/provisioning/controller.go:830`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/admissionchecks/provisioning/controller.go#L830) |
 | For | leaderworkerset/v1/LeaderWorkerSet | [`pkg/controller/jobs/leaderworkerset/leaderworkerset_reconciler.go:83`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/jobs/leaderworkerset/leaderworkerset_reconciler.go#L83) |
 | Owns | autoscaling.x-k8s.io/v1beta1/ProvisioningRequest | [`pkg/controller/admissionchecks/provisioning/controller.go:831`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/admissionchecks/provisioning/controller.go#L831) |
@@ -19,9 +18,8 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 | Watches | /v1/Pod | [`pkg/controller/jobs/pod/pod_controller.go:131`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/jobs/pod/pod_controller.go#L131) |
 | Watches | /v1/Pod | [`pkg/controller/jobs/statefulset/statefulset_reconciler.go:147`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/jobs/statefulset/statefulset_reconciler.go#L147) |
 | Watches | kueue/v1beta1/AdmissionCheck | [`pkg/controller/admissionchecks/provisioning/controller.go:832`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/admissionchecks/provisioning/controller.go#L832) |
-| Watches | kueue/v1beta1/ClusterQueue | [`test/performance/scheduler/runner/controller/controller.go:205`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/test/performance/scheduler/runner/controller/controller.go#L205) |
-| Watches | kueue/v1beta1/ClusterQueue | [`pkg/controller/core/localqueue_controller.go:338`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/core/localqueue_controller.go#L338) |
 | Watches | kueue/v1beta1/ClusterQueue | [`pkg/controller/core/workload_controller.go:799`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/core/workload_controller.go#L799) |
+| Watches | kueue/v1beta1/ClusterQueue | [`pkg/controller/core/localqueue_controller.go:338`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/core/localqueue_controller.go#L338) |
 | Watches | kueue/v1beta1/LocalQueue | [`pkg/controller/core/workload_controller.go:800`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/core/workload_controller.go#L800) |
 | Watches | kueue/v1beta1/ProvisioningRequestConfig | [`pkg/controller/admissionchecks/provisioning/controller.go:833`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/admissionchecks/provisioning/controller.go#L833) |
 | Watches | kueue/v1beta1/ProvisioningRequestConfig | [`pkg/controller/admissionchecks/provisioning/controller.go:850`](https://github.com/red-hat-data-services/kueue/blob/e8b3ff9daa256c43f854fc8bbfea4a51d66f7b8b/pkg/controller/admissionchecks/provisioning/controller.go#L850) |
@@ -45,7 +43,6 @@ sequenceDiagram
     KubernetesAPI->>+controller_manager: Watch StatefulSet (reconcile)
     KubernetesAPI->>+controller_manager: Watch AdmissionCheck (reconcile)
     KubernetesAPI->>+controller_manager: Watch Workload (reconcile)
-    KubernetesAPI->>+controller_manager: Watch Workload (reconcile)
     KubernetesAPI->>+controller_manager: Watch LeaderWorkerSet (reconcile)
     controller_manager->>KubernetesAPI: Create/Update ProvisioningRequest
     controller_manager->>KubernetesAPI: Create/Update Workload
@@ -54,7 +51,6 @@ sequenceDiagram
     KubernetesAPI-->>+controller_manager: Watch Pod (informer)
     KubernetesAPI-->>+controller_manager: Watch Pod (informer)
     KubernetesAPI-->>+controller_manager: Watch AdmissionCheck (informer)
-    KubernetesAPI-->>+controller_manager: Watch ClusterQueue (informer)
     KubernetesAPI-->>+controller_manager: Watch ClusterQueue (informer)
     KubernetesAPI-->>+controller_manager: Watch ClusterQueue (informer)
     KubernetesAPI-->>+controller_manager: Watch LocalQueue (informer)

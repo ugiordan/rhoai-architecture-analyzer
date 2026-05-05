@@ -1,19 +1,19 @@
 # model-registry-operator
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** opendatahub-io/model-registry-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:28:08Z
+**Extracted:** 2026-05-05T13:56:09Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
-| CRDs | 2 |
-| Deployments | 8 |
-| Services | 1 |
+| CRDs | 1 |
+| Deployments | 1 |
+| Services | 6 |
 | Secrets | 2 |
 | Cluster Roles | 6 |
 | Controller Watches | 17 |
@@ -33,70 +33,52 @@ graph LR
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["model-registry-operator Controller"]
-        dep_1["controller-manager"]
+        dep_1["model-registry-operator-controller-manager"]
         class dep_1 controller
-        dep_2["controller-manager"]
-        class dep_2 controller
-        dep_3["controller-manager"]
-        class dep_3 controller
-        dep_4["controller-manager"]
-        class dep_4 controller
-        dep_5["controller-manager"]
-        class dep_5 controller
-        dep_6["controller-manager"]
-        class dep_6 controller
-        dep_7["controller-manager"]
-        class dep_7 controller
-        dep_8["controller-manager"]
-        class dep_8 controller
     end
 
-    crd_ModelRegistry{{"ModelRegistry\nmodelregistry.opendatahub.io/v1alpha1"}}
-    class crd_ModelRegistry crd
-    crd_ModelRegistry -->|"For (reconciles)"| controller
     crd_ModelRegistry{{"ModelRegistry\nmodelregistry.opendatahub.io/v1beta1"}}
     class crd_ModelRegistry crd
     crd_ModelRegistry -->|"For (reconciles)"| controller
-    controller -->|"Owns"| owned_9["Deployment"]
-    class owned_9 owned
-    controller -->|"Owns"| owned_10["NetworkPolicy"]
-    class owned_10 owned
-    controller -->|"Owns"| owned_11["Role"]
-    class owned_11 owned
-    controller -->|"Owns"| owned_12["RoleBinding"]
-    class owned_12 owned
-    controller -->|"Owns"| owned_13["Service"]
-    class owned_13 owned
-    controller -->|"Owns"| owned_14["ServiceAccount"]
-    class owned_14 owned
-    watch_15["ClusterRoleBinding"] -->|"Watches"| controller
+    controller -->|"Owns"| owned_2["Deployment"]
+    class owned_2 owned
+    controller -->|"Owns"| owned_3["NetworkPolicy"]
+    class owned_3 owned
+    controller -->|"Owns"| owned_4["Role"]
+    class owned_4 owned
+    controller -->|"Owns"| owned_5["RoleBinding"]
+    class owned_5 owned
+    controller -->|"Owns"| owned_6["Service"]
+    class owned_6 owned
+    controller -->|"Owns"| owned_7["ServiceAccount"]
+    class owned_7 owned
+    watch_8["ClusterRoleBinding"] -->|"Watches"| controller
+    class watch_8 external
+    watch_9["ConfigMap"] -->|"Watches"| controller
+    class watch_9 external
+    watch_10["Deployment"] -->|"Watches"| controller
+    class watch_10 external
+    watch_11["NetworkPolicy"] -->|"Watches"| controller
+    class watch_11 external
+    watch_12["PersistentVolumeClaim"] -->|"Watches"| controller
+    class watch_12 external
+    watch_13["Role"] -->|"Watches"| controller
+    class watch_13 external
+    watch_14["RoleBinding"] -->|"Watches"| controller
+    class watch_14 external
+    watch_15["Secret"] -->|"Watches"| controller
     class watch_15 external
-    watch_16["ConfigMap"] -->|"Watches"| controller
+    watch_16["Service"] -->|"Watches"| controller
     class watch_16 external
-    watch_17["Deployment"] -->|"Watches"| controller
+    watch_17["ServiceAccount"] -->|"Watches"| controller
     class watch_17 external
-    watch_18["NetworkPolicy"] -->|"Watches"| controller
-    class watch_18 external
-    watch_19["PersistentVolumeClaim"] -->|"Watches"| controller
-    class watch_19 external
-    watch_20["Role"] -->|"Watches"| controller
-    class watch_20 external
-    watch_21["RoleBinding"] -->|"Watches"| controller
-    class watch_21 external
-    watch_22["Secret"] -->|"Watches"| controller
-    class watch_22 external
-    watch_23["Service"] -->|"Watches"| controller
-    class watch_23 external
-    watch_24["ServiceAccount"] -->|"Watches"| controller
-    class watch_24 external
 ```
 
 ### CRDs
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| modelregistry.opendatahub.io | v1alpha1 | ModelRegistry | Namespaced | 120 | 2 | [`config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml) |
-| modelregistry.opendatahub.io | v1beta1 | ModelRegistry | Namespaced | 113 | 6 | [`config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml) |
+| modelregistry.opendatahub.io | v1beta1 | ModelRegistry | Namespaced | 113 | 6 | [`config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/a687e59dfbd6c67bd06c130a2098450c3833a514/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml) |
 
 ## Dependencies
 

@@ -16,18 +16,13 @@ sequenceDiagram
 
     participant KubernetesAPI as Kubernetes API
     participant kube_rbac_proxy as kube-rbac-proxy
-    participant kube_rbac_proxy_verb_override as kube-rbac-proxy-verb-override
-
-
-    Note over kube_rbac_proxy: Exposed Services
-    Note right of kube_rbac_proxy: kube-rbac-proxy:8443/TCP [https]
 ```
 
 ### HTTP Endpoints
 
 | Method | Path | Source |
 |--------|------|--------|
-| * | / | [`cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:333`](https://github.com/brancz/kube-rbac-proxy/blob/e2989efa52b9bd803a127131fa3f607f1d6b5c86/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L333) |
+| * | / | [`cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:333`](https://github.com/brancz/kube-rbac-proxy/blob/d995bd1ef059acb275cc8319f8005f317e0e4ab6/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L333) |
 
 ## Configuration
 

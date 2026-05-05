@@ -1,19 +1,19 @@
 # llm-d-inference-scheduler
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** llm-d/llm-d-inference-scheduler  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:02Z
+**Extracted:** 2026-05-05T13:55:06Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
 | CRDs | 0 |
-| Deployments | 10 |
-| Services | 7 |
+| Deployments | 9 |
+| Services | 4 |
 | Secrets | 3 |
 | Cluster Roles | 0 |
 | Controller Watches | 4 |
@@ -39,20 +39,18 @@ graph LR
         class dep_2 controller
         dep_3["0"]
         class dep_3 controller
-        dep_4["e2e-epp"]
+        dep_4["istiod-llm-d-gateway"]
         class dep_4 controller
-        dep_5["istiod-llm-d-gateway"]
+        dep_5["vllm-sim-d"]
         class dep_5 controller
         dep_6["vllm-sim-d"]
         class dep_6 controller
-        dep_7["vllm-sim-d"]
+        dep_7["vllm-sim-e"]
         class dep_7 controller
-        dep_8["vllm-sim-e"]
+        dep_8["vllm-sim-p"]
         class dep_8 controller
         dep_9["vllm-sim-p"]
         class dep_9 controller
-        dep_10["vllm-sim-p"]
-        class dep_10 controller
     end
 ```
 

@@ -10,12 +10,12 @@ graph LR
     classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
 
     kserve["kserve"]:::component
-    kserve --> svc_0["kserve-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
-    kserve --> svc_1["kserve-webhook-server-service\nClusterIP: 443/TCP"]:::svc
-    kserve --> svc_2["llmisvc-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
-    kserve --> svc_3["llmisvc-webhook-server-service\nClusterIP: 443/TCP"]:::svc
-    kserve --> svc_4["localmodel-webhook-server-service\nClusterIP: 443/TCP"]:::svc
-    kserve --> svc_5["webhook-service\nClusterIP: 443/TCP"]:::svc
+    kserve --> svc_0["kserve-controller-manager-metrics-service\nClusterIP: 8443/TCP"]:::svc
+    kserve --> svc_1["kserve-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
+    kserve --> svc_2["kserve-webhook-server-service\nClusterIP: 443/TCP"]:::svc
+    kserve --> svc_3["llmisvc-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
+    kserve --> svc_4["llmisvc-webhook-server-service\nClusterIP: 443/TCP"]:::svc
+    kserve --> svc_5["localmodel-webhook-server-service\nClusterIP: 443/TCP"]:::svc
     kserve -.-> ext_azure_blob[["azure-blob\nobject-storage"]]:::ext
     kserve -.-> ext_gcs[["gcs\nobject-storage"]]:::ext
     kserve -.-> ext_s3[["s3\nobject-storage"]]:::ext
@@ -25,26 +25,27 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kserve-controller-manager-service | ClusterIP | 8443/TCP | [`config/manager/service.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/manager/service.yaml) |
-| kserve-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/service.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/service.yaml) |
-| llmisvc-controller-manager-service | ClusterIP | 8443/TCP | [`config/llmisvc/service.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/llmisvc/service.yaml) |
-| llmisvc-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/llmisvc/service.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/llmisvc/service.yaml) |
+| kserve-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh) |
+| kserve-controller-manager-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh) |
+| kserve-webhook-server-service | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh) |
+| llmisvc-controller-manager-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh) |
+| llmisvc-webhook-server-service | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh) |
 | localmodel-webhook-server-service | ClusterIP | 443/TCP | [`config/webhook/localmodel/service.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/localmodel/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`test/webhooks/service.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/test/webhooks/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Gateway | ai-gateway |  |  | no | [`docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml) |
-| Gateway | knative-ingress-gateway |  |  | no | [`docs/openshift/serverless/gateways.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/docs/openshift/serverless/gateways.yaml) |
-| Gateway | knative-local-gateway |  |  | no | [`docs/openshift/serverless/gateways.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/docs/openshift/serverless/gateways.yaml) |
+| HTTPRoute | rbac-inferred |  |  | no | [`rbac/kserve-manager-role`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/rbac/kserve-manager-role) |
+| Ingress | rbac-inferred |  |  | no | [`rbac/kserve-manager-role`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/rbac/kserve-manager-role) |
+| Route | rbac-inferred |  |  | no | [`rbac/kserve-manager-role`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/rbac/kserve-manager-role) |
+| VirtualService | rbac-inferred |  |  | no | [`rbac/kserve-manager-role`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/rbac/kserve-manager-role) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| kserve-controller-manager |  | [`config/overlays/odh/network-policies.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/overlays/odh/network-policies.yaml) |
+| kserve-controller-manager |  | [`kustomize:config/overlays/odh`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh) |
 
 ## Network Policy Graph
 

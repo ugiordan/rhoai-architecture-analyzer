@@ -15,46 +15,18 @@ sequenceDiagram
     %% Static dataflow for kube-auth-proxy
 
     participant KubernetesAPI as Kubernetes API
-    participant example_app as example-app
     participant kube_auth_proxy as kube-auth-proxy
-    participant kube_rbac_proxy as kube-rbac-proxy
-    participant kube_rbac_proxy_verb_override as kube-rbac-proxy-verb-override
-
-
-    Note over example_app: Exposed Services
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
-    Note right of example_app: kube-rbac-proxy:8443/TCP [https]
 ```
 
 ### HTTP Endpoints
 
 | Method | Path | Source |
 |--------|------|--------|
-| * | / | [`kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:324`](https://github.com/opendatahub-io/kube-auth-proxy/blob/8d36311cba8036dd74cca8366b58e43e77bdf0a0/kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L324) |
-| * | /.well-known/oauth-authorization-server | [`test/integration/testutil/mock_openshift_oauth.go:41`](https://github.com/opendatahub-io/kube-auth-proxy/blob/8d36311cba8036dd74cca8366b58e43e77bdf0a0/test/integration/testutil/mock_openshift_oauth.go#L41) |
-| * | /apis/user.openshift.io/v1/users/~ | [`test/integration/testutil/mock_openshift_oauth.go:44`](https://github.com/opendatahub-io/kube-auth-proxy/blob/8d36311cba8036dd74cca8366b58e43e77bdf0a0/test/integration/testutil/mock_openshift_oauth.go#L44) |
-| * | /oauth/authorize | [`test/integration/testutil/mock_openshift_oauth.go:42`](https://github.com/opendatahub-io/kube-auth-proxy/blob/8d36311cba8036dd74cca8366b58e43e77bdf0a0/test/integration/testutil/mock_openshift_oauth.go#L42) |
-| * | /oauth/token | [`test/integration/testutil/mock_openshift_oauth.go:43`](https://github.com/opendatahub-io/kube-auth-proxy/blob/8d36311cba8036dd74cca8366b58e43e77bdf0a0/test/integration/testutil/mock_openshift_oauth.go#L43) |
+| * | / | [`kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go:324`](https://github.com/opendatahub-io/kube-auth-proxy/blob/3dac053f437600aa95b2eea4497d10edbccd7809/kube-rbac-proxy/cmd/kube-rbac-proxy/app/kube-rbac-proxy.go#L324) |
 
 ## Configuration
 
 ConfigMaps and Helm values that control this component's runtime behavior.
-
-### ConfigMaps
-
-| Name | Data Keys | Source |
-|------|-----------|--------|
-| kube-rbac-proxy | config-file.yaml | [`kube-rbac-proxy/test/e2e/static-auth/configmap-non-resource.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/8d36311cba8036dd74cca8366b58e43e77bdf0a0/kube-rbac-proxy/test/e2e/static-auth/configmap-non-resource.yaml) |
-| kube-rbac-proxy | config-file.yaml | [`kube-rbac-proxy/test/e2e/static-auth/configmap-resource.yaml`](https://github.com/opendatahub-io/kube-auth-proxy/blob/8d36311cba8036dd74cca8366b58e43e77bdf0a0/kube-rbac-proxy/test/e2e/static-auth/configmap-resource.yaml) |
 
 ### Helm
 

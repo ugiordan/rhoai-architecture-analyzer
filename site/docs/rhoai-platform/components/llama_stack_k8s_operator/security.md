@@ -12,10 +12,7 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | kube-rbac-proxy | ? | ? | ? | [`config/default/manager_auth_proxy_patch.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/7fb27ebdebc380a75f221b46ec036d2a4c762d27/config/default/manager_auth_proxy_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_auth_proxy_patch.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/7fb27ebdebc380a75f221b46ec036d2a4c762d27/config/default/manager_auth_proxy_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_config_patch.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/7fb27ebdebc380a75f221b46ec036d2a4c762d27/config/default/manager_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`config/manager/manager.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/7fb27ebdebc380a75f221b46ec036d2a4c762d27/config/manager/manager.yaml) |
+| llama-stack-k8s-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/llamastack/llama-stack-k8s-operator/blob/916c672901f7e2fc091471677e219830761a532e/kustomize:config/overlays/odh) |
 
 ## Build Security
 
@@ -24,5 +21,5 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | Path | Base Image | Stages | User | Ports | Architectures | FIPS | Issues |
 |------|------------|--------|------|-------|---------------|------|--------|
 | `Dockerfile` | registry.access.redhat.com/ubi9/ubi-minimal:latest | 2 | 1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest |
-| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:83006d535923fcf1345067873524a3980316f51794f01d8655be55d6e9387183 | 2 | 1001 |  | multi-arch |  |  |
+| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:8d0a8fb39ec907e8ca62cdd24b62a63ca49a30fe465798a360741fde58437a23 | 2 | 1001 |  | multi-arch |  |  |
 

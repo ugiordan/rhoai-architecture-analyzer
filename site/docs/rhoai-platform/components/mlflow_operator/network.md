@@ -11,21 +11,29 @@ graph LR
 
     mlflow_operator["mlflow-operator"]:::component
     mlflow_operator --> svc_0["minio-service\nClusterIP: 9000/TCP"]:::svc
-    mlflow_operator --> svc_1["postgres-service\nClusterIP: 5432/TCP"]:::svc
+    mlflow_operator --> svc_1["mlflow-operator-controller-manager-metrics-service\nClusterIP: 8443/TCP"]:::svc
+    mlflow_operator --> svc_2["postgres-service\nClusterIP: 5432/TCP"]:::svc
 ```
 
 ### Services
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| minio-service | ClusterIP | 9000/TCP | [`config/seaweedfs/components/tls/service-tls-patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/seaweedfs/components/tls/service-tls-patch.yaml) |
-| postgres-service | ClusterIP | 5432/TCP | [`config/postgres/base/service.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/postgres/base/service.yaml) |
+| minio-service | ClusterIP | 9000/TCP | [`config/seaweedfs/components/tls/service-tls-patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/config/seaweedfs/components/tls/service-tls-patch.yaml) |
+| mlflow-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/kustomize:config/overlays/odh) |
+| postgres-service | ClusterIP | 5432/TCP | [`config/postgres/base/service.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/config/postgres/base/service.yaml) |
+
+### Ingress / Routing
+
+| Kind | Name | Hosts | Paths | TLS | Source |
+|------|------|-------|-------|-----|--------|
+| HTTPRoute | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/rbac/manager-role) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| seaweedfs | Ingress | [`config/seaweedfs/base/seaweedfs-networkpolicy.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/seaweedfs/base/seaweedfs-networkpolicy.yaml) |
+| seaweedfs | Ingress | [`config/seaweedfs/base/seaweedfs-networkpolicy.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/config/seaweedfs/base/seaweedfs-networkpolicy.yaml) |
 
 ## Network Policy Graph
 

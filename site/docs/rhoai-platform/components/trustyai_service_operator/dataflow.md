@@ -30,22 +30,26 @@ sequenceDiagram
     %% Static dataflow for trustyai-service-operator
 
     participant KubernetesAPI as Kubernetes API
-    participant controller_manager as controller-manager
+    participant trustyai_service_operator_controller_manager as trustyai-service-operator-controller-manager
 
-    KubernetesAPI->>+controller_manager: Watch Job (reconcile)
-    KubernetesAPI->>+controller_manager: Watch EvalHub (reconcile)
-    KubernetesAPI->>+controller_manager: Watch GuardrailsOrchestrator (reconcile)
-    KubernetesAPI->>+controller_manager: Watch Workload (reconcile)
-    KubernetesAPI->>+controller_manager: Watch LMEvalJob (reconcile)
-    KubernetesAPI->>+controller_manager: Watch NemoGuardrails (reconcile)
-    KubernetesAPI->>+controller_manager: Watch TrustyAIService (reconcile)
-    controller_manager->>KubernetesAPI: Create/Update ConfigMap
-    controller_manager->>KubernetesAPI: Create/Update Service
-    controller_manager->>KubernetesAPI: Create/Update Deployment
-    controller_manager->>KubernetesAPI: Create/Update Deployment
-    controller_manager->>KubernetesAPI: Create/Update Deployment
-    KubernetesAPI-->>+controller_manager: Watch Namespace (informer)
-    KubernetesAPI-->>+controller_manager: Watch InferenceService (informer)
+    KubernetesAPI->>+trustyai_service_operator_controller_manager: Watch Job (reconcile)
+    KubernetesAPI->>+trustyai_service_operator_controller_manager: Watch EvalHub (reconcile)
+    KubernetesAPI->>+trustyai_service_operator_controller_manager: Watch GuardrailsOrchestrator (reconcile)
+    KubernetesAPI->>+trustyai_service_operator_controller_manager: Watch Workload (reconcile)
+    KubernetesAPI->>+trustyai_service_operator_controller_manager: Watch LMEvalJob (reconcile)
+    KubernetesAPI->>+trustyai_service_operator_controller_manager: Watch NemoGuardrails (reconcile)
+    KubernetesAPI->>+trustyai_service_operator_controller_manager: Watch TrustyAIService (reconcile)
+    trustyai_service_operator_controller_manager->>KubernetesAPI: Create/Update ConfigMap
+    trustyai_service_operator_controller_manager->>KubernetesAPI: Create/Update Service
+    trustyai_service_operator_controller_manager->>KubernetesAPI: Create/Update Deployment
+    trustyai_service_operator_controller_manager->>KubernetesAPI: Create/Update Deployment
+    trustyai_service_operator_controller_manager->>KubernetesAPI: Create/Update Deployment
+    KubernetesAPI-->>+trustyai_service_operator_controller_manager: Watch Namespace (informer)
+    KubernetesAPI-->>+trustyai_service_operator_controller_manager: Watch InferenceService (informer)
+
+    Note over trustyai_service_operator_controller_manager: Exposed Services
+    Note right of trustyai_service_operator_controller_manager: trustyai-service-operator-controller-manager-metrics-service:8443/TCP [https]
+    Note right of trustyai_service_operator_controller_manager: trustyai-service-operator-metrics-service:8080/TCP [metrics]
 ```
 
 ## Configuration

@@ -2,7 +2,7 @@
 
 ## CRD Ownership Map
 
-The platform defines 51 CRDs. Each CRD is owned by the component that declares it.
+The platform defines 48 CRDs. Each CRD is owned by the component that declares it.
 
 | Owner | CRDs | Count |
 |-------|------|-------|
@@ -41,13 +41,6 @@ Relationships detected through Go module imports and CRD watch patterns.
 | odh-model-controller | kserve | watches-crd:LLMInferenceService |
 | odh-model-controller | kserve | watches-crd:InferenceService |
 | opendatahub-operator | opendatahub-operator | go-module |
-| kserve | kube-rbac-proxy | uses-image |
-| kube-auth-proxy | kube-rbac-proxy | uses-image |
-| kubeflow | kube-rbac-proxy | uses-image |
-| kueue | kube-rbac-proxy | uses-image |
-| llama-stack-k8s-operator | kube-rbac-proxy | uses-image |
-| modelmesh-serving | kube-rbac-proxy | uses-image |
-| odh-dashboard | kube-rbac-proxy | uses-image |
 
 **Tightest coupling:** `odh-model-controller -> kserve` (5 dependency edges).
 

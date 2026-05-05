@@ -10,20 +10,26 @@ graph LR
     classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
 
     llama_stack_k8s_operator["llama-stack-k8s-operator"]:::component
-    llama_stack_k8s_operator --> svc_0["service\nClusterIP: 0/TCP"]:::svc
+    llama_stack_k8s_operator --> svc_0["llama-stack-k8s-operator-controller-manager-metrics-service\nClusterIP: 8443/TCP"]:::svc
 ```
 
 ### Services
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| service | ClusterIP | 0/TCP | [`controllers/manifests/base/service.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/7fb27ebdebc380a75f221b46ec036d2a4c762d27/controllers/manifests/base/service.yaml) |
+| llama-stack-k8s-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/llamastack/llama-stack-k8s-operator/blob/916c672901f7e2fc091471677e219830761a532e/kustomize:config/overlays/odh) |
+
+### Ingress / Routing
+
+| Kind | Name | Hosts | Paths | TLS | Source |
+|------|------|-------|-------|-----|--------|
+| Ingress | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/llamastack/llama-stack-k8s-operator/blob/916c672901f7e2fc091471677e219830761a532e/rbac/manager-role) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| network-policy | Ingress | [`controllers/manifests/base/networkpolicy.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/7fb27ebdebc380a75f221b46ec036d2a4c762d27/controllers/manifests/base/networkpolicy.yaml) |
+| network-policy | Ingress | [`controllers/manifests/base/networkpolicy.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/916c672901f7e2fc091471677e219830761a532e/controllers/manifests/base/networkpolicy.yaml) |
 
 ## Network Policy Graph
 

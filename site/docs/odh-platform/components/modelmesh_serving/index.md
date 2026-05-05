@@ -1,11 +1,11 @@
 # modelmesh-serving
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** kserve/modelmesh-serving  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:28:13Z
+**Extracted:** 2026-05-05T13:55:14Z
 
 ## Summary
 
@@ -13,7 +13,7 @@
 |--------|-------|
 | CRDs | 4 |
 | Deployments | 3 |
-| Services | 2 |
+| Services | 3 |
 | Secrets | 1 |
 | Cluster Roles | 0 |
 | Controller Watches | 17 |
@@ -35,7 +35,7 @@ graph LR
     subgraph controller["modelmesh-serving Controller"]
         dep_1["controller-manager"]
         class dep_1 controller
-        dep_2["modelmesh-controller"]
+        dep_2["etcd"]
         class dep_2 controller
         dep_3["modelmesh-controller"]
         class dep_3 controller

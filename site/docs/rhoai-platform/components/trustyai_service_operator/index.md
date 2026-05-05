@@ -1,11 +1,11 @@
 # trustyai-service-operator
 
-> **Architecture snapshot: 2026-05-04** (2026-05-04)
+> **Architecture snapshot: 2026-05-05** (2026-05-05)
 
 
 **Repository:** trustyai-explainability/trustyai-service-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-04T08:27:09Z
+**Extracted:** 2026-05-05T13:54:59Z
 
 ## Summary
 
@@ -13,7 +13,7 @@
 |--------|-------|
 | CRDs | 0 |
 | Deployments | 1 |
-| Services | 0 |
+| Services | 2 |
 | Secrets | 0 |
 | Cluster Roles | 0 |
 | Controller Watches | 14 |
@@ -33,7 +33,7 @@ graph LR
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["trustyai-service-operator Controller"]
-        dep_1["controller-manager"]
+        dep_1["trustyai-service-operator-controller-manager"]
         class dep_1 controller
     end
 

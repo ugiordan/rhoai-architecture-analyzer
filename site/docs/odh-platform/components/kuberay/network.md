@@ -21,14 +21,8 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/6f4e6803379e0aa1c88ac02b047f140d5abd28d3/ray-operator/config/manager/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/6f4e6803379e0aa1c88ac02b047f140d5abd28d3/ray-operator/config/webhook/service.yaml) |
-
-### Ingress / Routing
-
-| Kind | Name | Hosts | Paths | TLS | Source |
-|------|------|-------|-------|-----|--------|
-| Ingress | rayclient-ingress | localhost | / | no | [`ray-operator/config/samples/ingress-rayclient-tls.yaml`](https://github.com/ray-project/kuberay/blob/6f4e6803379e0aa1c88ac02b047f140d5abd28d3/ray-operator/config/samples/ingress-rayclient-tls.yaml) |
+| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/e3790d555b59c3a7a59f41fc0c6f8616ec5b9a45/ray-operator/config/manager/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/e3790d555b59c3a7a59f41fc0c6f8616ec5b9a45/ray-operator/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

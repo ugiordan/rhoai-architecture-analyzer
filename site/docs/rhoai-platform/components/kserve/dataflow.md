@@ -68,7 +68,6 @@ sequenceDiagram
     participant kserve_controller_manager as kserve-controller-manager
     participant kserve_localmodel_controller_manager as kserve-localmodel-controller-manager
     participant llmisvc_controller_manager as llmisvc-controller-manager
-    participant spark_pmml_iris as spark-pmml-iris
 
     KubernetesAPI->>+kserve_controller_manager: Watch InferenceGraph (reconcile)
     KubernetesAPI->>+kserve_controller_manager: Watch LocalModelCache (reconcile)
@@ -121,19 +120,17 @@ sequenceDiagram
     KubernetesAPI-->>+kserve_controller_manager: Watch InferenceService (informer)
 
     Note over kserve_controller_manager: Exposed Services
+    Note right of kserve_controller_manager: kserve-controller-manager-metrics-service:8443/TCP [https]
     Note right of kserve_controller_manager: kserve-controller-manager-service:8443/TCP []
     Note right of kserve_controller_manager: kserve-webhook-server-service:443/TCP []
     Note right of kserve_controller_manager: llmisvc-controller-manager-service:8443/TCP [https]
     Note right of kserve_controller_manager: llmisvc-webhook-server-service:443/TCP [https]
     Note right of kserve_controller_manager: localmodel-webhook-server-service:443/TCP []
-    Note right of kserve_controller_manager: webhook-service:443/TCP [https]
 
     Note over KubernetesAPI: Defined CRDs
     Note right of KubernetesAPI: ClusterServingRuntime (serving.kserve.io/v1alpha1)
     Note right of KubernetesAPI: ClusterStorageContainer (serving.kserve.io/v1alpha1)
     Note right of KubernetesAPI: InferenceGraph (serving.kserve.io/v1alpha1)
-    Note right of KubernetesAPI: LLMInferenceService (serving.kserve.io/v1alpha1)
-    Note right of KubernetesAPI: LLMInferenceServiceConfig (serving.kserve.io/v1alpha1)
     Note right of KubernetesAPI: LocalModelCache (serving.kserve.io/v1alpha1)
     Note right of KubernetesAPI: LocalModelNamespaceCache (serving.kserve.io/v1alpha1)
     Note right of KubernetesAPI: LocalModelNode (serving.kserve.io/v1alpha1)
@@ -150,23 +147,23 @@ sequenceDiagram
 | Name | Type | Path | Failure Policy | Service | Source |
 |------|------|------|----------------|---------|--------|
 | clusterservingruntime.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1alpha1-clusterservingruntime | Fail | $(kserveNamespace)/$(webhookServiceName) | [`config/webhook/manifests.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/manifests.yaml) |
-| inferencegraph.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1alpha1-inferencegraph | Fail | $(kserveNamespace)/$(webhookServiceName) | [`config/webhook/manifests.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/manifests.yaml) |
-| inferenceservice.kserve-webhook-server.defaulter | mutating | /mutate-serving-kserve-io-v1beta1-inferenceservice | Fail | $(kserveNamespace)/$(webhookServiceName) | [`config/webhook/manifests.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/manifests.yaml) |
-| inferenceservice.kserve-webhook-server.pod-mutator | mutating | /mutate-pods | Fail | $(kserveNamespace)/$(webhookServiceName) | [`config/webhook/manifests.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/manifests.yaml) |
-| inferenceservice.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1beta1-inferenceservice | Fail | $(kserveNamespace)/$(webhookServiceName) | [`config/webhook/manifests.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/manifests.yaml) |
+| inferencegraph.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1alpha1-inferencegraph | Fail | opendatahub/kserve-webhook-server-service | [`kustomize:config/overlays/odh (inferencegraph.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (inferencegraph.serving.kserve.io)) |
+| inferenceservice.kserve-webhook-server.defaulter | mutating | /mutate-serving-kserve-io-v1beta1-inferenceservice | Fail | opendatahub/kserve-webhook-server-service | [`kustomize:config/overlays/odh (inferenceservice.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (inferenceservice.serving.kserve.io)) |
+| inferenceservice.kserve-webhook-server.pod-mutator | mutating | /mutate-pods | Fail | opendatahub/kserve-webhook-server-service | [`kustomize:config/overlays/odh (inferenceservice.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (inferenceservice.serving.kserve.io)) |
+| inferenceservice.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1beta1-inferenceservice | Fail | opendatahub/kserve-webhook-server-service | [`kustomize:config/overlays/odh (inferenceservice.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (inferenceservice.serving.kserve.io)) |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | validating | /validate-serving-kserve-io-v1alpha1-llminferenceservice | Fail | opendatahub/llmisvc-webhook-server-service | [`kustomize:config/overlays/odh (llminferenceservice.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (llminferenceservice.serving.kserve.io)) |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | validating | /validate-serving-kserve-io-v1alpha2-llminferenceservice | Fail | opendatahub/llmisvc-webhook-server-service | [`kustomize:config/overlays/odh (llminferenceservice.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (llminferenceservice.serving.kserve.io)) |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha1.validator | validating | /validate-serving-kserve-io-v1alpha1-llminferenceserviceconfig | Fail | opendatahub/llmisvc-webhook-server-service | [`kustomize:config/overlays/odh (llminferenceserviceconfig.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (llminferenceserviceconfig.serving.kserve.io)) |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha2.validator | validating | /validate-serving-kserve-io-v1alpha2-llminferenceserviceconfig | Fail | opendatahub/llmisvc-webhook-server-service | [`kustomize:config/overlays/odh (llminferenceserviceconfig.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (llminferenceserviceconfig.serving.kserve.io)) |
 | localmodelcache.kserve-webhook-server.validator | validating |  |  |  | [`config/localmodels/webhook_cainjection_patch.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/localmodels/webhook_cainjection_patch.yaml) |
-| servingruntime.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1alpha1-servingruntime | Fail | $(kserveNamespace)/$(webhookServiceName) | [`config/webhook/manifests.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/manifests.yaml) |
-| trainedmodel.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1alpha1-trainedmodel | Fail | $(kserveNamespace)/$(webhookServiceName) | [`config/webhook/manifests.yaml`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/webhook/manifests.yaml) |
+| servingruntime.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1alpha1-servingruntime | Fail | opendatahub/kserve-webhook-server-service | [`kustomize:config/overlays/odh (servingruntime.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (servingruntime.serving.kserve.io)) |
+| trainedmodel.kserve-webhook-server.validator | validating | /validate-serving-kserve-io-v1alpha1-trainedmodel | Fail | opendatahub/kserve-webhook-server-service | [`kustomize:config/overlays/odh (trainedmodel.serving.kserve.io)`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/kustomize:config/overlays/odh (trainedmodel.serving.kserve.io)) |
 
 ### HTTP Endpoints
 
 | Method | Path | Source |
 |--------|------|--------|
 | * | / | [`cmd/router/main.go:671`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/cmd/router/main.go#L671) |
-| POST | /ensemble | [`docs/samples/graph/bgtest/bgtest/main.go:29`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/docs/samples/graph/bgtest/bgtest/main.go#L29) |
-| POST | /single | [`docs/samples/graph/bgtest/bgtest/main.go:28`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/docs/samples/graph/bgtest/bgtest/main.go#L28) |
-| POST | /splitter | [`docs/samples/graph/bgtest/bgtest/main.go:26`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/docs/samples/graph/bgtest/bgtest/main.go#L26) |
-| POST | /switch | [`docs/samples/graph/bgtest/bgtest/main.go:27`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/docs/samples/graph/bgtest/bgtest/main.go#L27) |
 | * | gateway.networking.k8s.io | [`pkg/controller/v1alpha2/llmisvc/config_merge.go:375`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/pkg/controller/v1alpha2/llmisvc/config_merge.go#L375) |
 | * | gateway.networking.k8s.io | [`pkg/controller/v1alpha2/llmisvc/fixture/gwapi_builders.go:210`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/pkg/controller/v1alpha2/llmisvc/fixture/gwapi_builders.go#L210) |
 | * | gateway.networking.k8s.io | [`pkg/controller/v1alpha2/llmisvc/fixture/gwapi_builders.go:228`](https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/pkg/controller/v1alpha2/llmisvc/fixture/gwapi_builders.go#L228) |
