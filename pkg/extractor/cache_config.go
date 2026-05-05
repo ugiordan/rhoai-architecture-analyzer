@@ -262,15 +262,18 @@ func parseCacheOptions(content string, config *CacheConfig, seenByObject map[str
 		}
 	}
 
-	// Parse DisableFor entries
+	// Parse DisableFor entries. A type can appear in both ByObject (cached with
+	// filters/transforms) and DisableFor (client reads bypass cache), so we use
+	// a separate dedup set instead of seenByObject.
 	if disableForRE.MatchString(content) {
 		idx := disableForRE.FindStringIndex(content)
 		if idx != nil {
+			seenDisabled := make(map[string]bool)
 			block := extractBlock(content[idx[0]:], '{', '}')
 			for _, entry := range disableEntryRE.FindAllStringSubmatch(block, -1) {
 				typeName := entry[1] + "." + entry[2]
-				if !seenByObject[typeName] {
-					seenByObject[typeName] = true
+				if !seenDisabled[typeName] {
+					seenDisabled[typeName] = true
 					config.DisabledTypes = append(config.DisabledTypes, typeName)
 				}
 			}
