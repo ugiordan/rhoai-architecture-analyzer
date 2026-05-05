@@ -5,10 +5,49 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 
 	"gopkg.in/yaml.v3"
 )
+
+// goTemplateRE matches Go template directives like {{ .Foo }} or {{- if ... -}}.
+// Used by parseTemplateYAML and shared across extractors.
+var goTemplateRE = regexp.MustCompile(`\{\{-?\s*.*?\s*-?\}\}`)
+
+// DefaultExcludedDirs contains directories excluded from all extraction.
+// These contain documentation, test fixtures, and build artifacts, not
+// production manifests. Validated against KServe, DSPO, and MRO repos:
+// none of these directories contain YAML referenced by kustomize overlays
+// or deployed to production clusters.
+//
+// "hack" and "e2e" contain test infrastructure scripts and end-to-end test
+// fixtures, not deployable manifests.
+var DefaultExcludedDirs = map[string]bool{
+	"docs":         true,
+	"test":         true,
+	"tests":        true,
+	"testdata":     true,
+	"examples":     true,
+	"samples":      true,
+	"hack":         true,
+	"e2e":          true,
+	"vendor":       true,
+	".git":         true,
+	"node_modules": true,
+}
+
+// isExcludedDir checks a directory name against the exclusion set.
+// Pass nil for overrides to use DefaultExcludedDirs as-is.
+// Overrides can remove defaults (value=false) or add new entries (value=true).
+func isExcludedDir(dirName string, overrides map[string]bool) bool {
+	if overrides != nil {
+		if v, ok := overrides[dirName]; ok {
+			return v
+		}
+	}
+	return DefaultExcludedDirs[dirName]
+}
 
 // findYAMLFiles locates YAML files matching any of the given glob patterns
 // relative to repoPath. Because Go's filepath.Glob does not support "**",
@@ -57,20 +96,51 @@ func findFiles(repoPath string, patterns []string) []string {
 	return result
 }
 
-// globRecursive expands a pattern containing "**" by walking the directory
-// tree. The "**" segment matches zero or more intermediate directories.
-func globRecursive(root, pattern string) []string {
-	// Split pattern on "**" to get prefix and suffix parts.
+// parseGlobPattern splits a "**" glob pattern into prefix directory and
+// suffix match pattern.
+func parseGlobPattern(pattern string) (prefix, suffix string) {
 	parts := strings.SplitN(pattern, "**", 2)
-	prefix := parts[0]
-	suffix := ""
+	prefix = parts[0]
 	if len(parts) > 1 {
 		suffix = parts[1]
-		// Remove leading separator from suffix
 		suffix = strings.TrimPrefix(suffix, "/")
 		suffix = strings.TrimPrefix(suffix, string(filepath.Separator))
 	}
+	return prefix, suffix
+}
 
+// matchGlobSuffix checks if a file's relative path matches a suffix pattern.
+// Handles simple filename patterns, multi-segment patterns, and nested "**".
+func matchGlobSuffix(suffix, relPath, baseName string) bool {
+	// Simple filename match
+	matched, err := filepath.Match(suffix, baseName)
+	if err == nil && matched {
+		return true
+	}
+
+	// Multi-segment suffix (contains path separators)
+	if !strings.Contains(suffix, "/") && !strings.Contains(suffix, string(filepath.Separator)) {
+		return false
+	}
+
+	// Direct match on full relative path
+	matched, err = filepath.Match(suffix, relPath)
+	if err == nil && matched {
+		return true
+	}
+
+	// Nested "**" in suffix
+	if strings.Contains(suffix, "**") {
+		return matchRecursiveGlob(suffix, relPath)
+	}
+
+	return false
+}
+
+// globRecursive expands a pattern containing "**" by walking the directory
+// tree. The "**" segment matches zero or more intermediate directories.
+func globRecursive(root, pattern string) []string {
+	prefix, suffix := parseGlobPattern(pattern)
 	prefixDir := filepath.Join(root, prefix)
 
 	var results []string
@@ -79,42 +149,21 @@ func globRecursive(root, pattern string) []string {
 			return nil
 		}
 		if d.IsDir() {
+			if isExcludedDir(d.Name(), nil) {
+				return fs.SkipDir
+			}
 			return nil
 		}
 		if suffix == "" {
 			results = append(results, path)
 			return nil
 		}
-		// Check if the file name (or relative tail) matches the suffix pattern
 		rel, relErr := filepath.Rel(prefixDir, path)
 		if relErr != nil {
 			return nil
 		}
-		matched, matchErr := filepath.Match(suffix, filepath.Base(path))
-		if matchErr != nil {
-			return nil
-		}
-		if matched {
+		if matchGlobSuffix(suffix, rel, filepath.Base(path)) {
 			results = append(results, path)
-			return nil
-		}
-		// For multi-segment suffixes (e.g., "network-policies/**/*.yaml"),
-		// try matching each tail segment of the relative path.
-		// filepath.Match doesn't support ** as zero-or-more dirs, so we
-		// check all possible sub-paths to handle arbitrary nesting.
-		if strings.Contains(suffix, "/") || strings.Contains(suffix, string(filepath.Separator)) {
-			// Direct match on full relative path
-			matched, matchErr = filepath.Match(suffix, rel)
-			if matchErr == nil && matched {
-				results = append(results, path)
-				return nil
-			}
-			// If suffix itself contains **, expand recursively
-			if strings.Contains(suffix, "**") {
-				if matchRecursiveGlob(suffix, rel) {
-					results = append(results, path)
-				}
-			}
 		}
 		return nil
 	})
@@ -216,6 +265,73 @@ func parseYAMLSafe(path string) []map[string]interface{} {
 	}
 
 	return docs
+}
+
+// parseYAMLFromBytes parses raw YAML bytes (e.g. from an embedded configmap
+// data value) and returns a slice of documents. Returns nil on errors.
+func parseYAMLFromBytes(data []byte) []map[string]interface{} {
+	var docs []map[string]interface{}
+	decoder := yaml.NewDecoder(strings.NewReader(string(data)))
+	for {
+		var doc interface{}
+		if err := decoder.Decode(&doc); err != nil {
+			break
+		}
+		if m, ok := doc.(map[string]interface{}); ok {
+			docs = append(docs, m)
+		}
+	}
+	return docs
+}
+
+// findTemplateFiles returns repo-relative paths of all .yaml.tmpl and
+// .yml.tmpl files, sorted alphabetically. These are Go template files
+// that define Kubernetes resources rendered at runtime by controllers.
+func findTemplateFiles(repoPath string) []string {
+	patterns := []string{
+		"**/*.yaml.tmpl",
+		"**/*.yml.tmpl",
+	}
+	files := findFiles(repoPath, patterns)
+	var result []string
+	for _, f := range files {
+		result = append(result, relativePath(repoPath, f))
+	}
+	return result
+}
+
+// parseTemplateYAML reads a Go template file (.tmpl), strips template
+// directives (if/else/end become empty, value expressions become
+// "template-value"), and parses the result as YAML. Used for .yaml.tmpl
+// files in operator repos that define Kubernetes resources with Go
+// template placeholders.
+func parseTemplateYAML(path string) []map[string]interface{} {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return nil
+	}
+	content := string(data)
+	cleaned := stripGoTemplateDirectives(content)
+	return parseYAMLFromBytes([]byte(cleaned))
+}
+
+// stripGoTemplateDirectives replaces Go template directives with either
+// empty strings (control flow) or "template-value" (expressions).
+func stripGoTemplateDirectives(content string) string {
+	return goTemplateRE.ReplaceAllStringFunc(content, func(match string) string {
+		trimmed := strings.TrimSpace(strings.TrimPrefix(strings.TrimSuffix(match, "}}"), "{{"))
+		trimmed = strings.TrimPrefix(trimmed, "-")
+		trimmed = strings.TrimSuffix(trimmed, "-")
+		trimmed = strings.TrimSpace(trimmed)
+		if strings.HasPrefix(trimmed, "if ") || strings.HasPrefix(trimmed, "else") ||
+			strings.HasPrefix(trimmed, "end") || strings.HasPrefix(trimmed, "range") ||
+			strings.HasPrefix(trimmed, "define") || strings.HasPrefix(trimmed, "template") ||
+			strings.HasPrefix(trimmed, "block") || strings.HasPrefix(trimmed, "with") ||
+			trimmed == "-" {
+			return ""
+		}
+		return "template-value"
+	})
 }
 
 // relativePath returns path relative to repoPath, falling back to the

@@ -50,6 +50,7 @@ type Result struct {
 	Fingerprints map[string]string `json:"fingerprints,omitempty"`
 }
 
+
 type Message struct {
 	Text string `json:"text"`
 }

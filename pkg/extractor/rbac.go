@@ -133,13 +133,12 @@ func extractRBAC(repoPath string) *RBACData {
 
 // findGoFiles finds all .go files under the repo path, skipping non-source directories.
 func findGoFiles(repoPath string) []string {
-	skipDirs := map[string]bool{"vendor": true, ".git": true, "node_modules": true, "testdata": true}
 	var files []string
 	_ = filepath.WalkDir(repoPath, func(path string, d os.DirEntry, err error) error {
 		if err != nil {
 			return nil
 		}
-		if d.IsDir() && skipDirs[d.Name()] {
+		if d.IsDir() && isExcludedDir(d.Name(), nil) {
 			return filepath.SkipDir
 		}
 		if !d.IsDir() && strings.HasSuffix(path, ".go") {
@@ -151,6 +150,9 @@ func findGoFiles(repoPath string) []string {
 }
 
 // parseKubebuilderMarker parses key=value pairs from a kubebuilder RBAC marker.
+// Multi-value fields use semicolons (e.g. verbs=get;list;watch).
+// Limitation: commas inside quoted values are not supported. Standard
+// kubebuilder markers never use this format, so this is safe in practice.
 func parseKubebuilderMarker(body string) map[string]interface{} {
 	result := make(map[string]interface{})
 	for _, part := range strings.Split(body, ",") {

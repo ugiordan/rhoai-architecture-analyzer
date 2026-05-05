@@ -5,6 +5,7 @@ import (
 	"os"
 	"regexp"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -67,7 +68,7 @@ func extractCacheConfig(repoPath string, watches []ControllerWatch, deployments 
 
 	config := &CacheConfig{
 		FilteredTypes:     []CacheFilteredType{},
-		TransformTypes:    []string{},
+		TransformTypes:    []CacheTransform{},
 		DisabledTypes:     []string{},
 		ImplicitInformers: []ImplicitInformer{},
 		Issues:            []string{},
@@ -117,6 +118,9 @@ func extractCacheConfig(repoPath string, watches []ControllerWatch, deployments 
 	// Extract GOMEMLIMIT and memory limits from deployments
 	extractMemoryConfig(config, deployments)
 
+	// Compute GOMEMLIMIT ratio if both values are present
+	computeMemLimitRatio(config)
+
 	// Cross-reference watches with cache filters to find unfiltered informers
 	crossReferenceWatches(config, watches)
 
@@ -141,6 +145,9 @@ func parseCacheOptions(content string, config *CacheConfig, seenByObject map[str
 
 	if defaultTransfRE.MatchString(content) {
 		config.DefaultTransform = true
+		if m := transformRE.FindStringSubmatch(content[defaultTransfRE.FindStringIndex(content)[0]:]); m != nil {
+			config.DefaultTransformFunc = m[1]
+		}
 	}
 
 	if defaultNsRE.MatchString(content) {
@@ -174,7 +181,7 @@ func parseCacheOptions(content string, config *CacheConfig, seenByObject map[str
 			filter = extractLabelValue(body)
 		} else if fieldFilterRE.MatchString(body) {
 			filterKind = "field"
-			filter = "field selector"
+			filter = extractFieldValue(body)
 		} else if namespacesRE.MatchString(body) {
 			filterKind = "namespace"
 			filter = "namespace-scoped"
@@ -188,8 +195,11 @@ func parseCacheOptions(content string, config *CacheConfig, seenByObject map[str
 			})
 		}
 
-		if transformRE.MatchString(body) {
-			config.TransformTypes = append(config.TransformTypes, typeName)
+		if m := transformRE.FindStringSubmatch(body); m != nil {
+			config.TransformTypes = append(config.TransformTypes, CacheTransform{
+				Type:     typeName,
+				Function: m[1],
+			})
 		}
 	}
 
@@ -353,8 +363,43 @@ func extractBlock(s string, open, close byte) string {
 
 var labelValueRE = regexp.MustCompile(`"([^"]+)"\s*:\s*"([^"]*)"`)
 
+// selectorFromSetRE matches labels.SelectorFromSet(labels.Set{"key": "value"})
+var selectorFromSetRE = regexp.MustCompile(`SelectorFromSet\s*\(\s*labels\.Set\s*\{([^}]*)\}`)
+
+// fieldSelectorRE matches fields.SelectorFromSet(fields.Set{"key": "value"}) or
+// fields.ParseSelector("key=value") or fields.OneTermEqualSelector("key", "value")
+var fieldSelectorRE = regexp.MustCompile(`fields\.(?:SelectorFromSet|ParseSelector|OneTermEqualSelector)\s*\(([^)]+)\)`)
+
+// constantRefRE matches Go constant references like pkg.ConstName or just ConstName
+var constantRefRE = regexp.MustCompile(`(\w+(?:\.\w+)?)\s*:\s*(\w+(?:\.\w+)?)`)
+
 // extractLabelValue tries to extract a label key=value from a ByObject body.
+// Handles both map literal {"key": "value"} and SelectorFromSet patterns.
+// When label values use Go constants, includes the constant names as hints.
 func extractLabelValue(body string) string {
+	// Try SelectorFromSet pattern first
+	if m := selectorFromSetRE.FindStringSubmatch(body); m != nil {
+		setBody := m[1]
+		// Try string literal pairs
+		pairs := labelValueRE.FindAllStringSubmatch(setBody, -1)
+		var parts []string
+		for _, p := range pairs {
+			parts = append(parts, p[1]+"="+p[2])
+		}
+		if len(parts) > 0 {
+			return strings.Join(parts, ", ")
+		}
+		// Try constant references (config.Label: config.Value)
+		constPairs := constantRefRE.FindAllStringSubmatch(setBody, -1)
+		for _, p := range constPairs {
+			parts = append(parts, p[1]+"="+p[2])
+		}
+		if len(parts) > 0 {
+			return strings.Join(parts, ", ") + " (constants, resolved at runtime)"
+		}
+	}
+
+	// Fall back to direct map literal matching
 	matches := labelValueRE.FindAllStringSubmatch(body, -1)
 	var parts []string
 	for _, m := range matches {
@@ -364,6 +409,32 @@ func extractLabelValue(body string) string {
 		return strings.Join(parts, ", ")
 	}
 	return "label selector"
+}
+
+// extractFieldValue tries to extract a field selector expression from a ByObject body.
+func extractFieldValue(body string) string {
+	if m := fieldSelectorRE.FindStringSubmatch(body); m != nil {
+		args := m[1]
+		// Try to extract key=value pairs from the arguments
+		pairs := labelValueRE.FindAllStringSubmatch(args, -1)
+		var parts []string
+		for _, p := range pairs {
+			parts = append(parts, p[1]+"="+p[2])
+		}
+		if len(parts) > 0 {
+			return strings.Join(parts, ", ")
+		}
+		// For ParseSelector("key=value") style
+		if strings.Contains(args, `"`) {
+			// Extract the string argument
+			start := strings.Index(args, `"`)
+			end := strings.LastIndex(args, `"`)
+			if start >= 0 && end > start {
+				return args[start+1 : end]
+			}
+		}
+	}
+	return "field selector"
 }
 
 // extractMemoryConfig pulls GOMEMLIMIT and memory limits from deployment specs.
@@ -412,6 +483,80 @@ func extractMemoryConfig(config *CacheConfig, deployments []Deployment) {
 	}
 }
 
+// computeMemLimitRatio calculates the GOMEMLIMIT-to-memory-limit ratio and
+// adds an issue if the ratio is outside the recommended 80-90% range.
+func computeMemLimitRatio(config *CacheConfig) {
+	if config.GoMemLimit == "" || config.MemoryLimit == "" {
+		return
+	}
+	goMem := parseMemoryBytes(config.GoMemLimit)
+	limit := parseMemoryBytes(config.MemoryLimit)
+	if goMem <= 0 || limit <= 0 {
+		return
+	}
+	ratio := float64(goMem) / float64(limit) * 100
+	// Round to one decimal
+	config.GoMemLimitRatio = float64(int(ratio*10+0.5)) / 10
+
+	if ratio < 80 {
+		config.Issues = append(config.Issues,
+			fmt.Sprintf("GOMEMLIMIT ratio %.1f%% is below recommended 80%% minimum (GC cannot pressure-tune effectively)", ratio))
+	} else if ratio > 90 {
+		config.Issues = append(config.Issues,
+			fmt.Sprintf("GOMEMLIMIT ratio %.1f%% exceeds recommended 90%% maximum (insufficient headroom for non-Go memory)", ratio))
+	}
+}
+
+// parseMemoryBytes converts Kubernetes-style memory strings (e.g., "4Gi", "3600MiB",
+// "512Mi", "1G", "256M") to bytes. Returns 0 if the format is unrecognized.
+func parseMemoryBytes(s string) int64 {
+	s = strings.TrimSpace(s)
+	if s == "" {
+		return 0
+	}
+
+	// Try binary suffixes first (Ki, Mi, Gi, Ti, KiB, MiB, GiB, TiB)
+	binarySuffixes := []struct {
+		suffix     string
+		multiplier int64
+	}{
+		{"TiB", 1 << 40}, {"Ti", 1 << 40},
+		{"GiB", 1 << 30}, {"Gi", 1 << 30},
+		{"MiB", 1 << 20}, {"Mi", 1 << 20},
+		{"KiB", 1 << 10}, {"Ki", 1 << 10},
+	}
+	for _, bs := range binarySuffixes {
+		if strings.HasSuffix(s, bs.suffix) {
+			numStr := strings.TrimSuffix(s, bs.suffix)
+			if v, err := strconv.ParseFloat(numStr, 64); err == nil {
+				return int64(v * float64(bs.multiplier))
+			}
+		}
+	}
+
+	// Decimal suffixes (T, G, M, K)
+	decimalSuffixes := []struct {
+		suffix     string
+		multiplier int64
+	}{
+		{"T", 1e12}, {"G", 1e9}, {"M", 1e6}, {"K", 1e3},
+	}
+	for _, ds := range decimalSuffixes {
+		if strings.HasSuffix(s, ds.suffix) {
+			numStr := strings.TrimSuffix(s, ds.suffix)
+			if v, err := strconv.ParseFloat(numStr, 64); err == nil {
+				return int64(v * float64(ds.multiplier))
+			}
+		}
+	}
+
+	// Plain number (bytes)
+	if v, err := strconv.ParseInt(s, 10, 64); err == nil {
+		return v
+	}
+	return 0
+}
+
 // crossReferenceWatches checks which watched types have cache filters.
 // Uses both Kind-only and full type matching to handle different naming between
 // cache config (pkg.Kind like "corev1.Secret") and watches (GVK like "/v1/Secret").
@@ -433,6 +578,17 @@ func crossReferenceWatches(config *CacheConfig, watches []ControllerWatch) {
 			filteredKinds[kind] = true
 			filteredKinds[ft.Type] = true
 		}
+	}
+	// Types with transforms (even without label/field filters) are still configured
+	// in ByObject and should not be flagged as unfiltered.
+	for _, tt := range config.TransformTypes {
+		parts := strings.SplitN(tt.Type, ".", 2)
+		kind := tt.Type
+		if len(parts) == 2 {
+			kind = parts[1]
+		}
+		filteredKinds[kind] = true
+		filteredKinds[tt.Type] = true
 	}
 	disabledKinds := make(map[string]bool)
 	for _, dt := range config.DisabledTypes {

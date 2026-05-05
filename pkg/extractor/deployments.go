@@ -49,68 +49,20 @@ func extractDeployments(repoPath string) []Deployment {
 			}
 
 			rawContainers := toSliceOfMaps(podSpec["containers"])
+			rawInitContainers := toSliceOfMaps(podSpec["initContainers"])
 			volumes := toSliceOfMaps(podSpec["volumes"])
 
 			var containers []Container
 			for _, c := range rawContainers {
-				cName, _ := c["name"].(string)
-				cImage, _ := c["image"].(string)
-
-				// Extract env refs per container
-				cSecrets, cConfigmaps := extractEnvRefs([]map[string]interface{}{c})
-
-				rawPorts := toSliceOfMaps(c["ports"])
-				var ports []ContainerPort
-				for _, p := range rawPorts {
-					pName, _ := p["name"].(string)
-					pPort := toInt(p["containerPort"])
-					pProtocol, _ := p["protocol"].(string)
-					if pProtocol == "" {
-						pProtocol = "TCP"
-					}
-					ports = append(ports, ContainerPort{
-						Name:          pName,
-						ContainerPort: pPort,
-						Protocol:      pProtocol,
-					})
-				}
-				if ports == nil {
-					ports = []ContainerPort{}
-				}
-
-				resources, _ := c["resources"].(map[string]interface{})
-				if resources == nil {
-					resources = map[string]interface{}{}
-				}
-				requests, _ := resources["requests"].(map[string]interface{})
-				if requests == nil {
-					requests = map[string]interface{}{}
-				}
-				limits, _ := resources["limits"].(map[string]interface{})
-				if limits == nil {
-					limits = map[string]interface{}{}
-				}
-
-				containers = append(containers, Container{
-					Name:              cName,
-					Image:             cImage,
-					Ports:             ports,
-					SecurityContext:   extractSecurityContext(c["securityContext"]),
-					EnvFromSecrets:    cSecrets,
-					EnvFromConfigmaps: cConfigmaps,
-					VolumeMounts:      extractVolumeMounts(c, volumes),
-					Resources: map[string]interface{}{
-						"requests": requests,
-						"limits":   limits,
-					},
-					EnvVars:        extractSecurityEnvVars(c),
-					LivenessProbe:  extractProbe(c["livenessProbe"]),
-					ReadinessProbe: extractProbe(c["readinessProbe"]),
-					StartupProbe:   extractProbe(c["startupProbe"]),
-				})
+				containers = append(containers, parseYAMLContainer(c, volumes, repoPath))
 			}
 			if containers == nil {
 				containers = []Container{}
+			}
+
+			var initContainers []Container
+			for _, c := range rawInitContainers {
+				initContainers = append(initContainers, parseYAMLContainer(c, volumes, repoPath))
 			}
 
 			replicas := spec["replicas"]
@@ -131,6 +83,7 @@ func extractDeployments(repoPath string) []Deployment {
 				ServiceAccount:               serviceAccount,
 				AutomountServiceAccountToken: automount,
 				Containers:                   containers,
+				InitContainers:               initContainers,
 			})
 		}
 	}
@@ -139,6 +92,101 @@ func extractDeployments(repoPath string) []Deployment {
 		deployments = []Deployment{}
 	}
 	return deployments
+}
+
+// parseYAMLContainer extracts a Container from a raw YAML container map.
+func parseYAMLContainer(c map[string]interface{}, volumes []map[string]interface{}, repoPath string) Container {
+	cName, _ := c["name"].(string)
+	cImage, _ := c["image"].(string)
+
+	cSecrets, cConfigmaps := extractEnvRefs([]map[string]interface{}{c})
+
+	rawPorts := toSliceOfMaps(c["ports"])
+	var ports []ContainerPort
+	for _, p := range rawPorts {
+		pName, _ := p["name"].(string)
+		pPort := toInt(p["containerPort"])
+		pProtocol, _ := p["protocol"].(string)
+		if pProtocol == "" {
+			pProtocol = "TCP"
+		}
+		ports = append(ports, ContainerPort{
+			Name:          pName,
+			ContainerPort: pPort,
+			Protocol:      pProtocol,
+		})
+	}
+	if ports == nil {
+		ports = []ContainerPort{}
+	}
+
+	resources, _ := c["resources"].(map[string]interface{})
+	if resources == nil {
+		resources = map[string]interface{}{}
+	}
+	requests, _ := resources["requests"].(map[string]interface{})
+	if requests == nil {
+		requests = map[string]interface{}{}
+	}
+	limits, _ := resources["limits"].(map[string]interface{})
+	if limits == nil {
+		limits = map[string]interface{}{}
+	}
+
+	container := Container{
+		Name:              cName,
+		Image:             cImage,
+		Ports:             ports,
+		SecurityContext:   extractSecurityContext(c["securityContext"]),
+		EnvFromSecrets:    cSecrets,
+		EnvFromConfigmaps: cConfigmaps,
+		VolumeMounts:      extractVolumeMounts(c, volumes),
+		Resources: map[string]interface{}{
+			"requests": requests,
+			"limits":   limits,
+		},
+		EnvVars:        extractSecurityEnvVars(c),
+		LivenessProbe:  extractProbe(c["livenessProbe"]),
+		ReadinessProbe: extractProbe(c["readinessProbe"]),
+		StartupProbe:   extractProbe(c["startupProbe"]),
+	}
+
+	container.Issues = assessContainerIssues(container)
+	return container
+}
+
+// assessContainerIssues checks a container for missing resource constraints and probes.
+func assessContainerIssues(c Container) []string {
+	var issues []string
+	res := c.Resources
+	if res != nil {
+		limits, _ := res["limits"].(map[string]interface{})
+		if len(limits) == 0 {
+			issues = append(issues, "no resource limits configured")
+		} else {
+			if _, ok := limits["memory"]; !ok {
+				issues = append(issues, "no memory limit configured")
+			}
+			if _, ok := limits["cpu"]; !ok {
+				issues = append(issues, "no CPU limit configured")
+			}
+		}
+		requests, _ := res["requests"].(map[string]interface{})
+		if len(requests) == 0 {
+			issues = append(issues, "no resource requests configured")
+		}
+	}
+	if c.LivenessProbe == nil {
+		issues = append(issues, "no liveness probe configured")
+	}
+	if c.ReadinessProbe == nil {
+		issues = append(issues, "no readiness probe configured")
+	}
+	sc := c.SecurityContext
+	if len(sc) == 0 {
+		issues = append(issues, "no security context configured")
+	}
+	return issues
 }
 
 // extractSecurityContext extracts security context fields from a container spec.

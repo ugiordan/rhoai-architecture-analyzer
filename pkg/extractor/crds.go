@@ -23,27 +23,110 @@ var crdSearchPatterns = []string{
 	"manifests/**/base/crds/*.yaml",
 }
 
-// crdSkipPaths filters out test, external, and bundle CRD files that should not
+// crdSkipPaths filters out external and bundle CRD files that should not
 // be included in the component's own CRD inventory.
+// Directory-level exclusions (test, tests, testdata) are handled by
+// DefaultExcludedDirs in yaml.go and no longer need to be listed here.
 var crdSkipPaths = []string{
-	"/test/",
-	"/tests/",
 	"/external/",
-	"/testdata/",
 	"_test",
 	"-bundle/",
 	"/opt/manifests/",
 }
 
+// crdVersionSelection holds the result of selecting the best version from a CRD spec.
+type crdVersionSelection struct {
+	versions       []CRDVersion
+	storageVersion string
+	bestFields     int
+	bestRules      []string
+}
+
+// selectBestCRDVersion analyzes CRD versions and returns the storage version
+// (or the version with the most fields if no storage version is marked).
+func selectBestCRDVersion(rawVersions []interface{}) crdVersionSelection {
+	var result crdVersionSelection
+	for _, v := range rawVersions {
+		ver, ok := v.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		verName, _ := ver["name"].(string)
+		served, _ := ver["served"].(bool)
+		storage, _ := ver["storage"].(bool)
+
+		result.versions = append(result.versions, CRDVersion{
+			Name:    verName,
+			Served:  served,
+			Storage: storage,
+		})
+
+		var openAPI map[string]interface{}
+		if schema, ok := ver["schema"].(map[string]interface{}); ok {
+			openAPI, _ = schema["openAPIV3Schema"].(map[string]interface{})
+		}
+		fieldsCount := countFields(openAPI, 0)
+		celRules := extractCELRules(openAPI, 0)
+
+		// Prefer the storage version; among non-storage versions,
+		// pick the one with the most fields.
+		if storage || (result.storageVersion == "" && fieldsCount > result.bestFields) {
+			result.storageVersion = verName
+			result.bestFields = fieldsCount
+			result.bestRules = celRules
+		}
+	}
+	if result.storageVersion == "" && len(result.versions) > 0 {
+		result.storageVersion = result.versions[0].Name
+	}
+	return result
+}
+
+// parseCRDFromDoc extracts a CRD struct from a parsed YAML document.
+// Returns nil if the document is not a valid CRD.
+func parseCRDFromDoc(doc map[string]interface{}, source string) *CRD {
+	kind, _ := doc["kind"].(string)
+	if kind != "CustomResourceDefinition" {
+		return nil
+	}
+	spec, ok := doc["spec"].(map[string]interface{})
+	if !ok {
+		return nil
+	}
+	group, _ := spec["group"].(string)
+	names, _ := spec["names"].(map[string]interface{})
+	crdKind := ""
+	if names != nil {
+		crdKind, _ = names["kind"].(string)
+	}
+	if group == "" || crdKind == "" {
+		return nil
+	}
+	scope, _ := spec["scope"].(string)
+	rawVersions, _ := spec["versions"].([]interface{})
+
+	vs := selectBestCRDVersion(rawVersions)
+
+	return &CRD{
+		Group:           group,
+		Version:         vs.storageVersion,
+		Kind:            crdKind,
+		Scope:           scope,
+		Versions:        vs.versions,
+		FieldsCount:     vs.bestFields,
+		ValidationRules: vs.bestRules,
+		Source:          source,
+	}
+}
+
 // extractCRDs scans YAML files for CustomResourceDefinition documents and
 // returns a slice of CRD structs with schema statistics and CEL rules.
-// Deduplicates by (group, version, kind), keeping the entry with the most fields
+// Deduplicates by (group, kind), keeping the entry with the most fields
 // (fullest schema) when the same CRD appears in multiple directories.
 func extractCRDs(repoPath string) []CRD {
 	files := findYAMLFiles(repoPath, crdSearchPatterns)
 
-	// Map from "group/version/kind" to best CRD entry (highest field count)
-	seen := make(map[string]int) // gvk -> index in crds slice
+	seen := make(map[string]int) // "group/kind" -> index in crds slice
 	var crds []CRD
 
 	for _, fpath := range files {
@@ -52,56 +135,18 @@ func extractCRDs(repoPath string) []CRD {
 			continue
 		}
 		for _, doc := range parseYAMLSafe(fpath) {
-			kind, _ := doc["kind"].(string)
-			if kind != "CustomResourceDefinition" {
+			crd := parseCRDFromDoc(doc, rel)
+			if crd == nil {
 				continue
 			}
-			spec, ok := doc["spec"].(map[string]interface{})
-			if !ok {
-				continue
-			}
-			group, _ := spec["group"].(string)
-			names, _ := spec["names"].(map[string]interface{})
-			crdKind := ""
-			if names != nil {
-				crdKind, _ = names["kind"].(string)
-			}
-			scope, _ := spec["scope"].(string)
-			versions, _ := spec["versions"].([]interface{})
-
-			for _, v := range versions {
-				ver, ok := v.(map[string]interface{})
-				if !ok {
-					continue
+			gk := fmt.Sprintf("%s/%s", crd.Group, crd.Kind)
+			if idx, exists := seen[gk]; exists {
+				if crd.FieldsCount > crds[idx].FieldsCount {
+					crds[idx] = *crd
 				}
-				verName, _ := ver["name"].(string)
-				var openAPI map[string]interface{}
-				if schema, ok := ver["schema"].(map[string]interface{}); ok {
-					openAPI, _ = schema["openAPIV3Schema"].(map[string]interface{})
-				}
-				fieldsCount := countFields(openAPI, 0)
-				celRules := extractCELRules(openAPI, 0)
-
-				gvk := fmt.Sprintf("%s/%s/%s", group, verName, crdKind)
-				crd := CRD{
-					Group:           group,
-					Version:         verName,
-					Kind:            crdKind,
-					Scope:           scope,
-					FieldsCount:     fieldsCount,
-					ValidationRules: celRules,
-					Source:          relativePath(repoPath, fpath),
-				}
-
-				if idx, exists := seen[gvk]; exists {
-					// Keep the entry with more fields (fullest schema)
-					if fieldsCount > crds[idx].FieldsCount {
-						crds[idx] = crd
-					}
-				} else {
-					seen[gvk] = len(crds)
-					crds = append(crds, crd)
-				}
+			} else {
+				seen[gk] = len(crds)
+				crds = append(crds, *crd)
 			}
 		}
 	}

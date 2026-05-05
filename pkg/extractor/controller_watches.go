@@ -16,10 +16,12 @@ var controllerGoPatterns = []string{
 }
 
 var (
-	importAliasRE = regexp.MustCompile(`(\w+)\s+"([^"]+)"`)
-	forRE         = regexp.MustCompile(`\.?For\(\s*&(\w+)\.(\w+)\{`)
-	ownsRE        = regexp.MustCompile(`\.?Owns\(\s*&(\w+)\.(\w+)\{`)
-	watchesRE     = regexp.MustCompile(`\.?Watches\(\s*&?(?:source\.Kind\{Type:\s*&)?(\w+)\.(\w+)\{`)
+	importAliasRE    = regexp.MustCompile(`(\w+)\s+"([^"]+)"`)
+	forRE            = regexp.MustCompile(`\.?For\(\s*&(\w+)\.(\w+)\{`)
+	ownsRE           = regexp.MustCompile(`\.?Owns\(\s*&(\w+)\.(\w+)\{`)
+	watchesRE        = regexp.MustCompile(`\.?Watches\(\s*&?(?:source\.Kind\{Type:\s*&)?(\w+)\.(\w+)\{`)
+	setupFuncRE      = regexp.MustCompile(`func\s+\(\s*\w+\s+\*(\w+)\)\s+SetupWithManager`)
+	reconcilerNameRE = regexp.MustCompile(`func\s+\(\s*\w+\s+\*(\w+)\)\s+Reconcile\b`)
 )
 
 // knownGroups maps Go import paths to Kubernetes API group/version strings.
@@ -53,6 +55,9 @@ func extractControllerWatches(repoPath string) []ControllerWatch {
 
 		relPath := relativePath(repoPath, fpath)
 
+		// Detect controller name from SetupWithManager or Reconcile method receivers
+		controllerName := detectControllerName(content)
+
 		for lineNo, line := range lines {
 			source := fmt.Sprintf("%s:%d", relPath, lineNo+1)
 
@@ -60,9 +65,10 @@ func extractControllerWatches(repoPath string) []ControllerWatch {
 				alias, kind := match[1], match[2]
 				gv := resolveImportAlias(alias, imports)
 				watches = append(watches, ControllerWatch{
-					Type:   "For",
-					GVK:    fmt.Sprintf("%s/%s", gv, kind),
-					Source: source,
+					Type:       "For",
+					GVK:        fmt.Sprintf("%s/%s", gv, kind),
+					Controller: controllerName,
+					Source:     source,
 				})
 			}
 
@@ -70,9 +76,10 @@ func extractControllerWatches(repoPath string) []ControllerWatch {
 				alias, kind := match[1], match[2]
 				gv := resolveImportAlias(alias, imports)
 				watches = append(watches, ControllerWatch{
-					Type:   "Owns",
-					GVK:    fmt.Sprintf("%s/%s", gv, kind),
-					Source: source,
+					Type:       "Owns",
+					GVK:        fmt.Sprintf("%s/%s", gv, kind),
+					Controller: controllerName,
+					Source:     source,
 				})
 			}
 
@@ -80,9 +87,10 @@ func extractControllerWatches(repoPath string) []ControllerWatch {
 				alias, kind := match[1], match[2]
 				gv := resolveImportAlias(alias, imports)
 				watches = append(watches, ControllerWatch{
-					Type:   "Watches",
-					GVK:    fmt.Sprintf("%s/%s", gv, kind),
-					Source: source,
+					Type:       "Watches",
+					GVK:        fmt.Sprintf("%s/%s", gv, kind),
+					Controller: controllerName,
+					Source:     source,
 				})
 			}
 		}
@@ -92,6 +100,19 @@ func extractControllerWatches(repoPath string) []ControllerWatch {
 		watches = []ControllerWatch{}
 	}
 	return watches
+}
+
+// detectControllerName extracts the reconciler struct name from a Go source file
+// by looking for SetupWithManager or Reconcile method receivers.
+func detectControllerName(content string) string {
+	// Prefer SetupWithManager since it's where For/Owns/Watches live
+	if m := setupFuncRE.FindStringSubmatch(content); m != nil {
+		return m[1]
+	}
+	if m := reconcilerNameRE.FindStringSubmatch(content); m != nil {
+		return m[1]
+	}
+	return ""
 }
 
 var (

@@ -14,21 +14,36 @@ var webhookYAMLPatterns = []string{
 	"**/webhook*.yml",
 	"**/mutating*.yaml",
 	"**/validating*.yaml",
+	"**/mutating*.yaml.tmpl",
+	"**/validating*.yaml.tmpl",
+	"**/webhook*.yaml.tmpl",
 	"charts/**/templates/*webhook*.yaml",
 	"manifests/**/webhook*.yaml",
 }
 
 var kubebuilderWebhookRE = regexp.MustCompile(`//\+kubebuilder:webhook:(.+)`)
 
+// webhookPortRE matches webhook server port configuration in controller-runtime main.go:
+//   webhook.NewServer(webhook.Options{Port: 9443})
+//   webhook.Options{Port: 9443}
+//   WebhookServer: webhook.NewServer(webhook.Options{Port: 9443})
+var webhookPortRE = regexp.MustCompile(`webhook\.Options\{[^}]*Port:\s*(\d+)`)
+
 // extractWebhooks finds ValidatingWebhookConfiguration and
 // MutatingWebhookConfiguration resources, plus kubebuilder webhook markers.
 func extractWebhooks(repoPath string) []WebhookConfig {
 	var webhooks []WebhookConfig
 
-	// Extract from YAML manifests
+	// Extract from YAML manifests (including Go template files)
 	files := findYAMLFiles(repoPath, webhookYAMLPatterns)
 	for _, fpath := range files {
-		for _, doc := range parseYAMLSafe(fpath) {
+		var docs []map[string]interface{}
+		if strings.HasSuffix(fpath, ".tmpl") {
+			docs = parseTemplateYAML(fpath)
+		} else {
+			docs = parseYAMLSafe(fpath)
+		}
+		for _, doc := range docs {
 			kind, _ := doc["kind"].(string)
 			if kind != "ValidatingWebhookConfiguration" && kind != "MutatingWebhookConfiguration" {
 				continue
@@ -140,6 +155,30 @@ func extractWebhooks(repoPath string) []WebhookConfig {
 		webhooks = []WebhookConfig{}
 	}
 	return webhooks
+}
+
+// extractWebhookServerPort scans main.go and cmd/ for the webhook server port
+// configured via controller-runtime's webhook.Options{Port: N}.
+// Returns 0 if not found.
+func extractWebhookServerPort(repoPath string) int {
+	mainFiles := findFiles(repoPath, []string{"main.go", "cmd/**/main.go", "cmd/**/*.go"})
+	for _, fpath := range mainFiles {
+		data, err := os.ReadFile(fpath)
+		if err != nil {
+			continue
+		}
+		match := webhookPortRE.FindSubmatch(data)
+		if match != nil {
+			port := 0
+			for _, b := range match[1] {
+				port = port*10 + int(b-'0')
+			}
+			if port > 0 {
+				return port
+			}
+		}
+	}
+	return 0
 }
 
 func parseKubebuilderAttrs(s string) map[string]string {

@@ -154,8 +154,13 @@ func extractDockerfiles(repoPath string) []DockerfileInfo {
 
 		stages := len(fromImages)
 		baseImage := ""
+		var buildStageImages []string
 		if len(fromImages) > 0 {
 			baseImage = fromImages[len(fromImages)-1] // runtime image is the last FROM stage
+			// Capture all non-final stage images (build stages)
+			if len(fromImages) > 1 {
+				buildStageImages = fromImages[:len(fromImages)-1]
+			}
 		}
 
 		if exposedPorts == nil {
@@ -179,15 +184,16 @@ func extractDockerfiles(repoPath string) []DockerfileInfo {
 		}
 
 		dockerfiles = append(dockerfiles, DockerfileInfo{
-			Path:          relativePath(repoPath, fpath),
-			BaseImage:     baseImage,
-			Stages:        stages,
-			User:          user,
-			ExposedPorts:  exposedPorts,
-			Issues:        issues,
-			Architectures: architectures,
-			FIPSEnabled:   fipsEnabled,
-			BuildArgs:     buildArgs,
+			Path:             relativePath(repoPath, fpath),
+			BaseImage:        baseImage,
+			BuildStageImages: buildStageImages,
+			Stages:           stages,
+			User:             user,
+			ExposedPorts:     exposedPorts,
+			Issues:           issues,
+			Architectures:    architectures,
+			FIPSEnabled:      fipsEnabled,
+			BuildArgs:        buildArgs,
 		})
 	}
 
