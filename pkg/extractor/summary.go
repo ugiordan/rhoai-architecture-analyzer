@@ -2,6 +2,7 @@ package extractor
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -97,6 +98,7 @@ func generateSummary(arch *ComponentArchitecture) string {
 		for s := range types {
 			services = append(services, s)
 		}
+		sort.Strings(services)
 		parts = append(parts, fmt.Sprintf("connecting to external services: %s", strings.Join(services, ", ")))
 	}
 
@@ -119,10 +121,63 @@ func generateSummary(arch *ComponentArchitecture) string {
 		}
 	}
 
+	// Operator config
+	if len(arch.OperatorConfig) > 0 {
+		imageCount := countConstantsByCategory(arch.OperatorConfig, "image")
+		envCount := countConstantsByCategory(arch.OperatorConfig, "env_var")
+		configParts := []string{}
+		if imageCount > 0 {
+			configParts = append(configParts, fmt.Sprintf("%d image references", imageCount))
+		}
+		if envCount > 0 {
+			configParts = append(configParts, fmt.Sprintf("%d env vars", envCount))
+		}
+		if len(configParts) > 0 {
+			parts = append(parts, fmt.Sprintf("with %d operator config constants (%s)",
+				len(arch.OperatorConfig), strings.Join(configParts, ", ")))
+		} else {
+			parts = append(parts, fmt.Sprintf("with %d operator config constants", len(arch.OperatorConfig)))
+		}
+	}
+
+	// Reconcile sequences
+	if len(arch.ReconcileSequences) > 0 {
+		totalSteps := countTotalReconcileSteps(arch.ReconcileSequences)
+		parts = append(parts, fmt.Sprintf("following %d reconciliation steps across %d controller(s)",
+			totalSteps, len(arch.ReconcileSequences)))
+	}
+
+	// Prometheus metrics
+	if len(arch.PrometheusMetrics) > 0 {
+		parts = append(parts, fmt.Sprintf("exposing %d Prometheus metrics", len(arch.PrometheusMetrics)))
+	}
+
+	// Status conditions
+	if len(arch.StatusConditions) > 0 {
+		parts = append(parts, fmt.Sprintf("reporting %d status condition types", len(arch.StatusConditions)))
+	}
+
+	// Platform detection
+	if arch.PlatformDetection != nil && len(arch.PlatformDetection.Conditionals) > 0 {
+		parts = append(parts, fmt.Sprintf("with %d platform-conditional resource paths",
+			len(arch.PlatformDetection.Conditionals)))
+	}
+
 	// Ingress
 	if len(arch.IngressRouting) > 0 {
 		parts = append(parts, fmt.Sprintf("with %d ingress route(s)", len(arch.IngressRouting)))
 	}
 
 	return strings.Join(parts, ". ") + "."
+}
+
+// countConstantsByCategory counts constants matching a specific category.
+func countConstantsByCategory(constants []OperatorConstant, category string) int {
+	count := 0
+	for _, c := range constants {
+		if c.Category == category {
+			count++
+		}
+	}
+	return count
 }

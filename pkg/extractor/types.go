@@ -50,6 +50,11 @@ type ComponentArchitecture struct {
 	PodDisruptionBudgets    []PodDisruptionBudget    `json:"pod_disruption_budgets,omitempty"`
 	HorizontalPodAutoscalers []HorizontalPodAutoscaler `json:"horizontal_pod_autoscalers,omitempty"`
 	APITypes                []APITypeDefinition        `json:"api_types,omitempty"`
+	OperatorConfig       []OperatorConstant     `json:"operator_config,omitempty"`
+	ReconcileSequences   []ReconcileSequence    `json:"reconcile_sequences,omitempty"`
+	PrometheusMetrics    []PrometheusMetric     `json:"prometheus_metrics,omitempty"`
+	StatusConditions     []StatusCondition      `json:"status_conditions,omitempty"`
+	PlatformDetection    *PlatformDetection     `json:"platform_detection,omitempty"`
 	TemplateFiles           []string                   `json:"template_files,omitempty"`
 	DataCoverage            map[string]string          `json:"data_coverage,omitempty"`
 	Summary                 string                    `json:"summary,omitempty"`
@@ -450,4 +455,73 @@ type APIField struct {
 	Default     string   `json:"default,omitempty"`
 	SecretRef   bool     `json:"secret_ref,omitempty"`
 	Embedded    bool     `json:"embedded,omitempty"`
+}
+
+// OperatorConstant represents a const or var declaration extracted from Go source
+// that defines operator configuration (images, ports, timeouts, env vars, etc.).
+type OperatorConstant struct {
+	Name     string `json:"name"`
+	Value    string `json:"value"`
+	GoType   string `json:"type,omitempty"`
+	Category string `json:"category"` // image, port, timeout, env_var, resource, name_pattern, general
+	Doc      string `json:"doc,omitempty"`
+	Source   string `json:"source"`
+}
+
+// ReconcileSequence represents the ordered reconciliation steps from a controller's
+// Reconcile() method, with conditional guards.
+type ReconcileSequence struct {
+	Controller string          `json:"controller"`
+	Source     string          `json:"source"`
+	Steps      []ReconcileStep `json:"steps"`
+}
+
+// ReconcileStep is a single sub-resource reconciliation call within a controller.
+type ReconcileStep struct {
+	Order     int    `json:"order"`
+	Method    string `json:"method"`
+	Component string `json:"component,omitempty"`
+	Condition string `json:"condition,omitempty"`
+	Source    string `json:"source"`
+}
+
+// PrometheusMetric represents a Prometheus metric registration found in Go source.
+type PrometheusMetric struct {
+	Name      string   `json:"name"`
+	Type      string   `json:"type"` // gauge, counter, histogram, summary
+	Help      string   `json:"help,omitempty"`
+	Labels    []string `json:"labels,omitempty"`
+	Subsystem string   `json:"subsystem,omitempty"`
+	Namespace string   `json:"namespace,omitempty"`
+	Source    string   `json:"source"`
+}
+
+// StatusCondition represents a status condition type and its associated reasons,
+// defining the operator's observable state machine.
+type StatusCondition struct {
+	Type    string   `json:"type"`
+	Reasons []string `json:"reasons,omitempty"`
+	Source  string   `json:"source"`
+}
+
+// PlatformDetection holds platform capability checks and conditional resource
+// creation patterns (e.g., OpenShift vs vanilla K8s).
+type PlatformDetection struct {
+	Capabilities []PlatformCapability  `json:"capabilities,omitempty"`
+	Conditionals []PlatformConditional `json:"conditionals,omitempty"`
+}
+
+// PlatformCapability represents a detected platform capability field (e.g., IsOpenShift).
+type PlatformCapability struct {
+	Name   string `json:"name"`
+	Check  string `json:"check,omitempty"`
+	Source string `json:"source"`
+}
+
+// PlatformConditional represents a conditional resource creation guarded by a platform check.
+type PlatformConditional struct {
+	Condition    string `json:"condition"`
+	ResourceKind string `json:"resource_kind,omitempty"`
+	Action       string `json:"action"` // create, deploy, ensure, setup, allocate, watch
+	Source       string `json:"source"`
 }

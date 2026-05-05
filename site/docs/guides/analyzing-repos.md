@@ -10,7 +10,7 @@ arch-analyzer analyze /path/to/repo --output-dir output/
 
 This is the most common operation. It:
 
-1. Runs all 17 extractors against the repository
+1. Runs all 22 extractors against the repository
 2. Produces `component-architecture.json` with all extracted data
 3. Renders all 7 diagram/report formats
 
@@ -54,7 +54,7 @@ Output includes everything from `analyze` plus:
 The analyzer walks the repository looking for specific file patterns. Each extractor operates independently:
 
 - **YAML extractors** (CRDs, RBAC, services, deployments, etc.) parse Kubernetes manifests
-- **Go source extractors** (controller watches, HTTP endpoints, cache config) use tree-sitter AST parsing
+- **Go source extractors** (controller watches, HTTP endpoints, cache config, operator constants, reconcile sequences, Prometheus metrics, status conditions, platform detection) use go/ast parsing
 - **File extractors** (Dockerfiles, Helm charts, go.mod) parse specialized formats
 
 Extractors are designed to be resilient: if a file doesn't match the expected format, the extractor skips it and logs a warning instead of failing.
@@ -85,7 +85,12 @@ The core data structure containing all extracted information:
   "config_maps": [...],
   "http_endpoints": [...],
   "ingress_routing": [...],
-  "cache_config": { ... }
+  "cache_config": { ... },
+  "operator_config": [...],
+  "reconcile_sequences": [...],
+  "prometheus_metrics": [...],
+  "status_conditions": [...],
+  "platform_detection": { ... }
 }
 ```
 

@@ -185,6 +185,50 @@ func SortOutput(arch *ComponentArchitecture) {
 		})
 		sort.Strings(arch.CacheConfig.Issues)
 	}
+
+	// OperatorConfig: sort by source (file locality), then name
+	sort.Slice(arch.OperatorConfig, func(i, j int) bool {
+		if arch.OperatorConfig[i].Source != arch.OperatorConfig[j].Source {
+			return arch.OperatorConfig[i].Source < arch.OperatorConfig[j].Source
+		}
+		return arch.OperatorConfig[i].Name < arch.OperatorConfig[j].Name
+	})
+
+	// ReconcileSequences: sort by controller name, steps by order
+	sort.Slice(arch.ReconcileSequences, func(i, j int) bool {
+		return arch.ReconcileSequences[i].Controller < arch.ReconcileSequences[j].Controller
+	})
+	for idx := range arch.ReconcileSequences {
+		sort.Slice(arch.ReconcileSequences[idx].Steps, func(i, j int) bool {
+			return arch.ReconcileSequences[idx].Steps[i].Order < arch.ReconcileSequences[idx].Steps[j].Order
+		})
+	}
+
+	// PrometheusMetrics: sort by name
+	sort.Slice(arch.PrometheusMetrics, func(i, j int) bool {
+		return arch.PrometheusMetrics[i].Name < arch.PrometheusMetrics[j].Name
+	})
+
+	// StatusConditions: sort by type, then reasons within each
+	sort.Slice(arch.StatusConditions, func(i, j int) bool {
+		return arch.StatusConditions[i].Type < arch.StatusConditions[j].Type
+	})
+	for idx := range arch.StatusConditions {
+		sort.Strings(arch.StatusConditions[idx].Reasons)
+	}
+
+	// PlatformDetection: sort nested slices
+	if arch.PlatformDetection != nil {
+		sort.Slice(arch.PlatformDetection.Capabilities, func(i, j int) bool {
+			return arch.PlatformDetection.Capabilities[i].Name < arch.PlatformDetection.Capabilities[j].Name
+		})
+		sort.Slice(arch.PlatformDetection.Conditionals, func(i, j int) bool {
+			if arch.PlatformDetection.Conditionals[i].Condition != arch.PlatformDetection.Conditionals[j].Condition {
+				return arch.PlatformDetection.Conditionals[i].Condition < arch.PlatformDetection.Conditionals[j].Condition
+			}
+			return arch.PlatformDetection.Conditionals[i].Source < arch.PlatformDetection.Conditionals[j].Source
+		})
+	}
 }
 
 func sortRBACRoles(roles []RBACRole) {

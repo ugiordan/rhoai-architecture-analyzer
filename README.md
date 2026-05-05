@@ -6,11 +6,16 @@ A static analysis tool that extracts architecture data from Kubernetes/OpenShift
 
 ## Features
 
-- **17 extractors** covering CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, configmaps, HTTP endpoints, ingress, external connections, feature gates, and cache architecture
+- **22 extractors** covering CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, configmaps, HTTP endpoints, ingress, external connections, feature gates, cache architecture, operator config constants, reconciliation sequences, Prometheus metrics, status conditions, and platform detection
 - **7 renderers** producing Mermaid diagrams, Structurizr C4 DSL, ASCII security views, and structured markdown reports
 - **Cache architecture analysis** detecting OOM risks by cross-referencing controller-runtime cache config against watches and deployment memory limits
 - **External connection detection** scanning Go source for database, object storage, gRPC, and messaging service references with automatic credential redaction
 - **Feature gate inventory** extracting registered gates with default state, pre-release stage, and source location for upgrade safety analysis
+- **Operator config extraction** classifying Go constants by category (images, ports, timeouts, env vars, resources) for full dataflow visibility
+- **Reconciliation sequence extraction** capturing ordered sub-resource reconciliation steps with conditional guards
+- **Prometheus metrics inventory** extracting metric registrations (gauge, counter, histogram, summary) with labels and namespaces
+- **Status condition extraction** parsing condition types and reason constants from Go const blocks
+- **Platform detection** identifying OpenShift/vanilla K8s capability checks and conditional resource creation paths
 - **Code property graph** with security queries (taint analysis, SQL injection, hardcoded secrets, missing auth)
 - **CRD contract validation** detecting breaking schema changes across repos
 - **Platform aggregation** merging multiple component analyses into a cross-repo view
@@ -23,7 +28,7 @@ graph LR
         REPO[Git Repository]
     end
 
-    subgraph "Extractors (17)"
+    subgraph "Extractors (22)"
         E1[CRDs]
         E2[RBAC]
         E3[Services]
@@ -41,6 +46,11 @@ graph LR
         E15[External Connections]
         E16[Feature Gates]
         E17[Cache Config]
+        E18[Operator Config]
+        E19[Reconcile Sequences]
+        E20[Prometheus Metrics]
+        E21[Status Conditions]
+        E22[Platform Detection]
     end
 
     subgraph Data
@@ -66,8 +76,8 @@ graph LR
         AGG[Platform Aggregator]
     end
 
-    REPO --> E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17
-    E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17 --> JSON
+    REPO --> E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17 & E18 & E19 & E20 & E21 & E22
+    E1 & E2 & E3 & E4 & E5 & E6 & E7 & E8 & E9 & E10 & E11 & E12 & E13 & E14 & E15 & E16 & E17 & E18 & E19 & E20 & E21 & E22 --> JSON
     JSON --> R1 & R2 & R3 & R4 & R5 & R6 & R7
     JSON --> AGG
     REPO --> CPG --> SEC
@@ -78,7 +88,7 @@ graph LR
     classDef agg fill:#f39c12,stroke:#e67e22,color:#fff
     classDef cpg fill:#9b59b6,stroke:#8e44ad,color:#fff
 
-    class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,E14,E15,E16,E17 extractor
+    class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,E14,E15,E16,E17,E18,E19,E20,E21,E22 extractor
     class R1,R2,R3,R4,R5,R6,R7 renderer
     class JSON data
     class AGG agg
@@ -180,6 +190,11 @@ Produces:
 | External Connections | Go source (`sql.Open`, `redis.NewClient`, `grpc.Dial`, `sarama.New*`) | Database, object storage, gRPC, messaging references with credential redaction |
 | Feature Gates | Go source (`DefaultMutableFeatureGate.Add`, `featuregate.Feature` consts) | Gate name, default state, pre-release stage, source location |
 | Cache Config | Go source (`ctrl.NewManager`, `cache.Options`) | Cache scope, filtered types, disabled types, implicit informers, GOMEMLIMIT |
+| Operator Config | Go source (const/var blocks in controllers, pkg/config) | Classified constants: images, ports, timeouts, env vars, resources, name patterns |
+| Reconcile Sequences | Go source (`Reconcile()` methods) | Ordered sub-resource reconciliation steps with conditional guards |
+| Prometheus Metrics | Go source (`prometheus.New*`, `promauto.New*`) | Metric name, type (gauge/counter/histogram/summary), help, labels, namespace |
+| Status Conditions | Go source (const blocks in controllers, API types) | Condition type constants, associated reason constants, source location |
+| Platform Detection | Go source (controllers, reconcilers, config packages) | Capability structs (IsOpenShift, HasRoute), API discovery checks, conditional resource creation |
 
 ### Cache Architecture Analysis
 
@@ -213,7 +228,7 @@ architecture-analyzer/
   cmd/arch-analyzer/
     main.go              # CLI entry point with 11 subcommands
   pkg/
-    extractor/           # 17 architecture extractors
+    extractor/           # 22 architecture extractors
     renderer/            # 7 diagram/report renderers
     aggregator/          # Platform-wide aggregation
     validator/           # CRD contract validation

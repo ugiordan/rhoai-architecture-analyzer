@@ -2,7 +2,7 @@
 
 ## component-architecture.json
 
-The core output format. Contains all data extracted by the 17 extractors.
+The core output format. Contains all data extracted by the 22 extractors.
 
 ### Top-level structure
 
@@ -28,7 +28,12 @@ The core output format. Contains all data extracted by the 17 extractors.
   "ingress_routing": [],
   "external_connections": [],
   "feature_gates": [],
-  "cache_config": {}
+  "cache_config": {},
+  "operator_config": [],
+  "reconcile_sequences": [],
+  "prometheus_metrics": [],
+  "status_conditions": [],
+  "platform_detection": {}
 }
 ```
 
@@ -187,6 +192,98 @@ The core output format. Contains all data extracted by the 17 extractors.
       "severity": "warning",
       "message": "Missing DefaultTransform - managedFields consuming extra memory",
       "recommendation": "Add cache.DefaultTransform to strip managedFields"
+    }
+  ]
+}
+```
+
+#### Operator Config
+
+```json
+[
+  {
+    "name": "DefaultDeploymentServiceAccount",
+    "value": "ds-pipeline",
+    "category": "name_pattern",
+    "source": "controllers/dsp_params.go"
+  },
+  {
+    "name": "APIServerImage",
+    "value": "quay.io/opendatahub/ds-pipelines-api-server",
+    "category": "image",
+    "source": "controllers/config/defaults.go"
+  }
+]
+```
+
+#### Reconcile Sequences
+
+```json
+[
+  {
+    "controller": "DSPAReconciler",
+    "steps": [
+      {
+        "method": "ReconcileDatabase",
+        "component": "Database",
+        "conditional": "p.DatabaseHealthy()",
+        "source": "controllers/dspa_controller.go:85"
+      },
+      {
+        "method": "ReconcileStorage",
+        "component": "Storage",
+        "source": "controllers/dspa_controller.go:92"
+      }
+    ],
+    "source": "controllers/dspa_controller.go"
+  }
+]
+```
+
+#### Prometheus Metrics
+
+```json
+[
+  {
+    "name": "dspo_reconciliation_duration_seconds",
+    "type": "histogram",
+    "help": "Time taken to reconcile a DSPA resource",
+    "labels": ["dspa_name", "dspa_namespace"],
+    "namespace": "dspo",
+    "source": "controllers/metrics.go"
+  }
+]
+```
+
+#### Status Conditions
+
+```json
+[
+  {
+    "type": "DatabaseAvailable",
+    "reasons": ["DatabaseCreated", "DatabaseFailed", "ExternalDBInUse"],
+    "source": "controllers/status.go"
+  }
+]
+```
+
+#### Platform Detection
+
+```json
+{
+  "capabilities": [
+    {
+      "name": "IsOpenShift",
+      "check": "whether the cluster is OpenShift",
+      "source": "pkg/config/platform.go"
+    }
+  ],
+  "conditionals": [
+    {
+      "condition": "p.IsOpenShift",
+      "resource_kind": "Route",
+      "action": "create",
+      "source": "controllers/reconciler.go"
     }
   ]
 }

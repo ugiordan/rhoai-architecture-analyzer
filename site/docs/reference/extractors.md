@@ -1,6 +1,6 @@
 # Extractors
 
-The analyzer includes 17 extractors that parse Kubernetes manifests, Go source code, Dockerfiles, and Helm charts.
+The analyzer includes 22 extractors that parse Kubernetes manifests, Go source code, Dockerfiles, and Helm charts.
 
 ## Extractor reference
 
@@ -23,6 +23,11 @@ The analyzer includes 17 extractors that parse Kubernetes manifests, Go source c
 | 15 | External Connections | Go source (`sql.Open`, `redis.NewClient`, `grpc.Dial`, `sarama.New*`) | Database, object storage, gRPC, messaging references with credential redaction |
 | 16 | Feature Gates | Go source (`DefaultMutableFeatureGate.Add`, `featuregate.Feature` consts) | Gate name, default state, pre-release stage, source location |
 | 17 | Cache Config | Go source (`ctrl.NewManager`, `cache.Options`) | Cache scope, filtered types, disabled types, implicit informers, GOMEMLIMIT |
+| 18 | Operator Config | Go source (const/var blocks in controllers, pkg/config) | Classified constants: images, ports, timeouts, env vars, resources, name patterns |
+| 19 | Reconcile Sequences | Go source (`Reconcile()` methods) | Ordered sub-resource reconciliation steps with conditional guards |
+| 20 | Prometheus Metrics | Go source (`prometheus.New*`, `promauto.New*`) | Metric name, type (gauge/counter/histogram/summary), help, labels, namespace |
+| 21 | Status Conditions | Go source (const blocks in controllers, API types) | Condition type constants, associated reason constants, source location |
+| 22 | Platform Detection | Go source (controllers, reconcilers, config packages) | Capability structs (IsOpenShift, HasRoute), API discovery checks, conditional resource creation |
 
 ## YAML extractors
 
@@ -70,7 +75,7 @@ Scans deployments and services for secret references. Extracts secret names and 
 
 ## Go source extractors
 
-Extractors 6, 13, 15, 16, and 17 parse Go source code.
+Extractors 6, 13, 15-22 parse Go source code.
 
 ### Controller Watches extractor
 
@@ -129,6 +134,57 @@ This data feeds into the CPG upgrade domain query **CGA-U03** (ungated-feature),
 ### Cache Config extractor
 
 Analyzes controller-runtime cache configuration. See [Cache Analysis](../architecture/cache-analysis.md) for details.
+
+### Operator Config extractor
+
+Scans Go const/var blocks in controller, config, and root-level source files. Classifies each constant by category using a precedence-based heuristic:
+
+- **image**: Container image references (registry paths, `:tag` suffixes)
+- **port**: Port numbers (numeric values 1-65535 with port-related names)
+- **timeout**: Duration values (`time.Second`, `time.Minute`, etc.)
+- **env_var**: Environment variable names (UPPER_SNAKE_CASE)
+- **resource**: Kubernetes resource quantities (`100m`, `256Mi`, etc.)
+- **name_pattern**: Kubernetes object names (lowercase with hyphens)
+- **general**: Everything else
+
+Deduplicates against status condition constants to avoid overlap. Skips iota-only blocks, test files, and vendor directories.
+
+### Reconcile Sequences extractor
+
+Parses `Reconcile()` and `reconcile*()` methods using go/ast to extract the ordered sequence of sub-resource reconciliation steps. For each step, captures:
+
+- Method name and derived component (e.g., `ReconcileDatabase` -> `Database`)
+- Conditional guards (if-blocks wrapping the call)
+- Source location
+
+This reveals the reconciliation order and which steps are conditional on configuration.
+
+### Prometheus Metrics extractor
+
+Regex-based extraction of Prometheus metric registrations. Matches `prometheus.New{Gauge,Counter,Histogram,Summary}(Vec)?` and `promauto.New*` patterns. For each metric:
+
+- Composes the full metric name from Namespace + Subsystem + Name fields
+- Extracts help text
+- Captures labels from `[]string{...}` literals for Vec types
+- Reports metric type and source location
+
+### Status Conditions extractor
+
+Parses Go const blocks using go/ast to extract status condition type and reason constants. Detects conditions by:
+
+- Explicit type annotations (`ConditionType`, `StatusConditionType`)
+- Name suffixes (`Available`, `Ready`, `Degraded`, `Progressing`, `Reconciled`)
+- Name prefixes (`Condition*`, `Reason*`)
+
+Associates reason constants with their preceding condition type within the same const block. Returns Go constant names for dedup with the operator config extractor.
+
+### Platform Detection extractor
+
+Three-pass detection of platform-specific behavior:
+
+1. **Capability structs**: Finds struct types with boolean fields matching platform patterns (`IsOpenShift`, `HasRoute`, `HasIstio`, etc.) with a blocklist for common non-platform booleans (`IsDeleted`, `IsReady`, `HasError`)
+2. **API discovery calls**: Matches `discovery.ServerResourcesForGroupVersion`, `RESTMapper().ResourcesFor`, and similar runtime capability checks
+3. **Conditional resource creation**: Scans reconciler functions for if-blocks guarded by capability checks, extracting the resource kind and action from the body
 
 ## File extractors
 

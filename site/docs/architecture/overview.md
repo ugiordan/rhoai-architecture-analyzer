@@ -6,7 +6,7 @@ The Architecture Analyzer is a deterministic static analysis tool. No LLM involv
 
 ```mermaid
 flowchart TB
-    REPO["Git Repository"] --> EXTRACT["Extractors (17)"]
+    REPO["Git Repository"] --> EXTRACT["Extractors (22)"]
     EXTRACT --> JSON["component-architecture.json"]
     JSON --> RENDER["Renderers (7)"]
     JSON --> AGG["Aggregator"]
@@ -69,7 +69,7 @@ The CPG provides:
 
 ```
 pkg/
-  extractor/      # 17 architecture extractors
+  extractor/      # 22 architecture extractors
   renderer/       # 7 diagram/report renderers
   aggregator/     # Platform-wide aggregation
   validator/      # CRD contract validation
@@ -91,7 +91,7 @@ pkg/
 
 1. **Input**: Path to a git repository (local checkout)
 2. **YAML extraction**: Walk filesystem for Kubernetes manifests, parse into typed structs
-3. **Go extraction**: Tree-sitter parse controller files, extract watches/endpoints/cache config
+3. **Go extraction**: Parse controller files for watches, endpoints, cache config, operator constants, reconcile sequences, Prometheus metrics, status conditions, and platform detection
 4. **File extraction**: Parse Dockerfiles, Helm charts, go.mod
 5. **Assembly**: All extracted data merged into `ComponentArchitecture` struct
 6. **Serialization**: JSON output

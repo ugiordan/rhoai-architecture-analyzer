@@ -30,6 +30,12 @@ func computeDataCoverage(arch *ComponentArchitecture) map[string]string {
 	}
 	cov["rbac"] = classifyCoverage(rbacCount, 0)
 
+	cov["operator_config"] = classifyCoverage(len(arch.OperatorConfig), 0)
+	cov["reconcile_sequences"] = classifyCoverage(countTotalReconcileSteps(arch.ReconcileSequences), 0)
+	cov["prometheus_metrics"] = classifyCoverage(len(arch.PrometheusMetrics), 0)
+	cov["status_conditions"] = classifyCoverage(len(arch.StatusConditions), 0)
+	cov["platform_detection"] = classifyPlatformDetectionCoverage(arch.PlatformDetection)
+
 	return cov
 }
 
@@ -93,4 +99,22 @@ func isTemplateItem(v string) bool {
 		return true
 	}
 	return false
+}
+
+// countTotalReconcileSteps sums all steps across all reconcile sequences.
+func countTotalReconcileSteps(seqs []ReconcileSequence) int {
+	total := 0
+	for _, s := range seqs {
+		total += len(s.Steps)
+	}
+	return total
+}
+
+// classifyPlatformDetectionCoverage classifies platform detection coverage.
+func classifyPlatformDetectionCoverage(pd *PlatformDetection) string {
+	if pd == nil {
+		return "none"
+	}
+	total := len(pd.Capabilities) + len(pd.Conditionals)
+	return classifyCoverage(total, 0)
 }

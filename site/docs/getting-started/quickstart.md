@@ -8,7 +8,7 @@ After [installing](installation.md) the analyzer, here's how to analyze your fir
 arch-analyzer analyze /path/to/your/repo --output-dir output/
 ```
 
-This runs all 17 extractors and all 7 renderers, producing:
+This runs all 22 extractors and all 7 renderers, producing:
 
 ```
 output/
@@ -62,7 +62,7 @@ SARIF output can be loaded into GitHub Code Scanning, VS Code SARIF Viewer, or a
 The analyzer reads:
 
 - Kubernetes YAML manifests (deployments, services, RBAC, network policies, etc.)
-- Go source code (controller watches, HTTP endpoints, cache configuration)
+- Go source code (controller watches, HTTP endpoints, cache config, operator constants, reconcile sequences, Prometheus metrics, status conditions, platform detection)
 - Dockerfiles (base images, security settings)
 - Helm charts (metadata, security defaults)
 - go.mod (dependencies, internal ODH modules)

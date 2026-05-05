@@ -105,6 +105,23 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 	// API types: parse *_types.go files for CR struct definitions
 	arch.APITypes = extractAPITypes(absPath)
 
+	// Status conditions: extract condition type/reason constants.
+	// Also returns Go constant names for dedup with operator config.
+	var statusConditionConstNames map[string]bool
+	arch.StatusConditions, statusConditionConstNames = extractStatusConditions(absPath)
+
+	// Operator config: extract const/var blocks (dedup with status conditions)
+	arch.OperatorConfig = extractOperatorConfig(absPath, statusConditionConstNames)
+
+	// Reconcile sequences: extract ordered sub-resource reconciliation steps
+	arch.ReconcileSequences = extractReconcileSequences(absPath)
+
+	// Prometheus metrics: extract metric registrations
+	arch.PrometheusMetrics = extractPrometheusMetrics(absPath)
+
+	// Platform detection: extract capability checks and conditional resource creation
+	arch.PlatformDetection = extractPlatformDetection(absPath)
+
 	// Template file enumeration: list .tmpl files for operators that use
 	// Go templates to define runtime-rendered Kubernetes resources.
 	arch.TemplateFiles = findTemplateFiles(absPath)
