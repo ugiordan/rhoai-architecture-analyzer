@@ -55,7 +55,7 @@ type ComponentArchitecture struct {
 	PrometheusMetrics    []PrometheusMetric     `json:"prometheus_metrics,omitempty"`
 	StatusConditions     []StatusCondition      `json:"status_conditions,omitempty"`
 	PlatformDetection    *PlatformDetection     `json:"platform_detection,omitempty"`
-	TemplateFiles           []string                   `json:"template_files,omitempty"`
+	TemplateFiles           []TemplateFile             `json:"template_files,omitempty"`
 	DataCoverage            map[string]string          `json:"data_coverage,omitempty"`
 	Summary                 string                    `json:"summary,omitempty"`
 }
@@ -90,9 +90,10 @@ type RBACData struct {
 
 // RBACRole is a ClusterRole or Role with its rules.
 type RBACRole struct {
-	Name   string     `json:"name"`
-	Source string     `json:"source"`
-	Rules  []RBACRule `json:"rules,omitempty"`
+	Name            string            `json:"name"`
+	Source          string            `json:"source"`
+	Rules           []RBACRule        `json:"rules,omitempty"`
+	AggregationRule map[string]string `json:"aggregation_rule,omitempty"`
 }
 
 // RBACRule is a single RBAC policy rule.
@@ -271,14 +272,16 @@ type HelmData struct {
 
 // WebhookConfig represents a Kubernetes webhook configuration.
 type WebhookConfig struct {
-	Name          string        `json:"name"`
-	Type          string        `json:"type"` // "validating" or "mutating"
-	ServiceRef    string        `json:"service_ref,omitempty"`
-	Path          string        `json:"path,omitempty"`
-	Port          int           `json:"port,omitempty"`
-	FailurePolicy string       `json:"failure_policy,omitempty"`
-	Rules         []WebhookRule `json:"rules,omitempty"`
-	Source        string        `json:"source"`
+	Name           string        `json:"name"`
+	Type           string        `json:"type"` // "validating" or "mutating"
+	ServiceRef     string        `json:"service_ref,omitempty"`
+	Path           string        `json:"path,omitempty"`
+	Port           int           `json:"port,omitempty"`
+	FailurePolicy  string        `json:"failure_policy,omitempty"`
+	SideEffects    string        `json:"side_effects,omitempty"`
+	TimeoutSeconds int           `json:"timeout_seconds,omitempty"`
+	Rules          []WebhookRule `json:"rules,omitempty"`
+	Source         string        `json:"source"`
 }
 
 // WebhookRule defines what resources a webhook intercepts.
@@ -524,4 +527,11 @@ type PlatformConditional struct {
 	ResourceKind string `json:"resource_kind,omitempty"`
 	Action       string `json:"action"` // create, deploy, ensure, setup, allocate, watch
 	Source       string `json:"source"`
+}
+
+// TemplateFile represents a Go template file that defines Kubernetes resources.
+type TemplateFile struct {
+	Path          string   `json:"path"`
+	ResourceKinds []string `json:"resource_kinds,omitempty"`
+	Conditionals  []string `json:"conditionals,omitempty"`
 }

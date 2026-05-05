@@ -73,6 +73,13 @@ func extractWebhooks(repoPath string) []WebhookConfig {
 				}
 
 				failurePolicy, _ := whMap["failurePolicy"].(string)
+				sideEffects, _ := whMap["sideEffects"].(string)
+				timeoutSeconds := 0
+				if ts, ok := whMap["timeoutSeconds"].(float64); ok {
+					timeoutSeconds = int(ts)
+				} else if ts, ok := whMap["timeoutSeconds"].(int); ok {
+					timeoutSeconds = ts
+				}
 
 				// Extract service ref and path from clientConfig
 				serviceRef := ""
@@ -110,13 +117,15 @@ func extractWebhooks(repoPath string) []WebhookConfig {
 				}
 
 				webhooks = append(webhooks, WebhookConfig{
-					Name:          whName,
-					Type:          whType,
-					ServiceRef:    serviceRef,
-					Path:          path,
-					FailurePolicy: failurePolicy,
-					Rules:         rules,
-					Source:        relativePath(repoPath, fpath),
+					Name:           whName,
+					Type:           whType,
+					ServiceRef:     serviceRef,
+					Path:           path,
+					FailurePolicy:  failurePolicy,
+					SideEffects:    sideEffects,
+					TimeoutSeconds: timeoutSeconds,
+					Rules:          rules,
+					Source:         relativePath(repoPath, fpath),
 				})
 			}
 		}
@@ -145,6 +154,7 @@ func extractWebhooks(repoPath string) []WebhookConfig {
 				Type:          whType,
 				Path:          attrs["path"],
 				FailurePolicy: attrs["failurePolicy"],
+				SideEffects:   attrs["sideEffects"],
 				Rules:         []WebhookRule{},
 				Source:        relativePath(repoPath, fpath),
 			})

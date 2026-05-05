@@ -43,9 +43,10 @@ func extractRBAC(repoPath string) *RBACData {
 			switch kind {
 			case "ClusterRole":
 				clusterRoles = append(clusterRoles, RBACRole{
-					Name:   name,
-					Source: source,
-					Rules:  extractRBACRules(doc),
+					Name:            name,
+					Source:          source,
+					Rules:           extractRBACRules(doc),
+					AggregationRule: extractAggregationRule(doc),
 				})
 			case "ClusterRoleBinding":
 				roleRef, _ := doc["roleRef"].(map[string]interface{})
@@ -214,6 +215,39 @@ func extractRBACSubjects(doc map[string]interface{}) []RBACSubject {
 		subjects = []RBACSubject{}
 	}
 	return subjects
+}
+
+// extractAggregationRule extracts the aggregationRule.clusterRoleSelectors
+// matchLabels from a ClusterRole. Returns nil if no aggregation rule is present.
+func extractAggregationRule(doc map[string]interface{}) map[string]string {
+	aggRule, ok := doc["aggregationRule"].(map[string]interface{})
+	if !ok {
+		return nil
+	}
+	selectors, ok := aggRule["clusterRoleSelectors"].([]interface{})
+	if !ok || len(selectors) == 0 {
+		return nil
+	}
+	labels := make(map[string]string)
+	for _, sel := range selectors {
+		selMap, ok := sel.(map[string]interface{})
+		if !ok {
+			continue
+		}
+		matchLabels, ok := selMap["matchLabels"].(map[string]interface{})
+		if !ok {
+			continue
+		}
+		for k, v := range matchLabels {
+			if vs, ok := v.(string); ok {
+				labels[k] = vs
+			}
+		}
+	}
+	if len(labels) == 0 {
+		return nil
+	}
+	return labels
 }
 
 // toStringSlice converts an interface{} (expected []interface{} of strings)

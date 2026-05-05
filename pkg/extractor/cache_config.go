@@ -718,24 +718,43 @@ func generateCacheIssues(config *CacheConfig, watches []ControllerWatch) {
 		// Check if any cache configuration exists at all
 		if len(config.FilteredTypes) == 0 && len(config.DisabledTypes) == 0 && !config.DefaultTransform {
 			config.Issues = append(config.Issues,
-				"No cache configuration: all informers are cluster-wide (OOM risk)")
+				"No cache configuration: all informers are cluster-wide (OOM risk). "+
+					"See https://book.kubebuilder.io/reference/watching-resources/filtering for cache filtering patterns")
 		}
 
 		if !config.DefaultTransform && (len(config.FilteredTypes) > 0 || len(config.DisabledTypes) > 0) {
 			config.Issues = append(config.Issues,
-				"No DefaultTransform: managedFields cached for all objects (wasted memory)")
+				"No DefaultTransform: managedFields cached for all objects (wasted memory). "+
+					"Add cache.DefaultTransform to strip managedFields and reduce memory footprint")
 		}
 	}
 
 	if config.GoMemLimit == "" && config.MemoryLimit != "" {
 		config.Issues = append(config.Issues,
-			"No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune)")
+			"No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune). "+
+				"Set GOMEMLIMIT to 80-90% of container memory limit for optimal GC behavior")
+	}
+
+	// Enrich disabled type messages with context on why they were disabled
+	for _, dt := range config.DisabledTypes {
+		parts := strings.SplitN(dt, ".", 2)
+		kind := dt
+		if len(parts) == 2 {
+			kind = parts[1]
+		}
+		if kind == "Secret" || kind == "ConfigMap" {
+			config.Issues = append(config.Issues,
+				fmt.Sprintf("Cache bypass (DisableFor) configured for %s. "+
+					"This is a common fix for OOM caused by informer cache flooding from high-cardinality types "+
+					"(e.g., opendatahub-io/model-registry-operator#457)", dt))
+		}
 	}
 
 	for _, imp := range config.ImplicitInformers {
 		if imp.Risk == "high" {
 			config.Issues = append(config.Issues,
-				fmt.Sprintf("Implicit informer for %s via client.Get at %s (cluster-wide, OOM risk)", imp.Type, imp.Source))
+				fmt.Sprintf("Implicit informer for %s via client.Get at %s (cluster-wide, OOM risk). "+
+					"This bypasses cache filters and creates a full cluster-wide watch", imp.Type, imp.Source))
 		}
 	}
 }

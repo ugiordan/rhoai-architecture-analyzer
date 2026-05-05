@@ -284,18 +284,47 @@ func parseYAMLFromBytes(data []byte) []map[string]interface{} {
 	return docs
 }
 
-// findTemplateFiles returns repo-relative paths of all .yaml.tmpl and
-// .yml.tmpl files, sorted alphabetically. These are Go template files
-// that define Kubernetes resources rendered at runtime by controllers.
-func findTemplateFiles(repoPath string) []string {
+// templateCondRE matches Go template {{if ...}} and {{else if ...}} directives.
+var templateCondRE = regexp.MustCompile(`\{\{-?\s*(?:if|else if)\s+(.+?)\s*-?\}\}`)
+
+// findTemplateFiles returns enriched template file info for all .yaml.tmpl
+// and .yml.tmpl files. For each file, extracts the Kubernetes resource kinds
+// defined in the template and any Go template conditional guards.
+func findTemplateFiles(repoPath string) []TemplateFile {
 	patterns := []string{
 		"**/*.yaml.tmpl",
 		"**/*.yml.tmpl",
 	}
 	files := findFiles(repoPath, patterns)
-	var result []string
+	var result []TemplateFile
 	for _, f := range files {
-		result = append(result, relativePath(repoPath, f))
+		relPath := relativePath(repoPath, f)
+		tf := TemplateFile{Path: relPath}
+
+		// Parse template to extract resource kinds
+		docs := parseTemplateYAML(f)
+		kindSeen := make(map[string]bool)
+		for _, doc := range docs {
+			if kind, ok := doc["kind"].(string); ok && kind != "" && !kindSeen[kind] {
+				kindSeen[kind] = true
+				tf.ResourceKinds = append(tf.ResourceKinds, kind)
+			}
+		}
+
+		// Extract conditional guards from template directives
+		data, err := os.ReadFile(f)
+		if err == nil {
+			condSeen := make(map[string]bool)
+			for _, match := range templateCondRE.FindAllStringSubmatch(string(data), -1) {
+				cond := strings.TrimSpace(match[1])
+				if !condSeen[cond] {
+					condSeen[cond] = true
+					tf.Conditionals = append(tf.Conditionals, cond)
+				}
+			}
+		}
+
+		result = append(result, tf)
 	}
 	return result
 }
