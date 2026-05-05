@@ -15146,11 +15146,11 @@
 
 <h1 id="mlflow-operator">mlflow-operator<a class="headerlink" href="#mlflow-operator" title="Permanent link">¶</a></h1>
 <blockquote>
-<p><strong>Architecture snapshot: 2026-05-04</strong> (2026-05-04)</p>
+<p><strong>Architecture snapshot: 2026-05-05</strong> (2026-05-05)</p>
 </blockquote>
 <p><strong>Repository:</strong> opendatahub-io/mlflow-operator<br>
 <strong>Analyzer:</strong> arch-analyzer 0.2.0<br>
-<strong>Extracted:</strong> 2026-05-04T08:27:29Z</p>
+<strong>Extracted:</strong> 2026-05-05T13:55:14Z</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -15166,11 +15166,11 @@
 </tr>
 <tr>
 <td>Deployments</td>
-<td>6</td>
+<td>2</td>
 </tr>
 <tr>
 <td>Services</td>
-<td>2</td>
+<td>3</td>
 </tr>
 <tr>
 <td>Secrets</td>
@@ -15198,18 +15198,10 @@
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["mlflow-operator Controller"]
-        dep_1["controller-manager"]
+        dep_1["mlflow-operator-controller-manager"]
         class dep_1 controller
-        dep_2["controller-manager"]
+        dep_2["postgres-deployment"]
         class dep_2 controller
-        dep_3["controller-manager"]
-        class dep_3 controller
-        dep_4["controller-manager"]
-        class dep_4 controller
-        dep_5["mlflow-operator-controller-manager"]
-        class dep_5 controller
-        dep_6["postgres-deployment"]
-        class dep_6 controller
     end
 
     crd_MLflowConfig{{"MLflowConfig\nmlflow.kubeflow.org/v1"}}
@@ -15217,28 +15209,28 @@
     crd_MLflow{{"MLflow\nmlflow.opendatahub.io/v1"}}
     class crd_MLflow crd
     crd_MLflow --&gt;|"For (reconciles)"| controller
-    controller --&gt;|"Owns"| owned_7["ClusterRoleBinding"]
+    controller --&gt;|"Owns"| owned_3["ClusterRoleBinding"]
+    class owned_3 owned
+    controller --&gt;|"Owns"| owned_4["ConsoleLink"]
+    class owned_4 owned
+    controller --&gt;|"Owns"| owned_5["Deployment"]
+    class owned_5 owned
+    controller --&gt;|"Owns"| owned_6["HTTPRoute"]
+    class owned_6 owned
+    controller --&gt;|"Owns"| owned_7["PersistentVolumeClaim"]
     class owned_7 owned
-    controller --&gt;|"Owns"| owned_8["ConsoleLink"]
+    controller --&gt;|"Owns"| owned_8["Secret"]
     class owned_8 owned
-    controller --&gt;|"Owns"| owned_9["Deployment"]
+    controller --&gt;|"Owns"| owned_9["Service"]
     class owned_9 owned
-    controller --&gt;|"Owns"| owned_10["HTTPRoute"]
+    controller --&gt;|"Owns"| owned_10["ServiceAccount"]
     class owned_10 owned
-    controller --&gt;|"Owns"| owned_11["PersistentVolumeClaim"]
+    controller --&gt;|"Owns"| owned_11["ServiceMonitor"]
     class owned_11 owned
-    controller --&gt;|"Owns"| owned_12["Secret"]
-    class owned_12 owned
-    controller --&gt;|"Owns"| owned_13["Service"]
-    class owned_13 owned
-    controller --&gt;|"Owns"| owned_14["ServiceAccount"]
-    class owned_14 owned
-    controller --&gt;|"Owns"| owned_15["ServiceMonitor"]
-    class owned_15 owned
-    watch_16["ClusterRole"] --&gt;|"Watches"| controller
-    class watch_16 external
-    controller -.-&gt;|"depends on"| odh_17["mlflow-operator"]
-    class odh_17 dep</code></pre>
+    watch_12["ClusterRole"] --&gt;|"Watches"| controller
+    class watch_12 external
+    controller -.-&gt;|"depends on"| odh_13["mlflow-operator"]
+    class odh_13 dep</code></pre>
 <h3 id="crds">CRDs<a class="headerlink" href="#crds" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -15260,7 +15252,7 @@
 <td>Namespaced</td>
 <td>6</td>
 <td>4</td>
-<td><a href="https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml"><code>config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml</code></a></td>
+<td><a href="https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml"><code>config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml</code></a></td>
 </tr>
 <tr>
 <td>mlflow.opendatahub.io</td>
@@ -15269,7 +15261,7 @@
 <td>Cluster</td>
 <td>287</td>
 <td>16</td>
-<td><a href="https://github.com/opendatahub-io/mlflow-operator/blob/81842d0a300f01311565ebc064bea6e0e53a6ced/config/crd/bases/mlflow.opendatahub.io_mlflows.yaml"><code>config/crd/bases/mlflow.opendatahub.io_mlflows.yaml</code></a></td>
+<td><a href="https://github.com/opendatahub-io/mlflow-operator/blob/682055b5deae5d1cc92c0a24270aee8400704084/config/crd/bases/mlflow.opendatahub.io_mlflows.yaml"><code>config/crd/bases/mlflow.opendatahub.io_mlflows.yaml</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -15354,7 +15346,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 4, 2026 08:29:09 UTC">May 4, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 5, 2026 13:57:37 UTC">May 5, 2026</span>
   </span>
 
     

@@ -15135,11 +15135,11 @@
 
 <h1 id="kserve">kserve<a class="headerlink" href="#kserve" title="Permanent link">¶</a></h1>
 <blockquote>
-<p><strong>Architecture snapshot: 2026-05-04</strong> (2026-05-04)</p>
+<p><strong>Architecture snapshot: 2026-05-05</strong> (2026-05-05)</p>
 </blockquote>
 <p><strong>Repository:</strong> kserve/kserve<br>
 <strong>Analyzer:</strong> arch-analyzer 0.2.0<br>
-<strong>Extracted:</strong> 2026-05-04T08:27:13Z</p>
+<strong>Extracted:</strong> 2026-05-05T13:55:18Z</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -15151,11 +15151,11 @@
 <tbody>
 <tr>
 <td>CRDs</td>
-<td>14</td>
+<td>12</td>
 </tr>
 <tr>
 <td>Deployments</td>
-<td>10</td>
+<td>3</td>
 </tr>
 <tr>
 <td>Services</td>
@@ -15189,24 +15189,10 @@
     subgraph controller["kserve Controller"]
         dep_1["kserve-controller-manager"]
         class dep_1 controller
-        dep_2["kserve-controller-manager"]
+        dep_2["kserve-localmodel-controller-manager"]
         class dep_2 controller
-        dep_3["kserve-controller-manager"]
+        dep_3["llmisvc-controller-manager"]
         class dep_3 controller
-        dep_4["kserve-controller-manager"]
-        class dep_4 controller
-        dep_5["kserve-controller-manager"]
-        class dep_5 controller
-        dep_6["kserve-controller-manager"]
-        class dep_6 controller
-        dep_7["kserve-controller-manager"]
-        class dep_7 controller
-        dep_8["kserve-localmodel-controller-manager"]
-        class dep_8 controller
-        dep_9["llmisvc-controller-manager"]
-        class dep_9 controller
-        dep_10["spark-pmml-iris"]
-        class dep_10 controller
     end
 
     crd_ClusterServingRuntime{{"ClusterServingRuntime\nserving.kserve.io/v1alpha1"}}
@@ -15216,11 +15202,6 @@
     crd_InferenceGraph{{"InferenceGraph\nserving.kserve.io/v1alpha1"}}
     class crd_InferenceGraph crd
     crd_InferenceGraph --&gt;|"For (reconciles)"| controller
-    crd_LLMInferenceService{{"LLMInferenceService\nserving.kserve.io/v1alpha1"}}
-    class crd_LLMInferenceService crd
-    crd_LLMInferenceService --&gt;|"For (reconciles)"| controller
-    crd_LLMInferenceServiceConfig{{"LLMInferenceServiceConfig\nserving.kserve.io/v1alpha1"}}
-    class crd_LLMInferenceServiceConfig crd
     crd_LocalModelCache{{"LocalModelCache\nserving.kserve.io/v1alpha1"}}
     class crd_LocalModelCache crd
     crd_LocalModelCache --&gt;|"For (reconciles)"| controller
@@ -15245,62 +15226,62 @@
     crd_InferenceService{{"InferenceService\nserving.kserve.io/v1beta1"}}
     class crd_InferenceService crd
     crd_InferenceService --&gt;|"For (reconciles)"| controller
-    controller --&gt;|"Owns"| owned_11["Deployment"]
+    controller --&gt;|"Owns"| owned_4["Deployment"]
+    class owned_4 owned
+    controller --&gt;|"Owns"| owned_5["HTTPRoute"]
+    class owned_5 owned
+    controller --&gt;|"Owns"| owned_6["HorizontalPodAutoscaler"]
+    class owned_6 owned
+    controller --&gt;|"Owns"| owned_7["InferencePool"]
+    class owned_7 owned
+    controller --&gt;|"Owns"| owned_8["Ingress"]
+    class owned_8 owned
+    controller --&gt;|"Owns"| owned_9["Job"]
+    class owned_9 owned
+    controller --&gt;|"Owns"| owned_10["LeaderWorkerSet"]
+    class owned_10 owned
+    controller --&gt;|"Owns"| owned_11["OpenTelemetryCollector"]
     class owned_11 owned
-    controller --&gt;|"Owns"| owned_12["HTTPRoute"]
+    controller --&gt;|"Owns"| owned_12["PersistentVolume"]
     class owned_12 owned
-    controller --&gt;|"Owns"| owned_13["HorizontalPodAutoscaler"]
+    controller --&gt;|"Owns"| owned_13["PersistentVolumeClaim"]
     class owned_13 owned
-    controller --&gt;|"Owns"| owned_14["InferencePool"]
+    controller --&gt;|"Owns"| owned_14["PodMonitor"]
     class owned_14 owned
-    controller --&gt;|"Owns"| owned_15["Ingress"]
+    controller --&gt;|"Owns"| owned_15["Route"]
     class owned_15 owned
-    controller --&gt;|"Owns"| owned_16["Job"]
+    controller --&gt;|"Owns"| owned_16["ScaledObject"]
     class owned_16 owned
-    controller --&gt;|"Owns"| owned_17["LeaderWorkerSet"]
+    controller --&gt;|"Owns"| owned_17["Secret"]
     class owned_17 owned
-    controller --&gt;|"Owns"| owned_18["OpenTelemetryCollector"]
+    controller --&gt;|"Owns"| owned_18["Service"]
     class owned_18 owned
-    controller --&gt;|"Owns"| owned_19["PersistentVolume"]
+    controller --&gt;|"Owns"| owned_19["ServiceMonitor"]
     class owned_19 owned
-    controller --&gt;|"Owns"| owned_20["PersistentVolumeClaim"]
+    controller --&gt;|"Owns"| owned_20["VariantAutoscaling"]
     class owned_20 owned
-    controller --&gt;|"Owns"| owned_21["PodMonitor"]
+    controller --&gt;|"Owns"| owned_21["VirtualService"]
     class owned_21 owned
-    controller --&gt;|"Owns"| owned_22["Route"]
-    class owned_22 owned
-    controller --&gt;|"Owns"| owned_23["ScaledObject"]
-    class owned_23 owned
-    controller --&gt;|"Owns"| owned_24["Secret"]
-    class owned_24 owned
-    controller --&gt;|"Owns"| owned_25["Service"]
-    class owned_25 owned
-    controller --&gt;|"Owns"| owned_26["ServiceMonitor"]
-    class owned_26 owned
-    controller --&gt;|"Owns"| owned_27["VariantAutoscaling"]
-    class owned_27 owned
-    controller --&gt;|"Owns"| owned_28["VirtualService"]
-    class owned_28 owned
-    watch_29["ClusterServingRuntime"] --&gt;|"Watches"| controller
+    watch_22["ClusterServingRuntime"] --&gt;|"Watches"| controller
+    class watch_22 external
+    watch_23["ConfigMap"] --&gt;|"Watches"| controller
+    class watch_23 external
+    watch_24["Gateway"] --&gt;|"Watches"| controller
+    class watch_24 external
+    watch_25["HTTPRoute"] --&gt;|"Watches"| controller
+    class watch_25 external
+    watch_26["InferenceService"] --&gt;|"Watches"| controller
+    class watch_26 external
+    watch_27["LLMInferenceServiceConfig"] --&gt;|"Watches"| controller
+    class watch_27 external
+    watch_28["LocalModelNode"] --&gt;|"Watches"| controller
+    class watch_28 external
+    watch_29["Node"] --&gt;|"Watches"| controller
     class watch_29 external
-    watch_30["ConfigMap"] --&gt;|"Watches"| controller
+    watch_30["Pod"] --&gt;|"Watches"| controller
     class watch_30 external
-    watch_31["Gateway"] --&gt;|"Watches"| controller
-    class watch_31 external
-    watch_32["HTTPRoute"] --&gt;|"Watches"| controller
-    class watch_32 external
-    watch_33["InferenceService"] --&gt;|"Watches"| controller
-    class watch_33 external
-    watch_34["LLMInferenceServiceConfig"] --&gt;|"Watches"| controller
-    class watch_34 external
-    watch_35["LocalModelNode"] --&gt;|"Watches"| controller
-    class watch_35 external
-    watch_36["Node"] --&gt;|"Watches"| controller
-    class watch_36 external
-    watch_37["Pod"] --&gt;|"Watches"| controller
-    class watch_37 external
-    watch_38["ServingRuntime"] --&gt;|"Watches"| controller
-    class watch_38 external</code></pre>
+    watch_31["ServingRuntime"] --&gt;|"Watches"| controller
+    class watch_31 external</code></pre>
 <h3 id="crds">CRDs<a class="headerlink" href="#crds" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -15341,24 +15322,6 @@
 <td>150</td>
 <td>0</td>
 <td><a href="https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/crd/full/serving.kserve.io_inferencegraphs.yaml"><code>config/crd/full/serving.kserve.io_inferencegraphs.yaml</code></a></td>
-</tr>
-<tr>
-<td>serving.kserve.io</td>
-<td>v1alpha1</td>
-<td>LLMInferenceService</td>
-<td>Namespaced</td>
-<td>5730</td>
-<td>108</td>
-<td><a href="https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml"><code>config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml</code></a></td>
-</tr>
-<tr>
-<td>serving.kserve.io</td>
-<td>v1alpha1</td>
-<td>LLMInferenceServiceConfig</td>
-<td>Namespaced</td>
-<td>5709</td>
-<td>108</td>
-<td><a href="https://github.com/kserve/kserve/blob/5d509f23f903a2657dbe2394e785b3bd84c4c40d/config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml"><code>config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml</code></a></td>
 </tr>
 <tr>
 <td>serving.kserve.io</td>
@@ -15517,7 +15480,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 4, 2026 08:29:09 UTC">May 4, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 5, 2026 13:57:37 UTC">May 5, 2026</span>
   </span>
 
     

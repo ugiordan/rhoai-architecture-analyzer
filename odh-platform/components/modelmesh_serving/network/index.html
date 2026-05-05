@@ -15222,8 +15222,9 @@
     classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
 
     modelmesh_serving["modelmesh-serving"]:::component
-    modelmesh_serving --&gt; svc_0["modelmesh-controller\nClusterIP: 8080/TCP"]:::svc
-    modelmesh_serving --&gt; svc_1["modelmesh-webhook-server-service\nClusterIP: 9443/TCP"]:::svc
+    modelmesh_serving --&gt; svc_0["etcd\nClusterIP: 2379/TCP"]:::svc
+    modelmesh_serving --&gt; svc_1["modelmesh-controller\nClusterIP: 8080/TCP"]:::svc
+    modelmesh_serving --&gt; svc_2["modelmesh-webhook-server-service\nClusterIP: 9443/TCP"]:::svc
     modelmesh_serving -.-&gt; ext_azure_blob[["azure-blob\nobject-storage"]]:::ext</code></pre>
 <h3 id="services">Services<a class="headerlink" href="#services" title="Permanent link">¶</a></h3>
 <table>
@@ -15237,16 +15238,22 @@
 </thead>
 <tbody>
 <tr>
+<td>etcd</td>
+<td>ClusterIP</td>
+<td>2379/TCP</td>
+<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh"><code>kustomize:config/overlays/odh</code></a></td>
+</tr>
+<tr>
 <td>modelmesh-controller</td>
 <td>ClusterIP</td>
 <td>8080/TCP</td>
-<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/overlays/odh/manager/service.yaml"><code>config/overlays/odh/manager/service.yaml</code></a></td>
+<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh"><code>kustomize:config/overlays/odh</code></a></td>
 </tr>
 <tr>
 <td>modelmesh-webhook-server-service</td>
 <td>ClusterIP</td>
 <td>9443/TCP</td>
-<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/webhook/service.yaml"><code>config/webhook/service.yaml</code></a></td>
+<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh"><code>kustomize:config/overlays/odh</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -15263,12 +15270,12 @@
 <tr>
 <td>etcd</td>
 <td>Ingress</td>
-<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/overlays/odh/rbac/networkpolicy_etcd.yaml"><code>config/overlays/odh/rbac/networkpolicy_etcd.yaml</code></a></td>
+<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh"><code>kustomize:config/overlays/odh</code></a></td>
 </tr>
 <tr>
 <td>modelmesh-controller</td>
 <td>Ingress</td>
-<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/rbac/common/networkpolicy-controller.yaml"><code>config/rbac/common/networkpolicy-controller.yaml</code></a></td>
+<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh"><code>kustomize:config/overlays/odh</code></a></td>
 </tr>
 <tr>
 <td>modelmesh-runtimes</td>
@@ -15278,7 +15285,7 @@
 <tr>
 <td>modelmesh-webhook</td>
 <td>Ingress</td>
-<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/rbac/common/networkpolicy-webhook.yaml"><code>config/rbac/common/networkpolicy-webhook.yaml</code></a></td>
+<td><a href="https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh"><code>kustomize:config/overlays/odh</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -15320,7 +15327,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 22, 2026 22:03:03 UTC">April 22, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 5, 2026 13:57:37 UTC">May 5, 2026</span>
   </span>
 
     

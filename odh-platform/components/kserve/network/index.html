@@ -15200,12 +15200,12 @@
     classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
 
     kserve["kserve"]:::component
-    kserve --&gt; svc_0["kserve-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
-    kserve --&gt; svc_1["kserve-webhook-server-service\nClusterIP: 443/TCP"]:::svc
-    kserve --&gt; svc_2["llmisvc-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
-    kserve --&gt; svc_3["llmisvc-webhook-server-service\nClusterIP: 443/TCP"]:::svc
-    kserve --&gt; svc_4["localmodel-webhook-server-service\nClusterIP: 443/TCP"]:::svc
-    kserve --&gt; svc_5["webhook-service\nClusterIP: 443/TCP"]:::svc
+    kserve --&gt; svc_0["kserve-controller-manager-metrics-service\nClusterIP: 8443/TCP"]:::svc
+    kserve --&gt; svc_1["kserve-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
+    kserve --&gt; svc_2["kserve-webhook-server-service\nClusterIP: 443/TCP"]:::svc
+    kserve --&gt; svc_3["llmisvc-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
+    kserve --&gt; svc_4["llmisvc-webhook-server-service\nClusterIP: 443/TCP"]:::svc
+    kserve --&gt; svc_5["localmodel-webhook-server-service\nClusterIP: 443/TCP"]:::svc
     kserve -.-&gt; ext_azure_blob[["azure-blob\nobject-storage"]]:::ext
     kserve -.-&gt; ext_gcs[["gcs\nobject-storage"]]:::ext
     kserve -.-&gt; ext_s3[["s3\nobject-storage"]]:::ext</code></pre>
@@ -15221,40 +15221,40 @@
 </thead>
 <tbody>
 <tr>
+<td>kserve-controller-manager-metrics-service</td>
+<td>ClusterIP</td>
+<td>8443/TCP</td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all"><code>kustomize:config/overlays/all</code></a></td>
+</tr>
+<tr>
 <td>kserve-controller-manager-service</td>
 <td>ClusterIP</td>
 <td>8443/TCP</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/manager/service.yaml"><code>config/manager/service.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all"><code>kustomize:config/overlays/all</code></a></td>
 </tr>
 <tr>
 <td>kserve-webhook-server-service</td>
 <td>ClusterIP</td>
 <td>443/TCP</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/webhook/service.yaml"><code>config/webhook/service.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all"><code>kustomize:config/overlays/all</code></a></td>
 </tr>
 <tr>
 <td>llmisvc-controller-manager-service</td>
 <td>ClusterIP</td>
 <td>8443/TCP</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/llmisvc/service.yaml"><code>config/llmisvc/service.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all"><code>kustomize:config/overlays/all</code></a></td>
 </tr>
 <tr>
 <td>llmisvc-webhook-server-service</td>
 <td>ClusterIP</td>
 <td>443/TCP</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/webhook/llmisvc/service.yaml"><code>config/webhook/llmisvc/service.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all"><code>kustomize:config/overlays/all</code></a></td>
 </tr>
 <tr>
 <td>localmodel-webhook-server-service</td>
 <td>ClusterIP</td>
 <td>443/TCP</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/webhook/localmodel/service.yaml"><code>config/webhook/localmodel/service.yaml</code></a></td>
-</tr>
-<tr>
-<td>webhook-service</td>
-<td>ClusterIP</td>
-<td>443/TCP</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/test/webhooks/service.yaml"><code>test/webhooks/service.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all"><code>kustomize:config/overlays/all</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -15272,28 +15272,28 @@
 </thead>
 <tbody>
 <tr>
-<td>Gateway</td>
-<td>ai-gateway</td>
+<td>HTTPRoute</td>
+<td>rbac-inferred</td>
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml"><code>docs/samples/llmisvc/e2e-gpt-oss/gateway.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/rbac/kserve-manager-role"><code>rbac/kserve-manager-role</code></a></td>
 </tr>
 <tr>
-<td>Gateway</td>
-<td>knative-ingress-gateway</td>
+<td>Ingress</td>
+<td>rbac-inferred</td>
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/docs/openshift/serverless/gateways.yaml"><code>docs/openshift/serverless/gateways.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/rbac/kserve-manager-role"><code>rbac/kserve-manager-role</code></a></td>
 </tr>
 <tr>
-<td>Gateway</td>
-<td>knative-local-gateway</td>
+<td>VirtualService</td>
+<td>rbac-inferred</td>
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/docs/openshift/serverless/gateways.yaml"><code>docs/openshift/serverless/gateways.yaml</code></a></td>
+<td><a href="https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/rbac/kserve-manager-role"><code>rbac/kserve-manager-role</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -15323,7 +15323,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 4, 2026 08:29:09 UTC">May 4, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 5, 2026 13:57:37 UTC">May 5, 2026</span>
   </span>
 
     

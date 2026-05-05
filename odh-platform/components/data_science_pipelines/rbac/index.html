@@ -15216,7 +15216,7 @@
 <h1 id="data-science-pipelines-rbac">data-science-pipelines: RBAC<a class="headerlink" href="#data-science-pipelines-rbac" title="Permanent link">¶</a></h1>
 <p>ServiceAccount bindings, roles, and resource permissions.</p>
 <h2 id="rbac-overview">RBAC Overview<a class="headerlink" href="#rbac-overview" title="Permanent link">¶</a></h2>
-<p>This component defines a large RBAC surface (343 diagram lines). The graph below groups roles by permission scope.</p>
+<p>This component defines a large RBAC surface (341 diagram lines). The graph below groups roles by permission scope.</p>
 <pre class="mermaid"><code>graph LR
     classDef wide fill:#e74c3c,stroke:#c0392b,color:#fff
     classDef medium fill:#f39c12,stroke:#d68910,color:#fff
@@ -15243,7 +15243,7 @@
     ml_pipeline["ml-pipeline\n8 resources"]:::narrow
     ml_pipeline_persistenceagent_role["ml-pipeline-persistenceagent-role\n5 resources"]:::narrow
     ml_pipeline_scheduledworkflow_role["ml-pipeline-scheduledworkflow-role\n5 resources"]:::narrow
-    ml_pipeline_ui["ml-pipeline-ui\n6 resources"]:::narrow
+    ml_pipeline_ui["ml-pipeline-ui\n5 resources"]:::narrow
     ml_pipeline_viewer_controller_role["ml-pipeline-viewer-controller-role\n4 resources"]:::narrow
     kubeflow_pipelines_cache_deployer_role["kubeflow-pipelines-cache-deployer-role\n1 resources"]:::narrow
     kubeflow_pipelines_cache_deployer_role["kubeflow-pipelines-cache-deployer-role"]:::narrow
@@ -15763,13 +15763,6 @@
 <td>ml-pipeline-ui</td>
 <td>ClusterRole</td>
 <td></td>
-<td>secrets</td>
-<td>get, list</td>
-</tr>
-<tr>
-<td>ml-pipeline-ui</td>
-<td>ClusterRole</td>
-<td></td>
 <td>viewers</td>
 <td>create, get, list, watch, delete</td>
 </tr>
@@ -16119,301 +16112,295 @@
 <td>aggregate-to-kubeflow-pipelines-edit</td>
 <td>pipelines, pipelineversions</td>
 <td>create, delete, update</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-edit</td>
 <td>experiments</td>
 <td>archive, create, delete, unarchive</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-edit</td>
 <td>runs</td>
 <td>archive, create, delete, retry, terminate, unarchive, reportMetrics, readArtifact</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-edit</td>
 <td>jobs</td>
 <td>create, delete, disable, enable</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-edit</td>
 <td>scheduledworkflows</td>
 <td>*</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-edit</td>
 <td>cronworkflows, cronworkflows/finalizers, workflows, workflows/finalizers, workfloweventbindings, workflowtemplates, workflowtaskresults</td>
 <td>*</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-view</td>
 <td>pipelines, pipelineversions, experiments, jobs</td>
 <td>get, list</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-view</td>
 <td>runs</td>
 <td>get, list, readArtifact</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-view</td>
 <td>viewers</td>
 <td>create, get, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>aggregate-to-kubeflow-pipelines-view</td>
 <td>visualizations</td>
 <td>create</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml"><code>manifests/kustomize/base/installs/multi-user/view-edit-cluster-roles.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>namespaces</td>
 <td>get, list, watch, update</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>namespaces/status</td>
 <td>get, list, watch, update, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>secrets, configmaps</td>
 <td>get, list, watch, create, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>deployments</td>
 <td>get, list, watch, create, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>services</td>
 <td>get, list, watch, create, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>destinationrules</td>
 <td>get, list, watch, create, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>authorizationpolicies</td>
 <td>get, list, watch, create, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>compositecontrollers, controllerrevisions, decoratorcontrollers</td>
 <td>get, list, watch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-metacontroller</td>
 <td>events</td>
 <td>create, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml"><code>manifests/kustomize/third-party/metacontroller/base/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-cache-deployer-clusterrole</td>
 <td>certificatesigningrequests, certificatesigningrequests/approval</td>
 <td>create, delete, get, update</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml"><code>manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml"><code>manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-cache-deployer-clusterrole</td>
 <td>mutatingwebhookconfigurations</td>
 <td>create, delete, get, list, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml"><code>manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml"><code>manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-cache-deployer-clusterrole</td>
 <td>signers</td>
 <td>approve</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml"><code>manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml"><code>manifests/kustomize/base/cache-deployer/cluster-scoped/cache-deployer-clusterrole.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-cache-role</td>
 <td>pods</td>
 <td>get, list, watch, update, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-cache-role</td>
 <td>configmaps</td>
 <td>get</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-cache-role</td>
 <td>workflows</td>
 <td>get, list, watch, update, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/cache/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-metadata-writer-role</td>
 <td>pods</td>
 <td>get, list, watch, update, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-metadata-writer-role</td>
 <td>configmaps</td>
 <td>get</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>kubeflow-pipelines-metadata-writer-role</td>
 <td>workflows</td>
 <td>get, list, watch, update, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/metadata-writer/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline</td>
 <td>pods, pods/log</td>
 <td>get, list, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline</td>
 <td>workflows</td>
 <td>create, get, list, watch, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline</td>
 <td>scheduledworkflows</td>
 <td>create, get, list, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline</td>
 <td>scheduledworkflows/finalizers</td>
 <td>update</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline</td>
 <td>pipelines</td>
 <td>get, list, watch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline</td>
 <td>subjectaccessreviews</td>
 <td>create</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline</td>
 <td>tokenreviews</td>
 <td>create</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/api-service/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-persistenceagent-role</td>
 <td>workflows</td>
 <td>get, list, watch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-persistenceagent-role</td>
 <td>scheduledworkflows</td>
 <td>get, list, watch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-persistenceagent-role</td>
 <td>scheduledworkflows, workflows</td>
 <td>report</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-persistenceagent-role</td>
 <td>runs</td>
 <td>reportMetrics, readArtifact</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/persistence-agent/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-scheduledworkflow-role</td>
 <td>workflows</td>
 <td>create, get, list, watch, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-scheduledworkflow-role</td>
 <td>runs</td>
 <td>create</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-scheduledworkflow-role</td>
 <td>scheduledworkflows, scheduledworkflows/finalizers</td>
 <td>create, get, list, watch, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-scheduledworkflow-role</td>
 <td>events</td>
 <td>create, patch</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/scheduled-workflow/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-ui</td>
 <td>pods, pods/log</td>
 <td>get</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-ui</td>
 <td>events</td>
 <td>list</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
-</tr>
-<tr>
-<td>ml-pipeline-ui</td>
-<td>secrets</td>
-<td>get, list</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-ui</td>
 <td>viewers</td>
 <td>create, get, list, watch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-ui</td>
 <td>workflows</td>
 <td>get, list</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/pipelines-ui/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-viewer-controller-role</td>
 <td>deployments, services</td>
 <td>create, get, list, watch, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml</code></a></td>
 </tr>
 <tr>
 <td>ml-pipeline-viewer-controller-role</td>
 <td>viewers, viewers/finalizers</td>
 <td>create, get, list, watch, update, patch, delete</td>
-<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/98c6ded5cbe580ecae90446b730f1e72421b963e/manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml</code></a></td>
+<td><a href="https://github.com/kubeflow/data-science-pipelines/blob/1e2007f4374655ad9e06fdcfb68a36d0a6fc2d0f/manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml"><code>manifests/kustomize/base/installs/multi-user/viewer-controller/cluster-role.yaml</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -16439,7 +16426,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 30, 2026 14:44:04 UTC">April 30, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 5, 2026 13:57:37 UTC">May 5, 2026</span>
   </span>
 
     

@@ -15135,11 +15135,11 @@
 
 <h1 id="model-registry-operator">model-registry-operator<a class="headerlink" href="#model-registry-operator" title="Permanent link">¶</a></h1>
 <blockquote>
-<p><strong>Architecture snapshot: 2026-05-04</strong> (2026-05-04)</p>
+<p><strong>Architecture snapshot: 2026-05-05</strong> (2026-05-05)</p>
 </blockquote>
 <p><strong>Repository:</strong> opendatahub-io/model-registry-operator<br>
 <strong>Analyzer:</strong> arch-analyzer 0.2.0<br>
-<strong>Extracted:</strong> 2026-05-04T08:28:08Z</p>
+<strong>Extracted:</strong> 2026-05-05T13:56:09Z</p>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -15151,15 +15151,15 @@
 <tbody>
 <tr>
 <td>CRDs</td>
-<td>2</td>
+<td>1</td>
 </tr>
 <tr>
 <td>Deployments</td>
-<td>8</td>
+<td>1</td>
 </tr>
 <tr>
 <td>Services</td>
-<td>1</td>
+<td>6</td>
 </tr>
 <tr>
 <td>Secrets</td>
@@ -15187,62 +15187,45 @@
     classDef dep fill:#f39c12,stroke:#e67e22,color:#fff
 
     subgraph controller["model-registry-operator Controller"]
-        dep_1["controller-manager"]
+        dep_1["model-registry-operator-controller-manager"]
         class dep_1 controller
-        dep_2["controller-manager"]
-        class dep_2 controller
-        dep_3["controller-manager"]
-        class dep_3 controller
-        dep_4["controller-manager"]
-        class dep_4 controller
-        dep_5["controller-manager"]
-        class dep_5 controller
-        dep_6["controller-manager"]
-        class dep_6 controller
-        dep_7["controller-manager"]
-        class dep_7 controller
-        dep_8["controller-manager"]
-        class dep_8 controller
     end
 
-    crd_ModelRegistry{{"ModelRegistry\nmodelregistry.opendatahub.io/v1alpha1"}}
-    class crd_ModelRegistry crd
-    crd_ModelRegistry --&gt;|"For (reconciles)"| controller
     crd_ModelRegistry{{"ModelRegistry\nmodelregistry.opendatahub.io/v1beta1"}}
     class crd_ModelRegistry crd
     crd_ModelRegistry --&gt;|"For (reconciles)"| controller
-    controller --&gt;|"Owns"| owned_9["Deployment"]
-    class owned_9 owned
-    controller --&gt;|"Owns"| owned_10["NetworkPolicy"]
-    class owned_10 owned
-    controller --&gt;|"Owns"| owned_11["Role"]
-    class owned_11 owned
-    controller --&gt;|"Owns"| owned_12["RoleBinding"]
-    class owned_12 owned
-    controller --&gt;|"Owns"| owned_13["Service"]
-    class owned_13 owned
-    controller --&gt;|"Owns"| owned_14["ServiceAccount"]
-    class owned_14 owned
-    watch_15["ClusterRoleBinding"] --&gt;|"Watches"| controller
+    controller --&gt;|"Owns"| owned_2["Deployment"]
+    class owned_2 owned
+    controller --&gt;|"Owns"| owned_3["NetworkPolicy"]
+    class owned_3 owned
+    controller --&gt;|"Owns"| owned_4["Role"]
+    class owned_4 owned
+    controller --&gt;|"Owns"| owned_5["RoleBinding"]
+    class owned_5 owned
+    controller --&gt;|"Owns"| owned_6["Service"]
+    class owned_6 owned
+    controller --&gt;|"Owns"| owned_7["ServiceAccount"]
+    class owned_7 owned
+    watch_8["ClusterRoleBinding"] --&gt;|"Watches"| controller
+    class watch_8 external
+    watch_9["ConfigMap"] --&gt;|"Watches"| controller
+    class watch_9 external
+    watch_10["Deployment"] --&gt;|"Watches"| controller
+    class watch_10 external
+    watch_11["NetworkPolicy"] --&gt;|"Watches"| controller
+    class watch_11 external
+    watch_12["PersistentVolumeClaim"] --&gt;|"Watches"| controller
+    class watch_12 external
+    watch_13["Role"] --&gt;|"Watches"| controller
+    class watch_13 external
+    watch_14["RoleBinding"] --&gt;|"Watches"| controller
+    class watch_14 external
+    watch_15["Secret"] --&gt;|"Watches"| controller
     class watch_15 external
-    watch_16["ConfigMap"] --&gt;|"Watches"| controller
+    watch_16["Service"] --&gt;|"Watches"| controller
     class watch_16 external
-    watch_17["Deployment"] --&gt;|"Watches"| controller
-    class watch_17 external
-    watch_18["NetworkPolicy"] --&gt;|"Watches"| controller
-    class watch_18 external
-    watch_19["PersistentVolumeClaim"] --&gt;|"Watches"| controller
-    class watch_19 external
-    watch_20["Role"] --&gt;|"Watches"| controller
-    class watch_20 external
-    watch_21["RoleBinding"] --&gt;|"Watches"| controller
-    class watch_21 external
-    watch_22["Secret"] --&gt;|"Watches"| controller
-    class watch_22 external
-    watch_23["Service"] --&gt;|"Watches"| controller
-    class watch_23 external
-    watch_24["ServiceAccount"] --&gt;|"Watches"| controller
-    class watch_24 external</code></pre>
+    watch_17["ServiceAccount"] --&gt;|"Watches"| controller
+    class watch_17 external</code></pre>
 <h3 id="crds">CRDs<a class="headerlink" href="#crds" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -15259,21 +15242,12 @@
 <tbody>
 <tr>
 <td>modelregistry.opendatahub.io</td>
-<td>v1alpha1</td>
-<td>ModelRegistry</td>
-<td>Namespaced</td>
-<td>120</td>
-<td>2</td>
-<td><a href="https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml"><code>config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml</code></a></td>
-</tr>
-<tr>
-<td>modelregistry.opendatahub.io</td>
 <td>v1beta1</td>
 <td>ModelRegistry</td>
 <td>Namespaced</td>
 <td>113</td>
 <td>6</td>
-<td><a href="https://github.com/opendatahub-io/model-registry-operator/blob/d56c75fadb1ee4aa2b162859055bf91734084a03/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml"><code>config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml</code></a></td>
+<td><a href="https://github.com/opendatahub-io/model-registry-operator/blob/a687e59dfbd6c67bd06c130a2098450c3833a514/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml"><code>config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -15335,7 +15309,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 4, 2026 08:29:09 UTC">May 4, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 5, 2026 13:57:37 UTC">May 5, 2026</span>
   </span>
 
     
