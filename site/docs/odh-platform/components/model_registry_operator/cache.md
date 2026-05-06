@@ -33,7 +33,8 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 ### Issues
 
-- No DefaultTransform: managedFields cached for all objects (wasted memory)
-- No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune)
+- Cache bypass (DisableFor) configured for corev1.Secret. This is a common fix for OOM caused by informer cache flooding from high-cardinality types (e.g., opendatahub-io/model-registry-operator#457)
+- No DefaultTransform: managedFields cached for all objects (wasted memory). Add cache.DefaultTransform to strip managedFields and reduce memory footprint
+- No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune). Set GOMEMLIMIT to 80-90% of container memory limit for optimal GC behavior
 - Type ModelRegistry is watched but has no cache filter (cluster-wide informer)
 

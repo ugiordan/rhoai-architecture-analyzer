@@ -1,11 +1,11 @@
 # data-science-pipelines
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-06** (2026-05-06)
 
 
 **Repository:** kubeflow/data-science-pipelines  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:09:41Z
+**Extracted:** 2026-05-06T08:31:05Z
 
 ## Summary
 
@@ -69,9 +69,9 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| metacontroller.k8s.io | v1alpha1 | CompositeController | Cluster | 109 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/55b118bc65144cfbdf265dc0616d4710ecbb4686/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
-| metacontroller.k8s.io | v1alpha1 | ControllerRevision | Namespaced | 8 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/55b118bc65144cfbdf265dc0616d4710ecbb4686/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
-| metacontroller.k8s.io | v1alpha1 | DecoratorController | Cluster | 75 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/55b118bc65144cfbdf265dc0616d4710ecbb4686/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
+| metacontroller.k8s.io | v1alpha1 | CompositeController | Cluster | 109 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/088ca41c664fbafca4f1a7e53140da20a544835e/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
+| metacontroller.k8s.io | v1alpha1 | ControllerRevision | Namespaced | 8 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/088ca41c664fbafca4f1a7e53140da20a544835e/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
+| metacontroller.k8s.io | v1alpha1 | DecoratorController | Cluster | 75 | 0 | [`manifests/kustomize/third-party/metacontroller/base/crd.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/088ca41c664fbafca4f1a7e53140da20a544835e/manifests/kustomize/third-party/metacontroller/base/crd.yaml) |
 
 ## Dependencies
 

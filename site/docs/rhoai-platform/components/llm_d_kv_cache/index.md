@@ -1,11 +1,11 @@
 # llm-d-kv-cache
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-06** (2026-05-06)
 
 
 **Repository:** llm-d/llm-d-kv-cache  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:10:13Z
+**Extracted:** 2026-05-06T08:31:07Z
 
 ## Summary
 

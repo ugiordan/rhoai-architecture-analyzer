@@ -22,27 +22,27 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| model-registry-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/kustomize:config/overlays/odh) |
-| model-registry-operator-webhook-service | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/kustomize:config/overlays/odh) |
-| template-value | ClusterIP | 0/TCP, 0/TCP | [`internal/controller/config/templates/service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/service.yaml.tmpl) |
-| template-value | ClusterIP | 0/TCP, 0/TCP | [`internal/controller/config/templates/catalog/catalog-service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/catalog/catalog-service.yaml.tmpl) |
-| template-value-postgres | ClusterIP | 5432/TCP | [`internal/controller/config/templates/catalog/catalog-postgres-service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/catalog/catalog-postgres-service.yaml.tmpl) |
-| template-value-postgres | ClusterIP | 5432/TCP | [`internal/controller/config/templates/postgres-service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/postgres-service.yaml.tmpl) |
+| model-registry-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/kustomize:config/overlays/odh) |
+| model-registry-operator-webhook-service | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/kustomize:config/overlays/odh) |
+| template-value | ClusterIP | 0/TCP, 0/TCP | [`internal/controller/config/templates/service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/service.yaml.tmpl) |
+| template-value | ClusterIP | 0/TCP, 0/TCP | [`internal/controller/config/templates/catalog/catalog-service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/catalog/catalog-service.yaml.tmpl) |
+| template-value-postgres | ClusterIP | 5432/TCP | [`internal/controller/config/templates/catalog/catalog-postgres-service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/catalog/catalog-postgres-service.yaml.tmpl) |
+| template-value-postgres | ClusterIP | 5432/TCP | [`internal/controller/config/templates/postgres-service.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/postgres-service.yaml.tmpl) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Route | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/rbac/manager-role) |
+| Route | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/rbac/manager-role) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| template-value-https-route | Ingress | [`internal/controller/config/templates/catalog/catalog-kube-rbac-proxy-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/catalog/catalog-kube-rbac-proxy-network-policy.yaml.tmpl) |
-| template-value-https-route | Ingress | [`internal/controller/config/templates/kube-rbac-proxy/kube-rbac-proxy-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/kube-rbac-proxy/kube-rbac-proxy-network-policy.yaml.tmpl) |
-| template-value-postgres | Ingress | [`internal/controller/config/templates/catalog/catalog-postgres-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/catalog/catalog-postgres-network-policy.yaml.tmpl) |
-| template-value-postgres | Ingress | [`internal/controller/config/templates/postgres-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/internal/controller/config/templates/postgres-network-policy.yaml.tmpl) |
+| template-value-https-route | Ingress | [`internal/controller/config/templates/catalog/catalog-kube-rbac-proxy-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/catalog/catalog-kube-rbac-proxy-network-policy.yaml.tmpl) |
+| template-value-https-route | Ingress | [`internal/controller/config/templates/kube-rbac-proxy/kube-rbac-proxy-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/kube-rbac-proxy/kube-rbac-proxy-network-policy.yaml.tmpl) |
+| template-value-postgres | Ingress | [`internal/controller/config/templates/catalog/catalog-postgres-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/catalog/catalog-postgres-network-policy.yaml.tmpl) |
+| template-value-postgres | Ingress | [`internal/controller/config/templates/postgres-network-policy.yaml.tmpl`](https://github.com/opendatahub-io/model-registry-operator/blob/4a921904f1a47095c01a8f5084c646579c9f405c/internal/controller/config/templates/postgres-network-policy.yaml.tmpl) |
 
 ## Network Policy Graph
 

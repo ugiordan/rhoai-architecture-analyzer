@@ -6,17 +6,17 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 
 | Type | GVK | Source |
 |------|-----|--------|
-| For | api/v1/DataSciencePipelinesApplication | [`controllers/dspipeline_controller.go:799`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L799) |
-| Owns | /v1/ConfigMap | [`controllers/dspipeline_controller.go:802`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L802) |
-| Owns | /v1/PersistentVolumeClaim | [`controllers/dspipeline_controller.go:805`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L805) |
-| Owns | /v1/Secret | [`controllers/dspipeline_controller.go:801`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L801) |
-| Owns | /v1/Service | [`controllers/dspipeline_controller.go:803`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L803) |
-| Owns | /v1/ServiceAccount | [`controllers/dspipeline_controller.go:804`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L804) |
-| Owns | apps/v1/Deployment | [`controllers/dspipeline_controller.go:800`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L800) |
-| Owns | networking.k8s.io/v1/NetworkPolicy | [`controllers/dspipeline_controller.go:806`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L806) |
-| Owns | rbac.authorization.k8s.io/v1/Role | [`controllers/dspipeline_controller.go:807`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L807) |
-| Owns | rbac.authorization.k8s.io/v1/RoleBinding | [`controllers/dspipeline_controller.go:808`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L808) |
-| Owns | route/v1/Route | [`controllers/dspipeline_controller.go:809`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/controllers/dspipeline_controller.go#L809) |
+| For | api/v1/DataSciencePipelinesApplication | [`controllers/dspipeline_controller.go:799`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L799) |
+| Owns | /v1/ConfigMap | [`controllers/dspipeline_controller.go:802`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L802) |
+| Owns | /v1/PersistentVolumeClaim | [`controllers/dspipeline_controller.go:805`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L805) |
+| Owns | /v1/Secret | [`controllers/dspipeline_controller.go:801`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L801) |
+| Owns | /v1/Service | [`controllers/dspipeline_controller.go:803`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L803) |
+| Owns | /v1/ServiceAccount | [`controllers/dspipeline_controller.go:804`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L804) |
+| Owns | apps/v1/Deployment | [`controllers/dspipeline_controller.go:800`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L800) |
+| Owns | networking.k8s.io/v1/NetworkPolicy | [`controllers/dspipeline_controller.go:806`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L806) |
+| Owns | rbac.authorization.k8s.io/v1/Role | [`controllers/dspipeline_controller.go:807`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L807) |
+| Owns | rbac.authorization.k8s.io/v1/RoleBinding | [`controllers/dspipeline_controller.go:808`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L808) |
+| Owns | route/v1/Route | [`controllers/dspipeline_controller.go:809`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/controllers/dspipeline_controller.go#L809) |
 
 ## Reconciliation Flow
 
@@ -73,8 +73,8 @@ sequenceDiagram
 
 | Name | Type | Path | Failure Policy | Service | Source |
 |------|------|------|----------------|---------|--------|
-| pipelineversions.pipelines.kubeflow.org | mutating | /webhooks/mutate-pipelineversion | Fail | template-value/template-value | [`config/internal/webhook/mutating_webhook.yaml.tmpl`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/config/internal/webhook/mutating_webhook.yaml.tmpl) |
-| pipelineversions.pipelines.kubeflow.org | validating | /webhooks/validate-pipelineversion | Fail | template-value/template-value | [`config/internal/webhook/validating_webhook.yaml.tmpl`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/config/internal/webhook/validating_webhook.yaml.tmpl) |
+| pipelineversions.pipelines.kubeflow.org | mutating | /webhooks/mutate-pipelineversion | Fail | template-value/template-value | [`config/internal/webhook/mutating_webhook.yaml.tmpl`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/config/internal/webhook/mutating_webhook.yaml.tmpl) |
+| pipelineversions.pipelines.kubeflow.org | validating | /webhooks/validate-pipelineversion | Fail | template-value/template-value | [`config/internal/webhook/validating_webhook.yaml.tmpl`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/config/internal/webhook/validating_webhook.yaml.tmpl) |
 
 ## Configuration
 
@@ -84,5 +84,5 @@ ConfigMaps and Helm values that control this component's runtime behavior.
 
 | Name | Data Keys | Source |
 |------|-----------|--------|
-| workflow-controller-configmap |  | [`config/argo/configmap.workflow-controller-configmap.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/2817bdf9613754dac1961dffa738007de3b398da/config/argo/configmap.workflow-controller-configmap.yaml) |
+| workflow-controller-configmap |  | [`config/argo/configmap.workflow-controller-configmap.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/d769f859f7f0e6abc2187da4069e925f45cda93b/config/argo/configmap.workflow-controller-configmap.yaml) |
 

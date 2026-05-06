@@ -2,7 +2,7 @@
 
 ## CRD Ownership Map
 
-The platform defines 35 CRDs. Each CRD is owned by the component that declares it.
+The platform defines 42 CRDs. Each CRD is owned by the component that declares it.
 
 | Owner | CRDs | Count |
 |-------|------|-------|
@@ -12,10 +12,12 @@ The platform defines 35 CRDs. Each CRD is owned by the component that declares i
 | **kserve** | ClusterServingRuntime, ClusterStorageContainer, InferenceGraph, InferenceService, LLMInferenceService, LLMInferenceServiceConfig, LocalModelCache, LocalModelNamespaceCache, LocalModelNode, LocalModelNodeGroup, ServingRuntime, TrainedModel | 12 |
 | **llama-stack-k8s-operator** | LlamaStackDistribution | 1 |
 | **mlflow-operator** | MLflow, MLflowConfig | 2 |
+| **model-registry-operator** | ModelRegistry | 1 |
 | **modelmesh-serving** | ClusterServingRuntime, InferenceService, Predictor, ServingRuntime | 4 |
 | **odh-model-controller** | Account | 1 |
 | **spark-operator** | ScheduledSparkApplication, SparkApplication, SparkConnect | 3 |
 | **trainer** | ClusterTrainingRuntime, TrainJob, TrainingRuntime | 3 |
+| **training-operator** | JAXJob, MPIJob, PaddleJob, PyTorchJob, TFJob, XGBoostJob | 6 |
 | **workload-variant-autoscaler** | VariantAutoscaling | 1 |
 
 ## Cross-Component Dependencies

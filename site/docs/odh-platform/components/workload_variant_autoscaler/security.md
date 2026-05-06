@@ -19,7 +19,7 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | ? | ? | [`config/manager/manager.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/manager/manager.yaml) |
+| controller-manager | manager | ? | ? | ? | [`config/manager/manager.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/manager/manager.yaml) |
 
 ## Build Security
 

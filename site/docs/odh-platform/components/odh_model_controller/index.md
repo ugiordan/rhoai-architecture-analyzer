@@ -1,11 +1,11 @@
 # odh-model-controller
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-06** (2026-05-06)
 
 
 **Repository:** opendatahub-io/odh-model-controller  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:10:49Z
+**Extracted:** 2026-05-06T08:31:27Z
 
 ## Summary
 
