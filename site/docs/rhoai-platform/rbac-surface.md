@@ -1,6 +1,6 @@
 # RBAC Surface
 
-91 cluster roles across the platform.
+92 cluster roles across the platform.
 
 ## Permission Scope by Component
 
@@ -202,6 +202,9 @@ graph LR
     sa_odh_dashboard -->|odh-dashboard| role_odh_dashboard
     role_system_auth_delegator["system:auth-delegator"]:::role
     sa_odh_dashboard -->|odh-dashboard| role_system_auth_delegator
+    sa_odh_dashboard_modules["odh-dashboard-modules\nServiceAccount"]:::subject
+    role_odh_dashboard_modules["odh-dashboard-modules"]:::role
+    sa_odh_dashboard_modules -->|odh-dashboard| role_odh_dashboard_modules
     role_cluster_monitoring_view["cluster-monitoring-view"]:::role
     sa_odh_dashboard -->|odh-dashboard| role_cluster_monitoring_view
     sa_controller_manager -->|odh-model-controller| role_metrics_auth_role
@@ -252,7 +255,7 @@ graph LR
 | mlflow-operator | 6 | mlflow-edit | 13 | medium |
 | model-registry | 6 | model-registry-manager-role | 3 | narrow |
 | model-registry-operator | 6 | manager-role | 27 | medium |
-| odh-dashboard | 1 | odh-dashboard | 40 | **wide** |
+| odh-dashboard | 2 | odh-dashboard | 40 | **wide** |
 | odh-model-controller | 7 | odh-model-controller-role | 45 | **wide** |
 | opendatahub-operator | 7 | controller-manager-role | 30 | medium |
 | spark-operator | 5 | spark-operator-controller | 15 | medium |

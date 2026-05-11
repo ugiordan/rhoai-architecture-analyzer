@@ -1,11 +1,11 @@
 # model-registry-operator
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** opendatahub-io/model-registry-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:09:25Z
+**Extracted:** 2026-05-11T09:37:08Z
 
 ## Summary
 
@@ -78,7 +78,7 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| modelregistry.opendatahub.io | v1beta1 | ModelRegistry | Namespaced | 113 | 6 | [`config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/34bd7584e8cbe37e2f767baa95883d5f3774ca51/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml) |
+| modelregistry.opendatahub.io | v1beta1 | ModelRegistry | Namespaced | 113 | 6 | [`config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml`](https://github.com/opendatahub-io/model-registry-operator/blob/d305a3379460f939b227bc7e31a1a2778db28344/config/crd/bases/modelregistry.opendatahub.io_modelregistries.yaml) |
 
 ## Dependencies
 

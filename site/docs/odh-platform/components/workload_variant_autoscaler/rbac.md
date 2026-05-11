@@ -4,7 +4,7 @@ ServiceAccount bindings, roles, and resource permissions.
 
 ## RBAC Overview
 
-This component defines a large RBAC surface (91 diagram lines). The graph below groups roles by permission scope.
+This component defines a large RBAC surface (89 diagram lines). The graph below groups roles by permission scope.
 
 ```mermaid
 graph LR
@@ -25,7 +25,7 @@ graph LR
     metrics_auth_role["metrics-auth-role\n2 resources"]:::narrow
     metrics_reader["metrics-reader"]:::narrow
     variantautoscaling_editor_role["variantautoscaling-editor-role\n2 resources"]:::narrow
-    leader_election_role["leader-election-role\n3 resources"]:::narrow
+    leader_election_role["leader-election-role\n2 resources"]:::narrow
     end
 
     subj_epp_metrics_reader["epp-metrics-reader\nServiceAccount"]:::subject
@@ -84,7 +84,6 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 | variantautoscaling-admin-role | ClusterRole |  | variantautoscalings/status | get |
 | variantautoscaling-editor-role | ClusterRole |  | variantautoscalings | create, delete, get, list, patch, update, watch |
 | variantautoscaling-editor-role | ClusterRole |  | VariantAutoscalingss/status | get |
-| leader-election-role | Role |  | configmaps | get, list, watch, create, update, patch, delete |
 | leader-election-role | Role |  | leases | get, list, watch, create, update, patch, delete |
 | leader-election-role | Role |  | events | create, patch |
 
@@ -92,29 +91,29 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 
 | Name | Resources | Verbs | Source |
 |------|-----------|-------|--------|
-| VariantAutoscalings-viewer-role | VariantAutoscalingss | get, list, watch | [`config/rbac/variantautoscaling_viewer_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/variantautoscaling_viewer_role.yaml) |
-| VariantAutoscalings-viewer-role | VariantAutoscalingss/status | get | [`config/rbac/variantautoscaling_viewer_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/variantautoscaling_viewer_role.yaml) |
-| epp-metrics-reader-role |  | get | [`config/rbac/epp_metrics_reader_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/epp_metrics_reader_role.yaml) |
-| manager-role | configmaps | get, list, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | configmaps/status | get | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | events | create, patch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | namespaces, pods, secrets, services | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | nodes, nodes/status | get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | deployments | get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | deployments/scale | get, update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | replicasets, statefulsets | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | inferencepools | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | leaderworkersets | get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | leaderworkersets/scale | get, update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | variantautoscalings | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | variantautoscalings/finalizers | update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | variantautoscalings/status | get, patch, update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| manager-role | servicemonitors | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/role.yaml) |
-| metrics-auth-role | tokenreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/metrics_auth_role.yaml) |
-| metrics-auth-role | subjectaccessreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/metrics_auth_role.yaml) |
-| metrics-reader |  | get | [`config/rbac/metrics_reader_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/metrics_reader_role.yaml) |
-| variantautoscaling-admin-role | VariantAutoscalingss | * | [`config/rbac/variantautoscaling_admin_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/variantautoscaling_admin_role.yaml) |
-| variantautoscaling-admin-role | variantautoscalings/status | get | [`config/rbac/variantautoscaling_admin_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/variantautoscaling_admin_role.yaml) |
-| variantautoscaling-editor-role | variantautoscalings | create, delete, get, list, patch, update, watch | [`config/rbac/variantautoscaling_editor_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/variantautoscaling_editor_role.yaml) |
-| variantautoscaling-editor-role | VariantAutoscalingss/status | get | [`config/rbac/variantautoscaling_editor_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/e8fb8f01571f92111e7b68c8766a2bfca7dcec35/config/rbac/variantautoscaling_editor_role.yaml) |
+| VariantAutoscalings-viewer-role | VariantAutoscalingss | get, list, watch | [`config/rbac/variantautoscaling_viewer_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/variantautoscaling_viewer_role.yaml) |
+| VariantAutoscalings-viewer-role | VariantAutoscalingss/status | get | [`config/rbac/variantautoscaling_viewer_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/variantautoscaling_viewer_role.yaml) |
+| epp-metrics-reader-role |  | get | [`config/rbac/epp_metrics_reader_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/epp_metrics_reader_role.yaml) |
+| manager-role | configmaps | get, list, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | configmaps/status | get | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | events | create, patch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | namespaces, pods, secrets, services | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | nodes, nodes/status | get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | deployments | get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | deployments/scale | get, update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | replicasets, statefulsets | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | inferencepools | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | leaderworkersets | get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | leaderworkersets/scale | get, update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | variantautoscalings | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | variantautoscalings/finalizers | update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | variantautoscalings/status | get, patch, update | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| manager-role | servicemonitors | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/role.yaml) |
+| metrics-auth-role | tokenreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/metrics_auth_role.yaml) |
+| metrics-auth-role | subjectaccessreviews | create | [`config/rbac/metrics_auth_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/metrics_auth_role.yaml) |
+| metrics-reader |  | get | [`config/rbac/metrics_reader_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/metrics_reader_role.yaml) |
+| variantautoscaling-admin-role | VariantAutoscalingss | * | [`config/rbac/variantautoscaling_admin_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/variantautoscaling_admin_role.yaml) |
+| variantautoscaling-admin-role | variantautoscalings/status | get | [`config/rbac/variantautoscaling_admin_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/variantautoscaling_admin_role.yaml) |
+| variantautoscaling-editor-role | variantautoscalings | create, delete, get, list, patch, update, watch | [`config/rbac/variantautoscaling_editor_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/variantautoscaling_editor_role.yaml) |
+| variantautoscaling-editor-role | VariantAutoscalingss/status | get | [`config/rbac/variantautoscaling_editor_role.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/af66e4c60bcdd1b48c69988e1a687cde44bf3277/config/rbac/variantautoscaling_editor_role.yaml) |
 

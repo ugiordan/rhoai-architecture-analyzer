@@ -1,6 +1,6 @@
 # RBAC Surface
 
-95 cluster roles across the platform.
+110 cluster roles across the platform.
 
 ## Permission Scope by Component
 
@@ -47,6 +47,13 @@ How many distinct Kubernetes resource types can each component's most powerful C
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">42</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">kserve-autogluon-server</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 76%; background: #e74c3c; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">42</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">llama-stack-k8s-operator</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
     <div style="width: 30%; background: #f39c12; height: 100%; border-radius: 4px; min-width: 20px;"></div>
@@ -66,6 +73,13 @@ How many distinct Kubernetes resource types can each component's most powerful C
     <div style="width: 5%; background: #27ae60; height: 100%; border-radius: 4px; min-width: 20px;"></div>
   </div>
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">3</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">model-registry-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 49%; background: #f39c12; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">27</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">odh-dashboard</span>
@@ -103,6 +117,13 @@ How many distinct Kubernetes resource types can each component's most powerful C
   <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">16</span>
 </div>
 <div style="display: flex; align-items: center; gap: 8px;">
+  <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">training-operator</span>
+  <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
+    <div style="width: 56%; background: #e74c3c; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+  </div>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">31</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">workload-variant-autoscaler</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
     <div style="width: 36%; background: #f39c12; height: 100%; border-radius: 4px; min-width: 20px;"></div>
@@ -121,6 +142,11 @@ graph LR
     classDef role fill:#e74c3c,stroke:#c0392b,color:#fff
     classDef subject fill:#3498db,stroke:#2980b9,color:#fff
 
+    sa_kserve_controller_manager["kserve-controller-manager\nServiceAccount"]:::subject
+    role_kserve_manager_role["kserve-manager-role"]:::role
+    sa_kserve_controller_manager -->|kserve| role_kserve_manager_role
+    role_kserve_proxy_role["kserve-proxy-role"]:::role
+    sa_kserve_controller_manager -->|kserve| role_kserve_proxy_role
     sa_argo["argo\nServiceAccount"]:::subject
     role_argo_cluster_role["argo-cluster-role"]:::role
     sa_argo -->|argo-workflows| role_argo_cluster_role
@@ -160,17 +186,16 @@ graph LR
     sa_ml_pipeline_viewer_crd_service_account["ml-pipeline-viewer-crd-service-account\nServiceAccount"]:::subject
     role_ml_pipeline_viewer_controller_role["ml-pipeline-viewer-controller-role"]:::role
     sa_ml_pipeline_viewer_crd_service_account -->|data-science-pipelines| role_ml_pipeline_viewer_controller_role
-    sa_kserve_controller_manager["kserve-controller-manager\nServiceAccount"]:::subject
-    role_kserve_manager_role["kserve-manager-role"]:::role
-    sa_kserve_controller_manager -->|kserve| role_kserve_manager_role
-    role_kserve_proxy_role["kserve-proxy-role"]:::role
-    sa_kserve_controller_manager -->|kserve| role_kserve_proxy_role
+    sa_kserve_controller_manager -->|kserve-autogluon-server| role_kserve_manager_role
+    sa_kserve_controller_manager -->|kserve-autogluon-server| role_kserve_proxy_role
     sa_controller_manager -->|llama-stack-k8s-operator| role_manager_role
     role_proxy_role["proxy-role"]:::role
     sa_controller_manager -->|llama-stack-k8s-operator| role_proxy_role
     sa_controller_manager -->|mlflow-operator| role_manager_role
     role_metrics_auth_role["metrics-auth-role"]:::role
     sa_controller_manager -->|mlflow-operator| role_metrics_auth_role
+    sa_controller_manager -->|model-registry-operator| role_manager_role
+    sa_controller_manager -->|model-registry-operator| role_proxy_role
     sa_controller_manager -->|model-registry| role_metrics_auth_role
     sa_model_registry_ui["model-registry-ui\nServiceAccount"]:::subject
     role_model_registry_create_sars["model-registry-create-sars"]:::role
@@ -186,6 +211,9 @@ graph LR
     sa_odh_dashboard -->|odh-dashboard| role_odh_dashboard
     role_system_auth_delegator["system:auth-delegator"]:::role
     sa_odh_dashboard -->|odh-dashboard| role_system_auth_delegator
+    sa_odh_dashboard_modules["odh-dashboard-modules\nServiceAccount"]:::subject
+    role_odh_dashboard_modules["odh-dashboard-modules"]:::role
+    sa_odh_dashboard_modules -->|odh-dashboard| role_odh_dashboard_modules
     role_cluster_monitoring_view["cluster-monitoring-view"]:::role
     sa_odh_dashboard -->|odh-dashboard| role_cluster_monitoring_view
     sa_controller_manager -->|odh-model-controller| role_metrics_auth_role
@@ -206,6 +234,9 @@ graph LR
     sa_notebook_controller_service_account -->|trainer| role_kubeflow_trainer_view
     sa_controller_service_account["controller-service-account\nServiceAccount"]:::subject
     sa_controller_service_account -->|trainer| role_kubeflow_trainer_view
+    sa_training_operator["training-operator\nServiceAccount"]:::subject
+    role_training_operator["training-operator"]:::role
+    sa_training_operator -->|training-operator| role_training_operator
     sa_epp_metrics_reader["epp-metrics-reader\nServiceAccount"]:::subject
     role_epp_metrics_reader_role["epp-metrics-reader-role"]:::role
     sa_epp_metrics_reader -->|workload-variant-autoscaler| role_epp_metrics_reader_role
@@ -228,13 +259,16 @@ graph LR
 | data-science-pipelines | 13 | aggregate-to-kubeflow-pipelines-edit | 13 | medium |
 | data-science-pipelines-operator | 4 | manager-role | 55 | **wide** |
 | kserve | 2 | kserve-manager-role | 42 | **wide** |
+| kserve-autogluon-server | 2 | kserve-manager-role | 42 | **wide** |
 | llama-stack-k8s-operator | 5 | manager-role | 17 | medium |
 | mlflow-operator | 6 | mlflow-edit | 13 | medium |
 | model-registry | 6 | model-registry-manager-role | 3 | narrow |
-| odh-dashboard | 1 | odh-dashboard | 40 | **wide** |
+| model-registry-operator | 6 | manager-role | 27 | medium |
+| odh-dashboard | 2 | odh-dashboard | 40 | **wide** |
 | odh-model-controller | 7 | odh-model-controller-role | 45 | **wide** |
 | opendatahub-operator | 23 | ray-editor-role | 2 | narrow |
 | spark-operator | 5 | spark-operator-controller | 15 | medium |
 | trainer | 8 | kubeflow-trainer-controller-manager | 16 | medium |
+| training-operator | 6 | training-operator | 31 | **wide** |
 | workload-variant-autoscaler | 7 | manager-role | 20 | medium |
 

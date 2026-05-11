@@ -1,11 +1,11 @@
 # models-as-a-service
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** red-hat-data-services/models-as-a-service  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:09:52Z
+**Extracted:** 2026-05-11T09:36:11Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 3 |
 | Secrets | 1 |
 | Cluster Roles | 0 |
-| Controller Watches | 11 |
+| Controller Watches | 12 |
 
 ## Component Architecture
 
@@ -70,12 +70,14 @@ No CRDs defined.
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
+| github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_model | v0.6.2 |
 | k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.33.1 |
 | k8s.io/apiextensions-apiserver | v0.33.1 |
-| k8s.io/apimachinery | v0.34.1 |
 | k8s.io/apimachinery | v0.33.1 |
-| k8s.io/client-go | v0.33.1 |
+| k8s.io/apimachinery | v0.34.1 |
 | k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.33.1 |
 | sigs.k8s.io/controller-runtime | v0.20.4 |
 

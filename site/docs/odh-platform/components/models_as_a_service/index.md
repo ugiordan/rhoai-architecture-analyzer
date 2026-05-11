@@ -1,11 +1,11 @@
 # models-as-a-service
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** opendatahub-io/models-as-a-service  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:09:04Z
+**Extracted:** 2026-05-11T09:37:24Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 3 |
 | Secrets | 1 |
 | Cluster Roles | 0 |
-| Controller Watches | 11 |
+| Controller Watches | 14 |
 
 ## Component Architecture
 
@@ -47,10 +47,14 @@ graph LR
     class watch_5 external
     watch_6["LLMInferenceService"] -->|"Watches"| controller
     class watch_6 external
-    watch_7["MaaSModelRef"] -->|"Watches"| controller
+    watch_7["MaaSAuthPolicy"] -->|"Watches"| controller
     class watch_7 external
-    controller -.->|"depends on"| odh_8["kserve"]
-    class odh_8 dep
+    watch_8["MaaSModelRef"] -->|"Watches"| controller
+    class watch_8 external
+    watch_9["MaaSSubscription"] -->|"Watches"| controller
+    class watch_9 external
+    controller -.->|"depends on"| odh_10["kserve"]
+    class odh_10 dep
 ```
 
 ### CRDs

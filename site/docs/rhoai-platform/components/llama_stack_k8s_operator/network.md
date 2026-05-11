@@ -17,19 +17,19 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| llama-stack-k8s-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/llamastack/llama-stack-k8s-operator/blob/916c672901f7e2fc091471677e219830761a532e/kustomize:config/overlays/odh) |
+| llama-stack-k8s-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/llamastack/llama-stack-k8s-operator/blob/0a854eb4b4f12bdffa809818fe7243aef21b1562/kustomize:config/overlays/odh) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Ingress | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/llamastack/llama-stack-k8s-operator/blob/916c672901f7e2fc091471677e219830761a532e/rbac/manager-role) |
+| Ingress | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/llamastack/llama-stack-k8s-operator/blob/0a854eb4b4f12bdffa809818fe7243aef21b1562/rbac/manager-role) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| network-policy | Ingress | [`controllers/manifests/base/networkpolicy.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/916c672901f7e2fc091471677e219830761a532e/controllers/manifests/base/networkpolicy.yaml) |
+| network-policy | Ingress | [`controllers/manifests/base/networkpolicy.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/0a854eb4b4f12bdffa809818fe7243aef21b1562/controllers/manifests/base/networkpolicy.yaml) |
 
 ## Network Policy Graph
 

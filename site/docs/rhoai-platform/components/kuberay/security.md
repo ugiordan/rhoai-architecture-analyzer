@@ -18,8 +18,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/d6c54db15cc2c7cfba73dac1e76302a4b31071e0/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/d6c54db15cc2c7cfba73dac1e76302a4b31071e0/ray-operator/config/manager/manager.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/d127985a204c61dcf74bb7cea12f0a8e3c6e3a86/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/d127985a204c61dcf74bb7cea12f0a8e3c6e3a86/ray-operator/config/manager/manager.yaml) |
 
 ## Build Security
 
@@ -34,6 +34,6 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `proto/Dockerfile` | golang:1.24.0-bullseye | 1 | 65532:65532 |  |  |  |  |
 | `ray-operator/Dockerfile` | gcr.io/distroless/base-debian12:nonroot | 2 | 65532:65532 |  |  |  |  |
 | `ray-operator/Dockerfile.buildx` | gcr.io/distroless/base-debian12:nonroot | 1 | 65532:65532 |  | multi-arch |  |  |
-| `ray-operator/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:8d0a8fb39ec907e8ca62cdd24b62a63ca49a30fe465798a360741fde58437a23 | 2 | 65532:65532 |  | multi-arch |  |  |
+| `ray-operator/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:fe9e574f04371b333ed4e21d30d984f6b7fcd1046e579f5ddab4816c0c8e231d | 2 | 65532:65532 |  | multi-arch |  |  |
 | `ray-operator/Dockerfile.rhoai` | registry.access.redhat.com/ubi9/ubi:latest | 2 | 65532:65532 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi:latest |
 

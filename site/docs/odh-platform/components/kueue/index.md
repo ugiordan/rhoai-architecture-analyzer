@@ -1,11 +1,11 @@
 # kueue
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** opendatahub-io/kueue  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:10:22Z
+**Extracted:** 2026-05-11T09:36:50Z
 
 ## Summary
 

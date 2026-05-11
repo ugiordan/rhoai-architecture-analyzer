@@ -1,11 +1,11 @@
 # kserve
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** kserve/kserve  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:11:01Z
+**Extracted:** 2026-05-11T09:36:52Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 6 |
 | Secrets | 3 |
 | Cluster Roles | 2 |
-| Controller Watches | 46 |
+| Controller Watches | 48 |
 
 ## Component Architecture
 
@@ -112,34 +112,36 @@ graph LR
     class watch_22 external
     watch_23["InferenceService"] -->|"Watches"| controller
     class watch_23 external
-    watch_24["LLMInferenceServiceConfig"] -->|"Watches"| controller
+    watch_24["LLMInferenceService"] -->|"Watches"| controller
     class watch_24 external
-    watch_25["LocalModelNode"] -->|"Watches"| controller
+    watch_25["LLMInferenceServiceConfig"] -->|"Watches"| controller
     class watch_25 external
-    watch_26["Node"] -->|"Watches"| controller
+    watch_26["LocalModelNode"] -->|"Watches"| controller
     class watch_26 external
-    watch_27["Pod"] -->|"Watches"| controller
+    watch_27["Node"] -->|"Watches"| controller
     class watch_27 external
-    watch_28["ServingRuntime"] -->|"Watches"| controller
+    watch_28["Pod"] -->|"Watches"| controller
     class watch_28 external
+    watch_29["ServingRuntime"] -->|"Watches"| controller
+    class watch_29 external
 ```
 
 ### CRDs
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 1183 | 0 | [`config/crd/full/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/serving.kserve.io_clusterservingruntimes.yaml) |
-| serving.kserve.io | v1alpha1 | ClusterStorageContainer | Cluster | 216 | 0 | [`config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml) |
-| serving.kserve.io | v1alpha1 | InferenceGraph | Namespaced | 150 | 0 | [`config/crd/full/serving.kserve.io_inferencegraphs.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/serving.kserve.io_inferencegraphs.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelCache | Cluster | 20 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelNamespaceCache | Namespaced | 20 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelNode | Cluster | 15 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelNodeGroup | Cluster | 220 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml) |
-| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1183 | 0 | [`config/crd/full/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/serving.kserve.io_servingruntimes.yaml) |
-| serving.kserve.io | v1alpha1 | TrainedModel | Namespaced | 25 | 0 | [`config/crd/full/serving.kserve.io_trainedmodels.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/serving.kserve.io_trainedmodels.yaml) |
-| serving.kserve.io | v1alpha2 | LLMInferenceService | Namespaced | 5733 | 110 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml) |
-| serving.kserve.io | v1alpha2 | LLMInferenceServiceConfig | Namespaced | 5712 | 95 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml) |
-| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6547 | 0 | [`config/crd/full/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/config/crd/full/serving.kserve.io_inferenceservices.yaml) |
+| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 1183 | 0 | [`config/crd/full/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/serving.kserve.io_clusterservingruntimes.yaml) |
+| serving.kserve.io | v1alpha1 | ClusterStorageContainer | Cluster | 216 | 0 | [`config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml) |
+| serving.kserve.io | v1alpha1 | InferenceGraph | Namespaced | 150 | 0 | [`config/crd/full/serving.kserve.io_inferencegraphs.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/serving.kserve.io_inferencegraphs.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelCache | Cluster | 23 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelNamespaceCache | Namespaced | 23 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelNode | Cluster | 15 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelNodeGroup | Cluster | 220 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml) |
+| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1183 | 0 | [`config/crd/full/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/serving.kserve.io_servingruntimes.yaml) |
+| serving.kserve.io | v1alpha1 | TrainedModel | Namespaced | 25 | 0 | [`config/crd/full/serving.kserve.io_trainedmodels.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/serving.kserve.io_trainedmodels.yaml) |
+| serving.kserve.io | v1alpha2 | LLMInferenceService | Namespaced | 5733 | 110 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml) |
+| serving.kserve.io | v1alpha2 | LLMInferenceServiceConfig | Namespaced | 5712 | 95 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml) |
+| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6547 | 0 | [`config/crd/full/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/config/crd/full/serving.kserve.io_inferenceservices.yaml) |
 
 ## Dependencies
 

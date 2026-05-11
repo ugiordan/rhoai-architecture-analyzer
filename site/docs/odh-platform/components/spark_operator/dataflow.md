@@ -6,7 +6,7 @@ Kubernetes resources this controller monitors for changes. Each watch triggers r
 
 | Type | GVK | Source |
 |------|-----|--------|
-| For | api/v1alpha1/SparkConnect | [`internal/controller/sparkconnect/reconciler.go:97`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/internal/controller/sparkconnect/reconciler.go#L97) |
+| For | api/v1alpha1/SparkConnect | [`internal/controller/sparkconnect/reconciler.go:97`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/internal/controller/sparkconnect/reconciler.go#L97) |
 
 ## Reconciliation Flow
 
@@ -36,11 +36,11 @@ sequenceDiagram
 
 | Name | Type | Path | Failure Policy | Service | Source |
 |------|------|------|----------------|---------|--------|
-| mutate-pod.sparkoperator.k8s.io | mutating | /mutate--v1-pod | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh (spark-operator-webhook)) |
-| mutate-scheduledsparkapplication.sparkoperator.k8s.io | mutating | /mutate-sparkoperator-k8s-io-v1beta2-scheduledsparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh (spark-operator-webhook)) |
-| mutate-sparkapplication.sparkoperator.k8s.io | mutating | /mutate-sparkoperator-k8s-io-v1beta2-sparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh (spark-operator-webhook)) |
-| validate-scheduledsparkapplication.sparkoperator.k8s.io | validating | /validate-sparkoperator-k8s-io-v1beta2-scheduledsparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh (spark-operator-webhook)) |
-| validate-sparkapplication.sparkoperator.k8s.io | validating | /validate-sparkoperator-k8s-io-v1beta2-sparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh (spark-operator-webhook)) |
+| mutate-pod.sparkoperator.k8s.io | mutating | /mutate--v1-pod | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh (spark-operator-webhook)) |
+| mutate-scheduledsparkapplication.sparkoperator.k8s.io | mutating | /mutate-sparkoperator-k8s-io-v1beta2-scheduledsparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh (spark-operator-webhook)) |
+| mutate-sparkapplication.sparkoperator.k8s.io | mutating | /mutate-sparkoperator-k8s-io-v1beta2-sparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh (spark-operator-webhook)) |
+| validate-scheduledsparkapplication.sparkoperator.k8s.io | validating | /validate-sparkoperator-k8s-io-v1beta2-scheduledsparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh (spark-operator-webhook)) |
+| validate-sparkapplication.sparkoperator.k8s.io | validating | /validate-sparkoperator-k8s-io-v1beta2-sparkapplication | Fail | opendatahub/spark-operator-webhook-svc | [`kustomize:config/overlays/odh (spark-operator-webhook)`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh (spark-operator-webhook)) |
 
 ## Configuration
 

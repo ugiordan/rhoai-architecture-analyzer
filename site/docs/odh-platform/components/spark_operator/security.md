@@ -18,9 +18,9 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/config/default/manager_webhook_patch.yaml) |
-| spark-operator-controller | controller | true | true | false | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh) |
-| spark-operator-webhook | webhook | true | true | false | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/b8a995788a0bd700354170600d0813db8a597241/kustomize:config/overlays/odh) |
+| controller-manager | manager | ? | ? | ? | [`config/default/manager_webhook_patch.yaml`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/config/default/manager_webhook_patch.yaml) |
+| spark-operator-controller | controller | true | true | false | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh) |
+| spark-operator-webhook | webhook | true | true | false | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh) |
 
 ## Build Security
 

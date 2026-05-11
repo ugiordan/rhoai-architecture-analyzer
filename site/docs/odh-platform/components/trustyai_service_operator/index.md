@@ -1,11 +1,11 @@
 # trustyai-service-operator
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** trustyai-explainability/trustyai-service-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:09:13Z
+**Extracted:** 2026-05-11T09:37:19Z
 
 ## Summary
 

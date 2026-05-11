@@ -20,10 +20,10 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kserve-controller-manager | manager | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all) |
-| kserve-controller-manager | kube-rbac-proxy | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all) |
-| kserve-localmodel-controller-manager | manager | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all) |
-| llmisvc-controller-manager | manager | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/d5aea2c6d8f2f2c8dcf22897e23e5d929cf654dd/kustomize:config/overlays/all) |
+| kserve-controller-manager | manager | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/kustomize:config/overlays/all) |
+| kserve-controller-manager | kube-rbac-proxy | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/kustomize:config/overlays/all) |
+| kserve-localmodel-controller-manager | manager | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/kustomize:config/overlays/all) |
+| llmisvc-controller-manager | manager | true | true | false | [`kustomize:config/overlays/all`](https://github.com/kserve/kserve/blob/637ddfc999f0b4c0fe31e7ea770afd12b558299b/kustomize:config/overlays/all) |
 
 ## Build Security
 

@@ -18,7 +18,9 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 | Type | Filter Kind | Filter |
 |------|-------------|--------|
 | appsv1.Deployment | label | label selector |
+| batchv1.Job | label | label selector |
 | corev1.PersistentVolumeClaim | label | label selector |
+| corev1.Pod | label | label selector |
 | corev1.Secret | label | label selector |
 | corev1.Service | label | label selector |
 | corev1.ServiceAccount | label | label selector |

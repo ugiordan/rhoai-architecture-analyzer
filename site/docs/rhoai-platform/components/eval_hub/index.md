@@ -1,11 +1,11 @@
 # eval-hub
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** eval-hub/eval-hub  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:10:46Z
+**Extracted:** 2026-05-11T09:37:08Z
 
 ## Summary
 
@@ -50,9 +50,9 @@ No CRDs defined.
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/prometheus/client_golang | v1.23.2 |
-| google.golang.org/grpc | v1.80.0 |
-| k8s.io/api | v0.35.3 |
-| k8s.io/apimachinery | v0.35.3 |
-| k8s.io/apiserver | v0.35.3 |
-| k8s.io/client-go | v0.35.3 |
+| google.golang.org/grpc | v1.81.0 |
+| k8s.io/api | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apiserver | v0.35.4 |
+| k8s.io/client-go | v0.35.4 |
 

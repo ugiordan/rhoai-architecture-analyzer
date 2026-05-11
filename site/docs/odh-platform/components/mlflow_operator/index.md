@@ -1,11 +1,11 @@
 # mlflow-operator
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** opendatahub-io/mlflow-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:09:47Z
+**Extracted:** 2026-05-11T09:36:49Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 3 |
 | Secrets | 2 |
 | Cluster Roles | 6 |
-| Controller Watches | 12 |
+| Controller Watches | 13 |
 
 ## Component Architecture
 
@@ -54,28 +54,30 @@ graph LR
     class owned_6 owned
     controller -->|"Owns"| owned_7["HTTPRoute"]
     class owned_7 owned
-    controller -->|"Owns"| owned_8["PersistentVolumeClaim"]
+    controller -->|"Owns"| owned_8["Job"]
     class owned_8 owned
-    controller -->|"Owns"| owned_9["Secret"]
+    controller -->|"Owns"| owned_9["PersistentVolumeClaim"]
     class owned_9 owned
-    controller -->|"Owns"| owned_10["Service"]
+    controller -->|"Owns"| owned_10["Secret"]
     class owned_10 owned
-    controller -->|"Owns"| owned_11["ServiceAccount"]
+    controller -->|"Owns"| owned_11["Service"]
     class owned_11 owned
-    controller -->|"Owns"| owned_12["ServiceMonitor"]
+    controller -->|"Owns"| owned_12["ServiceAccount"]
     class owned_12 owned
-    watch_13["ClusterRole"] -->|"Watches"| controller
-    class watch_13 external
-    controller -.->|"depends on"| odh_14["mlflow-operator"]
-    class odh_14 dep
+    controller -->|"Owns"| owned_13["ServiceMonitor"]
+    class owned_13 owned
+    watch_14["ClusterRole"] -->|"Watches"| controller
+    class watch_14 external
+    controller -.->|"depends on"| odh_15["mlflow-operator"]
+    class odh_15 dep
 ```
 
 ### CRDs
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| mlflow.kubeflow.org | v1 | MLflowConfig | Namespaced | 6 | 4 | [`config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/c47bea907957a9eeb35ee4ed3b0403e855d096cc/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml) |
-| mlflow.opendatahub.io | v1 | MLflow | Cluster | 296 | 16 | [`config/crd/bases/mlflow.opendatahub.io_mlflows.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/c47bea907957a9eeb35ee4ed3b0403e855d096cc/config/crd/bases/mlflow.opendatahub.io_mlflows.yaml) |
+| mlflow.kubeflow.org | v1 | MLflowConfig | Namespaced | 6 | 4 | [`config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/1fed87d8872e24b4a28bcb5e2a2d3e6e3d7f57ff/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml) |
+| mlflow.opendatahub.io | v1 | MLflow | Cluster | 300 | 18 | [`config/crd/bases/mlflow.opendatahub.io_mlflows.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/1fed87d8872e24b4a28bcb5e2a2d3e6e3d7f57ff/config/crd/bases/mlflow.opendatahub.io_mlflows.yaml) |
 
 ## Dependencies
 

@@ -1,11 +1,11 @@
 # odh-dashboard
 
-> **Architecture snapshot: 2026-05-05** (2026-05-05)
+> **Architecture snapshot: 2026-05-11** (2026-05-11)
 
 
 **Repository:** opendatahub-io/odh-dashboard  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-05T15:10:26Z
+**Extracted:** 2026-05-11T09:36:42Z
 
 ## Summary
 
@@ -15,7 +15,7 @@
 | Deployments | 7 |
 | Services | 5 |
 | Secrets | 2 |
-| Cluster Roles | 1 |
+| Cluster Roles | 2 |
 | Controller Watches | 5 |
 
 ## Component Architecture
