@@ -28,20 +28,20 @@ The aggregator recursively discovers all `component-architecture.json` files in 
 Which component owns each CRD (defines it) and which components watch or reference it:
 
 ```
-CRD: datasciencecluster.datasciencecluster.opendatahub.io
-  Owner: opendatahub-operator
-  Watchers: odh-model-controller, data-science-pipelines-operator
+CRD: myresource.example.io
+  Owner: platform-operator
+  Watchers: resource-controller, pipeline-operator
 ```
 
 ### Dependency graph
 
-How internal ODH components depend on each other through Go module imports:
+How components depend on each other through Go module imports:
 
 ```
-opendatahub-operator
-  -> odh-model-controller (v0.12.0)
-  -> model-registry-operator (v0.8.0)
-  -> kubeflow (v1.9.0)
+platform-operator
+  -> resource-controller (v0.12.0)
+  -> registry-operator (v0.8.0)
+  -> shared-library (v1.9.0)
 ```
 
 ### RBAC overlap
@@ -50,9 +50,9 @@ Multiple components requesting permissions on the same resources, which may indi
 
 ```
 Resource: secrets (core/v1)
-  Reader: odh-model-controller
-  Reader: model-registry-operator
-  Admin: opendatahub-operator
+  Reader: resource-controller
+  Reader: registry-operator
+  Admin: platform-operator
 ```
 
 ### Service mesh
@@ -72,7 +72,7 @@ The aggregator produces:
 The `docs` command generates a full set of markdown pages with embedded mermaid diagrams from the aggregated JSON, ready to drop into any mkdocs site:
 
 ```bash
-arch-analyzer docs --output-dir site/docs/platform platform-output/platform-architecture.json
+arch-analyzer docs --output-dir site/docs/my-platform platform-output/platform-architecture.json
 ```
 
 This produces:
@@ -83,11 +83,11 @@ This produces:
 - Secrets inventory with distribution diagrams
 - Per-component deep-dive pages (overview, network, RBAC, security, dataflow) with inline mermaid
 
-See the [RHOAI Platform](../rhoai-platform/index.md) section for a live example generated from 11 RHOAI repositories.
+See the [Use Cases](../use-cases/index.md) section for live examples generated from real Kubernetes platforms.
 
 ## Batch analysis with scan config
 
-For automated platform analysis:
+For automated platform analysis, define platforms and repos in `scan-config.yaml`:
 
 ```bash
 # Analyze all repos from scan-config.yaml

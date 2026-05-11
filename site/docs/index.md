@@ -144,7 +144,7 @@ graph LR
 | Mermaid RBAC | `rbac.mmd` | ServiceAccounts, bindings, roles, resources |
 | Mermaid Component | `component.mmd` | CRDs watched/owned, dependencies |
 | ASCII Security | `security-network.txt` | Layered network, RBAC, secrets view |
-| Mermaid Dependencies | `dependencies.mmd` | Go module graph (internal ODH highlighted) |
+| Mermaid Dependencies | `dependencies.mmd` | Go module graph (internal deps highlighted) |
 | C4 DSL | `c4-context.dsl` | Structurizr C4 context diagram |
 | Mermaid Dataflow | `dataflow.mmd` | Controller watches and service connections |
 | Markdown Report | `report.md` | Structured tables for all extracted data |

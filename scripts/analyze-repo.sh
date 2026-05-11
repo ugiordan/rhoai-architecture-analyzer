@@ -40,13 +40,26 @@ git clone --depth 1 "https://github.com/${REPO}.git" "${CLONE_DIR}" 2>/dev/null 
     exit 1
 }
 
+# Resolve aliases from scan-config.yaml (if present)
+ALIASES_ARGS=""
+SCAN_CONFIG="${ANALYZER_DIR}/scan-config.yaml"
+if [ -f "${SCAN_CONFIG}" ] && command -v yq &>/dev/null; then
+    # Search all platforms for this repo's aliases
+    ALIASES=$(yq -r "
+        .platforms[].repo_overrides.\"${SHORT}\".aliases // [] | join(\",\")
+    " "${SCAN_CONFIG}" 2>/dev/null | grep -v '^$' | head -1)
+    if [ -n "${ALIASES}" ]; then
+        ALIASES_ARGS="-aliases ${ALIASES}"
+    fi
+fi
+
 # Full analysis (architecture + code graph)
 echo "[*] Analyzing ${SHORT}..."
 VERSION_ARGS=""
 if [ -n "${VERSION_LABEL}" ]; then
     VERSION_ARGS="-version ${VERSION_LABEL}"
 fi
-"${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} "${CLONE_DIR}"
+"${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} ${ALIASES_ARGS} "${CLONE_DIR}"
 
 # Cleanup
 rm -rf "${CLONE_DIR}"

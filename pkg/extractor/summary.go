@@ -11,8 +11,13 @@ import (
 func generateSummary(arch *ComponentArchitecture) string {
 	var parts []string
 
-	// Component identity
-	parts = append(parts, fmt.Sprintf("%s is a Kubernetes component", arch.Component))
+	// Component identity with aliases
+	if len(arch.Aliases) > 0 {
+		parts = append(parts, fmt.Sprintf("%s (also known as: %s) is a Kubernetes component",
+			arch.Component, strings.Join(arch.Aliases, ", ")))
+	} else {
+		parts = append(parts, fmt.Sprintf("%s is a Kubernetes component", arch.Component))
+	}
 
 	// CRDs
 	if len(arch.CRDs) > 0 {
@@ -102,6 +107,20 @@ func generateSummary(arch *ComponentArchitecture) string {
 		parts = append(parts, fmt.Sprintf("connecting to external services: %s", strings.Join(services, ", ")))
 	}
 
+	// Runtime dependencies
+	if len(arch.RuntimeDependencies) > 0 {
+		depTypes := make(map[string]bool)
+		for _, rd := range arch.RuntimeDependencies {
+			depTypes[rd.Name] = true
+		}
+		depNames := make([]string, 0, len(depTypes))
+		for n := range depTypes {
+			depNames = append(depNames, n)
+		}
+		sort.Strings(depNames)
+		parts = append(parts, fmt.Sprintf("runtime dependencies: %s", strings.Join(depNames, ", ")))
+	}
+
 	// API types
 	if len(arch.APITypes) > 0 {
 		specCount := 0
@@ -168,7 +187,195 @@ func generateSummary(arch *ComponentArchitecture) string {
 		parts = append(parts, fmt.Sprintf("with %d ingress route(s)", len(arch.IngressRouting)))
 	}
 
+	// Python k8s API calls
+	if len(arch.PythonK8sCalls) > 0 {
+		kindRefs := 0
+		apiCalls := 0
+		for _, c := range arch.PythonK8sCalls {
+			if c.Operation == "kind_ref" {
+				kindRefs++
+			} else if c.Operation != "import" {
+				apiCalls++
+			}
+		}
+		if apiCalls > 0 || kindRefs > 0 {
+			callParts := []string{}
+			if apiCalls > 0 {
+				callParts = append(callParts, fmt.Sprintf("%d API call(s)", apiCalls))
+			}
+			if kindRefs > 0 {
+				callParts = append(callParts, fmt.Sprintf("%d CRD kind reference(s)", kindRefs))
+			}
+			parts = append(parts, fmt.Sprintf("Python k8s client with %s", strings.Join(callParts, " and ")))
+		}
+	}
+
+	// Label contracts: surface cross-component integration signals
+	if len(arch.LabelContracts) > 0 {
+		integrations := make(map[string]bool)
+		for _, lc := range arch.LabelContracts {
+			integrations[lc.Integration] = true
+		}
+		intNames := make([]string, 0, len(integrations))
+		for name := range integrations {
+			intNames = append(intNames, name)
+		}
+		sort.Strings(intNames)
+		parts = append(parts, fmt.Sprintf("integrates with %s via labels/annotations", strings.Join(intNames, ", ")))
+	}
+
+	// Sidecar/proxy pattern detection from deployments
+	sidecarPatterns := detectSidecarPatterns(arch)
+	if len(sidecarPatterns) > 0 {
+		parts = append(parts, strings.Join(sidecarPatterns, ". "))
+	}
+
+	// RBAC binding creation patterns: detect when this component creates bindings for other components
+	rbacPatterns := detectRBACBindingPatterns(arch)
+	if len(rbacPatterns) > 0 {
+		parts = append(parts, strings.Join(rbacPatterns, ". "))
+	}
+
+	// Kustomize overlay structure
+	if len(arch.KustomizeOverlayRefs) > 0 {
+		overlayNames := make([]string, 0, len(arch.KustomizeOverlayRefs))
+		for _, ref := range arch.KustomizeOverlayRefs {
+			overlayNames = append(overlayNames, ref.Overlay)
+		}
+		parts = append(parts, fmt.Sprintf("kustomize overlays: %s", strings.Join(overlayNames, ", ")))
+	}
+
+	// Component references (provider/adapter patterns)
+	if len(arch.ComponentRefs) > 0 {
+		targets := make(map[string][]string) // target -> types
+		for _, ref := range arch.ComponentRefs {
+			targets[ref.Target] = append(targets[ref.Target], ref.Type)
+		}
+		refParts := make([]string, 0, len(targets))
+		for target, types := range targets {
+			refParts = append(refParts, target+" ("+strings.Join(types, ", ")+")")
+		}
+		sort.Strings(refParts)
+		parts = append(parts, fmt.Sprintf("references components: %s", strings.Join(refParts, ", ")))
+	}
+
+	// ConfigMap volume mounts
+	if len(arch.ConfigMapVolumes) > 0 {
+		cmNames := make(map[string]bool)
+		for _, vol := range arch.ConfigMapVolumes {
+			cmNames[vol.ConfigMapName] = true
+		}
+		names := make([]string, 0, len(cmNames))
+		for n := range cmNames {
+			names = append(names, n)
+		}
+		sort.Strings(names)
+		parts = append(parts, fmt.Sprintf("mounts %d ConfigMap(s) as volumes: %s", len(cmNames), strings.Join(names, ", ")))
+	}
+
 	return strings.Join(parts, ". ") + "."
+}
+
+// detectSidecarPatterns scans deployments for well-known sidecar containers
+// (kube-rbac-proxy, kube-auth-proxy, envoy, oauth-proxy) and reports them
+// as interaction patterns in the summary.
+func detectSidecarPatterns(arch *ComponentArchitecture) []string {
+	knownSidecars := map[string]string{
+		"kube-rbac-proxy": "deploys kube-rbac-proxy sidecar for RBAC-based authorization",
+		"kube-auth-proxy": "deploys kube-auth-proxy for authentication",
+		"oauth-proxy":     "deploys OAuth proxy sidecar for authentication",
+		"envoy":           "deploys Envoy sidecar for traffic management",
+		"istio-proxy":     "uses Istio sidecar injection",
+	}
+
+	found := make(map[string]bool)
+	for _, dep := range arch.Deployments {
+		for _, c := range dep.Containers {
+			for prefix, desc := range knownSidecars {
+				if strings.Contains(strings.ToLower(c.Name), prefix) ||
+					strings.Contains(strings.ToLower(c.Image), prefix) {
+					if !found[prefix] {
+						found[prefix] = true
+						_ = desc // used below
+					}
+				}
+			}
+		}
+	}
+
+	// Also check reconciliation sequences for sidecar deployment steps
+	for _, seq := range arch.ReconcileSequences {
+		for _, step := range seq.Steps {
+			methodLower := strings.ToLower(step.Method)
+			for prefix, desc := range knownSidecars {
+				if strings.Contains(methodLower, strings.ReplaceAll(prefix, "-", "")) {
+					if !found[prefix] {
+						found[prefix] = true
+						_ = desc
+					}
+				}
+			}
+		}
+	}
+
+	// Also check operator config constants for sidecar image references
+	for _, oc := range arch.OperatorConfig {
+		if oc.Category != "image" {
+			continue
+		}
+		valLower := strings.ToLower(oc.Value)
+		for prefix, desc := range knownSidecars {
+			if strings.Contains(valLower, prefix) {
+				if !found[prefix] {
+					found[prefix] = true
+					_ = desc
+				}
+			}
+		}
+	}
+
+	var patterns []string
+	for prefix := range found {
+		patterns = append(patterns, knownSidecars[prefix])
+	}
+	sort.Strings(patterns)
+	return patterns
+}
+
+// detectRBACBindingPatterns looks for RBAC bindings that reference external
+// ClusterRoles (roles not defined in this component), which indicate
+// cross-component RBAC integration.
+func detectRBACBindingPatterns(arch *ComponentArchitecture) []string {
+	if arch.RBAC == nil {
+		return nil
+	}
+
+	// Collect roles defined by this component
+	ownRoles := make(map[string]bool)
+	for _, r := range arch.RBAC.ClusterRoles {
+		ownRoles[r.Name] = true
+	}
+	for _, r := range arch.RBAC.Roles {
+		ownRoles[r.Name] = true
+	}
+
+	// Find bindings referencing external roles
+	var external []string
+	seen := make(map[string]bool)
+	allBindings := append(arch.RBAC.ClusterRoleBindings, arch.RBAC.RoleBindings...)
+	for _, b := range allBindings {
+		if b.RoleRef != "" && !ownRoles[b.RoleRef] && !seen[b.RoleRef] {
+			seen[b.RoleRef] = true
+			external = append(external, b.RoleRef)
+		}
+	}
+
+	if len(external) == 0 {
+		return nil
+	}
+
+	sort.Strings(external)
+	return []string{fmt.Sprintf("creates RBAC bindings to external roles: %s", strings.Join(external, ", "))}
 }
 
 // countConstantsByCategory counts constants matching a specific category.

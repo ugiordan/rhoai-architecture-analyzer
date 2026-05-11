@@ -26,11 +26,12 @@ func (r RepoSpec) FullName() string {
 
 // RepoOverrides holds per-repo configuration overrides set in the platform config.
 type RepoOverrides struct {
-	Tier       string `yaml:"tier,omitempty" json:"tier,omitempty"`
-	Type       string `yaml:"type,omitempty" json:"type,omitempty"`
-	VersionPin string `yaml:"version_pin,omitempty" json:"version_pin,omitempty"`
-	Branch     string `yaml:"branch,omitempty" json:"branch,omitempty"`
-	Exclude    bool   `yaml:"exclude,omitempty" json:"exclude,omitempty"`
+	Tier       string   `yaml:"tier,omitempty" json:"tier,omitempty"`
+	Type       string   `yaml:"type,omitempty" json:"type,omitempty"`
+	VersionPin string   `yaml:"version_pin,omitempty" json:"version_pin,omitempty"`
+	Branch     string   `yaml:"branch,omitempty" json:"branch,omitempty"`
+	Exclude    bool     `yaml:"exclude,omitempty" json:"exclude,omitempty"`
+	Aliases    []string `yaml:"aliases,omitempty" json:"aliases,omitempty"`
 }
 
 // ScanConfig represents the scan-config.yaml file.

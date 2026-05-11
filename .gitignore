@@ -1,6 +1,10 @@
 output/
 results/
+results-rhoai/
 platform-output/
+platform-output-rhoai/
+merged/
+/docs/*.md
 *.json
 !contracts/schemas/**/*.json
 .DS_Store

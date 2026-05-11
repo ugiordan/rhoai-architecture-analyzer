@@ -210,10 +210,11 @@ func cmdExtract(args []string) error {
 	output := fs.String("output", "component-architecture.json", "Output JSON file")
 	org := fs.String("org", "", "GitHub organization (auto-detected from go.mod if empty)")
 	ver := fs.String("version", "", "Version label for snapshot output (e.g. v2.15.0)")
+	aliases := fs.String("aliases", "", "Comma-separated component aliases (e.g. rhods-operator,RHODS)")
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: arch-analyzer extract <repo-path> [--output file.json] [--org org] [--version label]")
+		return fmt.Errorf("usage: arch-analyzer extract <repo-path> [--output file.json] [--org org] [--version label] [--aliases list]")
 	}
 
 	if *ver != "" {
@@ -222,7 +223,7 @@ func cmdExtract(args []string) error {
 		}
 	}
 
-	opts := &extractor.ExtractOptions{Org: *org}
+	opts := &extractor.ExtractOptions{Org: *org, Aliases: parseAliases(*aliases)}
 	arch, err := extractor.ExtractAll(fs.Arg(0), opts)
 	if err != nil {
 		return err
@@ -275,10 +276,11 @@ func cmdAnalyze(args []string) error {
 	outputDir := fs.String("output-dir", "output", "Output directory")
 	org := fs.String("org", "", "GitHub organization (auto-detected from go.mod if empty)")
 	ver := fs.String("version", "", "Version label for snapshot output (e.g. v2.15.0)")
+	aliases := fs.String("aliases", "", "Comma-separated component aliases (e.g. rhods-operator,RHODS)")
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: arch-analyzer analyze <repo-path> [--output-dir dir] [--org org] [--version label]")
+		return fmt.Errorf("usage: arch-analyzer analyze <repo-path> [--output-dir dir] [--org org] [--version label] [--aliases list]")
 	}
 
 	if *ver != "" {
@@ -288,7 +290,7 @@ func cmdAnalyze(args []string) error {
 	}
 
 	repoPath := fs.Arg(0)
-	opts := &extractor.ExtractOptions{Org: *org}
+	opts := &extractor.ExtractOptions{Org: *org, Aliases: parseAliases(*aliases)}
 	arch, err := extractor.ExtractAll(repoPath, opts)
 	if err != nil {
 		return err
@@ -387,6 +389,11 @@ func cmdAggregate(args []string) error {
 		}
 	}
 
+	// Generate per-component markdown docs + INDEX.md + interactions.md
+	if err := writeMarkdownDocs(outDir, platformData); err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: markdown docs generation failed: %v\n", err)
+	}
+
 	// Version compatibility check using platform OCP versions from scan-config
 	if *scanConfig != "" && *platform != "" {
 		aggregateVersionCompat(resultsDir, outDir, *scanConfig, *platform)
@@ -403,6 +410,93 @@ func cmdAggregate(args []string) error {
 		fmt.Printf("Snapshot metadata written to: %s/snapshot-metadata.json\n", outDir)
 	}
 
+	return nil
+}
+
+// writeMarkdownDocs generates per-component markdown files, INDEX.md, and
+// cross-component/interactions.md. Uses atomic writes: writes to a temp
+// directory first, then renames on success.
+func writeMarkdownDocs(outDir string, platformData map[string]interface{}) error {
+	componentsDir := filepath.Join(outDir, "components")
+	crossDir := filepath.Join(outDir, "cross-component")
+
+	// Atomic write: use temp directories, rename on success
+	tmpComponentsDir := componentsDir + "-tmp"
+	tmpCrossDir := crossDir + "-tmp"
+
+	// Clean up any leftover tmp dirs
+	os.RemoveAll(tmpComponentsDir)
+	os.RemoveAll(tmpCrossDir)
+
+	if err := os.MkdirAll(tmpComponentsDir, 0o755); err != nil {
+		return fmt.Errorf("creating temp components dir: %w", err)
+	}
+	if err := os.MkdirAll(tmpCrossDir, 0o755); err != nil {
+		os.RemoveAll(tmpComponentsDir)
+		return fmt.Errorf("creating temp cross-component dir: %w", err)
+	}
+
+	// Track filenames for collision detection
+	usedFilenames := make(map[string]string) // filename -> component name
+
+	// Render per-component markdown
+	componentData := renderer.GetSlice(platformData, "component_data")
+	for _, cd := range componentData {
+		compName := renderer.GetStr(cd, "component", "unknown")
+		filename := renderer.SanitizeFilename(compName) + ".md"
+
+		// Collision detection
+		if existingComp, exists := usedFilenames[filename]; exists {
+			os.RemoveAll(tmpComponentsDir)
+			os.RemoveAll(tmpCrossDir)
+			return fmt.Errorf("filename collision: %q and %q both map to %q", existingComp, compName, filename)
+		}
+		usedFilenames[filename] = compName
+
+		content := renderer.RenderComponentMarkdown(cd)
+		filePath := filepath.Join(tmpComponentsDir, filename)
+		if err := os.WriteFile(filePath, []byte(content), 0o644); err != nil {
+			os.RemoveAll(tmpComponentsDir)
+			os.RemoveAll(tmpCrossDir)
+			return fmt.Errorf("writing %s: %w", filePath, err)
+		}
+	}
+
+	// Render INDEX.md to temp file (written alongside atomic swap)
+	indexContent := renderer.RenderNavIndex(platformData)
+	tmpIndexPath := filepath.Join(outDir, "INDEX.md.tmp")
+	if err := os.WriteFile(tmpIndexPath, []byte(indexContent), 0o644); err != nil {
+		os.RemoveAll(tmpComponentsDir)
+		os.RemoveAll(tmpCrossDir)
+		return fmt.Errorf("writing INDEX.md: %w", err)
+	}
+
+	// Render interactions.md
+	interactionsContent := renderer.RenderInteractions(platformData)
+	if err := os.WriteFile(filepath.Join(tmpCrossDir, "interactions.md"), []byte(interactionsContent), 0o644); err != nil {
+		os.RemoveAll(tmpComponentsDir)
+		os.RemoveAll(tmpCrossDir)
+		os.Remove(tmpIndexPath)
+		return fmt.Errorf("writing interactions.md: %w", err)
+	}
+
+	// Atomic swap: remove old dirs, rename tmp dirs, then rename INDEX.md
+	os.RemoveAll(componentsDir)
+	os.RemoveAll(crossDir)
+	if err := os.Rename(tmpComponentsDir, componentsDir); err != nil {
+		os.Remove(tmpIndexPath)
+		return fmt.Errorf("renaming components dir: %w", err)
+	}
+	if err := os.Rename(tmpCrossDir, crossDir); err != nil {
+		os.Remove(tmpIndexPath)
+		return fmt.Errorf("renaming cross-component dir: %w", err)
+	}
+	indexPath := filepath.Join(outDir, "INDEX.md")
+	if err := os.Rename(tmpIndexPath, indexPath); err != nil {
+		return fmt.Errorf("renaming INDEX.md: %w", err)
+	}
+
+	fmt.Printf("Generated %d component markdown docs + INDEX.md + interactions.md\n", len(usedFilenames))
 	return nil
 }
 
@@ -1129,10 +1223,11 @@ func cmdFullAnalysis(args []string) error {
 	domainList := fs.String("domains", "", "Comma-separated domains (default: all)")
 	ver := fs.String("version", "", "Version label for snapshot output (e.g. v2.15.0)")
 	importSARIF := fs.String("import-sarif", "", "Comma-separated SARIF files to ingest after building graph")
+	aliases := fs.String("aliases", "", "Comma-separated component aliases (e.g. rhods-operator,RHODS)")
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {
-		return fmt.Errorf("usage: arch-analyzer full-analysis <repo-path> [--output-dir dir] [--org org] [--domains sec,test] [--version label]")
+		return fmt.Errorf("usage: arch-analyzer full-analysis <repo-path> [--output-dir dir] [--org org] [--domains sec,test] [--version label] [--aliases list]")
 	}
 
 	if *ver != "" {
@@ -1149,7 +1244,7 @@ func cmdFullAnalysis(args []string) error {
 
 	// Architecture extraction
 	fmt.Println("=== Architecture Extraction ===")
-	extractOpts := &extractor.ExtractOptions{Org: *org}
+	extractOpts := &extractor.ExtractOptions{Org: *org, Aliases: parseAliases(*aliases)}
 	archResult, err := extractor.ExtractAll(repoPath, extractOpts)
 	var archData *domains.ArchitectureData
 	var parsedArch *arch.Data
@@ -1879,6 +1974,23 @@ func writeJSON(path string, data interface{}) error {
 		return err
 	}
 	return os.WriteFile(path, append(raw, '\n'), 0o640)
+}
+
+// parseAliases splits a comma-separated aliases string into a slice,
+// trimming whitespace. Returns nil for empty input.
+func parseAliases(raw string) []string {
+	if raw == "" {
+		return nil
+	}
+	parts := strings.Split(raw, ",")
+	var out []string
+	for _, p := range parts {
+		p = strings.TrimSpace(p)
+		if p != "" {
+			out = append(out, p)
+		}
+	}
+	return out
 }
 
 func loadJSON(path string) (map[string]interface{}, error) {

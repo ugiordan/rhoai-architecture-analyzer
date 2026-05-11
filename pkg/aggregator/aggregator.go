@@ -82,11 +82,19 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 	seenRBACRoles := make(map[string]bool)  // key: "owner|name"
 	seenDepEdges := make(map[string]bool)   // key: "from|to|type"
 
+	// Alias tracking: maps each alias to the canonical component name
+	aliasToComponent := make(map[string]string)
+
 	for _, compData := range components {
 		compName := getString(compData, "component", "unknown")
 		if !seenComponents[compName] {
 			seenComponents[compName] = true
 			componentNames = append(componentNames, compName)
+		}
+
+		// Build alias index from component aliases
+		for _, alias := range getStringSlice(compData, "aliases") {
+			aliasToComponent[alias] = compName
 		}
 
 		// CRDs: dedup on (owner, group, version, kind)
@@ -147,10 +155,15 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		}
 
 		// Dependencies (internal ODH): dedup on (from, to, type)
+		// Resolve aliases in dependency targets so that downstream names
+		// (e.g. "rhods-operator") map to their canonical component name.
 		deps, _ := compData["dependencies"].(map[string]interface{})
 		if deps != nil {
 			for _, odh := range getSliceOfMaps(deps, "internal_odh") {
 				to := getString(odh, "component", "")
+				if canonical, ok := aliasToComponent[to]; ok {
+					to = canonical
+				}
 				key := compName + "|" + to + "|go-module"
 				if seenDepEdges[key] {
 					continue
@@ -326,7 +339,23 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		}
 	}
 
-	// Rebuild depGraphIface with new sidecar edges
+	// Code-graph file path references: detect when component A's source tree
+	// contains file paths referencing component B's name (e.g., llama-stack
+	// has providers/remote/inference/vllm/ directory).
+	codeRefs := detectCodeGraphRefs(jsonPaths, componentNames)
+	for _, ref := range codeRefs {
+		key := ref.From + "|" + ref.To + "|code-ref"
+		if !seenDepEdges[key] {
+			seenDepEdges[key] = true
+			dependencyGraph = append(dependencyGraph, map[string]string{
+				"from": ref.From,
+				"to":   ref.To,
+				"type": "code-ref",
+			})
+		}
+	}
+
+	// Rebuild depGraphIface with all detected edges
 	depGraphIface = make([]interface{}, len(dependencyGraph))
 	for i, d := range dependencyGraph {
 		m := make(map[string]interface{}, len(d))
@@ -336,7 +365,13 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		depGraphIface[i] = m
 	}
 
-	return map[string]interface{}{
+	// Build aliases map for platform output: alias -> canonical component name
+	aliasesIface := make(map[string]interface{}, len(aliasToComponent))
+	for alias, comp := range aliasToComponent {
+		aliasesIface[alias] = comp
+	}
+
+	result := map[string]interface{}{
 		"platform":           "OpenShift AI",
 		"aggregated_at":      time.Now().UTC().Format(time.RFC3339),
 		"components":         compNamesIface,
@@ -348,7 +383,33 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		"rbac_cluster_roles": toIfaceSlice(allRBACClusterRoles),
 		"dependency_graph":   depGraphIface,
 		"component_data":     compDataIface,
-	}, nil
+	}
+	if len(aliasesIface) > 0 {
+		result["aliases"] = aliasesIface
+	}
+	return result, nil
+}
+
+// getStringSlice extracts a []string from a map value. Handles both
+// []string and []interface{} (the latter from JSON unmarshaling).
+func getStringSlice(m map[string]interface{}, key string) []string {
+	v, ok := m[key]
+	if !ok {
+		return nil
+	}
+	switch typed := v.(type) {
+	case []string:
+		return typed
+	case []interface{}:
+		out := make([]string, 0, len(typed))
+		for _, item := range typed {
+			if s, ok := item.(string); ok {
+				out = append(out, s)
+			}
+		}
+		return out
+	}
+	return nil
 }
 
 func getString(m map[string]interface{}, key, fallback string) string {

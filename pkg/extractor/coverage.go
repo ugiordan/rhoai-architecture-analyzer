@@ -18,6 +18,7 @@ func computeDataCoverage(arch *ComponentArchitecture) map[string]string {
 	cov["ingress_routing"] = classifyCoverage(len(arch.IngressRouting), 0)
 	cov["webhooks"] = classifyCoverage(len(arch.Webhooks), 0)
 	cov["external_connections"] = classifyCoverage(len(arch.ExternalConnections), 0)
+	cov["runtime_dependencies"] = classifyCoverage(len(arch.RuntimeDependencies), 0)
 	cov["secrets"] = classifyCoverage(len(arch.Secrets), 0)
 	cov["configmaps"] = classifyCoverage(len(arch.ConfigMaps), 0)
 	cov["dockerfiles"] = classifyCoverage(len(arch.Dockerfiles), 0)
@@ -35,6 +36,12 @@ func computeDataCoverage(arch *ComponentArchitecture) map[string]string {
 	cov["prometheus_metrics"] = classifyCoverage(len(arch.PrometheusMetrics), 0)
 	cov["status_conditions"] = classifyCoverage(len(arch.StatusConditions), 0)
 	cov["platform_detection"] = classifyPlatformDetectionCoverage(arch.PlatformDetection)
+	cov["serving_runtime_refs"] = classifyCoverage(len(arch.ServingRuntimeRefs), 0)
+	cov["label_contracts"] = classifyCoverage(len(arch.LabelContracts), 0)
+	cov["python_k8s_calls"] = classifyCoverage(len(arch.PythonK8sCalls), 0)
+	cov["kustomize_overlay_refs"] = classifyCoverage(len(arch.KustomizeOverlayRefs), 0)
+	cov["configmap_volumes"] = classifyCoverage(len(arch.ConfigMapVolumes), 0)
+	cov["component_refs"] = classifyCoverage(len(arch.ComponentRefs), 0)
 
 	return cov
 }

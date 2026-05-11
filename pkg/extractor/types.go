@@ -10,6 +10,11 @@ type ExtractOptions struct {
 	// OverlayPreference lists kustomize overlay directory names in priority order.
 	// Defaults to DefaultPreferredOverlays if empty.
 	OverlayPreference []string
+	// Aliases are alternative names for this component (e.g. downstream product names).
+	// Populated from scan-config repo_overrides.
+	Aliases []string
+	// KnownComponents lists all component names from scan-config for cross-reference detection.
+	KnownComponents []string
 }
 
 // DefaultModulePrefixes returns the standard internal module prefixes for the analyzed platform.
@@ -23,6 +28,7 @@ func DefaultModulePrefixes() []string {
 // ComponentArchitecture is the top-level extraction result.
 type ComponentArchitecture struct {
 	Component       string             `json:"component"`
+	Aliases         []string           `json:"aliases,omitempty"`
 	Repo            string             `json:"repo"`
 	CommitSHA       string             `json:"commit_sha,omitempty"`
 	ExtractedAt     string             `json:"extracted_at"`
@@ -55,7 +61,14 @@ type ComponentArchitecture struct {
 	PrometheusMetrics    []PrometheusMetric     `json:"prometheus_metrics,omitempty"`
 	StatusConditions     []StatusCondition      `json:"status_conditions,omitempty"`
 	PlatformDetection    *PlatformDetection     `json:"platform_detection,omitempty"`
+	RuntimeDependencies     []RuntimeDependency        `json:"runtime_dependencies,omitempty"`
+	ServingRuntimeRefs      []ServingRuntimeRef        `json:"serving_runtime_refs,omitempty"`
 	TemplateFiles           []TemplateFile             `json:"template_files,omitempty"`
+	LabelContracts          []LabelContract            `json:"label_contracts,omitempty"`
+	PythonK8sCalls          []PythonK8sCall            `json:"python_k8s_calls,omitempty"`
+	KustomizeOverlayRefs    []KustomizeOverlayRef      `json:"kustomize_overlay_refs,omitempty"`
+	ConfigMapVolumes        []ConfigMapVolumeRef       `json:"configmap_volumes,omitempty"`
+	ComponentRefs           []ComponentRef             `json:"component_refs,omitempty"`
 	DataCoverage            map[string]string          `json:"data_coverage,omitempty"`
 	Summary                 string                    `json:"summary,omitempty"`
 }
@@ -527,6 +540,29 @@ type PlatformConditional struct {
 	ResourceKind string `json:"resource_kind,omitempty"`
 	Action       string `json:"action"` // create, deploy, ensure, setup, allocate, watch
 	Source       string `json:"source"`
+}
+
+// RuntimeDependency represents a runtime/service-level dependency detected from
+// environment variables, DNS patterns, or configmap/secret references. Unlike
+// ExternalConnection (which scans Go source for connection code), this captures
+// what services a component needs at runtime based on deployment manifests and
+// well-known env var patterns.
+type RuntimeDependency struct {
+	Name     string `json:"name"`      // e.g., "PostgreSQL", "S3", "MLflow"
+	Type     string `json:"type"`      // "database", "object-storage", "service", "messaging", "observability", "cache"
+	Source   string `json:"source"`    // file:line where detected
+	Evidence string `json:"evidence"`  // the env var or pattern that triggered detection
+	Required bool   `json:"required"`  // true if no default/fallback detected
+}
+
+// ServingRuntimeRef maps a container image to a ServingRuntime, ClusterServingRuntime,
+// or InferenceService CR. This captures cross-component relationships like
+// "vllm-cpu is deployed as a KServe InferenceService".
+type ServingRuntimeRef struct {
+	Name           string `json:"name"`            // resource name from metadata.name
+	Kind           string `json:"kind"`            // ServingRuntime, ClusterServingRuntime, or InferenceService
+	ContainerImage string `json:"container_image"` // container image reference
+	Source         string `json:"source"`          // file:line
 }
 
 // TemplateFile represents a Go template file that defines Kubernetes resources.

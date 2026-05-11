@@ -152,6 +152,67 @@ func extractStepsFromBody(stmts []ast.Stmt, fset *token.FileSet, source, parentC
 					order++
 				}
 			}
+		case *ast.ReturnStmt:
+			// Handle return r.reconcileSubResource(ctx, ...) patterns
+			for _, result := range s.Results {
+				if method := extractReconcileCall(result); method != "" {
+					steps = append(steps, ReconcileStep{
+						Order:     order,
+						Method:    method,
+						Component: deriveComponent(method),
+						Condition: parentCondition,
+						Source:    source,
+					})
+					order++
+				}
+			}
+		case *ast.RangeStmt:
+			// Handle for _, fn := range []reconcileFunc{...} patterns
+			if s.Body != nil {
+				rangeSteps := extractStepsFromBody(s.Body.List, fset, source, parentCondition)
+				for _, step := range rangeSteps {
+					step.Order = order
+					steps = append(steps, step)
+					order++
+				}
+			}
+		case *ast.ForStmt:
+			// Handle for loops containing reconcile calls
+			if s.Body != nil {
+				forSteps := extractStepsFromBody(s.Body.List, fset, source, parentCondition)
+				for _, step := range forSteps {
+					step.Order = order
+					steps = append(steps, step)
+					order++
+				}
+			}
+		case *ast.SwitchStmt:
+			// Handle switch/case blocks in reconcilers
+			if s.Body != nil {
+				for _, clause := range s.Body.List {
+					if cc, ok := clause.(*ast.CaseClause); ok {
+						caseSteps := extractStepsFromBody(cc.Body, fset, source, parentCondition)
+						for _, step := range caseSteps {
+							step.Order = order
+							steps = append(steps, step)
+							order++
+						}
+					}
+				}
+			}
+		case *ast.TypeSwitchStmt:
+			if s.Body != nil {
+				for _, clause := range s.Body.List {
+					if cc, ok := clause.(*ast.CaseClause); ok {
+						caseSteps := extractStepsFromBody(cc.Body, fset, source, parentCondition)
+						for _, step := range caseSteps {
+							step.Order = order
+							steps = append(steps, step)
+							order++
+						}
+					}
+				}
+			}
 		case *ast.IfStmt:
 			// Extract condition string
 			condition := renderExpr(s.Cond, fset)

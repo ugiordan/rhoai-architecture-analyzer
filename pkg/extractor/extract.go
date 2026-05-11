@@ -43,6 +43,7 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 
 	arch := &ComponentArchitecture{
 		Component:       componentName,
+		Aliases:         opts.Aliases,
 		Repo:            fmt.Sprintf("%s/%s", org, componentName),
 		CommitSHA:       detectHEAD(absPath),
 		ExtractedAt:     time.Now().UTC().Format(time.RFC3339),
@@ -63,6 +64,12 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 		IngressRouting:      extractIngress(absPath),
 		ExternalConnections: extractExternalConnections(absPath),
 		FeatureGates:        extractFeatureGates(absPath),
+		RuntimeDependencies: extractRuntimeDependencies(absPath),
+	}
+
+	// Python source port detection: scan .py files for listening ports
+	if pythonPorts := extractPythonPorts(absPath); len(pythonPorts) > 0 {
+		arch.Services = append(arch.Services, pythonPorts...)
 	}
 
 	// Cache analysis runs after watches and deployments are extracted
@@ -95,6 +102,10 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 	// Serving runtime discovery (KServe/ModelMesh)
 	arch.ServingRuntimes = extractServingRuntimes(absPath)
 
+	// Serving runtime image-to-CRD mapping: scan all YAML and Go source for
+	// ServingRuntime/ClusterServingRuntime/InferenceService container images
+	arch.ServingRuntimeRefs = extractServingRuntimeRefs(absPath)
+
 	// Resource defaults from configmaps (inference config, deployment defaults)
 	arch.ResourceDefaults = extractResourceDefaults(absPath)
 
@@ -126,8 +137,27 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 	// Go templates to define runtime-rendered Kubernetes resources.
 	arch.TemplateFiles = findTemplateFiles(absPath)
 
+	// Label/annotation contracts: detect well-known labels that imply
+	// cross-component integration (Kueue, KServe, Istio, etc.)
+	arch.LabelContracts = extractLabelContracts(absPath)
+
+	// Python k8s API calls: detect kubernetes client usage in Python source
+	// (e.g., codeflare-sdk creating LocalQueue objects via CustomObjectsApi)
+	arch.PythonK8sCalls = extractPythonK8sCalls(absPath)
+
+	// Kustomize overlay cross-references: parse all kustomization.yaml files
+	// to extract resources, patches, generators, and image transforms
+	arch.KustomizeOverlayRefs = extractKustomizeOverlayRefs(absPath)
+
+	// Component cross-references: detect provider/adapter directories referencing
+	// other known components (e.g., llama-stack's providers/remote/inference/vllm/)
+	arch.ComponentRefs = extractComponentRefs(absPath, componentName, opts.KnownComponents)
+
 	// Cross-reference pass: link services to deployments, detect runtime deps
 	buildCrossReferences(arch)
+
+	// ConfigMap volume mount correlation: explicit ConfigMap → container links
+	arch.ConfigMapVolumes = extractConfigMapVolumes(arch)
 
 	// Availability assessment: flag deployments missing PDB/HPA
 	assessAvailability(arch)

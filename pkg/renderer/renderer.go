@@ -156,6 +156,16 @@ func sourceLink(data map[string]interface{}, source string) string {
 	return fmt.Sprintf("[`%s`](%s)", source, url)
 }
 
+// GetStr is the exported version of getStr for use by CLI commands.
+func GetStr(m map[string]interface{}, key, fallback string) string {
+	return getStr(m, key, fallback)
+}
+
+// GetSlice is the exported version of getSlice for use by CLI commands.
+func GetSlice(m map[string]interface{}, key string) []map[string]interface{} {
+	return getSlice(m, key)
+}
+
 // helper to extract a string from a map with a default.
 func getStr(m map[string]interface{}, key, fallback string) string {
 	if v, ok := m[key]; ok {

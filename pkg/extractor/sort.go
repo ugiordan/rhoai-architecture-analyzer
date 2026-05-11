@@ -133,6 +133,15 @@ func SortOutput(arch *ComponentArchitecture) {
 		return arch.FeatureGates[i].Name < arch.FeatureGates[j].Name
 	})
 
+	// RuntimeDependencies: sort by type, then name
+	sort.Slice(arch.RuntimeDependencies, func(i, j int) bool {
+		a, b := arch.RuntimeDependencies[i], arch.RuntimeDependencies[j]
+		if a.Type != b.Type {
+			return a.Type < b.Type
+		}
+		return a.Name < b.Name
+	})
+
 	// KustomizeComponents: already sorted by extractKustomizeComponents, but ensure consistency
 	sort.Slice(arch.KustomizeComponents, func(i, j int) bool {
 		return arch.KustomizeComponents[i].Name < arch.KustomizeComponents[j].Name
@@ -141,6 +150,18 @@ func SortOutput(arch *ComponentArchitecture) {
 	// ServingRuntimes: sort by name
 	sort.Slice(arch.ServingRuntimes, func(i, j int) bool {
 		return arch.ServingRuntimes[i].Name < arch.ServingRuntimes[j].Name
+	})
+
+	// ServingRuntimeRefs: sort by kind, then name, then image
+	sort.Slice(arch.ServingRuntimeRefs, func(i, j int) bool {
+		a, b := arch.ServingRuntimeRefs[i], arch.ServingRuntimeRefs[j]
+		if a.Kind != b.Kind {
+			return a.Kind < b.Kind
+		}
+		if a.Name != b.Name {
+			return a.Name < b.Name
+		}
+		return a.ContainerImage < b.ContainerImage
 	})
 
 	// ResourceDefaults: sort by component, then key
@@ -229,6 +250,58 @@ func SortOutput(arch *ComponentArchitecture) {
 			return arch.PlatformDetection.Conditionals[i].Source < arch.PlatformDetection.Conditionals[j].Source
 		})
 	}
+
+	// LabelContracts: sort by label, then source
+	sort.Slice(arch.LabelContracts, func(i, j int) bool {
+		a, b := arch.LabelContracts[i], arch.LabelContracts[j]
+		if a.Label != b.Label {
+			return a.Label < b.Label
+		}
+		return a.Source < b.Source
+	})
+
+	// PythonK8sCalls: sort by API, then operation, then resource
+	sort.Slice(arch.PythonK8sCalls, func(i, j int) bool {
+		a, b := arch.PythonK8sCalls[i], arch.PythonK8sCalls[j]
+		if a.API != b.API {
+			return a.API < b.API
+		}
+		if a.Operation != b.Operation {
+			return a.Operation < b.Operation
+		}
+		return a.Resource < b.Resource
+	})
+
+	// KustomizeOverlayRefs: sort by overlay path
+	sort.Slice(arch.KustomizeOverlayRefs, func(i, j int) bool {
+		return arch.KustomizeOverlayRefs[i].Overlay < arch.KustomizeOverlayRefs[j].Overlay
+	})
+	for idx := range arch.KustomizeOverlayRefs {
+		sort.Strings(arch.KustomizeOverlayRefs[idx].Resources)
+		sort.Strings(arch.KustomizeOverlayRefs[idx].Patches)
+		sort.Strings(arch.KustomizeOverlayRefs[idx].CommonLabels)
+	}
+
+	// ComponentRefs: sort by target, then type
+	sort.Slice(arch.ComponentRefs, func(i, j int) bool {
+		a, b := arch.ComponentRefs[i], arch.ComponentRefs[j]
+		if a.Target != b.Target {
+			return a.Target < b.Target
+		}
+		return a.Type < b.Type
+	})
+
+	// ConfigMapVolumes: sort by deployment, then container, then configmap
+	sort.Slice(arch.ConfigMapVolumes, func(i, j int) bool {
+		a, b := arch.ConfigMapVolumes[i], arch.ConfigMapVolumes[j]
+		if a.DeploymentName != b.DeploymentName {
+			return a.DeploymentName < b.DeploymentName
+		}
+		if a.ContainerName != b.ContainerName {
+			return a.ContainerName < b.ContainerName
+		}
+		return a.ConfigMapName < b.ConfigMapName
+	})
 }
 
 func sortRBACRoles(roles []RBACRole) {

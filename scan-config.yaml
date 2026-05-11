@@ -8,6 +8,21 @@ platforms:
   odh:
     name: "Open Data Hub"
     description: "Upstream ML platform on Kubernetes"
+    repo_overrides:
+      opendatahub-operator:
+        aliases: ["ODH operator", "odh-operator"]
+      odh-dashboard:
+        aliases: ["ODH Dashboard"]
+      data-science-pipelines-operator:
+        aliases: ["DSPO", "dspo"]
+      data-science-pipelines:
+        aliases: ["DSP", "dsp"]
+      odh-model-controller:
+        aliases: ["ODH Model Controller", "omc"]
+      modelmesh-serving:
+        aliases: ["ModelMesh"]
+      training-operator:
+        aliases: ["Training operator", "Kubeflow Training operator"]
     orgs:
       opendatahub-io:
         # Operators (Go)
@@ -67,9 +82,37 @@ platforms:
   rhoai:
     name: "Red Hat OpenShift AI"
     description: "Enterprise ML platform on OpenShift (downstream of ODH)"
+    version: "rhoai.next"
+    known_versions:
+      - "rhoai-2.10"
+      - "rhoai-3.0"
+      - "rhoai.next"
     ocp_versions:
       min: "4.14"
       max: "4.17"
+    repo_overrides:
+      opendatahub-operator:
+        aliases: ["rhods-operator", "RHODS operator"]
+      odh-dashboard:
+        aliases: ["RHOAI Dashboard", "rhods-dashboard"]
+      data-science-pipelines-operator:
+        aliases: ["DSPO", "dspo"]
+      data-science-pipelines:
+        aliases: ["DSP", "dsp"]
+      odh-model-controller:
+        aliases: ["ODH Model Controller", "omc"]
+      modelmesh-serving:
+        aliases: ["ModelMesh"]
+      kserve:
+        aliases: ["KServe"]
+      trustyai-service-operator:
+        aliases: ["TrustyAI operator"]
+      codeflare-operator:
+        aliases: ["CodeFlare operator"]
+      model-registry-operator:
+        aliases: ["Model Registry operator"]
+      training-operator:
+        aliases: ["Training operator", "Kubeflow Training operator"]
     orgs:
       red-hat-data-services:
         # Operators (Go, downstream of opendatahub-io)
@@ -116,3 +159,37 @@ platforms:
         - codeflare-sdk               # Python
         - fms-hf-tuning               # Python
         - vllm-cpu                    # Python/C++
+        - lm-evaluation-harness       # Python
+        - llama-stack                 # Python
+        - MLServer                    # Python
+        - NeMo-Guardrails             # Python
+        - ai-gateway-payload-processing   # Go
+        - caikit                      # Python
+        - caikit-nlp                  # Python
+        - caikit-tgis-serving         # Python
+        - feast                       # Python/Go
+        - guardrails-regex-detector   # Rust
+        - llm-d-routing-sidecar       # Go
+        - ml-metadata                 # C++
+        - model-metadata-collection   # Python
+        - modelmesh-runtime-adapter   # Java
+        - notebooks-downstream        # Various
+        - odh-cli                     # Go
+        - odh-deployer                # Shell
+        - openvino_model_server       # Python/C++
+        - pipelines-components        # Python
+        - rest-proxy                  # Go
+        - rhds-llama-stack-distribution   # Python
+        - rhods-operator              # Go (downstream of opendatahub-operator)
+        - text-generation-inference   # Rust/Python
+        - trustyai-explainability     # Java
+        - vllm-gaudi                  # Python
+        - vllm-orchestrator-gateway   # Rust
+        - vllm-rocm                   # Python
+        - vllm-spyre                  # Python
+      gateway-api-sigs:
+        - gateway-api-inference-extension # Go
+      IBM:
+        - ai4rag                      # Python
+      llm-d:
+        - llm-d                       # Go
