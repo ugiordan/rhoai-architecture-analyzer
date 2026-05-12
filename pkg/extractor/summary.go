@@ -53,9 +53,47 @@ func generateSummary(arch *ComponentArchitecture) string {
 		parts = append(parts, fmt.Sprintf("watching %d resource type(s)", len(watchTypes)))
 	}
 
-	// Services
+	// Services with port summary
 	if len(arch.Services) > 0 {
-		parts = append(parts, fmt.Sprintf("exposing %d service(s)", len(arch.Services)))
+		portSet := make(map[string]bool)
+		for _, svc := range arch.Services {
+			for _, p := range svc.Ports {
+				portSet[fmt.Sprintf("%v", p.Port)] = true
+			}
+		}
+		if len(portSet) > 0 {
+			portList := make([]string, 0, len(portSet))
+			for p := range portSet {
+				portList = append(portList, p)
+			}
+			sort.Strings(portList)
+			parts = append(parts, fmt.Sprintf("exposing %d service(s) on ports: %s",
+				len(arch.Services), strings.Join(portList, ", ")))
+		} else {
+			parts = append(parts, fmt.Sprintf("exposing %d service(s)", len(arch.Services)))
+		}
+	}
+
+	// Dockerfile exposed ports (not captured by K8s services)
+	if len(arch.Dockerfiles) > 0 {
+		dockerPorts := make(map[int]bool)
+		for _, df := range arch.Dockerfiles {
+			for _, p := range df.ExposedPorts {
+				dockerPorts[p] = true
+			}
+		}
+		if len(dockerPorts) > 0 {
+			portList := make([]int, 0, len(dockerPorts))
+			for p := range dockerPorts {
+				portList = append(portList, p)
+			}
+			sort.Ints(portList)
+			portStrs := make([]string, len(portList))
+			for i, p := range portList {
+				portStrs[i] = fmt.Sprintf("%d", p)
+			}
+			parts = append(parts, fmt.Sprintf("Dockerfile EXPOSE ports: %s", strings.Join(portStrs, ", ")))
+		}
 	}
 
 	// Webhooks
@@ -119,6 +157,32 @@ func generateSummary(arch *ComponentArchitecture) string {
 		}
 		sort.Strings(depNames)
 		parts = append(parts, fmt.Sprintf("runtime dependencies: %s", strings.Join(depNames, ", ")))
+	}
+
+	// Python package dependencies
+	if arch.Dependencies != nil && len(arch.Dependencies.PythonPackages) > 0 {
+		cats := make(map[string]int)
+		required := 0
+		for _, pkg := range arch.Dependencies.PythonPackages {
+			if pkg.Required {
+				required++
+			}
+			if pkg.Category != "" {
+				cats[pkg.Category]++
+			}
+		}
+		catParts := make([]string, 0, len(cats))
+		for cat, count := range cats {
+			catParts = append(catParts, fmt.Sprintf("%d %s", count, cat))
+		}
+		sort.Strings(catParts)
+		if len(catParts) > 0 {
+			parts = append(parts, fmt.Sprintf("%d Python package dependencies (%d required), categories: %s",
+				len(arch.Dependencies.PythonPackages), required, strings.Join(catParts, ", ")))
+		} else {
+			parts = append(parts, fmt.Sprintf("%d Python package dependencies (%d required)",
+				len(arch.Dependencies.PythonPackages), required))
+		}
 	}
 
 	// API types

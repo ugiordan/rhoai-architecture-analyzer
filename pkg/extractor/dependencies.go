@@ -136,10 +136,14 @@ func extractDependencies(repoPath string, modulePrefixes []string) *DependencyDa
 	categorizeModules(goModules)
 	issues := detectDependencyIssues(goModules)
 
+	// Extract Python package dependencies
+	pythonPackages := extractPythonDeps(repoPath)
+
 	return &DependencyData{
 		GoVersion:         goVersion,
 		Toolchain:         toolchain,
 		GoModules:         goModules,
+		PythonPackages:    pythonPackages,
 		ReplaceDirectives: replaceDirectives,
 		InternalODH:       internalODH,
 		Issues:            issues,

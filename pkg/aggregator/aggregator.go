@@ -26,22 +26,62 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		return nil, fmt.Errorf("results directory does not exist: %s", absDir)
 	}
 
-	// Find all component-architecture.json files
+	// Find all component-architecture.json files.
+	// Walk follows symlinks by resolving symlinked directories manually,
+	// since merged/results/ may contain symlinks to component result directories.
 	var jsonPaths []string
 	const maxComponentFileSize = 50 * 1024 * 1024 // 50 MB
-	err = filepath.Walk(absDir, func(path string, fi os.FileInfo, walkErr error) error {
-		if walkErr != nil {
-			return nil // skip unreadable entries
-		}
-		if !fi.IsDir() && fi.Name() == "component-architecture.json" {
-			if fi.Size() > maxComponentFileSize {
-				log.Printf("WARN: skipping oversized file %s (%d bytes)", path, fi.Size())
+
+	// walkForJSON is a helper that walks a directory for component-architecture.json files.
+	var walkForJSON func(dir string)
+	walkForJSON = func(dir string) {
+		filepath.Walk(dir, func(path string, fi os.FileInfo, walkErr error) error {
+			if walkErr != nil {
 				return nil
 			}
-			jsonPaths = append(jsonPaths, path)
+			if !fi.IsDir() && fi.Name() == "component-architecture.json" {
+				if fi.Size() > maxComponentFileSize {
+					log.Printf("WARN: skipping oversized file %s (%d bytes)", path, fi.Size())
+					return nil
+				}
+				jsonPaths = append(jsonPaths, path)
+			}
+			return nil
+		})
+	}
+
+	// Walk the results directory. Since it may contain symlinks to component
+	// result directories, resolve symlinks before walking.
+	entries, dirErr := os.ReadDir(absDir)
+	if dirErr != nil {
+		return nil, fmt.Errorf("reading results dir: %w", dirErr)
+	}
+	for _, e := range entries {
+		entryPath := filepath.Join(absDir, e.Name())
+		if e.Type()&os.ModeSymlink != 0 {
+			// Resolve symlink target
+			resolved, evalErr := filepath.EvalSymlinks(entryPath)
+			if evalErr != nil {
+				continue
+			}
+			info, statErr := os.Stat(resolved)
+			if statErr != nil {
+				continue
+			}
+			if info.IsDir() {
+				walkForJSON(resolved)
+			} else if info.Name() == "component-architecture.json" && info.Size() <= maxComponentFileSize {
+				jsonPaths = append(jsonPaths, entryPath)
+			}
+		} else if e.IsDir() {
+			walkForJSON(entryPath)
+		} else if e.Name() == "component-architecture.json" {
+			fi, infoErr := e.Info()
+			if infoErr == nil && fi.Size() <= maxComponentFileSize {
+				jsonPaths = append(jsonPaths, entryPath)
+			}
 		}
-		return nil
-	})
+	}
 	if err != nil {
 		return nil, fmt.Errorf("walking results dir: %w", err)
 	}

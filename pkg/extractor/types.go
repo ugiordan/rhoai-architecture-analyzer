@@ -223,14 +223,24 @@ type ControllerWatch struct {
 	Source     string `json:"source"`
 }
 
-// DependencyData holds Go module dependencies.
+// DependencyData holds Go module and Python package dependencies.
 type DependencyData struct {
 	GoVersion         string              `json:"go_version,omitempty"`
 	Toolchain         string              `json:"toolchain,omitempty"`
 	GoModules         []GoModule          `json:"go_modules,omitempty"`
+	PythonPackages    []PythonPackage     `json:"python_packages,omitempty"`
 	ReplaceDirectives []ReplaceDirective  `json:"replace_directives,omitempty"`
 	InternalODH       []InternalODH       `json:"internal_odh,omitempty"`
 	Issues            []string            `json:"issues,omitempty"`
+}
+
+// PythonPackage is a single Python package dependency.
+type PythonPackage struct {
+	Name       string `json:"name"`
+	Version    string `json:"version,omitempty"`
+	Category   string `json:"category,omitempty"`
+	Source     string `json:"source,omitempty"` // which file it came from
+	Required   bool   `json:"required,omitempty"`
 }
 
 // ReplaceDirective represents a go.mod replace directive.

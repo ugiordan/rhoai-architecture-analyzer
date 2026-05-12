@@ -1,8 +1,10 @@
 package extractor
 
 import (
+	"bufio"
 	"os"
 	"path/filepath"
+	"regexp"
 	"sort"
 	"strings"
 )
@@ -27,6 +29,7 @@ var providerDirPatterns = []string{
 	"clients",
 	"connectors",
 	"drivers",
+	"components",
 }
 
 // extractComponentRefs scans the repository for directory structures and file names
@@ -120,6 +123,9 @@ func extractComponentRefs(repoPath string, selfName string, knownComponents []st
 		return nil
 	})
 
+	// Scan Go and Python source files for import statements referencing components
+	scanImportsForComponentRefs(repoPath, componentSet, addRef)
+
 	sort.Slice(refs, func(i, j int) bool {
 		if refs[i].Target != refs[j].Target {
 			return refs[i].Target < refs[j].Target
@@ -144,6 +150,156 @@ func hasProviderAncestor(path, repoPath string) bool {
 		current = filepath.Dir(current)
 	}
 	return false
+}
+
+// goImportRE matches Go import lines: "github.com/org/repo/..."
+var goImportRE = regexp.MustCompile(`^\s*(?:\w+\s+)?"([^"]+)"`)
+
+// pyImportRE matches Python import lines: from X import Y or import X
+var pyImportRE = regexp.MustCompile(`^\s*(?:from|import)\s+([a-zA-Z0-9_.]+)`)
+
+// scanImportsForComponentRefs scans Go and Python source files for import
+// statements that reference known component names. This detects cross-component
+// dependencies that aren't visible from directory structure alone.
+func scanImportsForComponentRefs(repoPath string, componentSet map[string]string, addRef func(string, string, string, string)) {
+	filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil || info.IsDir() {
+			if info != nil && info.IsDir() {
+				name := info.Name()
+				if strings.HasPrefix(name, ".") || name == "vendor" || name == "node_modules" ||
+					name == "__pycache__" || name == "site-packages" || name == "venv" ||
+					name == ".venv" || name == "testdata" {
+					return filepath.SkipDir
+				}
+			}
+			return nil
+		}
+
+		nameLower := strings.ToLower(info.Name())
+		isGo := strings.HasSuffix(nameLower, ".go")
+		isPy := strings.HasSuffix(nameLower, ".py")
+		if !isGo && !isPy {
+			return nil
+		}
+
+		// Skip test files to reduce noise
+		if isGo && strings.HasSuffix(nameLower, "_test.go") {
+			return nil
+		}
+		if isPy && (strings.HasPrefix(nameLower, "test_") || strings.HasSuffix(nameLower, "_test.py")) {
+			return nil
+		}
+
+		f, err := os.Open(path)
+		if err != nil {
+			return nil
+		}
+		defer f.Close()
+
+		scanner := bufio.NewScanner(f)
+		relPath := relativePath(repoPath, path)
+
+		if isGo {
+			scanGoImports(scanner, relPath, componentSet, addRef)
+		} else {
+			scanPyImports(scanner, relPath, componentSet, addRef)
+		}
+		return nil
+	})
+}
+
+// scanGoImports parses Go import statements and checks for component references.
+func scanGoImports(scanner *bufio.Scanner, relPath string, componentSet map[string]string, addRef func(string, string, string, string)) {
+	inImportBlock := false
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+
+		if line == "import (" {
+			inImportBlock = true
+			continue
+		}
+		if inImportBlock && line == ")" {
+			inImportBlock = false
+			continue
+		}
+
+		// Single-line import
+		if strings.HasPrefix(line, "import ") && !strings.Contains(line, "(") {
+			if match := goImportRE.FindStringSubmatch(line[7:]); match != nil {
+				checkGoImportPath(match[1], relPath, componentSet, addRef)
+			}
+			continue
+		}
+
+		if inImportBlock {
+			if match := goImportRE.FindStringSubmatch(line); match != nil {
+				checkGoImportPath(match[1], relPath, componentSet, addRef)
+			}
+		}
+
+		// Stop scanning after imports (Go imports must be at top of file)
+		if !inImportBlock && !strings.HasPrefix(line, "import") &&
+			!strings.HasPrefix(line, "package") && !strings.HasPrefix(line, "//") &&
+			line != "" {
+			break
+		}
+	}
+}
+
+// checkGoImportPath checks if a Go import path references a known component.
+func checkGoImportPath(importPath, relPath string, componentSet map[string]string, addRef func(string, string, string, string)) {
+	// Split import path into segments and check each against component names
+	parts := strings.Split(strings.ToLower(importPath), "/")
+	for _, part := range parts {
+		if canonical, ok := componentSet[part]; ok {
+			addRef(canonical, "import", relPath, "go import: "+importPath)
+			return
+		}
+		// Also check with hyphens replaced (Go packages use underscores)
+		hyphenated := strings.ReplaceAll(part, "_", "-")
+		if hyphenated != part {
+			if canonical, ok := componentSet[hyphenated]; ok {
+				addRef(canonical, "import", relPath, "go import: "+importPath)
+				return
+			}
+		}
+	}
+}
+
+// scanPyImports parses Python import statements and checks for component references.
+func scanPyImports(scanner *bufio.Scanner, relPath string, componentSet map[string]string, addRef func(string, string, string, string)) {
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+
+		// Skip empty lines and comments
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+
+		// Stop at class/function definitions (imports are at the top)
+		if strings.HasPrefix(line, "class ") || strings.HasPrefix(line, "def ") ||
+			strings.HasPrefix(line, "async def ") {
+			break
+		}
+
+		if match := pyImportRE.FindStringSubmatch(line); match != nil {
+			modulePath := match[1]
+			// Split module path and check each component against known names
+			parts := strings.Split(strings.ToLower(modulePath), ".")
+			for _, part := range parts {
+				// Normalize: Python uses underscores, component names use hyphens
+				hyphenated := strings.ReplaceAll(part, "_", "-")
+				if canonical, ok := componentSet[hyphenated]; ok {
+					addRef(canonical, "import", relPath, "python import: "+modulePath)
+					break
+				}
+				if canonical, ok := componentSet[part]; ok {
+					addRef(canonical, "import", relPath, "python import: "+modulePath)
+					break
+				}
+			}
+		}
+	}
 }
 
 // defaultKnownComponents returns a static list of well-known RHOAI/ODH component
