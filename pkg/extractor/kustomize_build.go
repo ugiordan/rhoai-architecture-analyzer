@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 
 	"sigs.k8s.io/kustomize/api/krusty"
 	"sigs.k8s.io/kustomize/kyaml/filesys"
@@ -222,7 +223,14 @@ func mergeKustomizeResources(arch *ComponentArchitecture, results []KustomizeBui
 	if len(renderedWebhookNames) > 0 {
 		arch.Webhooks = deduplicateByRendered(arch.Webhooks, renderedWebhookNames,
 			func(wh WebhookConfig) string { return wh.Name },
-			func(wh WebhookConfig) bool { return isKustomizeSource(wh.Source) })
+			func(wh WebhookConfig) bool {
+				for _, s := range wh.Sources {
+					if s.Type == "kustomize_overlay" {
+						return true
+					}
+				}
+				return false
+			})
 	}
 }
 
@@ -567,6 +575,11 @@ func mergeRenderedWebhooks(arch *ComponentArchitecture, doc map[string]interface
 			}
 		}
 
+		overlayName := ""
+		if strings.HasPrefix(source, "kustomize:") {
+			overlayName = strings.TrimPrefix(source, "kustomize:")
+		}
+
 		wc := WebhookConfig{
 			Name:          name,
 			Type:          whType,
@@ -574,7 +587,10 @@ func mergeRenderedWebhooks(arch *ComponentArchitecture, doc map[string]interface
 			Path:          path,
 			FailurePolicy: failurePolicy,
 			Rules:         rules,
-			Source:        fmt.Sprintf("%s (%s)", source, configName),
+			Sources:       []SourceRef{{Type: "kustomize_overlay", File: fmt.Sprintf("%s (%s)", source, configName)}},
+		}
+		if overlayName != "" {
+			wc.Overlays = []string{overlayName}
 		}
 
 		arch.Webhooks = mergeWebhook(arch.Webhooks, wc)
@@ -617,9 +633,31 @@ func mergeNetworkPolicy(existing []NetworkPolicy, rendered NetworkPolicy) []Netw
 }
 
 // mergeWebhook adds or replaces a webhook config by name.
+// Preserves sources from both raw and rendered versions.
 func mergeWebhook(existing []WebhookConfig, rendered WebhookConfig) []WebhookConfig {
 	for i, wh := range existing {
 		if wh.Name == rendered.Name {
+			// Merge sources with dedup
+			merged := make([]SourceRef, 0, len(wh.Sources)+len(rendered.Sources))
+			merged = append(merged, wh.Sources...)
+			for _, s := range rendered.Sources {
+				dup := false
+				for _, existing := range merged {
+					if existing.Type == s.Type && existing.File == s.File {
+						dup = true
+						break
+					}
+				}
+				if !dup {
+					merged = append(merged, s)
+				}
+			}
+			rendered.Sources = merged
+			if len(rendered.Overlays) == 0 {
+				rendered.Overlays = wh.Overlays
+			} else if len(wh.Overlays) > 0 {
+				rendered.Overlays = append(wh.Overlays, rendered.Overlays...)
+			}
 			existing[i] = rendered
 			return existing
 		}

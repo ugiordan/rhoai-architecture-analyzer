@@ -33,6 +33,7 @@ type ComponentArchitecture struct {
 	CommitSHA       string             `json:"commit_sha,omitempty"`
 	ExtractedAt     string             `json:"extracted_at"`
 	AnalyzerVersion string             `json:"analyzer_version"`
+	SchemaVersion   string             `json:"schema_version"`
 	CRDs            []CRD              `json:"crds,omitempty"`
 	RBAC            *RBACData          `json:"rbac,omitempty"`
 	Services        []Service          `json:"services,omitempty"`
@@ -282,19 +283,37 @@ type HelmData struct {
 	ValuesDefaults map[string]interface{} `json:"values_defaults,omitempty"`
 }
 
+// SourceRef tracks where a piece of data was extracted from.
+type SourceRef struct {
+	Type string `json:"type"` // "yaml_manifest", "kubebuilder_marker", "kustomize_overlay", "go_handler"
+	File string `json:"file"`
+	Line int    `json:"line,omitempty"`
+	Repo string `json:"repo,omitempty"`
+}
+
+// TypeRef identifies a Kubernetes type (for data_read tracking).
+type TypeRef struct {
+	Kind       string `json:"kind"`
+	Group      string `json:"group,omitempty"`
+	GroupKnown bool   `json:"group_known"` // true = known mapping, false = unknown package alias
+}
 
 // WebhookConfig represents a Kubernetes webhook configuration.
 type WebhookConfig struct {
-	Name           string        `json:"name"`
-	Type           string        `json:"type"` // "validating" or "mutating"
-	ServiceRef     string        `json:"service_ref,omitempty"`
-	Path           string        `json:"path,omitempty"`
-	Port           int           `json:"port,omitempty"`
-	FailurePolicy  string        `json:"failure_policy,omitempty"`
-	SideEffects    string        `json:"side_effects,omitempty"`
-	TimeoutSeconds int           `json:"timeout_seconds,omitempty"`
-	Rules          []WebhookRule `json:"rules,omitempty"`
-	Source         string        `json:"source"`
+	Name            string        `json:"name"`
+	Type            string        `json:"type"`                        // "validating", "mutating", "conversion"
+	ServiceRef      string        `json:"service_ref,omitempty"`
+	Path            string        `json:"path,omitempty"`
+	Port            int           `json:"port,omitempty"`
+	FailurePolicy   string        `json:"failure_policy,omitempty"`
+	SideEffects     string        `json:"side_effects,omitempty"`
+	TimeoutSeconds  int           `json:"timeout_seconds,omitempty"`
+	Rules           []WebhookRule `json:"rules,omitempty"`
+	Sources         []SourceRef   `json:"sources"`
+	Overlays        []string      `json:"overlays,omitempty"`
+	EnableCondition string        `json:"enable_condition,omitempty"`
+	DataRead        []TypeRef     `json:"data_read,omitempty"`
+	ConversionCRD   string        `json:"conversion_crd,omitempty"`
 }
 
 // WebhookRule defines what resources a webhook intercepts.

@@ -48,6 +48,7 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 		CommitSHA:       detectHEAD(absPath),
 		ExtractedAt:     time.Now().UTC().Format(time.RFC3339),
 		AnalyzerVersion: AnalyzerVersion,
+		SchemaVersion:   "2",
 		CRDs:            extractCRDs(absPath),
 		RBAC:            extractRBAC(absPath),
 		Services:        extractServices(absPath),
@@ -95,6 +96,10 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 			}
 		}
 	}
+
+	// Go source enrichment: handler mapping, data_read, enable_condition.
+	// Runs after kustomize merge and port assignment.
+	enrichWebhooks(arch.Webhooks, absPath)
 
 	// Kustomize component discovery (for operator repos with *_support.go files)
 	arch.KustomizeComponents = extractKustomizeComponents(absPath)

@@ -34,7 +34,11 @@ func webhookRef(g *graph.CPG) string {
 	}
 	var refs []string
 	for _, wh := range g.ArchData.Webhooks {
-		refs = append(refs, fmt.Sprintf("%s (path: %s, source: %s, failurePolicy: %s)", wh.Name, wh.Path, wh.Source, wh.FailurePolicy))
+		sources := make([]string, len(wh.Sources))
+		for i, s := range wh.Sources {
+			sources[i] = fmt.Sprintf("%s:%s", s.Type, s.File)
+		}
+		refs = append(refs, fmt.Sprintf("%s (path: %s, sources: [%s], failurePolicy: %s)", wh.Name, wh.Path, strings.Join(sources, ", "), wh.FailurePolicy))
 	}
 	return fmt.Sprintf("webhooks: %s", strings.Join(refs, "; "))
 }

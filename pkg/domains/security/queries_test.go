@@ -223,7 +223,7 @@ func TestQueryWebhookMissingUpdate_WithArchRef(t *testing.T) {
 				Name:          "mwidget.kb.io",
 				Type:          "validating",
 				Path:          "/validate-widget",
-				Source:        "config/webhook/manifests.yaml",
+				Sources:       []arch.SourceRef{{Type: "yaml_manifest", File: "config/webhook/manifests.yaml"}},
 				FailurePolicy: "Fail",
 			},
 		},

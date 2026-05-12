@@ -184,7 +184,7 @@ jobs:
             ./arch-analyzer aggregate -output-dir platform-output/odh -version "$VERSION" -platform odh \
               -scan-config scan-config.yaml odh-results
             echo "=== Generating ODH docs ==="
-            ./arch-analyzer docs -output-dir site/docs/odh-platform -prefix odh-platform \
+            ./arch-analyzer docs -output-dir site/docs/use-cases/odh-platform -prefix odh-platform \
               "platform-output/odh/${VERSION}/platform-architecture.json"
           fi
 
@@ -193,7 +193,7 @@ jobs:
             ./arch-analyzer aggregate -output-dir platform-output/rhoai -version "$VERSION" -platform rhoai \
               -scan-config scan-config.yaml rhoai-results
             echo "=== Generating RHOAI docs ==="
-            ./arch-analyzer docs -output-dir site/docs/rhoai-platform -prefix rhoai-platform \
+            ./arch-analyzer docs -output-dir site/docs/use-cases/rhoai-platform -prefix rhoai-platform \
               "platform-output/rhoai/${VERSION}/platform-architecture.json"
           fi
 
@@ -211,7 +211,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add site/docs/*-platform/ site/mkdocs.yml docs/
+          git add site/docs/use-cases/*-platform/ site/mkdocs.yml docs/
           if git diff --cached --quiet; then
             echo "No platform doc changes to commit"
           else

@@ -64,13 +64,32 @@ type KubebuilderMarker struct {
 
 // Webhook represents a Kubernetes admission webhook.
 type Webhook struct {
-	Name          string        `json:"name"`
-	Type          string        `json:"type"`
-	ServiceRef    string        `json:"service_ref,omitempty"`
-	Path          string        `json:"path,omitempty"`
-	FailurePolicy string        `json:"failure_policy,omitempty"`
-	Rules         []WebhookRule `json:"rules,omitempty"`
-	Source        string        `json:"source"`
+	Name            string        `json:"name"`
+	Type            string        `json:"type"`
+	ServiceRef      string        `json:"service_ref,omitempty"`
+	Path            string        `json:"path,omitempty"`
+	FailurePolicy   string        `json:"failure_policy,omitempty"`
+	Rules           []WebhookRule `json:"rules,omitempty"`
+	Sources         []SourceRef   `json:"sources"`
+	Overlays        []string      `json:"overlays,omitempty"`
+	EnableCondition string        `json:"enable_condition,omitempty"`
+	DataRead        []TypeRef     `json:"data_read,omitempty"`
+	ConversionCRD   string        `json:"conversion_crd,omitempty"`
+}
+
+// SourceRef tracks where a piece of data was extracted from.
+type SourceRef struct {
+	Type string `json:"type"`
+	File string `json:"file"`
+	Line int    `json:"line,omitempty"`
+	Repo string `json:"repo,omitempty"`
+}
+
+// TypeRef identifies a Kubernetes type.
+type TypeRef struct {
+	Kind       string `json:"kind"`
+	Group      string `json:"group,omitempty"`
+	GroupKnown bool   `json:"group_known"`
 }
 
 // WebhookRule defines what resources a webhook intercepts.

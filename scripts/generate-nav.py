@@ -15,23 +15,31 @@ import re
 
 
 def find_platforms(docs_dir):
-    """Find all *-platform/ directories under docs_dir."""
+    """Find all *-platform/ directories under docs_dir/use-cases/."""
+    use_cases_dir = os.path.join(docs_dir, "use-cases")
     platforms = []
-    for entry in sorted(os.listdir(docs_dir)):
-        if entry.endswith("-platform") and os.path.isdir(os.path.join(docs_dir, entry)):
+    if not os.path.isdir(use_cases_dir):
+        return platforms
+    for entry in sorted(os.listdir(use_cases_dir)):
+        if entry.endswith("-platform") and os.path.isdir(os.path.join(use_cases_dir, entry)):
             platforms.append(entry)
     return platforms
 
 
 def build_platform_nav(docs_dir, platform_dir):
     """Build nav entries for a platform directory."""
-    platform_path = os.path.join(docs_dir, platform_dir)
-    # Derive display name: "rhoai-platform" -> "RHOAI Platform", "odh-platform" -> "ODH Platform"
+    platform_path = os.path.join(docs_dir, "use-cases", platform_dir)
+    # Derive display name and org: "odh-platform" -> ("ODH", "opendatahub-io"), "rhoai-platform" -> ("RHOAI", "red-hat-data-services")
     name_part = platform_dir.replace("-platform", "")
-    display_name = name_part.upper() + " Platform"
+    if name_part == "odh":
+        display_name = "ODH (opendatahub-io)"
+    elif name_part == "rhoai":
+        display_name = "RHOAI (red-hat-data-services)"
+    else:
+        display_name = name_part.upper() + " Platform"
 
     lines = []
-    lines.append(f"  - {display_name}:")
+    lines.append(f"    - {display_name}:")
 
     # Top-level files
     top_files = {
@@ -43,19 +51,19 @@ def build_platform_nav(docs_dir, platform_dir):
     }
     for fname, label in top_files.items():
         if os.path.exists(os.path.join(platform_path, fname)):
-            lines.append(f"    - {label}: {platform_dir}/{fname}")
+            lines.append(f"      - {label}: use-cases/{platform_dir}/{fname}")
 
     # Components
     components_dir = os.path.join(platform_path, "components")
     if os.path.isdir(components_dir):
-        lines.append("    - Components:")
+        lines.append("      - Components:")
         for comp in sorted(os.listdir(components_dir)):
             comp_path = os.path.join(components_dir, comp)
             if not os.path.isdir(comp_path):
                 continue
             # Display name: underscores to hyphens
             comp_display = comp.replace("_", "-")
-            lines.append(f"      - {comp_display}:")
+            lines.append(f"        - {comp_display}:")
 
             # Standard doc files in order
             doc_files = {
@@ -68,7 +76,7 @@ def build_platform_nav(docs_dir, platform_dir):
             }
             for fname, label in doc_files.items():
                 if os.path.exists(os.path.join(comp_path, fname)):
-                    lines.append(f"        - {label}: {platform_dir}/components/{comp}/{fname}")
+                    lines.append(f"          - {label}: use-cases/{platform_dir}/components/{comp}/{fname}")
 
     return lines
 
@@ -80,7 +88,7 @@ def update_mkdocs(mkdocs_path, platform_nav_lines):
 
     # Replace everything between "Home: index.md" and "Getting Started:" with platform nav.
     # Works on both first run (with commented ODH placeholder) and subsequent runs (with generated nav).
-    pattern = r"(nav:\n  - Home: index\.md\n).*?(\n  - Getting Started:)"
+    pattern = r"(nav:\n  - Home: index\.md\n  - Use Cases:\n    - use-cases/index\.md\n).*?(\n  - Getting Started:)"
     replacement = r"\1" + "\n".join(platform_nav_lines) + r"\2"
     match = re.search(pattern, content, flags=re.DOTALL)
     if not match:
@@ -115,9 +123,9 @@ def main():
     for platform in platforms:
         nav_lines = build_platform_nav(docs_dir, platform)
         all_nav_lines.extend(nav_lines)
-        comp_count = len([d for d in os.listdir(os.path.join(docs_dir, platform, "components"))
-                         if os.path.isdir(os.path.join(docs_dir, platform, "components", d))]) \
-            if os.path.isdir(os.path.join(docs_dir, platform, "components")) else 0
+        comp_count = len([d for d in os.listdir(os.path.join(docs_dir, "use-cases", platform, "components"))
+                         if os.path.isdir(os.path.join(docs_dir, "use-cases", platform, "components", d))]) \
+            if os.path.isdir(os.path.join(docs_dir, "use-cases", platform, "components")) else 0
         print(f"  {platform}: {comp_count} components")
 
     if update_mkdocs(mkdocs_path, all_nav_lines):

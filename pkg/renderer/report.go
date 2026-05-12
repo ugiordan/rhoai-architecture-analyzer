@@ -94,13 +94,40 @@ func renderWebhookTable(b *strings.Builder, data map[string]interface{}) {
 		return
 	}
 	b.WriteString("### Webhooks\n\n")
-	b.WriteString("| Name | Type | Path | Failure Policy | Service | Source |\n")
-	b.WriteString("|------|------|------|----------------|---------|--------|\n")
+	b.WriteString("| Name | Type | Path | Failure Policy | Service | Overlays | Enable Condition | Sources |\n")
+	b.WriteString("|------|------|------|----------------|---------|----------|------------------|----------|\n")
 	for _, wh := range webhooks {
-		b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
-			getStr(wh, "name", ""), getStr(wh, "type", ""),
-			getStr(wh, "path", ""), getStr(wh, "failure_policy", ""),
-			getStr(wh, "service_ref", ""), sourceLink(data, getStr(wh, "source", ""))))
+		// Type annotation for conversion webhooks
+		whType := getStr(wh, "type", "")
+		if whType == "conversion" {
+			if crdName := getStr(wh, "conversion_crd", ""); crdName != "" {
+				whType = fmt.Sprintf("conversion (%s)", crdName)
+			}
+		}
+
+		// Sources column: prefer sources array, fallback to source string
+		sources := getSlice(wh, "sources")
+		var sourceLinks []string
+		if len(sources) > 0 {
+			for _, src := range sources {
+				if file := getStr(src, "file", ""); file != "" {
+					sourceLinks = append(sourceLinks, sourceLink(data, file))
+				}
+			}
+		}
+		if len(sourceLinks) == 0 {
+			if oldSource := getStr(wh, "source", ""); oldSource != "" {
+				sourceLinks = append(sourceLinks, sourceLink(data, oldSource))
+			}
+		}
+
+		b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s | %s | %s | %s |\n",
+			escapeMdCell(getStr(wh, "name", "")), escapeMdCell(whType),
+			escapeMdCell(getStr(wh, "path", "")), escapeMdCell(getStr(wh, "failure_policy", "")),
+			escapeMdCell(getStr(wh, "service_ref", "")),
+			escapeMdCell(strings.Join(getStringSlice(wh, "overlays"), ", ")),
+			escapeMdCell(getStr(wh, "enable_condition", "")),
+			strings.Join(sourceLinks, ", ")))
 	}
 	b.WriteString("\n")
 }

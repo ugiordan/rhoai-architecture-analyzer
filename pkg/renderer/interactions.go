@@ -42,6 +42,8 @@ func RenderInteractions(platformData map[string]interface{}) string {
 			evidence = "import dependency"
 		} else if typ == "uses-image" {
 			evidence = "sidecar container"
+		} else if typ == "webhook-ref" {
+			evidence = "webhook service reference"
 		}
 		interactions = append(interactions, interaction{From: from, To: to, Type: typ, Evidence: evidence})
 	}

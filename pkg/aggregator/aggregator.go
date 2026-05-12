@@ -69,6 +69,7 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		allServices         []map[string]interface{}
 		allSecrets          []map[string]interface{}
 		allRBACClusterRoles []map[string]interface{}
+		allWebhooks         []map[string]interface{}
 		componentNames      []string
 		dependencyGraph     []map[string]string
 	)
@@ -80,6 +81,7 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 	seenServices := make(map[string]bool)   // key: "owner|name|type"
 	seenSecrets := make(map[string]bool)    // key: "owner|name"
 	seenRBACRoles := make(map[string]bool)  // key: "owner|name"
+	seenWebhooks := make(map[string]bool)   // key: "owner|name"
 	seenDepEdges := make(map[string]bool)   // key: "from|to|type"
 
 	// Alias tracking: maps each alias to the canonical component name
@@ -152,6 +154,18 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 				c["owner"] = compName
 				allRBACClusterRoles = append(allRBACClusterRoles, c)
 			}
+		}
+
+		// Webhooks: dedup on (owner, name)
+		for _, wh := range getSliceOfMaps(compData, "webhooks") {
+			key := compName + "|" + getString(wh, "name", "")
+			if seenWebhooks[key] {
+				continue
+			}
+			seenWebhooks[key] = true
+			w := copyMap(wh)
+			w["owner"] = compName
+			allWebhooks = append(allWebhooks, w)
 		}
 
 		// Dependencies (internal ODH): dedup on (from, to, type)
@@ -355,6 +369,49 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		}
 	}
 
+	// Webhook cross-component classification
+	serviceOwners := make(map[string]string)
+	for _, svc := range allServices {
+		svcName := getString(svc, "name", "")
+		owner := getString(svc, "owner", "")
+		if svcName != "" && owner != "" {
+			serviceOwners[svcName] = owner
+		}
+	}
+
+	var platformWebhooks, externalWebhooks []map[string]interface{}
+	for _, wh := range allWebhooks {
+		svcRef := getString(wh, "service_ref", "")
+		if svcRef == "" {
+			continue
+		}
+		svcName := svcRef
+		if idx := strings.LastIndex(svcRef, "/"); idx >= 0 {
+			svcName = svcRef[idx+1:]
+		}
+		whOwner := getString(wh, "owner", "")
+
+		if svcOwner, ok := serviceOwners[svcName]; ok {
+			if svcOwner != whOwner {
+				entry := copyMap(wh)
+				entry["target_component"] = svcOwner
+				platformWebhooks = append(platformWebhooks, entry)
+
+				key := whOwner + "|" + svcOwner + "|webhook-ref"
+				if !seenDepEdges[key] {
+					seenDepEdges[key] = true
+					dependencyGraph = append(dependencyGraph, map[string]string{
+						"from": whOwner,
+						"to":   svcOwner,
+						"type": "webhook-ref",
+					})
+				}
+			}
+		} else {
+			externalWebhooks = append(externalWebhooks, copyMap(wh))
+		}
+	}
+
 	// Rebuild depGraphIface with all detected edges
 	depGraphIface = make([]interface{}, len(dependencyGraph))
 	for i, d := range dependencyGraph {
@@ -381,8 +438,14 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 		"services":           toIfaceSlice(allServices),
 		"secrets_referenced": toIfaceSlice(allSecrets),
 		"rbac_cluster_roles": toIfaceSlice(allRBACClusterRoles),
-		"dependency_graph":   depGraphIface,
-		"component_data":     compDataIface,
+		"webhooks": map[string]interface{}{
+			"total":             len(allWebhooks),
+			"by_component":      webhooksByComponent(allWebhooks),
+			"platform_webhooks": toIfaceSlice(platformWebhooks),
+			"external_webhooks": toIfaceSlice(externalWebhooks),
+		},
+		"dependency_graph": depGraphIface,
+		"component_data":   compDataIface,
 	}
 	if len(aliasesIface) > 0 {
 		result["aliases"] = aliasesIface
@@ -452,6 +515,20 @@ func isGenericImageBase(base string) bool {
 		}
 	}
 	return false
+}
+
+// webhooksByComponent counts webhooks per owning component.
+func webhooksByComponent(webhooks []map[string]interface{}) map[string]interface{} {
+	counts := make(map[string]int)
+	for _, wh := range webhooks {
+		owner := getString(wh, "owner", "unknown")
+		counts[owner]++
+	}
+	result := make(map[string]interface{}, len(counts))
+	for k, v := range counts {
+		result[k] = v
+	}
+	return result
 }
 
 func copyMap(m map[string]interface{}) map[string]interface{} {

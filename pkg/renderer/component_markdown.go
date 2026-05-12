@@ -44,16 +44,76 @@ func RenderComponentMarkdown(data map[string]interface{}) string {
 	})
 
 	renderCMDSection(&b, data, "Webhooks", "webhooks", func(b *strings.Builder, items []map[string]interface{}, data map[string]interface{}) {
-		b.WriteString("| Name | Type | Resources | Operations | Source |\n")
-		b.WriteString("|------|------|-----------|------------|--------|\n")
+		b.WriteString("| Name | Type | Resources | Operations | Overlays | Enable Condition | Sources |\n")
+		b.WriteString("|------|------|-----------|------------|----------|------------------|----------|\n")
 		for _, wh := range items {
-			b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s |\n",
+			// Type annotation for conversion webhooks
+			whType := getStr(wh, "type", "")
+			if whType == "conversion" {
+				if crdName := getStr(wh, "conversion_crd", ""); crdName != "" {
+					whType = fmt.Sprintf("conversion (%s)", crdName)
+				}
+			}
+
+			// Sources column: prefer sources array, fallback to source string
+			sources := getSlice(wh, "sources")
+			var sourceLinks []string
+			if len(sources) > 0 {
+				for _, src := range sources {
+					if file := getStr(src, "file", ""); file != "" {
+						sourceLinks = append(sourceLinks, sourceLink(data, file))
+					}
+				}
+			}
+			if len(sourceLinks) == 0 {
+				if oldSource := getStr(wh, "source", ""); oldSource != "" {
+					sourceLinks = append(sourceLinks, sourceLink(data, oldSource))
+				}
+			}
+
+			b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s | %s | %s |\n",
 				escapeMdCell(getStr(wh, "name", "")),
-				escapeMdCell(getStr(wh, "type", "")),
+				escapeMdCell(whType),
 				escapeMdCell(strings.Join(getStringSlice(wh, "resources"), ", ")),
 				escapeMdCell(strings.Join(getStringSlice(wh, "operations"), ", ")),
-				sourceLink(data, getStr(wh, "source", "")),
+				escapeMdCell(strings.Join(getStringSlice(wh, "overlays"), ", ")),
+				escapeMdCell(getStr(wh, "enable_condition", "")),
+				strings.Join(sourceLinks, ", "),
 			))
+		}
+
+		// Data read sub-table
+		var dataReaders []struct {
+			webhook string
+			kind    string
+			group   string
+		}
+		for _, wh := range items {
+			whName := getStr(wh, "name", "")
+			dataReadSlice := getSlice(wh, "data_read")
+			for _, dr := range dataReadSlice {
+				dataReaders = append(dataReaders, struct {
+					webhook string
+					kind    string
+					group   string
+				}{
+					webhook: whName,
+					kind:    getStr(dr, "kind", ""),
+					group:   getStr(dr, "group", ""),
+				})
+			}
+		}
+		if len(dataReaders) > 0 {
+			b.WriteString("\n### Data Read by Webhooks\n\n")
+			b.WriteString("| Webhook | Kind | Group |\n")
+			b.WriteString("|---------|------|-------|\n")
+			for _, dr := range dataReaders {
+				b.WriteString(fmt.Sprintf("| %s | %s | %s |\n",
+					escapeMdCell(dr.webhook),
+					escapeMdCell(dr.kind),
+					escapeMdCell(dr.group),
+				))
+			}
 		}
 	})
 
