@@ -36,8 +36,8 @@ CLONE_DIR="/tmp/arch-analyzer-repos/${SHORT}"
 echo "[*] Cloning ${REPO}..."
 rm -rf "${CLONE_DIR}"
 git clone --depth 1 "https://github.com/${REPO}.git" "${CLONE_DIR}" 2>/dev/null || {
-    echo "[!] Failed to clone ${REPO}" >&2
-    exit 1
+    echo "::warning::Skipping ${REPO}: clone failed (repo may be private or inaccessible)"
+    exit 0
 }
 
 # Resolve aliases from scan-config.yaml (if present)
