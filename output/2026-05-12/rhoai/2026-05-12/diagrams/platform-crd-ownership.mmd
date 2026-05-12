@@ -1,0 +1,86 @@
+graph TD
+    %% CRD ownership map
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff
+    classDef crd fill:#e74c3c,stroke:#c0392b,color:#fff
+
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_1{{"ClusterServingRuntime"}}
+    class crd_1 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_2{{"ClusterStorageContainer"}}
+    class crd_2 crd
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines -->|"defines"| crd_3{{"CompositeController"}}
+    class crd_3 crd
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines -->|"defines"| crd_4{{"ControllerRevision"}}
+    class crd_4 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_5{{"DataSciencePipelinesApplication"}}
+    class crd_5 crd
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines -->|"defines"| crd_6{{"DecoratorController"}}
+    class crd_6 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_7{{"InferenceGraph"}}
+    class crd_7 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_8{{"InferenceService"}}
+    class crd_8 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_9{{"LLMInferenceService"}}
+    class crd_9 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_10{{"LLMInferenceServiceConfig"}}
+    class crd_10 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_11{{"LocalModelCache"}}
+    class crd_11 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_12{{"LocalModelNamespaceCache"}}
+    class crd_12 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_13{{"LocalModelNode"}}
+    class crd_13 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_14{{"LocalModelNodeGroup"}}
+    class crd_14 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_15{{"Pipeline"}}
+    class crd_15 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_16{{"PipelineVersion"}}
+    class crd_16 crd
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving -->|"defines"| crd_17{{"Predictor"}}
+    class crd_17 crd
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator -->|"defines"| crd_18{{"ScheduledWorkflow"}}
+    class crd_18 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_19{{"ServingRuntime"}}
+    class crd_19 crd
+    kserve["kserve"]
+    class kserve component
+    kserve -->|"defines"| crd_20{{"TrainedModel"}}
+    class crd_20 crd

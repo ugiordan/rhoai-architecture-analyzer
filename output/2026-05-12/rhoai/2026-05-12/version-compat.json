@@ -1,0 +1,43 @@
+{
+  "components": [
+    {
+      "component": "data-science-pipelines",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "data-science-pipelines-operator",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "kserve",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    },
+    {
+      "component": "modelmesh-serving",
+      "result": {
+        "target_version": "4.14",
+        "kube_version": "1.27",
+        "issues": null,
+        "compatible": true
+      }
+    }
+  ],
+  "platform": "rhoai",
+  "target_ocp_version": "4.14",
+  "total_issues": 0
+}

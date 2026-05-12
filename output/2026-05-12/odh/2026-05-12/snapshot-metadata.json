@@ -1,0 +1,12 @@
+{
+  "version": "2026-05-12",
+  "timestamp": "2026-05-12T13:20:24Z",
+  "analyzer_version": "0.2.0",
+  "repos_analyzed": {
+    "kserve/kserve": "e817f4bb46eec84e324aa2066ffb23f03fbf78c8",
+    "kserve/modelmesh-serving": "1fcf541d867ceb459fbc76aa1e2bef102c4816db",
+    "kubeflow/data-science-pipelines": "f2cb1769c809a59341dca135b1279566cb8dbd60",
+    "opendatahub-io/data-science-pipelines-operator": "ba2d887a412d31e2f0afcebfad7fc71de3ac6521"
+  },
+  "platform": "odh"
+}

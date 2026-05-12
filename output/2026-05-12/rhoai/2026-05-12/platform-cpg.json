@@ -1,0 +1,18 @@
+{
+  "components": [
+    "codeflare-operator",
+    "data-science-pipelines-operator",
+    "model-registry-operator",
+    "modelmesh-serving",
+    "odh-dashboard",
+    "odh-model-controller",
+    "opendatahub-operator",
+    "training-operator",
+    "trustyai-service-operator"
+  ],
+  "component_count": 9,
+  "total_nodes": 26158,
+  "total_edges": 36259,
+  "cross_component_edges": 0,
+  "cross_component_links": null
+}

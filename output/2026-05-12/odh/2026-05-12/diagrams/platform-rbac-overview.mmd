@@ -1,0 +1,82 @@
+graph TD
+    %% Platform RBAC overview
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff
+    classDef role fill:#e8a838,stroke:#b07828,color:#fff
+
+    kserve["kserve"]
+    class kserve component
+    kserve --> role_1["kserve-manager-role\n(42 resources)"]
+    class role_1 role
+    kserve["kserve"]
+    class kserve component
+    kserve --> role_2["kserve-proxy-role\n(2 resources)"]
+    class role_2 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_3["aggregate-dspa-admin-edit\n(4 resources)"]
+    class role_3 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_4["aggregate-dspa-admin-view\n(4 resources)"]
+    class role_4 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_5["manager-argo-role\n(22 resources)"]
+    class role_5 role
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> role_6["manager-role\n(55 resources)"]
+    class role_6 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_7["aggregate-to-kubeflow-pipelines-edit\n(13 resources)"]
+    class role_7 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_8["aggregate-to-kubeflow-pipelines-view\n(7 resources)"]
+    class role_8 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_9["kubeflow-metacontroller\n(12 resources)"]
+    class role_9 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_10["kubeflow-pipelines-cache-deployer-clusterrole\n(4 resources)"]
+    class role_10 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_11["kubeflow-pipelines-cache-role\n(3 resources)"]
+    class role_11 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_12["kubeflow-pipelines-edit\n(0 resources)"]
+    class role_12 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_13["kubeflow-pipelines-metadata-writer-role\n(3 resources)"]
+    class role_13 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_14["kubeflow-pipelines-view\n(0 resources)"]
+    class role_14 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_15["ml-pipeline\n(8 resources)"]
+    class role_15 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_16["ml-pipeline-persistenceagent-role\n(5 resources)"]
+    class role_16 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_17["ml-pipeline-scheduledworkflow-role\n(5 resources)"]
+    class role_17 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_18["ml-pipeline-ui\n(5 resources)"]
+    class role_18 role
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> role_19["ml-pipeline-viewer-controller-role\n(4 resources)"]
+    class role_19 role

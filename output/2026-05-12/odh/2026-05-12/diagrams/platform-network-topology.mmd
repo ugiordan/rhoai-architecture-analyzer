@@ -1,0 +1,94 @@
+graph LR
+    %% Platform network topology
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff
+    classDef service fill:#2ecc71,stroke:#27ae60,color:#fff
+
+    kserve["kserve"]
+    class kserve component
+    kserve --> svc_1["cli-port-default\npython-source: 80/TCP"]
+    class svc_1 service
+    kserve["kserve"]
+    class kserve component
+    kserve --> svc_2["kserve-controller-manager-metrics-service\nClusterIP: 8443/TCP"]
+    class svc_2 service
+    kserve["kserve"]
+    class kserve component
+    kserve --> svc_3["kserve-controller-manager-service\nClusterIP: 8443/TCP"]
+    class svc_3 service
+    kserve["kserve"]
+    class kserve component
+    kserve --> svc_4["kserve-webhook-server-service\nClusterIP: 443/TCP"]
+    class svc_4 service
+    kserve["kserve"]
+    class kserve component
+    kserve --> svc_5["llmisvc-controller-manager-service\nClusterIP: 8443/TCP"]
+    class svc_5 service
+    kserve["kserve"]
+    class kserve component
+    kserve --> svc_6["llmisvc-webhook-server-service\nClusterIP: 443/TCP"]
+    class svc_6 service
+    kserve["kserve"]
+    class kserve component
+    kserve --> svc_7["localmodel-webhook-server-service\nClusterIP: 443/TCP"]
+    class svc_7 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_8["data-science-pipelines-operator-service\nClusterIP: 8080/TCP"]
+    class svc_8 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_9["ds-pipeline-workflow-controller-metrics-template-value\nClusterIP: 9090/TCP"]
+    class svc_9 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_10["mariadb\nClusterIP: 3306/TCP"]
+    class svc_10 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_11["mariadb-template-value\nClusterIP: 3306/TCP"]
+    class svc_11 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_12["minio\nClusterIP: 9000/TCP, 9001/TCP"]
+    class svc_12 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_13["minio-service\nClusterIP: 9000/TCP"]
+    class svc_13 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_14["minio-template-value\nClusterIP: 9000/TCP, 80/TCP"]
+    class svc_14 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_15["ml-pipeline\nClusterIP: 8443/TCP, 8888/TCP, 8887/TCP"]
+    class svc_15 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_16["pypi-server\nClusterIP: 8080/TCP"]
+    class svc_16 service
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines_operator --> svc_17["template-value\nClusterIP: 8443/TCP, 8888/TCP, 8887/TCP"]
+    class svc_17 service
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> svc_18["kubeflow-pipelines-profile-controller\nClusterIP: 80/TCP"]
+    class svc_18 service
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    data_science_pipelines --> svc_19["squid\nClusterIP: 3128/TCP"]
+    class svc_19 service
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving --> svc_20["etcd\nClusterIP: 2379/TCP"]
+    class svc_20 service
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving --> svc_21["modelmesh-controller\nClusterIP: 8080/TCP"]
+    class svc_21 service
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    modelmesh_serving --> svc_22["modelmesh-webhook-server-service\nClusterIP: 9443/TCP"]
+    class svc_22 service

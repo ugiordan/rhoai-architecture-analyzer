@@ -1,0 +1,18 @@
+graph LR
+    %% Platform-wide dependency graph
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff,stroke-width:2px
+    classDef gomod fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef crdwatch fill:#e74c3c,stroke:#c0392b,color:#fff
+
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    kserve["kserve"]
+    class kserve component
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+
+    modelmesh_serving -->|"watches ServingRuntime"| kserve
+    data_science_pipelines -.->|"code-ref"| kserve

@@ -1,0 +1,12 @@
+{
+  "version": "2026-05-12",
+  "timestamp": "2026-05-12T13:20:33Z",
+  "analyzer_version": "0.2.0",
+  "repos_analyzed": {
+    "kserve/kserve": "ee2590545dbe0990eeca74e1918657aeb7b7d7e5",
+    "kserve/modelmesh-serving": "c0ef1138c032614238b2ed61c999f2161e0c157c",
+    "kubeflow/data-science-pipelines": "63e607412a77e0567bb5cd198cc67c17df2e5114",
+    "opendatahub-io/data-science-pipelines-operator": "fa40576b2af17db44a9545559f3a3c3ba1f957c0"
+  },
+  "platform": "rhoai"
+}
