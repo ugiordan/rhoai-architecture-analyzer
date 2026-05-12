@@ -20,18 +20,18 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| etcd | ClusterIP | 2379/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/kustomize:config/overlays/odh) |
-| modelmesh-controller | ClusterIP | 8080/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/kustomize:config/overlays/odh) |
-| modelmesh-webhook-server-service | ClusterIP | 9443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/kustomize:config/overlays/odh) |
+| etcd | ClusterIP | 2379/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh) |
+| modelmesh-controller | ClusterIP | 8080/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh) |
+| modelmesh-webhook-server-service | ClusterIP | 9443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| etcd | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/kustomize:config/overlays/odh) |
-| modelmesh-controller | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/kustomize:config/overlays/odh) |
-| modelmesh-runtimes | Ingress | [`config/rbac/common/networkpolicy-runtimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/config/rbac/common/networkpolicy-runtimes.yaml) |
-| modelmesh-webhook | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/kustomize:config/overlays/odh) |
+| etcd | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh) |
+| modelmesh-controller | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh) |
+| modelmesh-runtimes | Ingress | [`config/rbac/common/networkpolicy-runtimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/rbac/common/networkpolicy-runtimes.yaml) |
+| modelmesh-webhook | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/kustomize:config/overlays/odh) |
 
 ## Network Policy Graph
 

@@ -1,15 +1,18 @@
 # kserve
 
+> **Architecture snapshot: 2026-05-12** (2026-05-12)
+
+
 **Repository:** kserve/kserve  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:05:18Z
+**Extracted:** 2026-05-12T13:19:05Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
 | CRDs | 12 |
-| Deployments | 4 |
+| Deployments | 3 |
 | Services | 7 |
 | Secrets | 3 |
 | Cluster Roles | 2 |
@@ -36,8 +39,6 @@ graph LR
         class dep_2 controller
         dep_3["llmisvc-controller-manager"]
         class dep_3 controller
-        dep_4["spark-pmml-iris"]
-        class dep_4 controller
     end
 
     crd_ClusterServingRuntime{{"ClusterServingRuntime\nserving.kserve.io/v1alpha1"}}
@@ -71,62 +72,62 @@ graph LR
     crd_InferenceService{{"InferenceService\nserving.kserve.io/v1beta1"}}
     class crd_InferenceService crd
     crd_InferenceService -->|"For (reconciles)"| controller
-    controller -->|"Owns"| owned_5["Deployment"]
+    controller -->|"Owns"| owned_4["Deployment"]
+    class owned_4 owned
+    controller -->|"Owns"| owned_5["HTTPRoute"]
     class owned_5 owned
-    controller -->|"Owns"| owned_6["HTTPRoute"]
+    controller -->|"Owns"| owned_6["HorizontalPodAutoscaler"]
     class owned_6 owned
-    controller -->|"Owns"| owned_7["HorizontalPodAutoscaler"]
+    controller -->|"Owns"| owned_7["InferencePool"]
     class owned_7 owned
-    controller -->|"Owns"| owned_8["InferencePool"]
+    controller -->|"Owns"| owned_8["Ingress"]
     class owned_8 owned
-    controller -->|"Owns"| owned_9["Ingress"]
+    controller -->|"Owns"| owned_9["Job"]
     class owned_9 owned
-    controller -->|"Owns"| owned_10["Job"]
+    controller -->|"Owns"| owned_10["LeaderWorkerSet"]
     class owned_10 owned
-    controller -->|"Owns"| owned_11["LeaderWorkerSet"]
+    controller -->|"Owns"| owned_11["OpenTelemetryCollector"]
     class owned_11 owned
-    controller -->|"Owns"| owned_12["OpenTelemetryCollector"]
+    controller -->|"Owns"| owned_12["PersistentVolume"]
     class owned_12 owned
-    controller -->|"Owns"| owned_13["PersistentVolume"]
+    controller -->|"Owns"| owned_13["PersistentVolumeClaim"]
     class owned_13 owned
-    controller -->|"Owns"| owned_14["PersistentVolumeClaim"]
+    controller -->|"Owns"| owned_14["PodMonitor"]
     class owned_14 owned
-    controller -->|"Owns"| owned_15["PodMonitor"]
+    controller -->|"Owns"| owned_15["Route"]
     class owned_15 owned
-    controller -->|"Owns"| owned_16["Route"]
+    controller -->|"Owns"| owned_16["ScaledObject"]
     class owned_16 owned
-    controller -->|"Owns"| owned_17["ScaledObject"]
+    controller -->|"Owns"| owned_17["Secret"]
     class owned_17 owned
-    controller -->|"Owns"| owned_18["Secret"]
+    controller -->|"Owns"| owned_18["Service"]
     class owned_18 owned
-    controller -->|"Owns"| owned_19["Service"]
+    controller -->|"Owns"| owned_19["ServiceMonitor"]
     class owned_19 owned
-    controller -->|"Owns"| owned_20["ServiceMonitor"]
+    controller -->|"Owns"| owned_20["VariantAutoscaling"]
     class owned_20 owned
-    controller -->|"Owns"| owned_21["VariantAutoscaling"]
+    controller -->|"Owns"| owned_21["VirtualService"]
     class owned_21 owned
-    controller -->|"Owns"| owned_22["VirtualService"]
-    class owned_22 owned
-    watch_23["ClusterServingRuntime"] -->|"Watches"| controller
+    watch_22["ClusterServingRuntime"] -->|"Watches"| controller
+    class watch_22 external
+    watch_23["ConfigMap"] -->|"Watches"| controller
     class watch_23 external
-    watch_24["ConfigMap"] -->|"Watches"| controller
+    watch_24["Gateway"] -->|"Watches"| controller
     class watch_24 external
-    watch_25["Gateway"] -->|"Watches"| controller
+    watch_25["HTTPRoute"] -->|"Watches"| controller
     class watch_25 external
-    watch_26["HTTPRoute"] -->|"Watches"| controller
+    watch_26["InferenceService"] -->|"Watches"| controller
     class watch_26 external
-    watch_27["InferenceService"] -->|"Watches"| controller
+    watch_27["LLMInferenceServiceConfig"] -->|"Watches"| controller
     class watch_27 external
-    watch_28["LLMInferenceServiceConfig"] -->|"Watches"| controller
+    watch_28["LocalModelNode"] -->|"Watches"| controller
     class watch_28 external
-    watch_29["LocalModelNode"] -->|"Watches"| controller
+    watch_29["Node"] -->|"Watches"| controller
     class watch_29 external
-    watch_30["Node"] -->|"Watches"| controller
+    watch_30["Pod"] -->|"Watches"| controller
     class watch_30 external
-    watch_31["Pod"] -->|"Watches"| controller
+    watch_31["ServingRuntime"] -->|"Watches"| controller
     class watch_31 external
-    watch_32["ServingRuntime"] -->|"Watches"| controller
-    class watch_32 external
 ```
 
 ### CRDs

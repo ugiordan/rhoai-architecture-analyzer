@@ -1,8 +1,11 @@
 # data-science-pipelines-operator
 
+> **Architecture snapshot: 2026-05-12** (2026-05-12)
+
+
 **Repository:** opendatahub-io/data-science-pipelines-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:03:18Z
+**Extracted:** 2026-05-12T13:13:30Z
 
 ## Summary
 
@@ -73,10 +76,10 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| datasciencepipelinesapplications.opendatahub.io | v1 | DataSciencePipelinesApplication | Namespaced | 205 | 2 | [`config/crd/bases/datasciencepipelinesapplications.opendatahub.io_datasciencepipelinesapplications.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/36d237677e2cda141c11b9d81009bc4337cdf7ed/config/crd/bases/datasciencepipelinesapplications.opendatahub.io_datasciencepipelinesapplications.yaml) |
-| kubeflow.org | v1beta1 | ScheduledWorkflow | Namespaced | 5 | 0 | [`config/crd/bases/scheduledworkflows.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/36d237677e2cda141c11b9d81009bc4337cdf7ed/config/crd/bases/scheduledworkflows.yaml) |
-| pipelines.kubeflow.org | v2beta1 | Pipeline | Namespaced | 7 | 0 | [`config/crd/bases/pipelines.kubeflow.org_pipelines.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/36d237677e2cda141c11b9d81009bc4337cdf7ed/config/crd/bases/pipelines.kubeflow.org_pipelines.yaml) |
-| pipelines.kubeflow.org | v2beta1 | PipelineVersion | Namespaced | 18 | 0 | [`config/crd/bases/pipelines.kubeflow.org_pipelineversions.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/36d237677e2cda141c11b9d81009bc4337cdf7ed/config/crd/bases/pipelines.kubeflow.org_pipelineversions.yaml) |
+| datasciencepipelinesapplications.opendatahub.io | v1 | DataSciencePipelinesApplication | Namespaced | 205 | 2 | [`config/crd/bases/datasciencepipelinesapplications.opendatahub.io_datasciencepipelinesapplications.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/config/crd/bases/datasciencepipelinesapplications.opendatahub.io_datasciencepipelinesapplications.yaml) |
+| kubeflow.org | v1beta1 | ScheduledWorkflow | Namespaced | 5 | 0 | [`config/crd/bases/scheduledworkflows.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/config/crd/bases/scheduledworkflows.yaml) |
+| pipelines.kubeflow.org | v2beta1 | Pipeline | Namespaced | 7 | 0 | [`config/crd/bases/pipelines.kubeflow.org_pipelines.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/config/crd/bases/pipelines.kubeflow.org_pipelines.yaml) |
+| pipelines.kubeflow.org | v2beta1 | PipelineVersion | Namespaced | 18 | 0 | [`config/crd/bases/pipelines.kubeflow.org_pipelineversions.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/config/crd/bases/pipelines.kubeflow.org_pipelineversions.yaml) |
 
 ## Dependencies
 

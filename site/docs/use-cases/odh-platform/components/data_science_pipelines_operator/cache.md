@@ -28,8 +28,15 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 | rbacv1.RoleBinding | label | label selector |
 | routev1.Route | label | label selector |
 
+### Cache-Bypassed Types (DisableFor)
+
+- corev1.ConfigMap
+- corev1.Secret
+
 ### Issues
 
+- Cache bypass (DisableFor) configured for corev1.ConfigMap. This is a common fix for OOM caused by informer cache flooding from high-cardinality types (e.g., opendatahub-io/model-registry-operator#457)
+- Cache bypass (DisableFor) configured for corev1.Secret. This is a common fix for OOM caused by informer cache flooding from high-cardinality types (e.g., opendatahub-io/model-registry-operator#457)
 - Type DataSciencePipelinesApplication is watched but has no cache filter (cluster-wide informer)
 - Type Deployment is watched but has no cache filter (cluster-wide informer)
 - Type NetworkPolicy is watched but has no cache filter (cluster-wide informer)

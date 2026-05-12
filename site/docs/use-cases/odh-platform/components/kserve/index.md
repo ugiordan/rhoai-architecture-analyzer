@@ -1,19 +1,22 @@
 # kserve
 
+> **Architecture snapshot: 2026-05-12** (2026-05-12)
+
+
 **Repository:** kserve/kserve  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:05:18Z
+**Extracted:** 2026-05-12T13:13:31Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
 | CRDs | 12 |
-| Deployments | 4 |
+| Deployments | 3 |
 | Services | 7 |
 | Secrets | 3 |
 | Cluster Roles | 2 |
-| Controller Watches | 49 |
+| Controller Watches | 48 |
 
 ## Component Architecture
 
@@ -36,8 +39,6 @@ graph LR
         class dep_2 controller
         dep_3["llmisvc-controller-manager"]
         class dep_3 controller
-        dep_4["spark-pmml-iris"]
-        class dep_4 controller
     end
 
     crd_ClusterServingRuntime{{"ClusterServingRuntime\nserving.kserve.io/v1alpha1"}}
@@ -71,80 +72,76 @@ graph LR
     crd_InferenceService{{"InferenceService\nserving.kserve.io/v1beta1"}}
     class crd_InferenceService crd
     crd_InferenceService -->|"For (reconciles)"| controller
-    controller -->|"Owns"| owned_5["Deployment"]
+    controller -->|"Owns"| owned_4["Deployment"]
+    class owned_4 owned
+    controller -->|"Owns"| owned_5["HTTPRoute"]
     class owned_5 owned
-    controller -->|"Owns"| owned_6["HTTPRoute"]
+    controller -->|"Owns"| owned_6["HorizontalPodAutoscaler"]
     class owned_6 owned
-    controller -->|"Owns"| owned_7["HorizontalPodAutoscaler"]
+    controller -->|"Owns"| owned_7["InferencePool"]
     class owned_7 owned
-    controller -->|"Owns"| owned_8["InferencePool"]
+    controller -->|"Owns"| owned_8["Ingress"]
     class owned_8 owned
-    controller -->|"Owns"| owned_9["Ingress"]
+    controller -->|"Owns"| owned_9["Job"]
     class owned_9 owned
-    controller -->|"Owns"| owned_10["Job"]
+    controller -->|"Owns"| owned_10["LeaderWorkerSet"]
     class owned_10 owned
-    controller -->|"Owns"| owned_11["LeaderWorkerSet"]
+    controller -->|"Owns"| owned_11["OpenTelemetryCollector"]
     class owned_11 owned
-    controller -->|"Owns"| owned_12["OpenTelemetryCollector"]
+    controller -->|"Owns"| owned_12["PersistentVolume"]
     class owned_12 owned
-    controller -->|"Owns"| owned_13["PersistentVolume"]
+    controller -->|"Owns"| owned_13["PersistentVolumeClaim"]
     class owned_13 owned
-    controller -->|"Owns"| owned_14["PersistentVolumeClaim"]
+    controller -->|"Owns"| owned_14["ScaledObject"]
     class owned_14 owned
-    controller -->|"Owns"| owned_15["PodMonitor"]
+    controller -->|"Owns"| owned_15["Secret"]
     class owned_15 owned
-    controller -->|"Owns"| owned_16["Route"]
+    controller -->|"Owns"| owned_16["Service"]
     class owned_16 owned
-    controller -->|"Owns"| owned_17["ScaledObject"]
+    controller -->|"Owns"| owned_17["VariantAutoscaling"]
     class owned_17 owned
-    controller -->|"Owns"| owned_18["Secret"]
+    controller -->|"Owns"| owned_18["VirtualService"]
     class owned_18 owned
-    controller -->|"Owns"| owned_19["Service"]
-    class owned_19 owned
-    controller -->|"Owns"| owned_20["ServiceMonitor"]
-    class owned_20 owned
-    controller -->|"Owns"| owned_21["VariantAutoscaling"]
-    class owned_21 owned
-    controller -->|"Owns"| owned_22["VirtualService"]
-    class owned_22 owned
-    watch_23["ClusterServingRuntime"] -->|"Watches"| controller
+    watch_19["ClusterServingRuntime"] -->|"Watches"| controller
+    class watch_19 external
+    watch_20["ConfigMap"] -->|"Watches"| controller
+    class watch_20 external
+    watch_21["Gateway"] -->|"Watches"| controller
+    class watch_21 external
+    watch_22["HTTPRoute"] -->|"Watches"| controller
+    class watch_22 external
+    watch_23["InferenceService"] -->|"Watches"| controller
     class watch_23 external
-    watch_24["ConfigMap"] -->|"Watches"| controller
+    watch_24["LLMInferenceService"] -->|"Watches"| controller
     class watch_24 external
-    watch_25["Gateway"] -->|"Watches"| controller
+    watch_25["LLMInferenceServiceConfig"] -->|"Watches"| controller
     class watch_25 external
-    watch_26["HTTPRoute"] -->|"Watches"| controller
+    watch_26["LocalModelNode"] -->|"Watches"| controller
     class watch_26 external
-    watch_27["InferenceService"] -->|"Watches"| controller
+    watch_27["Node"] -->|"Watches"| controller
     class watch_27 external
-    watch_28["LLMInferenceServiceConfig"] -->|"Watches"| controller
+    watch_28["Pod"] -->|"Watches"| controller
     class watch_28 external
-    watch_29["LocalModelNode"] -->|"Watches"| controller
+    watch_29["ServingRuntime"] -->|"Watches"| controller
     class watch_29 external
-    watch_30["Node"] -->|"Watches"| controller
-    class watch_30 external
-    watch_31["Pod"] -->|"Watches"| controller
-    class watch_31 external
-    watch_32["ServingRuntime"] -->|"Watches"| controller
-    class watch_32 external
 ```
 
 ### CRDs
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 1183 | 0 | [`config/crd/full/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/serving.kserve.io_clusterservingruntimes.yaml) |
-| serving.kserve.io | v1alpha1 | ClusterStorageContainer | Cluster | 216 | 0 | [`config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml) |
-| serving.kserve.io | v1alpha1 | InferenceGraph | Namespaced | 150 | 0 | [`config/crd/full/serving.kserve.io_inferencegraphs.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/serving.kserve.io_inferencegraphs.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelCache | Cluster | 20 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelNamespaceCache | Namespaced | 20 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelNode | Cluster | 15 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml) |
-| serving.kserve.io | v1alpha1 | LocalModelNodeGroup | Cluster | 220 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml) |
-| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1183 | 0 | [`config/crd/full/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/serving.kserve.io_servingruntimes.yaml) |
-| serving.kserve.io | v1alpha1 | TrainedModel | Namespaced | 25 | 0 | [`config/crd/full/serving.kserve.io_trainedmodels.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/serving.kserve.io_trainedmodels.yaml) |
-| serving.kserve.io | v1alpha2 | LLMInferenceService | Namespaced | 5732 | 110 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml) |
-| serving.kserve.io | v1alpha2 | LLMInferenceServiceConfig | Namespaced | 5711 | 95 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml) |
-| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6547 | 0 | [`config/crd/full/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/kserve/blob/ee2590545dbe0990eeca74e1918657aeb7b7d7e5/config/crd/full/serving.kserve.io_inferenceservices.yaml) |
+| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 1183 | 0 | [`config/crd/full/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/serving.kserve.io_clusterservingruntimes.yaml) |
+| serving.kserve.io | v1alpha1 | ClusterStorageContainer | Cluster | 216 | 0 | [`config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/clusterstoragecontainer/serving.kserve.io_clusterstoragecontainers.yaml) |
+| serving.kserve.io | v1alpha1 | InferenceGraph | Namespaced | 150 | 0 | [`config/crd/full/serving.kserve.io_inferencegraphs.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/serving.kserve.io_inferencegraphs.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelCache | Cluster | 23 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/localmodel/serving.kserve.io_localmodelcaches.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelNamespaceCache | Namespaced | 23 | 1 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/localmodel/serving.kserve.io_localmodelnamespacecaches.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelNode | Cluster | 15 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/localmodel/serving.kserve.io_localmodelnodes.yaml) |
+| serving.kserve.io | v1alpha1 | LocalModelNodeGroup | Cluster | 220 | 0 | [`config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/localmodel/serving.kserve.io_localmodelnodegroups.yaml) |
+| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1183 | 0 | [`config/crd/full/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/serving.kserve.io_servingruntimes.yaml) |
+| serving.kserve.io | v1alpha1 | TrainedModel | Namespaced | 25 | 0 | [`config/crd/full/serving.kserve.io_trainedmodels.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/serving.kserve.io_trainedmodels.yaml) |
+| serving.kserve.io | v1alpha2 | LLMInferenceService | Namespaced | 5733 | 110 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/llmisvc/serving.kserve.io_llminferenceservices.yaml) |
+| serving.kserve.io | v1alpha2 | LLMInferenceServiceConfig | Namespaced | 5712 | 95 | [`config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/llmisvc/serving.kserve.io_llminferenceserviceconfigs.yaml) |
+| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6547 | 0 | [`config/crd/full/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/kserve/blob/e817f4bb46eec84e324aa2066ffb23f03fbf78c8/config/crd/full/serving.kserve.io_inferenceservices.yaml) |
 
 ## Dependencies
 
@@ -154,7 +151,6 @@ graph LR
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/zapr | v1.3.0 |
-| github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring | v0.89.0 |
 | github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/common | v0.67.4 |
 | k8s.io/api | v0.34.5 |

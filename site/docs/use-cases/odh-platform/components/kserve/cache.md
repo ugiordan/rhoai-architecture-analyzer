@@ -25,8 +25,8 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 ### Issues
 
-- No DefaultTransform: managedFields cached for all objects (wasted memory)
-- No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune)
+- No DefaultTransform: managedFields cached for all objects (wasted memory). Add cache.DefaultTransform to strip managedFields and reduce memory footprint
+- No GOMEMLIMIT set in deployment (Go GC cannot pressure-tune). Set GOMEMLIMIT to 80-90% of container memory limit for optimal GC behavior
 - Type ClusterServingRuntime is watched but has no cache filter (cluster-wide informer)
 - Type Gateway is watched but has no cache filter (cluster-wide informer)
 - Type HTTPRoute is watched but has no cache filter (cluster-wide informer)
@@ -45,11 +45,8 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 - Type OpenTelemetryCollector is watched but has no cache filter (cluster-wide informer)
 - Type PersistentVolume is watched but has no cache filter (cluster-wide informer)
 - Type PersistentVolumeClaim is watched but has no cache filter (cluster-wide informer)
-- Type PodMonitor is watched but has no cache filter (cluster-wide informer)
-- Type Route is watched but has no cache filter (cluster-wide informer)
 - Type ScaledObject is watched but has no cache filter (cluster-wide informer)
 - Type Service is watched but has no cache filter (cluster-wide informer)
-- Type ServiceMonitor is watched but has no cache filter (cluster-wide informer)
 - Type ServingRuntime is watched but has no cache filter (cluster-wide informer)
 - Type TrainedModel is watched but has no cache filter (cluster-wide informer)
 - Type VariantAutoscaling is watched but has no cache filter (cluster-wide informer)

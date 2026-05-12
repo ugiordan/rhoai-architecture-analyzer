@@ -21,9 +21,9 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| data-science-pipelines-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/36d237677e2cda141c11b9d81009bc4337cdf7ed/kustomize:config/overlays/odh) |
-| mariadb | mariadb | ? | ? | ? | [`.github/resources/mariadb/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/36d237677e2cda141c11b9d81009bc4337cdf7ed/.github/resources/mariadb/deployment.yaml) |
-| minio | minio | ? | ? | ? | [`.github/resources/minio/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/36d237677e2cda141c11b9d81009bc4337cdf7ed/.github/resources/minio/deployment.yaml) |
+| data-science-pipelines-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/fa40576b2af17db44a9545559f3a3c3ba1f957c0/kustomize:config/overlays/odh) |
+| mariadb | mariadb | ? | ? | ? | [`.github/resources/mariadb/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/fa40576b2af17db44a9545559f3a3c3ba1f957c0/.github/resources/mariadb/deployment.yaml) |
+| minio | minio | ? | ? | ? | [`.github/resources/minio/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/fa40576b2af17db44a9545559f3a3c3ba1f957c0/.github/resources/minio/deployment.yaml) |
 
 ## Build Security
 
@@ -34,7 +34,5 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `.github/build/Dockerfile` | ${CI_BASE} | 2 | root |  |  |  | Unpinned base image: ${CI_BASE}; Unpinned base image: ${CI_BASE}; Container runs as root user |
 | `.github/scripts/python_package_upload/Dockerfile` | docker.io/python:3.9 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `Dockerfile` | registry.access.redhat.com/ubi9/ubi-minimal:latest | 2 | ${USER}:${USER} |  | multi-arch | yes | Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest |
-| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | ${USER}:${USER} |  | multi-arch |  |  |
-| `docs/example_pipelines/iris/Dockerfile` | docker.io/python:3.9.17 | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `tests/resources/Dockerfile` | docker.io/python:3.9.17 | 1 |  |  |  |  | No USER directive found (defaults to root) |
+| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:12db9874bd753eb98b1ab3d840e75de5d6842ac0604fbd68c012adefe97140be | 2 | ${USER}:${USER} |  | multi-arch |  |  |
 

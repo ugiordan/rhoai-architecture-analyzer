@@ -1,8 +1,11 @@
 # modelmesh-serving
 
+> **Architecture snapshot: 2026-05-12** (2026-05-12)
+
+
 **Repository:** kserve/modelmesh-serving  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:05:34Z
+**Extracted:** 2026-05-12T13:13:03Z
 
 ## Summary
 
@@ -72,10 +75,10 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Source |
 |-------|---------|------|-------|--------|------------------|--------|
-| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 559 | 0 | [`config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml) |
-| serving.kserve.io | v1alpha1 | Predictor | Namespaced | 40 | 0 | [`config/crd/bases/serving.kserve.io_predictors.yaml`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/config/crd/bases/serving.kserve.io_predictors.yaml) |
-| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1140 | 0 | [`config/crd/bases/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/config/crd/bases/serving.kserve.io_servingruntimes.yaml) |
-| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6195 | 0 | [`config/crd/bases/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/modelmesh-serving/blob/ed3547700ee34fc502bfcf8fd8160742a18794fa/config/crd/bases/serving.kserve.io_inferenceservices.yaml) |
+| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 559 | 0 | [`config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml) |
+| serving.kserve.io | v1alpha1 | Predictor | Namespaced | 40 | 0 | [`config/crd/bases/serving.kserve.io_predictors.yaml`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/crd/bases/serving.kserve.io_predictors.yaml) |
+| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1140 | 0 | [`config/crd/bases/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/crd/bases/serving.kserve.io_servingruntimes.yaml) |
+| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6195 | 0 | [`config/crd/bases/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/modelmesh-serving/blob/1fcf541d867ceb459fbc76aa1e2bef102c4816db/config/crd/bases/serving.kserve.io_inferenceservices.yaml) |
 
 ## Dependencies
 

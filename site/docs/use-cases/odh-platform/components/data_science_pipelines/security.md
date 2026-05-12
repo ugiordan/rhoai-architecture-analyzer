@@ -19,17 +19,17 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| cache-server | server | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/cache/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/cache/deployment-patch.yaml) |
-| kubeflow-pipelines-profile-controller | profile-controller | true | ? | ? | [`manifests/kustomize/base/installs/multi-user/pipelines-profile-controller/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/pipelines-profile-controller/deployment.yaml) |
-| metadata-writer | main | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/metadata-writer/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/metadata-writer/deployment-patch.yaml) |
-| ml-pipeline | ml-pipeline-api-server | ? | ? | ? | [`manifests/kustomize/env/cert-manager/platform-agnostic-k8s-native/patches/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/env/cert-manager/platform-agnostic-k8s-native/patches/deployment.yaml) |
-| ml-pipeline | ml-pipeline-api-server | ? | ? | ? | [`manifests/kustomize/env/cert-manager/platform-agnostic-multi-user-k8s-native/patches/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/env/cert-manager/platform-agnostic-multi-user-k8s-native/patches/deployment.yaml) |
-| ml-pipeline | ml-pipeline-api-server | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/api-service/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/api-service/deployment-patch.yaml) |
-| ml-pipeline-persistenceagent | ml-pipeline-persistenceagent | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/persistence-agent/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/persistence-agent/deployment-patch.yaml) |
-| ml-pipeline-scheduledworkflow | ml-pipeline-scheduledworkflow | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/scheduled-workflow/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/scheduled-workflow/deployment-patch.yaml) |
-| ml-pipeline-ui | ml-pipeline-ui | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/pipelines-ui/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/pipelines-ui/deployment-patch.yaml) |
-| ml-pipeline-viewer-crd | ml-pipeline-viewer-crd | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/viewer-controller/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/manifests/kustomize/base/installs/multi-user/viewer-controller/deployment-patch.yaml) |
-| squid | squid | ? | ? | ? | [`.github/resources/squid/manifests/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/e0a2ed473c3f3c9ee38b2a72872b6cb23b1185ea/.github/resources/squid/manifests/deployment.yaml) |
+| cache-server | server | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/cache/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/cache/deployment-patch.yaml) |
+| kubeflow-pipelines-profile-controller | profile-controller | true | ? | ? | [`manifests/kustomize/base/installs/multi-user/pipelines-profile-controller/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/pipelines-profile-controller/deployment.yaml) |
+| metadata-writer | main | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/metadata-writer/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/metadata-writer/deployment-patch.yaml) |
+| ml-pipeline | ml-pipeline-api-server | ? | ? | ? | [`manifests/kustomize/env/cert-manager/platform-agnostic-k8s-native/patches/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/env/cert-manager/platform-agnostic-k8s-native/patches/deployment.yaml) |
+| ml-pipeline | ml-pipeline-api-server | ? | ? | ? | [`manifests/kustomize/env/cert-manager/platform-agnostic-multi-user-k8s-native/patches/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/env/cert-manager/platform-agnostic-multi-user-k8s-native/patches/deployment.yaml) |
+| ml-pipeline | ml-pipeline-api-server | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/api-service/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/api-service/deployment-patch.yaml) |
+| ml-pipeline-persistenceagent | ml-pipeline-persistenceagent | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/persistence-agent/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/persistence-agent/deployment-patch.yaml) |
+| ml-pipeline-scheduledworkflow | ml-pipeline-scheduledworkflow | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/scheduled-workflow/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/scheduled-workflow/deployment-patch.yaml) |
+| ml-pipeline-ui | ml-pipeline-ui | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/pipelines-ui/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/pipelines-ui/deployment-patch.yaml) |
+| ml-pipeline-viewer-crd | ml-pipeline-viewer-crd | ? | ? | ? | [`manifests/kustomize/base/installs/multi-user/viewer-controller/deployment-patch.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/manifests/kustomize/base/installs/multi-user/viewer-controller/deployment-patch.yaml) |
+| squid | squid | ? | ? | ? | [`.github/resources/squid/manifests/deployment.yaml`](https://github.com/kubeflow/data-science-pipelines/blob/f2cb1769c809a59341dca135b1279566cb8dbd60/.github/resources/squid/manifests/deployment.yaml) |
 
 ## Build Security
 
@@ -42,11 +42,6 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `backend/Dockerfile.cacheserver` | alpine:3.21 | 2 | appuser |  |  |  |  |
 | `backend/Dockerfile.conformance` | alpine:3.21 | 2 |  |  |  |  | No USER directive found (defaults to root) |
 | `backend/Dockerfile.driver` | registry.access.redhat.com/ubi9/ubi-minimal:9.5 | 2 | 65534 |  | multi-arch | yes |  |
-| `backend/Dockerfile.konflux.api` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | 1001 |  |  |  |  |
-| `backend/Dockerfile.konflux.driver` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | root |  | multi-arch |  | Container runs as root user |
-| `backend/Dockerfile.konflux.launcher` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | root |  | multi-arch |  | Container runs as root user |
-| `backend/Dockerfile.konflux.persistenceagent` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | root |  |  |  | Container runs as root user |
-| `backend/Dockerfile.konflux.scheduledworkflow` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | root |  |  |  | Container runs as root user |
 | `backend/Dockerfile.launcher` | registry.access.redhat.com/ubi9/ubi-minimal:9.5 | 2 | 65534 |  | multi-arch | yes |  |
 | `backend/Dockerfile.persistenceagent` | registry.access.redhat.com/ubi9/ubi-minimal:9.5 | 2 | root |  | multi-arch | yes | Container runs as root user |
 | `backend/Dockerfile.scheduledworkflow` | registry.access.redhat.com/ubi9/ubi-minimal:9.5 | 2 | root |  | multi-arch | yes | Container runs as root user |
@@ -55,21 +50,14 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `backend/api/Dockerfile` | golang:1.25.7 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `backend/metadata_writer/Dockerfile` | python:3.11-slim | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `backend/src/cache/deployer/Dockerfile` | gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `backend/src/v2/test/Dockerfile` | python:3.11-slim | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `backend/test/images/Dockerfile.test` | golang:1.25-bookworm | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `components/aws/athena/Dockerfile` | ubuntu:16.04 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `components/aws/emr/Dockerfile` | ubuntu:16.04 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `components/aws/sagemaker/Dockerfile` | public.ecr.aws/amazonlinux/amazonlinux:2 | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `components/aws/sagemaker/tests/integration_tests/Dockerfile` | public.ecr.aws/lts/ubuntu:18.04_stable | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `components/aws/sagemaker/tests/unit_tests/Dockerfile` | public.ecr.aws/amazonlinux/amazonlinux:2 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `components/google-cloud/Dockerfile` | marketplace.gcr.io/google/ubuntu2404:latest | 1 |  |  |  |  | Unpinned base image: marketplace.gcr.io/google/ubuntu2404:latest; No USER directive found (defaults to root) |
 | `components/kserve/Dockerfile` | python:3.11-slim-bullseye | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `frontend/Dockerfile` | node:${NODE_VERSION}-${BASE_IMAGE} | 2 |  |  |  |  | No USER directive found (defaults to root) |
 | `manifests/gcp_marketplace/deployer/Dockerfile` | gcr.io/cloud-marketplace-tools/k8s/deployer_helm/onbuild:0.11.3 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `proxy/Dockerfile` | gcr.io/inverting-proxy/agent@sha256:694d6c1bf299585b530c923c3728cd2c45083f3b396ec83ff799cef1c9dc7474 | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `test/frontend-integration-test/Dockerfile` | selenium/standalone-chromium:143.0 | 1 | seluser |  |  |  |  |
-| `test/imagebuilder/Dockerfile` | google/cloud-sdk:279.0.0 | 1 |  |  |  |  | No USER directive found (defaults to root) |
-| `test/release/Dockerfile.release` | ${BASE_IMAGE} | 1 |  |  |  |  | Unpinned base image: ${BASE_IMAGE}; No USER directive found (defaults to root) |
 | `test_data/sdk_compiled_pipelines/valid/critical/modelcar/Dockerfile` | alpine:3.21 | 2 | 0 |  |  |  | Container runs as root user |
 | `third_party/metadata_envoy/Dockerfile` | envoyproxy/envoy:v1.37.0 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `third_party/minio/Dockerfile` | minio/minio:RELEASE.2019-08-14T20-37-41Z | 2 |  |  |  |  | Unpinned base image: alpine; No USER directive found (defaults to root) |
