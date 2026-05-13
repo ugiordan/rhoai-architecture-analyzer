@@ -427,30 +427,58 @@ func camelToJSON(s string) string {
 	return string(runes)
 }
 
-// findEnclosingCondition looks for an if statement that encloses the given node
-// and returns a human-readable condition string.
+// findEnclosingCondition walks the AST to find the innermost if statement
+// that encloses the target node and returns a human-readable condition string.
 func findEnclosingCondition(body *ast.BlockStmt, target ast.Node, fset *token.FileSet) string {
 	if body == nil {
 		return ""
 	}
+	return findConditionInBlock(body.List, target)
+}
+
+func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 	targetPos := target.Pos()
 	targetEnd := target.End()
 
-	for _, stmt := range body.List {
-		ifStmt, ok := stmt.(*ast.IfStmt)
-		if !ok {
-			continue
-		}
-		// Check if target is inside this if's body
-		if targetPos >= ifStmt.Body.Pos() && targetEnd <= ifStmt.Body.End() {
-			return formatExpr(ifStmt.Cond)
-		}
-		// Check nested if in else
-		if ifStmt.Else != nil {
-			if elseBlock, ok := ifStmt.Else.(*ast.BlockStmt); ok {
-				if targetPos >= elseBlock.Pos() && targetEnd <= elseBlock.End() {
-					return "!(" + formatExpr(ifStmt.Cond) + ")"
+	for _, stmt := range stmts {
+		switch s := stmt.(type) {
+		case *ast.IfStmt:
+			if targetPos >= s.Body.Pos() && targetEnd <= s.Body.End() {
+				inner := findConditionInBlock(s.Body.List, target)
+				cond := formatExpr(s.Cond)
+				if inner != "" {
+					return cond + " && " + inner
 				}
+				return cond
+			}
+			if s.Else != nil {
+				if elseBlock, ok := s.Else.(*ast.BlockStmt); ok {
+					if targetPos >= elseBlock.Pos() && targetEnd <= elseBlock.End() {
+						inner := findConditionInBlock(elseBlock.List, target)
+						cond := "!(" + formatExpr(s.Cond) + ")"
+						if inner != "" {
+							return cond + " && " + inner
+						}
+						return cond
+					}
+				}
+				if elseIf, ok := s.Else.(*ast.IfStmt); ok {
+					if targetPos >= elseIf.Pos() && targetEnd <= elseIf.End() {
+						return findConditionInBlock([]ast.Stmt{elseIf}, target)
+					}
+				}
+			}
+		case *ast.ForStmt:
+			if s.Body != nil && targetPos >= s.Body.Pos() && targetEnd <= s.Body.End() {
+				return findConditionInBlock(s.Body.List, target)
+			}
+		case *ast.RangeStmt:
+			if s.Body != nil && targetPos >= s.Body.Pos() && targetEnd <= s.Body.End() {
+				return findConditionInBlock(s.Body.List, target)
+			}
+		case *ast.BlockStmt:
+			if targetPos >= s.Pos() && targetEnd <= s.End() {
+				return findConditionInBlock(s.List, target)
 			}
 		}
 	}
