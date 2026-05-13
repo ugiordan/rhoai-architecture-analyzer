@@ -139,6 +139,12 @@ func findGoFiles(repoPath string) []string {
 		if err != nil {
 			return nil
 		}
+		if d.Type()&os.ModeSymlink != 0 {
+			if d.IsDir() {
+				return filepath.SkipDir
+			}
+			return nil
+		}
 		if d.IsDir() && isExcludedDir(d.Name(), nil) {
 			return filepath.SkipDir
 		}

@@ -122,16 +122,16 @@ func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 		if absErr != nil {
 			return nil, fmt.Errorf("kustomize build: cannot resolve repo path: %w", absErr)
 		}
-		resolvedRepo, err := filepath.EvalSymlinks(absRepo)
-		if err != nil {
+		resolvedRepo, resolveErr := filepath.EvalSymlinks(absRepo)
+		if resolveErr != nil {
 			resolvedRepo = absRepo
 		}
 		absOverlay, absErr := filepath.Abs(overlayDir)
 		if absErr != nil {
 			return nil, fmt.Errorf("kustomize build: cannot resolve overlay path: %w", absErr)
 		}
-		resolvedOverlay, _ := filepath.EvalSymlinks(absOverlay)
-		if resolvedOverlay == "" {
+		resolvedOverlay, resolveErr := filepath.EvalSymlinks(absOverlay)
+		if resolveErr != nil {
 			resolvedOverlay = absOverlay
 		}
 		if resolvedOverlay != resolvedRepo && !strings.HasPrefix(resolvedOverlay, resolvedRepo+string(filepath.Separator)) {
@@ -767,7 +767,11 @@ func (b *boundedFileSystem) checkBound(path string) error {
 	}
 	resolved, err := filepath.EvalSymlinks(abs)
 	if err != nil {
-		resolved = filepath.Clean(abs)
+		if os.IsNotExist(err) {
+			resolved = filepath.Clean(abs)
+		} else {
+			return fmt.Errorf("path traversal blocked: cannot resolve symlinks for %s: %w", path, err)
+		}
 	}
 	rootWithSep := b.root + string(filepath.Separator)
 	if resolved != b.root && !strings.HasPrefix(resolved, rootWithSep) {
@@ -777,31 +781,19 @@ func (b *boundedFileSystem) checkBound(path string) error {
 }
 
 func (b *boundedFileSystem) Create(path string) (filesys.File, error) {
-	if err := b.checkBound(path); err != nil {
-		return nil, err
-	}
-	return b.inner.Create(path)
+	return nil, fmt.Errorf("write operations blocked on bounded filesystem")
 }
 
 func (b *boundedFileSystem) Mkdir(path string) error {
-	if err := b.checkBound(path); err != nil {
-		return err
-	}
-	return b.inner.Mkdir(path)
+	return fmt.Errorf("write operations blocked on bounded filesystem")
 }
 
 func (b *boundedFileSystem) MkdirAll(path string) error {
-	if err := b.checkBound(path); err != nil {
-		return err
-	}
-	return b.inner.MkdirAll(path)
+	return fmt.Errorf("write operations blocked on bounded filesystem")
 }
 
 func (b *boundedFileSystem) RemoveAll(path string) error {
-	if err := b.checkBound(path); err != nil {
-		return err
-	}
-	return b.inner.RemoveAll(path)
+	return fmt.Errorf("write operations blocked on bounded filesystem")
 }
 
 func (b *boundedFileSystem) Open(path string) (filesys.File, error) {
@@ -873,10 +865,7 @@ func (b *boundedFileSystem) ReadFile(path string) ([]byte, error) {
 }
 
 func (b *boundedFileSystem) WriteFile(path string, data []byte) error {
-	if err := b.checkBound(path); err != nil {
-		return err
-	}
-	return b.inner.WriteFile(path, data)
+	return fmt.Errorf("write operations blocked on bounded filesystem")
 }
 
 func (b *boundedFileSystem) Walk(path string, walkFn filepath.WalkFunc) error {
