@@ -27,7 +27,7 @@ func extractWebhookBehavior(pkgs *GoPackageSet) map[string]WebhookBehavior {
 	for _, pkg := range pkgs.Packages {
 		for _, file := range pkg.Syntax {
 			// Scan all comments in the file for webhook markers.
-			webhooks := findWebhookMarkers(file, pkg.Fset)
+			webhooks := findWebhookMarkers(file)
 			if len(webhooks) == 0 {
 				continue
 			}
@@ -76,7 +76,7 @@ type webhookMarkerInfo struct {
 }
 
 // findWebhookMarkers scans all comments in a file for +kubebuilder:webhook markers.
-func findWebhookMarkers(file *ast.File, fset *token.FileSet) []webhookMarkerInfo {
+func findWebhookMarkers(file *ast.File) []webhookMarkerInfo {
 	var result []webhookMarkerInfo
 
 	for _, cg := range file.Comments {
@@ -126,23 +126,6 @@ func parseWebhookMarker(marker string) webhookMarkerInfo {
 		}
 	}
 	return info
-}
-
-// mapMethodsByReceiver returns a map of receiver type name to method names
-// declared in the given file.
-func mapMethodsByReceiver(file *ast.File) map[string][]string {
-	result := make(map[string][]string)
-	for _, decl := range file.Decls {
-		fn, ok := decl.(*ast.FuncDecl)
-		if !ok || fn.Recv == nil || len(fn.Recv.List) == 0 {
-			continue
-		}
-		recvName := receiverTypeName(fn.Recv.List[0].Type)
-		if recvName != "" {
-			result[recvName] = append(result[recvName], fn.Name.Name)
-		}
-	}
-	return result
 }
 
 // findReceiverTypeNearMarker finds the receiver type of the closest method
