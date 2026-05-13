@@ -51,12 +51,17 @@ git clone --depth 1 "https://github.com/${REPO}.git" "${CLONE_DIR}" 2>/dev/null 
     exit 0
 }
 
-# Symlink boundary check: block analysis if symlinks escape clone dir
-if find "${CLONE_DIR}" -type l -exec readlink -f {} \; 2>/dev/null | grep -qv "^${CLONE_DIR}"; then
-    echo "::warning::Skipping ${REPO}: symlinks escape clone boundary"
-    rm -rf "${CLONE_DIR}"
-    exit 0
-fi
+# Symlink boundary check helper
+check_symlinks() {
+    if find "${CLONE_DIR}" -type l -exec readlink -f {} \; 2>/dev/null | grep -qv "^${CLONE_DIR}"; then
+        echo "::warning::Skipping ${REPO}: symlinks escape clone boundary"
+        rm -rf "${CLONE_DIR}"
+        exit 0
+    fi
+}
+
+# Check symlinks after clone
+check_symlinks
 
 # Download Go dependencies for go/packages analysis (isolated cache)
 if [ -f "${CLONE_DIR}/go.mod" ]; then
@@ -69,6 +74,8 @@ if [ -f "${CLONE_DIR}/go.mod" ]; then
     ) || {
         echo "::warning::go mod download failed for ${REPO}, Go AST extraction will use fallback"
     }
+    # Re-check symlinks after go mod download (TOCTOU mitigation)
+    check_symlinks
 fi
 
 # Resolve aliases from scan-config.yaml (if present)

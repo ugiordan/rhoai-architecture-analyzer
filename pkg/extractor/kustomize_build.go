@@ -747,9 +747,12 @@ func (b *boundedFileSystem) checkBound(path string) error {
 	if err != nil {
 		return fmt.Errorf("path traversal blocked: cannot resolve %s", path)
 	}
-	abs = filepath.Clean(abs)
-	if !strings.HasPrefix(abs, b.root) && abs != b.root {
-		return fmt.Errorf("path traversal blocked: %s is outside %s", path, b.root)
+	resolved, err := filepath.EvalSymlinks(abs)
+	if err != nil {
+		resolved = filepath.Clean(abs)
+	}
+	if !strings.HasPrefix(resolved, b.root) && resolved != b.root {
+		return fmt.Errorf("path traversal blocked: %s resolves to %s (outside %s)", path, resolved, b.root)
 	}
 	return nil
 }
@@ -822,6 +825,9 @@ func (b *boundedFileSystem) Exists(path string) bool {
 }
 
 func (b *boundedFileSystem) Glob(pattern string) ([]string, error) {
+	if err := b.checkBound(filepath.Dir(pattern)); err != nil {
+		return nil, nil
+	}
 	results, err := b.inner.Glob(pattern)
 	if err != nil {
 		return nil, err
