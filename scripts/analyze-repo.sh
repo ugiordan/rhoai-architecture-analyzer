@@ -97,8 +97,21 @@ VERSION_ARGS=""
 if [ -n "${VERSION_LABEL}" ]; then
     VERSION_ARGS="-version ${VERSION_LABEL}"
 fi
+
+set +e
 "${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} ${ALIASES_ARGS} "${CLONE_DIR}"
+ANALYZE_EXIT=$?
+set -e
+
+if [ "${ANALYZE_EXIT}" -ne 0 ]; then
+    echo "::warning::Analysis failed for ${REPO} (exit ${ANALYZE_EXIT}), partial results may be available"
+fi
 
 # Cleanup
 rm -rf "${CLONE_DIR}"
-echo "[*] Done: ${OUTDIR}"
+
+if [ "${ANALYZE_EXIT}" -ne 0 ]; then
+    echo "[!] ${SHORT}: analysis failed (exit ${ANALYZE_EXIT})"
+else
+    echo "[*] Done: ${OUTDIR}"
+fi
