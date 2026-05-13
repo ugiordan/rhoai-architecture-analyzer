@@ -138,3 +138,93 @@ func TestFormatCaseValues(t *testing.T) {
 		t.Errorf("multi value: got %q, want %q", got, `"create", "update"`)
 	}
 }
+
+func TestExtractWebhookBehavior_NilPackages(t *testing.T) {
+	behaviors := extractWebhookBehavior(nil)
+	if behaviors != nil {
+		t.Error("expected nil for nil packages")
+	}
+}
+
+func TestExtractWebhookBehavior_FallbackMode(t *testing.T) {
+	// An empty GoPackageSet (no packages) should return empty behaviors
+	pkgs := &GoPackageSet{Mode: "fallback"}
+	behaviors := extractWebhookBehavior(pkgs)
+	if len(behaviors) != 0 {
+		t.Errorf("expected empty behaviors for fallback mode, got %d", len(behaviors))
+	}
+}
+
+func TestExtractWebhookBehavior_MethodFollowing(t *testing.T) {
+	// The fixture's Default() calls r.setGPUDefaults(w) which sets w.Spec.GPU
+	pkgs := loadGoPackages(fixtureDir())
+	if pkgs == nil {
+		t.Fatal("failed to load fixture packages")
+	}
+	behaviors := extractWebhookBehavior(pkgs)
+	b, ok := behaviors["/mutate-v1alpha1-widget"]
+	if !ok {
+		t.Fatal("expected mutating webhook behavior")
+	}
+	// Should have mutation from the followed method setGPUDefaults
+	fields := make(map[string]bool)
+	for _, m := range b.Mutations {
+		fields[m.Field] = true
+	}
+	if !fields["spec.gpu"] {
+		t.Errorf("expected spec.gpu mutation from followed setGPUDefaults method, got fields: %v", fields)
+	}
+}
+
+func TestExtractWebhookBehavior_MutationCondition(t *testing.T) {
+	pkgs := loadGoPackages(fixtureDir())
+	if pkgs == nil {
+		t.Fatal("failed to load fixture packages")
+	}
+	behaviors := extractWebhookBehavior(pkgs)
+	b := behaviors["/mutate-v1alpha1-widget"]
+	for _, m := range b.Mutations {
+		if m.Field == "spec.image" {
+			if m.Condition == "" {
+				t.Error("expected non-empty condition for spec.image (guarded by if w.Spec.Image == \"\")")
+			}
+			return
+		}
+	}
+	t.Error("spec.image mutation not found")
+}
+
+func TestCamelToJSON_EdgeCases(t *testing.T) {
+	tests := []struct{ input, want string }{
+		{"ID", "id"},
+		{"XMLParser", "xmlParser"},
+		{"HTMLElement", "htmlElement"},
+		{"AB", "ab"},
+		{"ABc", "aBc"},
+	}
+	for _, tt := range tests {
+		got := camelToJSON(tt.input)
+		if got != tt.want {
+			t.Errorf("camelToJSON(%q) = %q, want %q", tt.input, got, tt.want)
+		}
+	}
+}
+
+func TestGoPathToJSON_SingleSegment(t *testing.T) {
+	got := goPathToJSON("w")
+	if got != "" {
+		t.Errorf("single segment should return empty, got %q", got)
+	}
+}
+
+func TestDedupeFieldOps(t *testing.T) {
+	ops := []FieldOp{
+		{Field: "spec.image", Operation: "set", Condition: ""},
+		{Field: "spec.image", Operation: "set", Condition: ""},
+		{Field: "spec.gpu", Operation: "set", Condition: ""},
+	}
+	deduped := dedupeFieldOps(ops)
+	if len(deduped) != 2 {
+		t.Errorf("expected 2 after dedup, got %d", len(deduped))
+	}
+}

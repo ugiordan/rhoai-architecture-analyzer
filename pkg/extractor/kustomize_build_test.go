@@ -76,3 +76,118 @@ func TestBoundedFileSystem_CheckBound(t *testing.T) {
 		t.Error("expected /etc to be blocked")
 	}
 }
+
+func TestBoundedFileSystem_ReadOnly(t *testing.T) {
+	root := t.TempDir()
+	bfs := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: root}
+
+	if _, err := bfs.Create(filepath.Join(root, "test")); err == nil {
+		t.Error("expected Create to be blocked")
+	}
+	if err := bfs.Mkdir(filepath.Join(root, "dir")); err == nil {
+		t.Error("expected Mkdir to be blocked")
+	}
+	if err := bfs.MkdirAll(filepath.Join(root, "dir/sub")); err == nil {
+		t.Error("expected MkdirAll to be blocked")
+	}
+	if err := bfs.RemoveAll(filepath.Join(root, "anything")); err == nil {
+		t.Error("expected RemoveAll to be blocked")
+	}
+	if err := bfs.WriteFile(filepath.Join(root, "file"), []byte("data")); err == nil {
+		t.Error("expected WriteFile to be blocked")
+	}
+}
+
+func TestBoundedFileSystem_ReadOps(t *testing.T) {
+	root := t.TempDir()
+	// Resolve symlinks for macOS /tmp -> /private/tmp
+	resolvedRoot, _ := filepath.EvalSymlinks(root)
+
+	testFile := filepath.Join(root, "test.txt")
+	os.WriteFile(testFile, []byte("hello"), 0644)
+
+	bfs := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: resolvedRoot}
+
+	// ReadFile should work inside boundary
+	data, err := bfs.ReadFile(testFile)
+	if err != nil {
+		t.Errorf("ReadFile inside boundary should work: %v", err)
+	}
+	if string(data) != "hello" {
+		t.Errorf("expected 'hello', got %q", string(data))
+	}
+
+	// Exists should work
+	if !bfs.Exists(testFile) {
+		t.Error("Exists should return true for file inside boundary")
+	}
+
+	// IsDir
+	if !bfs.IsDir(root) {
+		t.Error("IsDir should return true for root")
+	}
+
+	// ReadFile outside boundary should fail
+	_, err = bfs.ReadFile("/etc/hosts")
+	if err == nil {
+		t.Error("ReadFile outside boundary should fail")
+	}
+}
+
+func TestBoundedFileSystem_GlobFiltering(t *testing.T) {
+	root := t.TempDir()
+	resolvedRoot, _ := filepath.EvalSymlinks(root)
+	os.WriteFile(filepath.Join(root, "a.yaml"), []byte("a"), 0644)
+	os.WriteFile(filepath.Join(root, "b.yaml"), []byte("b"), 0644)
+
+	bfs := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: resolvedRoot}
+
+	results, err := bfs.Glob(filepath.Join(root, "*.yaml"))
+	if err != nil {
+		t.Fatalf("Glob failed: %v", err)
+	}
+	if len(results) != 2 {
+		t.Errorf("expected 2 glob results, got %d", len(results))
+	}
+}
+
+func TestBoundedFileSystem_WalkSkipsOutOfBounds(t *testing.T) {
+	root := t.TempDir()
+	resolvedRoot, _ := filepath.EvalSymlinks(root)
+	os.MkdirAll(filepath.Join(root, "sub"), 0755)
+	os.WriteFile(filepath.Join(root, "sub", "ok.txt"), []byte("ok"), 0644)
+
+	bfs := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: resolvedRoot}
+
+	var walked []string
+	err := bfs.Walk(root, func(path string, info os.FileInfo, err error) error {
+		walked = append(walked, path)
+		return nil
+	})
+	if err != nil {
+		t.Fatalf("Walk failed: %v", err)
+	}
+	if len(walked) == 0 {
+		t.Error("expected Walk to visit files")
+	}
+}
+
+func TestHasSeparatedAffix_EdgeCases(t *testing.T) {
+	tests := []struct {
+		longer, shorter string
+		want            bool
+	}{
+		{"a-b-c", "a-b", true},    // prefix with compound
+		{"a-b-c", "b-c", true},    // suffix with compound
+		{"a-b-c", "a-b-c", false}, // equal
+		{"abc", "abc", false},      // equal no sep
+		{"", "a", false},           // empty longer
+		{"a", "", false},           // empty shorter
+	}
+	for _, tt := range tests {
+		got := hasSeparatedAffix(tt.longer, tt.shorter)
+		if got != tt.want {
+			t.Errorf("hasSeparatedAffix(%q, %q) = %v, want %v", tt.longer, tt.shorter, got, tt.want)
+		}
+	}
+}

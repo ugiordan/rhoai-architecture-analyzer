@@ -719,6 +719,50 @@ func setupWebhooks(mgr ctrl.Manager, dsc *dscv1.DataScienceCluster) {
 	}
 }
 
+func TestMergeWebhookBehavior_PathMatch(t *testing.T) {
+	arch := &ComponentArchitecture{
+		Webhooks: []WebhookConfig{
+			{Name: "test", Path: "/mutate-foo", Type: "mutating"},
+		},
+	}
+	behaviors := map[string]WebhookBehavior{
+		"/mutate-foo": {
+			TargetType: "Foo",
+			Mutations:  []FieldOp{{Field: "spec.bar", Operation: "set"}},
+		},
+	}
+	mergeWebhookBehavior(arch, behaviors)
+	if arch.Webhooks[0].TargetType != "Foo" {
+		t.Errorf("expected TargetType=Foo, got %s", arch.Webhooks[0].TargetType)
+	}
+	if len(arch.Webhooks[0].Mutations) != 1 {
+		t.Errorf("expected 1 mutation, got %d", len(arch.Webhooks[0].Mutations))
+	}
+}
+
+func TestMergeWebhookBehavior_NoMatch(t *testing.T) {
+	arch := &ComponentArchitecture{
+		Webhooks: []WebhookConfig{
+			{Name: "test", Path: "/mutate-foo", Type: "mutating"},
+		},
+	}
+	behaviors := map[string]WebhookBehavior{
+		"/mutate-bar": {TargetType: "Bar", Mutations: []FieldOp{{Field: "spec.x", Operation: "set"}}},
+	}
+	mergeWebhookBehavior(arch, behaviors)
+	if len(arch.Webhooks) != 2 {
+		t.Errorf("expected 2 webhooks (original + new), got %d", len(arch.Webhooks))
+	}
+}
+
+func TestMergeWebhookBehavior_Empty(t *testing.T) {
+	arch := &ComponentArchitecture{}
+	mergeWebhookBehavior(arch, nil)
+	if len(arch.Webhooks) != 0 {
+		t.Error("expected no webhooks after merging nil behaviors")
+	}
+}
+
 func TestExtractEnableConditions_BooleanFlag(t *testing.T) {
 	tmpDir := t.TempDir()
 	goContent := `package main
