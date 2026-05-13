@@ -51,6 +51,13 @@ func TestExtractCRDsFromGo_SkipsList(t *testing.T) {
 	}
 }
 
+func TestExtractCRDsFromGo_NilPackages(t *testing.T) {
+	crds := extractCRDsFromGo(nil)
+	if len(crds) != 0 {
+		t.Error("expected empty CRDs for nil packages")
+	}
+}
+
 func TestExtractCRDsFromGo_StorageVersion(t *testing.T) {
 	pkgs := loadGoPackages(fixtureDir())
 	if pkgs == nil {

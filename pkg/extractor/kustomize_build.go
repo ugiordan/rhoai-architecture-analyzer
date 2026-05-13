@@ -123,7 +123,7 @@ func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 		if absErr != nil {
 			return nil, fmt.Errorf("kustomize build: cannot resolve overlay path: %w", absErr)
 		}
-		if !strings.HasPrefix(absOverlay, absRepo) {
+		if absOverlay != absRepo && !strings.HasPrefix(absOverlay, absRepo+string(filepath.Separator)) {
 			return nil, fmt.Errorf("kustomize overlay %s is outside repo boundary", overlayDir)
 		}
 		opts.LoadRestrictions = 0
@@ -700,9 +700,16 @@ func hasSeparatedAffix(longer, shorter string) bool {
 		return false
 	}
 	// Check suffix: longer ends with shorter, preceded by '-'
-	if longer[len(longer)-len(shorter):] == shorter {
+	if strings.HasSuffix(longer, shorter) {
 		prefix := longer[:len(longer)-len(shorter)]
 		if len(prefix) > 0 && prefix[len(prefix)-1] == '-' {
+			return true
+		}
+	}
+	// Check prefix: longer starts with shorter, followed by '-'
+	if strings.HasPrefix(longer, shorter) {
+		suffix := longer[len(shorter):]
+		if len(suffix) > 0 && suffix[0] == '-' {
 			return true
 		}
 	}
@@ -751,7 +758,8 @@ func (b *boundedFileSystem) checkBound(path string) error {
 	if err != nil {
 		resolved = filepath.Clean(abs)
 	}
-	if !strings.HasPrefix(resolved, b.root) && resolved != b.root {
+	rootWithSep := b.root + string(filepath.Separator)
+	if resolved != b.root && !strings.HasPrefix(resolved, rootWithSep) {
 		return fmt.Errorf("path traversal blocked: %s resolves to %s (outside %s)", path, resolved, b.root)
 	}
 	return nil
@@ -811,7 +819,9 @@ func (b *boundedFileSystem) CleanedAbs(path string) (filesys.ConfirmedDir, strin
 	if err != nil {
 		return dir, file, err
 	}
-	if !strings.HasPrefix(string(dir), b.root) && string(dir) != b.root {
+	dirStr := string(dir)
+	rootWithSep := b.root + string(filepath.Separator)
+	if dirStr != b.root && !strings.HasPrefix(dirStr, rootWithSep) {
 		return "", "", fmt.Errorf("path traversal blocked: %s resolves outside %s", path, b.root)
 	}
 	return dir, file, nil

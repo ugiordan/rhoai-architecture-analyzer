@@ -490,10 +490,7 @@ func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 					}
 					for _, bodyStmt := range clause.Body {
 						if targetPos >= bodyStmt.Pos() && targetEnd <= bodyStmt.End() {
-							if len(clause.List) > 0 {
-								return formatExpr(clause.List[0])
-							}
-							return "default"
+							return formatCaseValues(clause.List)
 						}
 					}
 				}
@@ -507,10 +504,7 @@ func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 					}
 					for _, bodyStmt := range clause.Body {
 						if targetPos >= bodyStmt.Pos() && targetEnd <= bodyStmt.End() {
-							if len(clause.List) > 0 {
-								return formatExpr(clause.List[0])
-							}
-							return "default"
+							return formatCaseValues(clause.List)
 						}
 					}
 				}
@@ -522,6 +516,17 @@ func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 		}
 	}
 	return ""
+}
+
+func formatCaseValues(exprs []ast.Expr) string {
+	if len(exprs) == 0 {
+		return "default"
+	}
+	parts := make([]string, len(exprs))
+	for i, e := range exprs {
+		parts[i] = formatExpr(e)
+	}
+	return strings.Join(parts, ", ")
 }
 
 // formatExpr renders an ast.Expr as a readable string.
