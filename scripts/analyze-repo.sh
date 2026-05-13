@@ -53,8 +53,10 @@ git clone --depth 1 "https://github.com/${REPO}.git" "${CLONE_DIR}" 2>/dev/null 
 
 # Symlink boundary check helper
 check_symlinks() {
+    local resolved_clone
+    resolved_clone=$(readlink -f "${CLONE_DIR}" 2>/dev/null || echo "${CLONE_DIR}")
     local escaped
-    escaped=$(find "${CLONE_DIR}" -type l -exec readlink -f {} \; 2>/dev/null | grep -v "^${CLONE_DIR}" || true)
+    escaped=$(find "${CLONE_DIR}" -type l -exec readlink -f {} \; 2>/dev/null | grep -v "^${resolved_clone}" || true)
     if [ -n "$escaped" ]; then
         echo "::warning::Skipping ${REPO}: symlinks escape clone boundary"
         rm -rf "${CLONE_DIR}"
@@ -104,6 +106,7 @@ fi
     echo "::warning::Analysis failed for ${REPO} (exit $?), partial results may be available"
 }
 
-# Cleanup
+# Cleanup (chmod needed because Go module cache sets files read-only)
+chmod -R u+w "${CLONE_DIR}" 2>/dev/null || true
 rm -rf "${CLONE_DIR}"
 echo "[*] Done: ${OUTDIR}"
