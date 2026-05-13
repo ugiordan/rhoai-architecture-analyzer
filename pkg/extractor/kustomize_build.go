@@ -74,7 +74,10 @@ func discoverOverlays(repoPath string) []string {
 			continue
 		}
 		dir := filepath.Join(overlaysRoot, entry.Name())
-		// Check for kustomization.yaml
+		// Skip symlinked directories to prevent path traversal
+		if info, err := os.Lstat(dir); err != nil || info.Mode()&os.ModeSymlink != 0 {
+			continue
+		}
 		for _, name := range []string{"kustomization.yaml", "kustomization.yml", "Kustomization"} {
 			if _, err := os.Stat(filepath.Join(dir, name)); err == nil {
 				dirs = append(dirs, dir)
