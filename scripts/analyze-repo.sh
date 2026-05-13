@@ -5,6 +5,13 @@
 # When version-label is provided, output goes to <results-base>/<repo>/<version>/.
 set -euo pipefail
 
+# Security hardening for Go toolchain on untrusted repos
+export CGO_ENABLED=0
+export GOFLAGS="-mod=readonly"
+export GONOSUMCHECK=""
+export GONOSUMDB=""
+export GOMAXPROCS=2
+
 REPO="${1:?Usage: analyze-repo.sh <org/repo> <results-base-dir> [version-label]}"
 RESULTS_BASE="${2:?Usage: analyze-repo.sh <org/repo> <results-base-dir> [version-label]}"
 VERSION_LABEL="${3:-}"
@@ -30,7 +37,11 @@ fi
 
 mkdir -p "${OUTDIR}"
 
-CLONE_DIR="/tmp/arch-analyzer-repos/${SHORT}"
+CLONE_BASE="${RUNNER_TEMP:-/tmp}/arch-analyzer-repos"
+CLONE_DIR="${CLONE_BASE}/${SHORT}"
+
+export GOTMPDIR="${RUNNER_TEMP:-/tmp}/gotmp"
+mkdir -p "${GOTMPDIR}"
 
 # Clone (shallow)
 echo "[*] Cloning ${REPO}..."
@@ -39,6 +50,23 @@ git clone --depth 1 "https://github.com/${REPO}.git" "${CLONE_DIR}" 2>/dev/null 
     echo "::warning::Skipping ${REPO}: clone failed (repo may be private or inaccessible)"
     exit 0
 }
+
+# Symlink boundary check: block analysis if symlinks escape clone dir
+if find "${CLONE_DIR}" -type l -exec readlink -f {} \; 2>/dev/null | grep -qv "^${CLONE_DIR}"; then
+    echo "::warning::Skipping ${REPO}: symlinks escape clone boundary"
+    rm -rf "${CLONE_DIR}"
+    exit 0
+fi
+
+# Download Go dependencies for go/packages analysis (isolated cache)
+if [ -f "${CLONE_DIR}/go.mod" ]; then
+    echo "[*] Downloading Go modules for ${SHORT}..."
+    GOMODCACHE="${CLONE_DIR}/.gomod-cache" GOCACHE="${CLONE_DIR}/.gobuild-cache" \
+        GOFLAGS="" \
+        (cd "${CLONE_DIR}" && timeout 120 go mod download 2>&1) || {
+        echo "::warning::go mod download failed for ${REPO}, Go AST extraction will use fallback"
+    }
+fi
 
 # Resolve aliases from scan-config.yaml (if present)
 ALIASES_ARGS=""

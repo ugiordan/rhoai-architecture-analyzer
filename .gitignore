@@ -21,3 +21,6 @@ site/site/
 # Internal docs
 docs/superpowers/
 docs/reviews/
+
+# Go loader temp GOPATH
+.gopath-loader/

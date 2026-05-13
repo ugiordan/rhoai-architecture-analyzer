@@ -112,16 +112,21 @@ func pickOverlay(overlayDirs []string, prefs []string) string {
 func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 	fSys := filesys.MakeFsOnDisk()
 	opts := krusty.MakeDefaultOptions()
-	// LoadRestrictionsNone allows loading files from parent directories.
-	// This is required because kustomize overlays commonly reference ../base.
-	// Security note: when analyzing untrusted repositories, a malicious
-	// kustomization.yaml could reference files outside the repo via path
-	// traversal. This is acceptable for this tool's threat model (trusted
-	// local analysis), but callers running on untrusted repos should be aware.
-	opts.LoadRestrictions = 0 // LoadRestrictionsNone
-
+	// LoadRestrictionsRootOnly (default) prevents path traversal outside the
+	// kustomization root. Try that first; fall back to LoadRestrictionsNone
+	// only if the build fails (overlays referencing ../base need it).
 	k := krusty.MakeKustomizer(opts)
 	resMap, err := k.Run(fSys, overlayDir)
+	if err != nil {
+		opts.LoadRestrictions = 0
+		k = krusty.MakeKustomizer(opts)
+		absRepo, _ := filepath.Abs(repoPath)
+		absOverlay, _ := filepath.Abs(overlayDir)
+		if absRepo != "" && !strings.HasPrefix(absOverlay, absRepo) {
+			return nil, fmt.Errorf("kustomize overlay %s is outside repo boundary", overlayDir)
+		}
+		resMap, err = k.Run(fSys, overlayDir)
+	}
 	if err != nil {
 		return nil, fmt.Errorf("kustomize build: %w", err)
 	}

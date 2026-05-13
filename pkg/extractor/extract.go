@@ -41,6 +41,11 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 		modulePrefixes = DefaultModulePrefixes()
 	}
 
+	// Load Go packages for AST-based extraction (requires go.mod).
+	// Returns nil for non-Go repos, "full" when type info is available,
+	// "syntax-only" when >50% of packages have type-checking errors.
+	goPackages := loadGoPackages(repoPath)
+
 	arch := &ComponentArchitecture{
 		Component:       componentName,
 		Aliases:         opts.Aliases,
@@ -66,6 +71,18 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 		ExternalConnections: extractExternalConnections(absPath),
 		FeatureGates:        extractFeatureGates(absPath),
 		RuntimeDependencies: extractRuntimeDependencies(absPath),
+	}
+
+	// Go AST enrichment: set mode/warning and merge AST-extracted data
+	// with YAML-extracted data. Only "full" mode (type info available) is
+	// used for CRD, webhook, and resource-op extraction.
+	if goPackages != nil {
+		arch.GoASTMode = goPackages.Mode
+		arch.GoASTWarning = goPackages.Warning
+	}
+	if goPackages != nil && goPackages.Mode == "full" {
+		goCRDs := extractCRDsFromGo(goPackages)
+		arch.CRDs = mergeCRDs(arch.CRDs, goCRDs)
 	}
 
 	// Python source port detection: scan .py files for listening ports
@@ -100,6 +117,27 @@ func ExtractAll(repoPath string, opts *ExtractOptions) (*ComponentArchitecture, 
 	// Go source enrichment: handler mapping, data_read, enable_condition.
 	// Runs after kustomize merge and port assignment.
 	enrichWebhooks(arch.Webhooks, absPath)
+
+	// Go AST webhook behavior: extract field-level mutations and validations
+	// from Default/Validate* methods on kubebuilder webhook types.
+	if goPackages != nil && goPackages.Mode == "full" {
+		behaviors := extractWebhookBehavior(goPackages)
+		mergeWebhookBehavior(arch, behaviors)
+	}
+
+	// Go AST resource operations: extract programmatic Create/Update/Patch/Delete
+	// calls from Reconcile methods with resolved type information.
+	if goPackages != nil && goPackages.Mode == "full" {
+		resourceOps := extractResourceOps(goPackages)
+		if len(resourceOps) > 0 {
+			arch.ControllerWatch = append(arch.ControllerWatch, ControllerWatch{
+				Type:        "resource_ops",
+				GVK:         "programmatic",
+				Source:      "go_ast",
+				ResourceOps: resourceOps,
+			})
+		}
+	}
 
 	// Kustomize component discovery (for operator repos with *_support.go files)
 	arch.KustomizeComponents = extractKustomizeComponents(absPath)

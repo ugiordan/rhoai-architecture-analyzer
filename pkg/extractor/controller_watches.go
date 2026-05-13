@@ -2,9 +2,12 @@ package extractor
 
 import (
 	"fmt"
+	"go/ast"
 	"os"
 	"regexp"
 	"strings"
+
+	"golang.org/x/tools/go/packages"
 )
 
 var controllerGoPatterns = []string{
@@ -174,4 +177,202 @@ func resolveImportAlias(alias string, imports map[string]string) string {
 	}
 
 	return importPath
+}
+
+// --- AST-based resource operation extraction ---
+
+// clientVerbs maps controller-runtime client method names to CRUD verbs.
+var clientVerbs = map[string]string{
+	"Create": "create",
+	"Update": "update",
+	"Patch":  "patch",
+	"Delete": "delete",
+}
+
+// k8sAPIGroupMap maps known k8s.io/api import paths to Kubernetes API groups.
+var k8sAPIGroupMap = map[string]string{
+	"k8s.io/api/core/v1":                     "",
+	"k8s.io/api/apps/v1":                     "apps",
+	"k8s.io/api/batch/v1":                    "batch",
+	"k8s.io/api/networking/v1":               "networking.k8s.io",
+	"k8s.io/api/rbac/v1":                     "rbac.authorization.k8s.io",
+	"k8s.io/api/policy/v1":                   "policy",
+	"k8s.io/api/autoscaling/v1":              "autoscaling",
+	"k8s.io/api/autoscaling/v2":              "autoscaling",
+	"k8s.io/api/admissionregistration/v1":    "admissionregistration.k8s.io",
+	"k8s.io/api/storage/v1":                  "storage.k8s.io",
+	"k8s.io/api/coordination/v1":             "coordination.k8s.io",
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1": "apiextensions.k8s.io",
+}
+
+// extractResourceOps scans the loaded Go packages for programmatic Kubernetes
+// resource operations (Create, Update, Patch, Delete) inside Reconcile methods,
+// resolving argument types via go/packages type information.
+func extractResourceOps(pkgs *GoPackageSet) []ResourceOp {
+	if pkgs == nil {
+		return nil
+	}
+
+	var ops []ResourceOp
+
+	for _, pkg := range pkgs.Packages {
+		if !isControllerPackage(pkg.PkgPath) {
+			continue
+		}
+
+		for _, file := range pkg.Syntax {
+			for _, decl := range file.Decls {
+				fn, ok := decl.(*ast.FuncDecl)
+				if !ok {
+					continue
+				}
+				if !isReconcileMethod(fn) {
+					continue
+				}
+
+				found := extractOpsFromFunc(fn, pkg, pkgs)
+				ops = append(ops, found...)
+			}
+		}
+	}
+
+	return dedupeResourceOps(ops)
+}
+
+// isControllerPackage returns true if the package path suggests it contains
+// controller/reconciler logic.
+func isControllerPackage(path string) bool {
+	return strings.Contains(path, "controller") ||
+		strings.Contains(path, "reconciler") ||
+		strings.Contains(path, "internal/")
+}
+
+// isReconcileMethod returns true if the function declaration is a method named
+// Reconcile or starting with Reconcile/reconcile (and has a receiver).
+func isReconcileMethod(fn *ast.FuncDecl) bool {
+	if fn.Recv == nil || len(fn.Recv.List) == 0 {
+		return false
+	}
+	name := fn.Name.Name
+	return name == "Reconcile" ||
+		strings.HasPrefix(name, "Reconcile") ||
+		strings.HasPrefix(name, "reconcile")
+}
+
+// extractOpsFromFunc walks a function's AST looking for client.Create/Update/Patch/Delete
+// calls and resolves the resource type of each call's object argument.
+func extractOpsFromFunc(fn *ast.FuncDecl, pkg *packages.Package, pkgs *GoPackageSet) []ResourceOp {
+	var ops []ResourceOp
+
+	ast.Inspect(fn.Body, func(n ast.Node) bool {
+		call, ok := n.(*ast.CallExpr)
+		if !ok {
+			return true
+		}
+
+		sel, ok := call.Fun.(*ast.SelectorExpr)
+		if !ok {
+			return true
+		}
+
+		verb, isClientVerb := clientVerbs[sel.Sel.Name]
+		if !isClientVerb {
+			return true
+		}
+
+		// The object argument is typically the second argument (after ctx).
+		// Create(ctx, obj, ...opts), Update(ctx, obj, ...opts), etc.
+		if len(call.Args) < 2 {
+			return true
+		}
+
+		objArg := call.Args[1]
+		fullType := ResolveType(objArg, pkg)
+
+		// Strip pointer prefix
+		fullType = strings.TrimPrefix(fullType, "*")
+
+		kind, group, isK8s := splitTypeToKindGroup(fullType)
+		if kind == "" || !isK8s {
+			return true
+		}
+
+		pos := pkgs.Fset.Position(call.Pos())
+		source := SourceRef{
+			Type: "go_ast",
+			File: pos.Filename,
+			Line: pos.Line,
+		}
+
+		ops = append(ops, ResourceOp{
+			Kind:   kind,
+			Group:  group,
+			Verb:   verb,
+			Source: source,
+		})
+
+		return true
+	})
+
+	return ops
+}
+
+// splitTypeToKindGroup splits a fully qualified Go type name like
+// "k8s.io/api/core/v1.Service" into kind="Service", group="", and isK8s=true.
+// The third return value indicates whether the type is from a known Kubernetes
+// API package (prevents false positives from non-client methods like cache.Delete).
+func splitTypeToKindGroup(fullType string) (string, string, bool) {
+	dotIdx := strings.LastIndex(fullType, ".")
+	if dotIdx < 0 {
+		return fullType, "", false
+	}
+
+	kind := fullType[dotIdx+1:]
+	pkgPath := fullType[:dotIdx]
+
+	if group, ok := k8sAPIGroupMap[pkgPath]; ok {
+		return kind, group, true
+	}
+
+	// Accept types from packages with k8s-style API paths
+	isK8sStyle := strings.Contains(pkgPath, "k8s.io/api") ||
+		strings.Contains(pkgPath, "/api/") ||
+		strings.Contains(pkgPath, "/apis/")
+
+	if !isK8sStyle {
+		return kind, "", false
+	}
+
+	parts := strings.Split(pkgPath, "/")
+	if len(parts) >= 2 {
+		lastSeg := parts[len(parts)-1]
+		if versionRE.MatchString(lastSeg) && len(parts) >= 3 {
+			return kind, parts[len(parts)-2], true
+		}
+		return kind, lastSeg, true
+	}
+
+	return kind, pkgPath, true
+}
+
+// dedupeResourceOps removes duplicate ResourceOps based on kind+group+verb.
+func dedupeResourceOps(ops []ResourceOp) []ResourceOp {
+	type key struct {
+		Kind  string
+		Group string
+		Verb  string
+	}
+	seen := make(map[key]bool)
+	var result []ResourceOp
+
+	for _, op := range ops {
+		k := key{Kind: op.Kind, Group: op.Group, Verb: op.Verb}
+		if seen[k] {
+			continue
+		}
+		seen[k] = true
+		result = append(result, op)
+	}
+
+	return result
 }

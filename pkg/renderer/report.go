@@ -74,15 +74,22 @@ func renderCRDTable(b *strings.Builder, data map[string]interface{}) {
 		return
 	}
 	b.WriteString("### CRDs\n\n")
-	b.WriteString("| Group | Version | Kind | Scope | Fields | Validation Rules | Source |\n")
-	b.WriteString("|-------|---------|------|-------|--------|------------------|--------|\n")
+	b.WriteString("| Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |\n")
+	b.WriteString("|-------|---------|------|-------|--------|------------------|-----------|--------|\n")
 	for _, crd := range crds {
 		rules := getStringSlice(crd, "validation_rules")
 		ruleCount := len(rules)
-		b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %d | %d | %s |\n",
+		discovery := "YAML"
+		if goSrc := getStr(crd, "go_source", ""); goSrc == "go_ast" {
+			discovery = "Go AST"
+		} else if goSrc == "go_ast_enriched" {
+			discovery = "YAML + Go AST"
+		}
+		b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %d | %d | %s | %s |\n",
 			escapeMdCell(getStr(crd, "group", "")), escapeMdCell(getStr(crd, "version", "")),
 			escapeMdCell(getStr(crd, "kind", "")), escapeMdCell(getStr(crd, "scope", "")),
 			getInt(crd, "fields_count"), ruleCount,
+			discovery,
 			sourceLink(data, getStr(crd, "source", ""))))
 	}
 	b.WriteString("\n")
@@ -130,6 +137,30 @@ func renderWebhookTable(b *strings.Builder, data map[string]interface{}) {
 			strings.Join(sourceLinks, ", ")))
 	}
 	b.WriteString("\n")
+
+	// Webhook behavior: mutations and validations extracted from Go AST
+	for _, wh := range webhooks {
+		mutations := getSlice(wh, "mutations")
+		validations := getSlice(wh, "validations")
+		if len(mutations) > 0 || len(validations) > 0 {
+			b.WriteString(fmt.Sprintf("#### %s Behavior\n\n", escapeMdCell(getStr(wh, "name", ""))))
+			b.WriteString("| Field | Operation | Condition |\n")
+			b.WriteString("|-------|-----------|----------|\n")
+			for _, m := range mutations {
+				b.WriteString(fmt.Sprintf("| %s | %s | %s |\n",
+					escapeMdCell(getStr(m, "field", "")),
+					escapeMdCell(getStr(m, "operation", "")),
+					escapeMdCell(getStr(m, "condition", ""))))
+			}
+			for _, v := range validations {
+				b.WriteString(fmt.Sprintf("| %s | %s | %s |\n",
+					escapeMdCell(getStr(v, "field", "")),
+					escapeMdCell(getStr(v, "operation", "")),
+					escapeMdCell(getStr(v, "condition", ""))))
+			}
+			b.WriteString("\n")
+		}
+	}
 }
 
 func renderHTTPEndpointTable(b *strings.Builder, data map[string]interface{}) {
@@ -458,6 +489,29 @@ func renderControllerWatchTable(b *strings.Builder, data map[string]interface{})
 		}
 	}
 	b.WriteString("\n")
+
+	// Programmatic resource operations extracted from Go AST
+	for _, w := range watches {
+		resourceOps := getSlice(w, "resource_ops")
+		if len(resourceOps) > 0 {
+			controller := getStr(w, "controller", "")
+			if controller != "" {
+				b.WriteString(fmt.Sprintf("### %s: Programmatic Resource Operations\n\n", escapeMdCell(controller)))
+			} else {
+				b.WriteString("### Programmatic Resource Operations\n\n")
+			}
+			b.WriteString("| Verb | Kind | Group | Condition |\n")
+			b.WriteString("|------|------|-------|----------|\n")
+			for _, op := range resourceOps {
+				b.WriteString(fmt.Sprintf("| %s | %s | %s | %s |\n",
+					escapeMdCell(getStr(op, "verb", "")),
+					escapeMdCell(getStr(op, "kind", "")),
+					escapeMdCell(getStr(op, "group", "")),
+					escapeMdCell(getStr(op, "condition", ""))))
+			}
+			b.WriteString("\n")
+		}
+	}
 }
 
 func renderCacheSection(b *strings.Builder, data map[string]interface{}) {

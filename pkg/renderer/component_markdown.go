@@ -28,16 +28,23 @@ func RenderComponentMarkdown(data map[string]interface{}) string {
 
 	// Sections from existing report.go coverage (conditional)
 	renderCMDSection(&b, data, "CRDs", "crds", func(b *strings.Builder, items []map[string]interface{}, data map[string]interface{}) {
-		b.WriteString("| Kind | Group | Version | Scope | Fields | Validation Rules | Source |\n")
-		b.WriteString("|------|-------|---------|-------|--------|------------------|--------|\n")
+		b.WriteString("| Kind | Group | Version | Scope | Fields | Validation Rules | Discovery | Source |\n")
+		b.WriteString("|------|-------|---------|-------|--------|------------------|-----------|--------|\n")
 		for _, crd := range items {
-			b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %d | %s | %s |\n",
+			discovery := "YAML"
+			if goSrc := getStr(crd, "go_source", ""); goSrc == "go_ast" {
+				discovery = "Go AST"
+			} else if goSrc == "go_ast_enriched" {
+				discovery = "YAML + Go AST"
+			}
+			b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %d | %s | %s | %s |\n",
 				escapeMdCell(getStr(crd, "kind", "")),
 				escapeMdCell(getStr(crd, "group", "")),
 				escapeMdCell(getStr(crd, "version", "")),
 				escapeMdCell(getStr(crd, "scope", "")),
 				getInt(crd, "fields_count"),
 				escapeMdCell(strings.Join(getStringSlice(crd, "validation_rules"), ", ")),
+				discovery,
 				sourceLink(data, getStr(crd, "source", "")),
 			))
 		}
@@ -113,6 +120,29 @@ func RenderComponentMarkdown(data map[string]interface{}) string {
 					escapeMdCell(dr.kind),
 					escapeMdCell(dr.group),
 				))
+			}
+		}
+
+		// Webhook behavior: mutations and validations from Go AST
+		for _, wh := range items {
+			mutations := getSlice(wh, "mutations")
+			validations := getSlice(wh, "validations")
+			if len(mutations) > 0 || len(validations) > 0 {
+				b.WriteString(fmt.Sprintf("\n### %s Behavior\n\n", escapeMdCell(getStr(wh, "name", ""))))
+				b.WriteString("| Field | Operation | Condition |\n")
+				b.WriteString("|-------|-----------|----------|\n")
+				for _, m := range mutations {
+					b.WriteString(fmt.Sprintf("| %s | %s | %s |\n",
+						escapeMdCell(getStr(m, "field", "")),
+						escapeMdCell(getStr(m, "operation", "")),
+						escapeMdCell(getStr(m, "condition", ""))))
+				}
+				for _, v := range validations {
+					b.WriteString(fmt.Sprintf("| %s | %s | %s |\n",
+						escapeMdCell(getStr(v, "field", "")),
+						escapeMdCell(getStr(v, "operation", "")),
+						escapeMdCell(getStr(v, "condition", ""))))
+				}
 			}
 		}
 	})
@@ -215,11 +245,36 @@ func RenderComponentMarkdown(data map[string]interface{}) string {
 		b.WriteString("| GVK | Watch Type | Source |\n")
 		b.WriteString("|-----|-----------|--------|\n")
 		for _, w := range items {
+			if getStr(w, "type", "") == "resource_ops" {
+				continue
+			}
 			b.WriteString(fmt.Sprintf("| %s | %s | %s |\n",
 				escapeMdCell(getStr(w, "gvk", "")),
 				escapeMdCell(getStr(w, "type", "")),
 				sourceLink(data, getStr(w, "source", "")),
 			))
+		}
+
+		// Programmatic resource operations from Go AST
+		for _, w := range items {
+			resourceOps := getSlice(w, "resource_ops")
+			if len(resourceOps) > 0 {
+				controller := getStr(w, "controller", "")
+				if controller != "" {
+					b.WriteString(fmt.Sprintf("\n### %s: Programmatic Resource Operations\n\n", escapeMdCell(controller)))
+				} else {
+					b.WriteString("\n### Programmatic Resource Operations\n\n")
+				}
+				b.WriteString("| Verb | Kind | Group | Condition |\n")
+				b.WriteString("|------|------|-------|----------|\n")
+				for _, op := range resourceOps {
+					b.WriteString(fmt.Sprintf("| %s | %s | %s | %s |\n",
+						escapeMdCell(getStr(op, "verb", "")),
+						escapeMdCell(getStr(op, "kind", "")),
+						escapeMdCell(getStr(op, "group", "")),
+						escapeMdCell(getStr(op, "condition", ""))))
+				}
+			}
 		}
 	})
 

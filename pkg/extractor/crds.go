@@ -211,6 +211,35 @@ func extractCELRules(schema map[string]interface{}, depth int) []string {
 	return rules
 }
 
+// mergeCRDs merges Go AST-extracted CRDs into YAML-extracted CRDs.
+// For CRDs that exist in both sets (matched by group/kind), Go AST fields
+// (HubVersion, SpokeVersions, GoSource) are added to the YAML entry.
+// CRDs found only via Go AST are appended.
+func mergeCRDs(yamlCRDs, goCRDs []CRD) []CRD {
+	index := make(map[string]int)
+	for i, crd := range yamlCRDs {
+		key := crd.Group + "/" + crd.Kind
+		index[key] = i
+	}
+	for _, goCRD := range goCRDs {
+		key := goCRD.Group + "/" + goCRD.Kind
+		if idx, exists := index[key]; exists {
+			if goCRD.HubVersion != "" {
+				yamlCRDs[idx].HubVersion = goCRD.HubVersion
+			}
+			if len(goCRD.SpokeVersions) > 0 {
+				yamlCRDs[idx].SpokeVersions = goCRD.SpokeVersions
+			}
+			if yamlCRDs[idx].GoSource == "" {
+				yamlCRDs[idx].GoSource = "go_ast_enriched"
+			}
+		} else {
+			yamlCRDs = append(yamlCRDs, goCRD)
+		}
+	}
+	return yamlCRDs
+}
+
 func shouldSkipCRDPath(rel string) bool {
 	for _, skip := range crdSkipPaths {
 		if strings.Contains(rel, skip) {

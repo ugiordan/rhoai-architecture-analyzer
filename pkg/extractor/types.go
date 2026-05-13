@@ -72,6 +72,8 @@ type ComponentArchitecture struct {
 	ComponentRefs           []ComponentRef             `json:"component_refs,omitempty"`
 	DataCoverage            map[string]string          `json:"data_coverage,omitempty"`
 	Summary                 string                    `json:"summary,omitempty"`
+	GoASTMode               string                    `json:"go_ast_mode,omitempty"`
+	GoASTWarning            string                    `json:"go_ast_warning,omitempty"`
 }
 
 // CRD represents a CustomResourceDefinition with all its versions.
@@ -84,6 +86,9 @@ type CRD struct {
 	FieldsCount     int          `json:"fields_count,omitempty"`
 	ValidationRules []string     `json:"validation_rules,omitempty"`
 	Source          string       `json:"source"`
+	GoSource        string       `json:"go_source,omitempty"`
+	HubVersion      string       `json:"hub_version,omitempty"`
+	SpokeVersions   []string     `json:"spoke_versions,omitempty"`
 }
 
 // CRDVersion represents a single served version of a CRD.
@@ -219,8 +224,26 @@ type NetworkPolicy struct {
 type ControllerWatch struct {
 	Type       string `json:"type"`
 	GVK        string `json:"gvk"`
-	Controller string `json:"controller,omitempty"`
-	Source     string `json:"source"`
+	Controller  string       `json:"controller,omitempty"`
+	Source      string       `json:"source"`
+	ResourceOps []ResourceOp `json:"resource_ops,omitempty"`
+}
+
+// FieldOp represents a field-level operation performed by a webhook handler.
+type FieldOp struct {
+	Field     string    `json:"field"`
+	Operation string    `json:"operation"`
+	Condition string    `json:"condition,omitempty"`
+	Source    SourceRef `json:"source"`
+}
+
+// ResourceOp represents a programmatic Kubernetes resource operation in a controller.
+type ResourceOp struct {
+	Kind      string    `json:"kind"`
+	Group     string    `json:"group,omitempty"`
+	Verb      string    `json:"verb"`
+	Condition string    `json:"condition,omitempty"`
+	Source    SourceRef `json:"source"`
 }
 
 // DependencyData holds Go module and Python package dependencies.
@@ -323,6 +346,9 @@ type WebhookConfig struct {
 	Overlays        []string      `json:"overlays,omitempty"`
 	EnableCondition string        `json:"enable_condition,omitempty"`
 	DataRead        []TypeRef     `json:"data_read,omitempty"`
+	Mutations       []FieldOp     `json:"mutations,omitempty"`
+	Validations     []FieldOp     `json:"validations,omitempty"`
+	TargetType      string        `json:"target_type,omitempty"`
 	ConversionCRD   string        `json:"conversion_crd,omitempty"`
 }
 

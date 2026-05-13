@@ -580,4 +580,40 @@ func extractEnableConditions(webhooks []WebhookConfig, repoRoot string) {
 	}
 }
 
+// mergeWebhookBehavior merges Go AST-extracted webhook mutations and validations
+// into the existing webhook configs. Matches by path. For webhooks found in the
+// AST but not in YAML/markers, a new entry is appended with a "go_ast" source.
+func mergeWebhookBehavior(arch *ComponentArchitecture, behaviors map[string]WebhookBehavior) {
+	if len(behaviors) == 0 {
+		return
+	}
+	pathIndex := make(map[string]int)
+	for i, wh := range arch.Webhooks {
+		if wh.Path != "" {
+			pathIndex[wh.Path] = i
+		}
+	}
+	for path, b := range behaviors {
+		if idx, exists := pathIndex[path]; exists {
+			arch.Webhooks[idx].Mutations = b.Mutations
+			arch.Webhooks[idx].Validations = b.Validations
+			arch.Webhooks[idx].TargetType = b.TargetType
+		} else {
+			whType := "validating"
+			if strings.Contains(path, "mutate") {
+				whType = "mutating"
+			}
+			arch.Webhooks = append(arch.Webhooks, WebhookConfig{
+				Name:        b.TargetType + "-webhook",
+				Type:        whType,
+				Path:        path,
+				Mutations:   b.Mutations,
+				Validations: b.Validations,
+				TargetType:  b.TargetType,
+				Sources:     []SourceRef{{Type: "go_ast"}},
+			})
+		}
+	}
+}
+
 // toStringSlice is defined in rbac.go
