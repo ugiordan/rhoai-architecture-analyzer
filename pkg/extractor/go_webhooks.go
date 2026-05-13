@@ -490,7 +490,12 @@ func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 					}
 					for _, bodyStmt := range clause.Body {
 						if targetPos >= bodyStmt.Pos() && targetEnd <= bodyStmt.End() {
-							return formatCaseValues(clause.List)
+							caseLabel := formatCaseValues(clause.List)
+							inner := findConditionInBlock(clause.Body, target)
+							if inner != "" {
+								return caseLabel + " && " + inner
+							}
+							return caseLabel
 						}
 					}
 				}
@@ -504,7 +509,12 @@ func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 					}
 					for _, bodyStmt := range clause.Body {
 						if targetPos >= bodyStmt.Pos() && targetEnd <= bodyStmt.End() {
-							return formatCaseValues(clause.List)
+							caseLabel := formatCaseValues(clause.List)
+							inner := findConditionInBlock(clause.Body, target)
+							if inner != "" {
+								return caseLabel + " && " + inner
+							}
+							return caseLabel
 						}
 					}
 				}

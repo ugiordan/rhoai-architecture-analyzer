@@ -119,16 +119,24 @@ func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 		if absErr != nil {
 			return nil, fmt.Errorf("kustomize build: cannot resolve repo path: %w", absErr)
 		}
+		resolvedRepo, err := filepath.EvalSymlinks(absRepo)
+		if err != nil {
+			resolvedRepo = absRepo
+		}
 		absOverlay, absErr := filepath.Abs(overlayDir)
 		if absErr != nil {
 			return nil, fmt.Errorf("kustomize build: cannot resolve overlay path: %w", absErr)
 		}
-		if absOverlay != absRepo && !strings.HasPrefix(absOverlay, absRepo+string(filepath.Separator)) {
+		resolvedOverlay, _ := filepath.EvalSymlinks(absOverlay)
+		if resolvedOverlay == "" {
+			resolvedOverlay = absOverlay
+		}
+		if resolvedOverlay != resolvedRepo && !strings.HasPrefix(resolvedOverlay, resolvedRepo+string(filepath.Separator)) {
 			return nil, fmt.Errorf("kustomize overlay %s is outside repo boundary", overlayDir)
 		}
 		opts.LoadRestrictions = 0
 		k = krusty.MakeKustomizer(opts)
-		boundedFS := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: absRepo}
+		boundedFS := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: resolvedRepo}
 		resMap, err = k.Run(boundedFS, overlayDir)
 	}
 	if err != nil {
@@ -871,7 +879,10 @@ func (b *boundedFileSystem) Walk(path string, walkFn filepath.WalkFunc) error {
 	}
 	return b.inner.Walk(path, func(p string, info os.FileInfo, err error) error {
 		if boundErr := b.checkBound(p); boundErr != nil {
-			return filepath.SkipDir
+			if info != nil && info.IsDir() {
+				return filepath.SkipDir
+			}
+			return nil
 		}
 		return walkFn(p, info, err)
 	})
