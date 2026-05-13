@@ -38,6 +38,12 @@ func TestAnnotateHTTPHandler(t *testing.T) {
 	if !updated.Annotations["handles_user_input"] {
 		t.Error("expected handles_user_input annotation")
 	}
+	if !updated.Annotations["writes_storage"] {
+		t.Error("expected writes_storage propagated from DBOperation to parent function")
+	}
+	if !updated.Annotations["mutates_state"] {
+		t.Error("expected mutates_state propagated from DBOperation to parent function")
+	}
 }
 
 func TestAnnotateExternalCall(t *testing.T) {
@@ -58,7 +64,80 @@ func TestAnnotateExternalCall(t *testing.T) {
 	a.Annotate(cpg)
 
 	updated := cpg.GetNode("call1")
-	if !updated.Annotations["sec:calls_external"] {
-		t.Error("expected sec:calls_external annotation on http.Post")
+	if !updated.Annotations[annotCallsExternal] {
+		t.Error("expected annotCallsExternal annotation on http.Post call site")
+	}
+}
+
+func TestAnnotateExternalCall_Propagation(t *testing.T) {
+	cpg := graph.NewCPG()
+
+	fn := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "doRequest",
+		File:        "client.go",
+		Line:        1,
+		Properties:  make(map[string]string),
+		Annotations: make(map[string]bool),
+	}
+	call := &graph.Node{
+		ID:          "call1",
+		Kind:        graph.NodeCallSite,
+		Name:        "http.Post",
+		File:        "client.go",
+		Line:        5,
+		Properties:  make(map[string]string),
+		Annotations: make(map[string]bool),
+	}
+	if err := cpg.AddNode(fn); err != nil { t.Fatal(err) }
+	if err := cpg.AddNode(call); err != nil { t.Fatal(err) }
+	cpg.AddEdge(&graph.Edge{From: "fn1", To: "call1", Kind: graph.EdgeDataFlow})
+
+	a := NewSecurityAnnotator()
+	a.Annotate(cpg)
+
+	updatedFn := cpg.GetNode("fn1")
+	if !updatedFn.Annotations[annotCallsExternal] {
+		t.Error("expected annotCallsExternal propagated to parent function")
+	}
+
+	updatedCall := cpg.GetNode("call1")
+	if !updatedCall.Annotations[annotCallsExternal] {
+		t.Error("expected annotCallsExternal on call site")
+	}
+}
+
+func TestAnnotateCrossesNamespace_Propagation(t *testing.T) {
+	cpg := graph.NewCPG()
+
+	fn := &graph.Node{
+		ID:          "fn1",
+		Kind:        graph.NodeFunction,
+		Name:        "reconcile",
+		File:        "controller.go",
+		Line:        1,
+		Properties:  make(map[string]string),
+		Annotations: make(map[string]bool),
+	}
+	call := &graph.Node{
+		ID:          "call1",
+		Kind:        graph.NodeCallSite,
+		Name:        "client.get.namespace",
+		File:        "controller.go",
+		Line:        10,
+		Properties:  make(map[string]string),
+		Annotations: make(map[string]bool),
+	}
+	if err := cpg.AddNode(fn); err != nil { t.Fatal(err) }
+	if err := cpg.AddNode(call); err != nil { t.Fatal(err) }
+	cpg.AddEdge(&graph.Edge{From: "fn1", To: "call1", Kind: graph.EdgeDataFlow})
+
+	a := NewSecurityAnnotator()
+	a.Annotate(cpg)
+
+	updatedFn := cpg.GetNode("fn1")
+	if !updatedFn.Annotations[annotCrossesNamespace] {
+		t.Error("expected annotCrossesNamespace propagated to parent function")
 	}
 }

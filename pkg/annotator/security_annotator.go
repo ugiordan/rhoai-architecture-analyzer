@@ -6,6 +6,13 @@ import (
 	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 )
 
+// Annotation keys matching pkg/domains/security/annotations.go constants.
+// Duplicated here to avoid import cycle (annotator -> domains -> annotator).
+const (
+	annotCallsExternal    = "sec:calls_external"
+	annotCrossesNamespace = "sec:crosses_namespace"
+)
+
 type SecurityAnnotator struct{}
 
 func NewSecurityAnnotator() *SecurityAnnotator {
@@ -82,21 +89,21 @@ func (sa *SecurityAnnotator) annotateCallSite(cs *graph.Node, cpg *graph.CPG) {
 		isExternal = true
 	}
 	if isExternal {
-		cpg.SetAnnotation(cs.ID, "sec:calls_external", true)
+		cpg.SetAnnotation(cs.ID, annotCallsExternal, true)
 		for _, edge := range cpg.InEdges(cs.ID) {
 			src := cpg.GetNode(edge.From)
 			if src != nil && src.Kind == graph.NodeFunction {
-				cpg.SetAnnotation(src.ID, "sec:calls_external", true)
+				cpg.SetAnnotation(src.ID, annotCallsExternal, true)
 			}
 		}
 	}
 	if strings.Contains(name, "namespace") && (strings.Contains(name, "get") ||
 		strings.Contains(name, "list") || strings.Contains(name, "client.")) {
-		cpg.SetAnnotation(cs.ID, "sec:crosses_namespace", true)
+		cpg.SetAnnotation(cs.ID, annotCrossesNamespace, true)
 		for _, edge := range cpg.InEdges(cs.ID) {
 			src := cpg.GetNode(edge.From)
 			if src != nil && src.Kind == graph.NodeFunction {
-				cpg.SetAnnotation(src.ID, "sec:crosses_namespace", true)
+				cpg.SetAnnotation(src.ID, annotCrossesNamespace, true)
 			}
 		}
 	}
