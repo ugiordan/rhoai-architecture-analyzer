@@ -828,6 +828,9 @@ func (b *boundedFileSystem) CleanedAbs(path string) (filesys.ConfirmedDir, strin
 		return dir, file, err
 	}
 	dirStr := string(dir)
+	if resolved, resolveErr := filepath.EvalSymlinks(dirStr); resolveErr == nil {
+		dirStr = resolved
+	}
 	rootWithSep := b.root + string(filepath.Separator)
 	if dirStr != b.root && !strings.HasPrefix(dirStr, rootWithSep) {
 		return "", "", fmt.Errorf("path traversal blocked: %s resolves outside %s", path, b.root)
