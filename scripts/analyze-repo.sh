@@ -61,9 +61,12 @@ fi
 # Download Go dependencies for go/packages analysis (isolated cache)
 if [ -f "${CLONE_DIR}/go.mod" ]; then
     echo "[*] Downloading Go modules for ${SHORT}..."
-    GOMODCACHE="${CLONE_DIR}/.gomod-cache" GOCACHE="${CLONE_DIR}/.gobuild-cache" \
-        GOFLAGS="" \
-        (cd "${CLONE_DIR}" && timeout 120 go mod download 2>&1) || {
+    (
+        export GOMODCACHE="${CLONE_DIR}/.gomod-cache"
+        export GOCACHE="${CLONE_DIR}/.gobuild-cache"
+        export GOFLAGS=""
+        cd "${CLONE_DIR}" && timeout 120 go mod download 2>&1
+    ) || {
         echo "::warning::go mod download failed for ${REPO}, Go AST extraction will use fallback"
     }
 fi

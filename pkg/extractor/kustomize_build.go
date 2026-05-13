@@ -129,10 +129,9 @@ func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 		if !strings.HasPrefix(absOverlay, absRepo) {
 			return nil, fmt.Errorf("kustomize overlay %s is outside repo boundary", overlayDir)
 		}
-		opts.LoadRestrictions = 0
+		opts.LoadRestrictions = 0 // LoadRestrictionsNone: overlay needs parent dir access (../base)
 		k = krusty.MakeKustomizer(opts)
-		boundedFS := filesys.MakeFsOnDisk()
-		resMap, err = k.Run(boundedFS, overlayDir)
+		resMap, err = k.Run(fSys, overlayDir)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("kustomize build: %w", err)

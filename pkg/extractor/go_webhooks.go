@@ -464,7 +464,12 @@ func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 				}
 				if elseIf, ok := s.Else.(*ast.IfStmt); ok {
 					if targetPos >= elseIf.Pos() && targetEnd <= elseIf.End() {
-						return findConditionInBlock([]ast.Stmt{elseIf}, target)
+						inner := findConditionInBlock([]ast.Stmt{elseIf}, target)
+						negated := "!(" + formatExpr(s.Cond) + ")"
+						if inner != "" {
+							return negated + " && " + inner
+						}
+						return negated
 					}
 				}
 			}
@@ -475,6 +480,40 @@ func findConditionInBlock(stmts []ast.Stmt, target ast.Node) string {
 		case *ast.RangeStmt:
 			if s.Body != nil && targetPos >= s.Body.Pos() && targetEnd <= s.Body.End() {
 				return findConditionInBlock(s.Body.List, target)
+			}
+		case *ast.SwitchStmt:
+			if s.Body != nil && targetPos >= s.Body.Pos() && targetEnd <= s.Body.End() {
+				for _, cc := range s.Body.List {
+					clause, ok := cc.(*ast.CaseClause)
+					if !ok {
+						continue
+					}
+					for _, bodyStmt := range clause.Body {
+						if targetPos >= bodyStmt.Pos() && targetEnd <= bodyStmt.End() {
+							if len(clause.List) > 0 {
+								return formatExpr(clause.List[0])
+							}
+							return "default"
+						}
+					}
+				}
+			}
+		case *ast.TypeSwitchStmt:
+			if s.Body != nil && targetPos >= s.Body.Pos() && targetEnd <= s.Body.End() {
+				for _, cc := range s.Body.List {
+					clause, ok := cc.(*ast.CaseClause)
+					if !ok {
+						continue
+					}
+					for _, bodyStmt := range clause.Body {
+						if targetPos >= bodyStmt.Pos() && targetEnd <= bodyStmt.End() {
+							if len(clause.List) > 0 {
+								return formatExpr(clause.List[0])
+							}
+							return "default"
+						}
+					}
+				}
 			}
 		case *ast.BlockStmt:
 			if targetPos >= s.Pos() && targetEnd <= s.End() {
