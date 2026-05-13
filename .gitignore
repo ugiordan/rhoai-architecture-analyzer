@@ -24,3 +24,5 @@ docs/reviews/
 
 # Go loader temp GOPATH
 .gopath-loader/
+.claude/worktrees/
+artifacts/
