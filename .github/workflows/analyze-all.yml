@@ -92,7 +92,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: odh-result-${{ strategy.job-index }}
+          name: odh-${{ matrix.repo }}
           path: results/
           if-no-files-found: ignore
           retention-days: 7
@@ -125,7 +125,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: rhoai-result-${{ strategy.job-index }}
+          name: rhoai-${{ matrix.repo }}
           path: results/
           if-no-files-found: ignore
           retention-days: 7
@@ -171,7 +171,7 @@ jobs:
         if: needs.analyze-odh.result != 'skipped'
         uses: actions/download-artifact@v8
         with:
-          pattern: odh-result-*
+          pattern: odh-*
           path: odh-results/
           merge-multiple: true
 
@@ -179,7 +179,7 @@ jobs:
         if: needs.analyze-rhoai.result != 'skipped'
         uses: actions/download-artifact@v8
         with:
-          pattern: rhoai-result-*
+          pattern: rhoai-*
           path: rhoai-results/
           merge-multiple: true
 
