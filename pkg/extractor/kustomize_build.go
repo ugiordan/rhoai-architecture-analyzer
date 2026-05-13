@@ -112,9 +112,6 @@ func pickOverlay(overlayDirs []string, prefs []string) string {
 func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 	fSys := filesys.MakeFsOnDisk()
 	opts := krusty.MakeDefaultOptions()
-	// LoadRestrictionsRootOnly (default) prevents path traversal outside the
-	// kustomization root. Try that first; fall back to LoadRestrictionsNone
-	// only if the build fails (overlays referencing ../base need it).
 	k := krusty.MakeKustomizer(opts)
 	resMap, err := k.Run(fSys, overlayDir)
 	if err != nil {
@@ -129,9 +126,10 @@ func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 		if !strings.HasPrefix(absOverlay, absRepo) {
 			return nil, fmt.Errorf("kustomize overlay %s is outside repo boundary", overlayDir)
 		}
-		opts.LoadRestrictions = 0 // LoadRestrictionsNone: overlay needs parent dir access (../base)
+		opts.LoadRestrictions = 0
 		k = krusty.MakeKustomizer(opts)
-		resMap, err = k.Run(fSys, overlayDir)
+		boundedFS := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: absRepo}
+		resMap, err = k.Run(boundedFS, overlayDir)
 	}
 	if err != nil {
 		return nil, fmt.Errorf("kustomize build: %w", err)
@@ -736,4 +734,129 @@ func appendUnique(slice []string, s string) []string {
 		}
 	}
 	return append(slice, s)
+}
+
+// boundedFileSystem wraps a filesys.FileSystem and rejects access outside root.
+type boundedFileSystem struct {
+	inner filesys.FileSystem
+	root  string
+}
+
+func (b *boundedFileSystem) checkBound(path string) error {
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		return fmt.Errorf("path traversal blocked: cannot resolve %s", path)
+	}
+	abs = filepath.Clean(abs)
+	if !strings.HasPrefix(abs, b.root) && abs != b.root {
+		return fmt.Errorf("path traversal blocked: %s is outside %s", path, b.root)
+	}
+	return nil
+}
+
+func (b *boundedFileSystem) Create(path string) (filesys.File, error) {
+	if err := b.checkBound(path); err != nil {
+		return nil, err
+	}
+	return b.inner.Create(path)
+}
+
+func (b *boundedFileSystem) Mkdir(path string) error {
+	if err := b.checkBound(path); err != nil {
+		return err
+	}
+	return b.inner.Mkdir(path)
+}
+
+func (b *boundedFileSystem) MkdirAll(path string) error {
+	if err := b.checkBound(path); err != nil {
+		return err
+	}
+	return b.inner.MkdirAll(path)
+}
+
+func (b *boundedFileSystem) RemoveAll(path string) error {
+	if err := b.checkBound(path); err != nil {
+		return err
+	}
+	return b.inner.RemoveAll(path)
+}
+
+func (b *boundedFileSystem) Open(path string) (filesys.File, error) {
+	if err := b.checkBound(path); err != nil {
+		return nil, err
+	}
+	return b.inner.Open(path)
+}
+
+func (b *boundedFileSystem) IsDir(path string) bool {
+	if err := b.checkBound(path); err != nil {
+		return false
+	}
+	return b.inner.IsDir(path)
+}
+
+func (b *boundedFileSystem) ReadDir(path string) ([]string, error) {
+	if err := b.checkBound(path); err != nil {
+		return nil, err
+	}
+	return b.inner.ReadDir(path)
+}
+
+func (b *boundedFileSystem) CleanedAbs(path string) (filesys.ConfirmedDir, string, error) {
+	dir, file, err := b.inner.CleanedAbs(path)
+	if err != nil {
+		return dir, file, err
+	}
+	if !strings.HasPrefix(string(dir), b.root) && string(dir) != b.root {
+		return "", "", fmt.Errorf("path traversal blocked: %s resolves outside %s", path, b.root)
+	}
+	return dir, file, nil
+}
+
+func (b *boundedFileSystem) Exists(path string) bool {
+	if err := b.checkBound(path); err != nil {
+		return false
+	}
+	return b.inner.Exists(path)
+}
+
+func (b *boundedFileSystem) Glob(pattern string) ([]string, error) {
+	results, err := b.inner.Glob(pattern)
+	if err != nil {
+		return nil, err
+	}
+	var filtered []string
+	for _, r := range results {
+		if err := b.checkBound(r); err == nil {
+			filtered = append(filtered, r)
+		}
+	}
+	return filtered, nil
+}
+
+func (b *boundedFileSystem) ReadFile(path string) ([]byte, error) {
+	if err := b.checkBound(path); err != nil {
+		return nil, err
+	}
+	return b.inner.ReadFile(path)
+}
+
+func (b *boundedFileSystem) WriteFile(path string, data []byte) error {
+	if err := b.checkBound(path); err != nil {
+		return err
+	}
+	return b.inner.WriteFile(path, data)
+}
+
+func (b *boundedFileSystem) Walk(path string, walkFn filepath.WalkFunc) error {
+	if err := b.checkBound(path); err != nil {
+		return err
+	}
+	return b.inner.Walk(path, func(p string, info os.FileInfo, err error) error {
+		if boundErr := b.checkBound(p); boundErr != nil {
+			return filepath.SkipDir
+		}
+		return walkFn(p, info, err)
+	})
 }
