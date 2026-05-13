@@ -64,7 +64,7 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 		ID:          "ext1",
 		Kind:        graph.NodeCallSite,
 		Name:        "llmClient.Complete",
-		Annotations: map[string]bool{"calls_external": true},
+		Annotations: map[string]bool{"sec:calls_external": true},
 	}
 	if err := cpg.AddNode(extCall); err != nil { t.Fatal(err) }
 
@@ -73,7 +73,7 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 		From:  "fn1",
 		To:    "ext1",
 		Kind:  graph.EdgeTaint,
-		Label: "calls_external",
+		Label: "sec:calls_external",
 		Path:  []string{"fn1", "db_w", "db_r", "ext1"},
 	})
 

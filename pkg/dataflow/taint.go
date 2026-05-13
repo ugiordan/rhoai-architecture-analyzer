@@ -43,7 +43,7 @@ func defaultSinks() []string {
 		"sec:renders_html",
 		"sec:file_access",
 		"sec:eval_usage",
-		"calls_external",
+		"sec:calls_external",
 	}
 }
 
