@@ -3,7 +3,9 @@
 #
 # Clones a repository, runs the architecture analyzer, and cleans up.
 # When version-label is provided, output goes to <results-base>/<repo>/<version>/.
-set -euo pipefail
+# Errors are caught and reported as warnings, never as failures.
+set -uo pipefail
+trap 'echo "::warning::${REPO:-unknown}: script error at line $LINENO (exit $?)"; exit 0' ERR
 
 # Security hardening for Go toolchain on untrusted repos
 export CGO_ENABLED=0
@@ -53,7 +55,9 @@ git clone --depth 1 "https://github.com/${REPO}.git" "${CLONE_DIR}" 2>/dev/null 
 
 # Symlink boundary check helper
 check_symlinks() {
-    if find "${CLONE_DIR}" -type l -exec readlink -f {} \; 2>/dev/null | grep -qv "^${CLONE_DIR}"; then
+    local escaped
+    escaped=$(find "${CLONE_DIR}" -type l -exec readlink -f {} \; 2>/dev/null | grep -v "^${CLONE_DIR}" || true)
+    if [ -n "$escaped" ]; then
         echo "::warning::Skipping ${REPO}: symlinks escape clone boundary"
         rm -rf "${CLONE_DIR}"
         exit 0
@@ -98,20 +102,10 @@ if [ -n "${VERSION_LABEL}" ]; then
     VERSION_ARGS="-version ${VERSION_LABEL}"
 fi
 
-set +e
-"${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} ${ALIASES_ARGS} "${CLONE_DIR}"
-ANALYZE_EXIT=$?
-set -e
-
-if [ "${ANALYZE_EXIT}" -ne 0 ]; then
-    echo "::warning::Analysis failed for ${REPO} (exit ${ANALYZE_EXIT}), partial results may be available"
-fi
+"${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} ${ALIASES_ARGS} "${CLONE_DIR}" || {
+    echo "::warning::Analysis failed for ${REPO} (exit $?), partial results may be available"
+}
 
 # Cleanup
 rm -rf "${CLONE_DIR}"
-
-if [ "${ANALYZE_EXIT}" -ne 0 ]; then
-    echo "[!] ${SHORT}: analysis failed (exit ${ANALYZE_EXIT})"
-else
-    echo "[*] Done: ${OUTDIR}"
-fi
+echo "[*] Done: ${OUTDIR}"
