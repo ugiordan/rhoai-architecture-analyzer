@@ -6,7 +6,8 @@ A static analysis tool that extracts architecture data from Kubernetes/OpenShift
 
 ## Features
 
-- **22 architecture extractors** covering CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, configmaps, HTTP endpoints, ingress, external connections, feature gates, cache architecture, operator config constants, reconciliation sequences, Prometheus metrics, status conditions, and platform detection
+- **25 architecture extractors** covering CRDs, RBAC, deployments, services, network policies, controller watches, dependencies, secrets, Helm charts, Dockerfiles, webhooks, configmaps, HTTP endpoints, ingress, external connections, feature gates, cache architecture, operator config constants, reconciliation sequences, Prometheus metrics, status conditions, platform detection, Go CRD extraction, webhook behavioral analysis, and programmatic resource operations
+- **Go AST extraction** via `go/packages` for operators that `.gitignore` generated manifests. Extracts CRDs from Go types with kubebuilder markers, analyzes webhook method bodies for field-level mutations and validations, and detects programmatic `client.Create/Update/Patch/Delete` calls in reconcile methods. Security-hardened for untrusted repo analysis (CGO_ENABLED=0, module isolation, boundedFileSystem).
 - **Code property graph** with multi-language parsing (Go, Python, TypeScript, Rust), typed node model, edge confidence classification, intraprocedural data flow, control flow graphs, and two-phase taint propagation
 - **20 security queries** across 3 domains (security, testing, upgrade) detecting webhook gaps, RBAC bugs, secret leaks, taint paths, complexity hotspots, and more
 - **SARIF ingestion** mapping external scanner findings (Semgrep, gosec, etc.) to CPG nodes for unified analysis
@@ -24,7 +25,7 @@ graph LR
         SARIF[SARIF Files]
     end
 
-    subgraph "Architecture Extractors (22)"
+    subgraph "Architecture Extractors (25)"
         E1[CRDs & RBAC]
         E2[Services & Deployments]
         E3[Network Policies & Ingress]
@@ -195,6 +196,9 @@ Produces:
 | Prometheus Metrics | Go source (`prometheus.New*`, `promauto.New*`) | Metric name, type (gauge/counter/histogram/summary), help, labels, namespace |
 | Status Conditions | Go source (const blocks in controllers, API types) | Condition type constants, associated reason constants, source location |
 | Platform Detection | Go source (controllers, reconcilers, config packages) | Capability structs (IsOpenShift, HasRoute), API discovery checks, conditional resource creation |
+| Go CRD Extraction | Go types with `+kubebuilder:object:root=true` markers | Group, version, kind, scope, storage version, hub/spoke conversion, field count, CEL rules |
+| Webhook Behavioral Analysis | Webhook `Default()` and `Validate*()` method bodies | Field-level mutations, field-level validations, same-receiver method call following |
+| Programmatic Resource Ops | Go reconcile methods (`client.Create/Update/Patch/Delete`) | Operation type, target kind, API group, type-resolved via `go/packages` |
 
 ### Cache Architecture Analysis
 
@@ -323,7 +327,7 @@ architecture-analyzer/
   cmd/arch-analyzer/
     main.go                # CLI entry point with subcommands
   pkg/
-    extractor/             # 22 architecture extractors
+    extractor/             # 25 architecture extractors
     renderer/              # 7 diagram/report renderers
     aggregator/            # Platform-wide aggregation
     validator/             # CRD contract validation

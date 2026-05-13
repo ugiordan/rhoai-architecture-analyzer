@@ -1,6 +1,6 @@
 # Extractors
 
-The analyzer includes 22 extractors that parse Kubernetes manifests, Go source code, Dockerfiles, and Helm charts.
+The analyzer includes 25 extractors that parse Kubernetes manifests, Go source code, Dockerfiles, and Helm charts.
 
 ## Extractor reference
 
@@ -28,6 +28,9 @@ The analyzer includes 22 extractors that parse Kubernetes manifests, Go source c
 | 20 | Prometheus Metrics | Go source (`prometheus.New*`, `promauto.New*`) | Metric name, type (gauge/counter/histogram/summary), help, labels, namespace |
 | 21 | Status Conditions | Go source (const blocks in controllers, API types) | Condition type constants, associated reason constants, source location |
 | 22 | Platform Detection | Go source (controllers, reconcilers, config packages) | Capability structs (IsOpenShift, HasRoute), API discovery checks, conditional resource creation |
+| 23 | Go CRD Extraction | Go types with `+kubebuilder:object:root=true` markers | Group, version, kind, scope, storage version, hub/spoke conversion, field count, CEL rules |
+| 24 | Webhook Behavioral Analysis | Webhook `Default()` and `Validate*()` method bodies | Field-level mutations, field-level validations, same-receiver method call following |
+| 25 | Programmatic Resource Ops | Go reconcile methods (`client.Create/Update/Patch/Delete`) | Operation type, target kind, API group, type-resolved via `go/packages` |
 
 ## YAML extractors
 
@@ -185,6 +188,51 @@ Three-pass detection of platform-specific behavior:
 1. **Capability structs**: Finds struct types with boolean fields matching platform patterns (`IsOpenShift`, `HasRoute`, `HasIstio`, etc.) with a blocklist for common non-platform booleans (`IsDeleted`, `IsReady`, `HasError`)
 2. **API discovery calls**: Matches `discovery.ServerResourcesForGroupVersion`, `RESTMapper().ResourcesFor`, and similar runtime capability checks
 3. **Conditional resource creation**: Scans reconciler functions for if-blocks guarded by capability checks, extracting the resource kind and action from the body
+
+## Go AST extractors
+
+Extractors 23-25 use `go/packages` for type-resolved analysis of Go source. When `go/packages` loading fails (missing dependencies, non-Go repos), they fall back gracefully to `go/parser` extractors. See [Go AST Extraction](go-ast-extraction.md) for full details.
+
+### Go CRD Extraction (`go_crds.go`)
+
+Extracts CRDs from Go types when generated YAML manifests are absent (common in operators that `.gitignore` their generated manifests). Finds types marked with `+kubebuilder:object:root=true` and extracts:
+
+- Group, version, kind (GVK) resolved from `SchemeBuilder`, `GroupVersion`, or package path
+- Scope (`+kubebuilder:resource:scope=Cluster` vs default Namespaced)
+- Storage version markers (`+kubebuilder:storageversion`)
+- Hub/spoke conversion markers for multi-version CRDs
+- Field count from struct definitions
+- CEL validation rules from `+kubebuilder:validation:XValidation` markers
+
+YAML-extracted CRDs are authoritative. Go-sourced CRDs supplement the output only when no YAML equivalent exists. The `go_source` field on each CRD indicates its discovery source.
+
+### Webhook Behavioral Analysis (`go_webhooks.go`)
+
+Analyzes webhook `Default()` and `Validate*()` method bodies to extract what each webhook actually does, not just what resources it intercepts.
+
+For mutating webhooks (`Default()` methods):
+
+- Detects field assignments (e.g., `w.Spec.Image = "default"`)
+- Resolves conditional guards (e.g., `if w.Spec.Image == ""`)
+- Follows same-receiver method calls (e.g., `r.setGPUDefaults()`) to find nested mutations
+
+For validating webhooks (`ValidateCreate()`, `ValidateUpdate()`, `ValidateDelete()`):
+
+- Detects field-level validation checks
+- Classifies validation type (e.g., "invalid check", "required check")
+- Follows same-receiver helper methods
+
+Each mutation or validation is reported with the target field path and triggering condition.
+
+### Programmatic Resource Operations (`controller_watches.go`)
+
+Detects `client.Create`, `client.Update`, `client.Patch`, and `client.Delete` calls inside reconcile methods. For each operation:
+
+- Resolves the target resource kind via `go/packages` type information
+- Extracts the API group from the type's package import path
+- Reports the operation type (create, update, patch, delete)
+
+This reveals resources that controllers manage programmatically rather than through declarative manifests, which is common for operators that construct Services, Deployments, or ConfigMaps in code.
 
 ## File extractors
 

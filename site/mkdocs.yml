@@ -637,6 +637,7 @@ nav:
   - Reference:
     - CLI Commands: reference/cli-commands.md
     - Extractors: reference/extractors.md
+    - Go AST Extraction: reference/go-ast-extraction.md
     - Renderers: reference/renderers.md
     - Domains: reference/domains.md
     - Output Format: reference/output-format.md
