@@ -58,7 +58,7 @@ func TestAnnotateExternalCall(t *testing.T) {
 	a.Annotate(cpg)
 
 	updated := cpg.GetNode("call1")
-	if !updated.Annotations["calls_external"] {
-		t.Error("expected calls_external annotation on http.Post")
+	if !updated.Annotations["sec:calls_external"] {
+		t.Error("expected sec:calls_external annotation on http.Post")
 	}
 }

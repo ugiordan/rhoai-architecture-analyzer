@@ -72,13 +72,33 @@ func (sa *SecurityAnnotator) checkDBAnnotation(fnID string, target *graph.Node, 
 
 func (sa *SecurityAnnotator) annotateCallSite(cs *graph.Node, cpg *graph.CPG) {
 	name := strings.ToLower(cs.Name)
+	isExternal := false
 	if strings.HasPrefix(name, "http.") && (strings.Contains(name, "post") ||
 		strings.Contains(name, "get") || strings.Contains(name, "do")) {
-		cpg.SetAnnotation(cs.ID, "calls_external", true)
+		isExternal = true
 	}
 	if strings.Contains(name, "client.do") || strings.Contains(name, "client.post") ||
 		strings.Contains(name, "client.get") {
-		cpg.SetAnnotation(cs.ID, "calls_external", true)
+		isExternal = true
+	}
+	if isExternal {
+		cpg.SetAnnotation(cs.ID, "sec:calls_external", true)
+		for _, edge := range cpg.InEdges(cs.ID) {
+			src := cpg.GetNode(edge.From)
+			if src != nil && src.Kind == graph.NodeFunction {
+				cpg.SetAnnotation(src.ID, "sec:calls_external", true)
+			}
+		}
+	}
+	if strings.Contains(name, "namespace") && (strings.Contains(name, "get") ||
+		strings.Contains(name, "list") || strings.Contains(name, "client.")) {
+		cpg.SetAnnotation(cs.ID, "sec:crosses_namespace", true)
+		for _, edge := range cpg.InEdges(cs.ID) {
+			src := cpg.GetNode(edge.From)
+			if src != nil && src.Kind == graph.NodeFunction {
+				cpg.SetAnnotation(src.ID, "sec:crosses_namespace", true)
+			}
+		}
 	}
 }
 
