@@ -3,9 +3,7 @@
 #
 # Clones a repository, runs the architecture analyzer, and cleans up.
 # When version-label is provided, output goes to <results-base>/<repo>/<version>/.
-# Errors are caught and reported as warnings, never as failures.
-set -uo pipefail
-trap 'echo "::warning::${REPO:-unknown}: script error at line $LINENO (exit $?)"; exit 0' ERR
+set -euo pipefail
 
 # Security hardening for Go toolchain on untrusted repos
 export CGO_ENABLED=0
@@ -89,7 +87,7 @@ if [ -f "${SCAN_CONFIG}" ] && command -v yq &>/dev/null; then
     # Search all platforms for this repo's aliases
     ALIASES=$(yq -r "
         .platforms[].repo_overrides.\"${SHORT}\".aliases // [] | join(\",\")
-    " "${SCAN_CONFIG}" 2>/dev/null | grep -v '^$' | head -1)
+    " "${SCAN_CONFIG}" 2>/dev/null | grep -v '^$' | head -1 || true)
     if [ -n "${ALIASES}" ]; then
         ALIASES_ARGS="-aliases ${ALIASES}"
     fi
