@@ -4,14 +4,14 @@ hide:
   - toc
 ---
 
-# Architecture Analyzer
-
-<div style="text-align: center; padding: 40px 0;">
-  <p style="font-size: 1.4em; color: #666;">
+<div style="text-align: center; padding: 40px 0 20px;">
+  <img src="images/logo.svg" alt="Architecture Analyzer" style="width: 180px; height: 180px; margin-bottom: 16px;">
+  <h1 style="margin: 0; font-size: 2.4em;">Architecture Analyzer</h1>
+  <p style="font-size: 1.3em; color: #666; margin-top: 8px;">
     Static analysis for Kubernetes/OpenShift architecture.<br>
-    22 extractors. 7 renderers. Code property graph with security queries.
+    25 extractors. 7 renderers. Code property graph with security queries.
   </p>
-  <p>
+  <p style="margin-top: 20px;">
     <a href="getting-started/installation/" class="md-button md-button--primary">Get Started</a>
     <a href="https://github.com/ugiordan/architecture-analyzer" class="md-button">GitHub</a>
   </p>
