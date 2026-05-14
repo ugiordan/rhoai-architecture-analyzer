@@ -10,7 +10,7 @@ theme:
   name: material
   language: en
   favicon: images/favicon.ico
-  logo: images/logo.png
+  logo: images/logo.svg
   icon:
     repo: fontawesome/brands/github
   font:
@@ -91,6 +91,29 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Scan Configuration: getting-started/scan-config.md
+  - Guides:
+    - Analyzing Repositories: guides/analyzing-repos.md
+    - Security Scanning: guides/security-scanning.md
+    - CRD Contract Validation: guides/crd-validation.md
+    - Platform Aggregation: guides/platform-aggregation.md
+    - CI Integration: guides/ci-integration.md
+    - Skill Integration: guides/skill-integration.md
+  - Reference:
+    - CLI Commands: reference/cli-commands.md
+    - Extractors: reference/extractors.md
+    - Go AST Extraction: reference/go-ast-extraction.md
+    - Renderers: reference/renderers.md
+    - Domains: reference/domains.md
+    - Output Format: reference/output-format.md
+  - Architecture:
+    - Design Overview: architecture/overview.md
+    - Code Property Graph: architecture/cpg.md
+    - Domain Framework: architecture/domain-framework.md
+    - Cache Analysis: architecture/cache-analysis.md
   - Use Cases:
     - use-cases/index.md
     - ODH (opendatahub-io):
@@ -643,29 +666,6 @@ nav:
           - Security: use-cases/rhoai-platform/components/workload_variant_autoscaler/security.md
           - Cache: use-cases/rhoai-platform/components/workload_variant_autoscaler/cache.md
           - Dataflow: use-cases/rhoai-platform/components/workload_variant_autoscaler/dataflow.md
-  - Getting Started:
-    - Installation: getting-started/installation.md
-    - Quick Start: getting-started/quickstart.md
-    - Scan Configuration: getting-started/scan-config.md
-  - Guides:
-    - Analyzing Repositories: guides/analyzing-repos.md
-    - Security Scanning: guides/security-scanning.md
-    - CRD Contract Validation: guides/crd-validation.md
-    - Platform Aggregation: guides/platform-aggregation.md
-    - CI Integration: guides/ci-integration.md
-    - Skill Integration: guides/skill-integration.md
-  - Reference:
-    - CLI Commands: reference/cli-commands.md
-    - Extractors: reference/extractors.md
-    - Go AST Extraction: reference/go-ast-extraction.md
-    - Renderers: reference/renderers.md
-    - Domains: reference/domains.md
-    - Output Format: reference/output-format.md
-  - Architecture:
-    - Design Overview: architecture/overview.md
-    - Code Property Graph: architecture/cpg.md
-    - Domain Framework: architecture/domain-framework.md
-    - Cache Analysis: architecture/cache-analysis.md
   - Contributing:
     - Development Setup: contributing/development-setup.md
     - Adding Extractors: contributing/adding-extractors.md
