@@ -59,7 +59,13 @@ func (b *Builder) BuildFromDir(dir string) (*graph.CPG, error) {
 		}
 		if d.IsDir() {
 			base := filepath.Base(path)
-			if base == "vendor" || base == ".git" || base == "node_modules" {
+			switch base {
+			case "vendor", ".git", "node_modules",
+				"test", "tests", "e2e",
+				"examples", "samples", "hack",
+				"third_party", "_output", "dist",
+				"fixtures", "mocks", ".github",
+				".gomod-cache", ".gobuild-cache", ".gopath-loader":
 				return filepath.SkipDir
 			}
 			return nil
