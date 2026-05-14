@@ -16,6 +16,12 @@ REPO="${1:?Usage: analyze-repo.sh <org/repo> <results-base-dir> [version-label]}
 RESULTS_BASE="${2:?Usage: analyze-repo.sh <org/repo> <results-base-dir> [version-label]}"
 VERSION_LABEL="${3:-}"
 
+# SIGTERM/SIGINT trap: when GitHub Actions timeout kills the process,
+# clean up and exit 0 so the job shows a warning, not a red error.
+trap 'echo "::warning::${REPO}: terminated (timeout or signal)"; \
+      chmod -R u+w "${CLONE_DIR:-/dev/null}" 2>/dev/null || true; \
+      rm -rf "${CLONE_DIR:-/dev/null}" 2>/dev/null || true; exit 0' TERM INT
+
 # Validate repo name to prevent command injection
 if [[ ! "$REPO" =~ ^[a-zA-Z0-9_.-]+/[a-zA-Z0-9_.-]+$ ]]; then
     echo "[!] Invalid repo format: $REPO (expected: org/repo)" >&2
@@ -27,12 +33,16 @@ SHORT="${REPO##*/}"
 OUTDIR="${RESULTS_BASE}/${ORG}/${SHORT}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ANALYZER_DIR="$(dirname "${SCRIPT_DIR}")"
-ANALYZER_BIN="${ANALYZER_DIR}/arch-analyzer"
 
-# Build if needed
-if [ ! -f "${ANALYZER_BIN}" ]; then
+# Binary location: CI downloads pre-built binary, local dev builds on demand
+if [ -x "${GITHUB_WORKSPACE:-}/arch-analyzer" ]; then
+    ANALYZER_BIN="${GITHUB_WORKSPACE}/arch-analyzer"
+elif [ -x "${ANALYZER_DIR}/arch-analyzer" ]; then
+    ANALYZER_BIN="${ANALYZER_DIR}/arch-analyzer"
+else
     echo "[*] Building arch-analyzer..."
     (cd "${ANALYZER_DIR}" && go build -o arch-analyzer ./cmd/arch-analyzer/)
+    ANALYZER_BIN="${ANALYZER_DIR}/arch-analyzer"
 fi
 
 mkdir -p "${OUTDIR}"
