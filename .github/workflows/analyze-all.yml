@@ -73,8 +73,6 @@ jobs:
           go-version: '1.26'
           cache-dependency-path: go.sum
       - name: Build analyzer
-        env:
-          CGO_ENABLED: '0'
         run: go build -o arch-analyzer ./cmd/arch-analyzer/
       - name: Upload analyzer binary
         uses: actions/upload-artifact@v7
