@@ -82,17 +82,19 @@ jobs:
       - name: Build analyzer
         run: go build -o arch-analyzer ./cmd/arch-analyzer/
       - name: Analyze ${{ matrix.repo }}
+        id: analyze
         timeout-minutes: 30
         env:
           REPO: ${{ matrix.repo }}
         run: |
           mkdir -p results
           bash scripts/analyze-repo.sh "$REPO" results
+          echo "artifact-name=$(echo "$REPO" | tr '/' '-')" >> "$GITHUB_OUTPUT"
       - name: Upload result
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: odh-${{ matrix.repo }}
+          name: odh-${{ steps.analyze.outputs.artifact-name || strategy.job-index }}
           path: results/
           if-no-files-found: ignore
           retention-days: 7
@@ -115,17 +117,19 @@ jobs:
       - name: Build analyzer
         run: go build -o arch-analyzer ./cmd/arch-analyzer/
       - name: Analyze ${{ matrix.repo }}
+        id: analyze
         timeout-minutes: 30
         env:
           REPO: ${{ matrix.repo }}
         run: |
           mkdir -p results
           bash scripts/analyze-repo.sh "$REPO" results
+          echo "artifact-name=$(echo "$REPO" | tr '/' '-')" >> "$GITHUB_OUTPUT"
       - name: Upload result
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: rhoai-${{ matrix.repo }}
+          name: rhoai-${{ steps.analyze.outputs.artifact-name || strategy.job-index }}
           path: results/
           if-no-files-found: ignore
           retention-days: 7
