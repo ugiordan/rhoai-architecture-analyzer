@@ -12,6 +12,10 @@ export GONOSUMCHECK=""
 export GONOSUMDB=""
 export GOMAXPROCS=2
 
+# Memory limit for the analyzer binary (prevents OOM kills on CI runners)
+# GitHub-hosted runners have 7GB RAM. Cap Go heap at 5.5GB to leave room for OS + other processes.
+export GOMEMLIMIT="${GOMEMLIMIT:-5500MiB}"
+
 REPO="${1:?Usage: analyze-repo.sh <org/repo> <results-base-dir> [version-label]}"
 RESULTS_BASE="${2:?Usage: analyze-repo.sh <org/repo> <results-base-dir> [version-label]}"
 VERSION_LABEL="${3:-}"
