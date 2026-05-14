@@ -1,31 +1,33 @@
 name: Deploy Docs
 
 on:
+  workflow_dispatch:
   push:
-    branches: [gh-pages]
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'README.md'
+      - 'pkg/renderer/**'
+      - 'pkg/extractor/types.go'
 
 permissions:
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
+  contents: write
 
 jobs:
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: gh-pages
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v6
         with:
-          path: .
+          python-version: "3.12"
+
+      - name: Install MkDocs dependencies
+        run: pip install -r site/requirements.txt
+
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        working-directory: site
+        run: mkdocs gh-deploy --force
