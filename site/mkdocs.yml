@@ -4,31 +4,43 @@ repo_url: https://github.com/ugiordan/architecture-analyzer
 repo_name: ugiordan/architecture-analyzer
 edit_uri: edit/main/site/docs/
 
+copyright: Copyright &copy; Red Hat, Inc.
+
 theme:
   name: material
+  language: en
+  favicon: images/favicon.ico
+  logo: images/logo.png
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Red Hat Text
+    code: Red Hat Mono
   palette:
     - scheme: default
-      primary: teal
-      accent: orange
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
-    - scheme: slate
-      primary: teal
-      accent: orange
+      primary: black
       toggle:
         icon: material/brightness-4
+        name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-7
         name: Switch to light mode
   features:
     - navigation.tabs
     - navigation.sections
     - navigation.top
     - navigation.indexes
+    - navigation.instant
+    - navigation.path
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
     - content.code.annotate
     - content.tabs.link
+    - toc.follow
 
 plugins:
   - search
@@ -38,6 +50,12 @@ plugins:
       zoomable: true
   - git-revision-date-localized:
       enable_creation_date: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      name: Architecture Analyzer on GitHub
+      link: https://github.com/ugiordan/architecture-analyzer
 
 extra_css:
   - stylesheets/extra.css
@@ -68,6 +86,8 @@ markdown_extensions:
   - md_in_html
   - toc:
       permalink: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
 
 nav:
   - Home: index.md
