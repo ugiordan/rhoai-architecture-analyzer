@@ -105,13 +105,12 @@ if [ -f "${SCAN_CONFIG}" ] && command -v yq &>/dev/null; then
     fi
 fi
 
-# Full analysis (architecture + code graph)
+# Full analysis (architecture + optional code graph)
 echo "[*] Analyzing ${SHORT}..."
 VERSION_ARGS=""
 if [ -n "${VERSION_LABEL}" ]; then
     VERSION_ARGS="-version ${VERSION_LABEL}"
 fi
-
 ANALYSIS_TIMEOUT="${ANALYSIS_TIMEOUT:-2400}"
 timeout "${ANALYSIS_TIMEOUT}" "${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} ${ALIASES_ARGS} "${CLONE_DIR}" || {
     rc=$?

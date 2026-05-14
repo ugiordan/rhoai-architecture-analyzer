@@ -102,13 +102,17 @@ jobs:
           name: analyzer-binary
       - name: Analyze ${{ matrix.repo }}
         id: analyze
-        continue-on-error: true
         env:
           REPO: ${{ matrix.repo }}
         run: |
           chmod +x arch-analyzer
           mkdir -p results
-          bash scripts/analyze-repo.sh "$REPO" results
+          for attempt in 1 2 3; do
+            echo "[*] Attempt ${attempt}/3 for $REPO"
+            bash scripts/analyze-repo.sh "$REPO" results && break
+            echo "::warning::Attempt ${attempt} failed for $REPO, retrying..."
+            sleep 10
+          done
           echo "artifact-name=$(echo "$REPO" | tr '/' '-')" >> "$GITHUB_OUTPUT"
       - name: Remove large code-graph files
         if: always()
@@ -143,13 +147,17 @@ jobs:
           name: analyzer-binary
       - name: Analyze ${{ matrix.repo }}
         id: analyze
-        continue-on-error: true
         env:
           REPO: ${{ matrix.repo }}
         run: |
           chmod +x arch-analyzer
           mkdir -p results
-          bash scripts/analyze-repo.sh "$REPO" results
+          for attempt in 1 2 3; do
+            echo "[*] Attempt ${attempt}/3 for $REPO"
+            bash scripts/analyze-repo.sh "$REPO" results && break
+            echo "::warning::Attempt ${attempt} failed for $REPO, retrying..."
+            sleep 10
+          done
           echo "artifact-name=$(echo "$REPO" | tr '/' '-')" >> "$GITHUB_OUTPUT"
       - name: Remove large code-graph files
         if: always()
