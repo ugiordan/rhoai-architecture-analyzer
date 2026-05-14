@@ -102,7 +102,7 @@ jobs:
           name: analyzer-binary
       - name: Analyze ${{ matrix.repo }}
         id: analyze
-        timeout-minutes: 45
+
         env:
           REPO: ${{ matrix.repo }}
         run: |
@@ -143,7 +143,7 @@ jobs:
           name: analyzer-binary
       - name: Analyze ${{ matrix.repo }}
         id: analyze
-        timeout-minutes: 45
+
         env:
           REPO: ${{ matrix.repo }}
         run: |

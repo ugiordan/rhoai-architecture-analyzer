@@ -112,8 +112,14 @@ if [ -n "${VERSION_LABEL}" ]; then
     VERSION_ARGS="-version ${VERSION_LABEL}"
 fi
 
-"${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} ${ALIASES_ARGS} "${CLONE_DIR}" || {
-    echo "::warning::Analysis failed for ${REPO} (exit $?), partial results may be available"
+ANALYSIS_TIMEOUT="${ANALYSIS_TIMEOUT:-2400}"
+timeout "${ANALYSIS_TIMEOUT}" "${ANALYZER_BIN}" full-analysis -output-dir "${OUTDIR}" ${VERSION_ARGS} ${ALIASES_ARGS} "${CLONE_DIR}" || {
+    rc=$?
+    if [ "$rc" -eq 124 ]; then
+        echo "::warning::Analysis timed out for ${REPO} after ${ANALYSIS_TIMEOUT}s, partial results may be available"
+    else
+        echo "::warning::Analysis failed for ${REPO} (exit ${rc}), partial results may be available"
+    fi
 }
 
 # Cleanup (chmod needed because Go module cache sets files read-only)
