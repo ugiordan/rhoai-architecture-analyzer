@@ -86,13 +86,13 @@ def update_mkdocs(mkdocs_path, platform_nav_lines):
     with open(mkdocs_path, "r") as f:
         content = f.read()
 
-    # Replace everything between "Home: index.md" and "Getting Started:" with platform nav.
-    # Works on both first run (with commented ODH placeholder) and subsequent runs (with generated nav).
-    pattern = r"(nav:\n  - Home: index\.md\n  - Use Cases:\n    - use-cases/index\.md\n).*?(\n  - Getting Started:)"
+    # Replace everything between "Use Cases:" and "Contributing:" with platform nav.
+    # Works regardless of where Use Cases sits in the nav order.
+    pattern = r"(  - Use Cases:\n    - use-cases/index\.md\n).*?(\n  - Contributing:)"
     replacement = r"\1" + "\n".join(platform_nav_lines) + r"\2"
     match = re.search(pattern, content, flags=re.DOTALL)
     if not match:
-        print("WARNING: Could not find nav section to replace", file=sys.stderr)
+        print("WARNING: Could not find nav section to replace (check mkdocs.yml nav order)", file=sys.stderr)
         return False
 
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
