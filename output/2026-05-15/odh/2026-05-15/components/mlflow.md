@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | opendatahub-io/mlflow |
 | Commit | 7520b39df02150c0c274881e62f10a013d5f2b4f |
-| Extracted | 2026-05-15T09:49:01Z |
+| Extracted | 2026-05-15T11:45:29Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

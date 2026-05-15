@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | opendatahub-io/kueue |
 | Commit | 97024bd289d2cc5c9369b40d9f3483ab1483143d |
-| Extracted | 2026-05-15T09:46:18Z |
+| Extracted | 2026-05-15T11:42:35Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 
@@ -27,16 +27,16 @@
 
 | Name | Type | Resources | Operations | Overlays | Enable Condition | Sources |
 |------|------|-----------|------------|----------|------------------|----------|
-| ClusterQueueWebhook-webhook | validating |  |  |  |  |  |
 | ClusterQueueWebhook-webhook | mutating |  |  |  |  |  |
-| JobControl-webhook | mutating |  |  |  |  |  |
-| JobControl-webhook | validating |  |  |  |  |  |
-| JobControl-webhook | mutating |  |  |  |  |  |
-| JobControl-webhook | mutating |  |  |  |  |  |
+| ClusterQueueWebhook-webhook | validating |  |  |  |  |  |
 | JobControl-webhook | validating |  |  |  |  |  |
 | JobControl-webhook | validating |  |  |  |  |  |
 | JobControl-webhook | mutating |  |  |  |  |  |
+| JobControl-webhook | mutating |  |  |  |  |  |
 | JobControl-webhook | validating |  |  |  |  |  |
+| JobControl-webhook | mutating |  |  |  |  |  |
+| JobControl-webhook | validating |  |  |  |  |  |
+| JobControl-webhook | mutating |  |  |  |  |  |
 | JobWebhook-webhook | mutating |  |  |  |  |  |
 | JobWebhook-webhook | validating |  |  |  |  |  |
 | MpiJobWebhook-webhook | mutating |  |  |  |  |  |
@@ -44,20 +44,20 @@
 | RayClusterWebhook-webhook | mutating |  |  |  |  |  |
 | RayJobWebhook-webhook | validating |  |  |  |  |  |
 | RayJobWebhook-webhook | mutating |  |  |  |  |  |
-| ResourceFlavorWebhook-webhook | validating |  |  |  |  |  |
 | ResourceFlavorWebhook-webhook | mutating |  |  |  |  |  |
+| ResourceFlavorWebhook-webhook | validating |  |  |  |  |  |
 | Webhook-webhook | validating |  |  |  |  |  |
 | Webhook-webhook | validating |  |  |  |  |  |
 | Webhook-webhook | mutating |  |  |  |  |  |
 | Webhook-webhook | mutating |  |  |  |  |  |
 | WorkloadWebhook-webhook | mutating |  |  |  |  |  |
 | WorkloadWebhook-webhook | validating |  |  |  |  |  |
-| mappwrapper.kb.io | mutating |  |  |  |  | [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go), [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go) |
 | mappwrapper.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go), [`.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go) |
+| mappwrapper.kb.io | mutating |  |  |  |  | [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go), [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go) |
 | mdeployment.kb.io | mutating |  |  |  |  | [`config/rhoai/mutating_webhook_patch.yaml`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/config/rhoai/mutating_webhook_patch.yaml) |
 | mjob.kb.io | mutating |  |  |  |  | [`config/rhoai/mutating_webhook_patch.yaml`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/config/rhoai/mutating_webhook_patch.yaml) |
-| mjobset.kb.io | mutating |  |  |  |  | [`.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go), [`.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go) |
 | mjobset.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go), [`.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go) |
+| mjobset.kb.io | mutating |  |  |  |  | [`.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go), [`.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go) |
 | mleaderworkerset.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go), [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go) |
 | mleaderworkerset.kb.io | mutating |  |  |  |  | [`.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go), [`.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go) |
 | mpod.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go), [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go) |

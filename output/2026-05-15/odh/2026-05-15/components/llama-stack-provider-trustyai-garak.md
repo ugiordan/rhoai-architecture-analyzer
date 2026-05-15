@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | opendatahub-io/llama-stack-provider-trustyai-garak |
 | Commit | 37e9b4476992e8313fbeaa0541867097b3d5e9cc |
-| Extracted | 2026-05-15T09:48:45Z |
+| Extracted | 2026-05-15T11:45:16Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

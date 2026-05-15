@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | opendatahub-io/kubeflow |
 | Commit | a6c3778f8c25ad19f8f719b80be98d8dd093703b |
-| Extracted | 2026-05-15T09:40:08Z |
+| Extracted | 2026-05-15T11:36:25Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

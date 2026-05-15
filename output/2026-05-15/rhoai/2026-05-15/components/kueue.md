@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | red-hat-data-services/kueue |
 | Commit | 211e5019ceb7a5069b0a2965405f0bde8fa9ebc8 |
-| Extracted | 2026-05-15T09:46:36Z |
+| Extracted | 2026-05-15T11:43:36Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 
@@ -30,36 +30,36 @@
 | ClusterQueueWebhook-webhook | validating |  |  |  |  |  |
 | ClusterQueueWebhook-webhook | mutating |  |  |  |  |  |
 | JobControl-webhook | validating |  |  |  |  |  |
-| JobControl-webhook | validating |  |  |  |  |  |
-| JobControl-webhook | mutating |  |  |  |  |  |
 | JobControl-webhook | mutating |  |  |  |  |  |
 | JobControl-webhook | mutating |  |  |  |  |  |
 | JobControl-webhook | validating |  |  |  |  |  |
+| JobControl-webhook | validating |  |  |  |  |  |
+| JobControl-webhook | mutating |  |  |  |  |  |
 | JobControl-webhook | mutating |  |  |  |  |  |
 | JobControl-webhook | validating |  |  |  |  |  |
 | JobWebhook-webhook | validating |  |  |  |  |  |
 | JobWebhook-webhook | mutating |  |  |  |  |  |
-| MpiJobWebhook-webhook | mutating |  |  |  |  |  |
 | MpiJobWebhook-webhook | validating |  |  |  |  |  |
+| MpiJobWebhook-webhook | mutating |  |  |  |  |  |
 | RayClusterWebhook-webhook | mutating |  |  |  |  |  |
 | RayJobWebhook-webhook | mutating |  |  |  |  |  |
 | RayJobWebhook-webhook | validating |  |  |  |  |  |
 | ResourceFlavorWebhook-webhook | mutating |  |  |  |  |  |
 | ResourceFlavorWebhook-webhook | validating |  |  |  |  |  |
 | Webhook-webhook | validating |  |  |  |  |  |
-| Webhook-webhook | mutating |  |  |  |  |  |
-| Webhook-webhook | mutating |  |  |  |  |  |
 | Webhook-webhook | validating |  |  |  |  |  |
-| WorkloadWebhook-webhook | validating |  |  |  |  |  |
+| Webhook-webhook | mutating |  |  |  |  |  |
+| Webhook-webhook | mutating |  |  |  |  |  |
 | WorkloadWebhook-webhook | mutating |  |  |  |  |  |
+| WorkloadWebhook-webhook | validating |  |  |  |  |  |
 | mappwrapper.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go), [`.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go) |
 | mappwrapper.kb.io | mutating |  |  |  |  | [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go), [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go) |
 | mdeployment.kb.io | mutating |  |  |  |  | [`config/rhoai/mutating_webhook_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/config/rhoai/mutating_webhook_patch.yaml) |
 | mjob.kb.io | mutating |  |  |  |  | [`config/rhoai/mutating_webhook_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/config/rhoai/mutating_webhook_patch.yaml) |
 | mjobset.kb.io | mutating |  |  |  |  | [`.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go), [`.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go) |
 | mjobset.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go), [`.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/jobset@v0.8.0/pkg/webhooks/jobset_webhook.go) |
-| mleaderworkerset.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go), [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go) |
 | mleaderworkerset.kb.io | mutating |  |  |  |  | [`.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go), [`.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go) |
+| mleaderworkerset.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go), [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go) |
 | mpod.kb.io | mutating |  |  |  |  | [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go), [`.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go) |
 | mpod.kb.io | mutating |  |  |  |  | [`config/rhoai/mutating_webhook_patch.yaml`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/config/rhoai/mutating_webhook_patch.yaml) |
 | mpod.kb.io | mutating |  |  |  |  | [`.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go), [`.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/pod_webhook.go) |

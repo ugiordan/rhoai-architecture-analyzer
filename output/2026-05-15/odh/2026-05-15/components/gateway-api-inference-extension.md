@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | kubernetes-sigs/gateway-api-inference-extension |
 | Commit | a75cf430ae8e36c77a633bedd26d65947401da21 |
-| Extracted | 2026-05-15T09:51:56Z |
+| Extracted | 2026-05-15T11:48:36Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

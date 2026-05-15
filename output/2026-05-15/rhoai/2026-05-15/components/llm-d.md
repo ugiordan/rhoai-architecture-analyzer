@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | llm-d/llm-d |
 | Commit | 3d04e73d481491695c0ffcdfee300628afb3f404 |
-| Extracted | 2026-05-15T09:53:33Z |
+| Extracted | 2026-05-15T11:49:53Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

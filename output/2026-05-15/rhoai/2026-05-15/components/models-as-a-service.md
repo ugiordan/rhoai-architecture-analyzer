@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | red-hat-data-services/models-as-a-service |
 | Commit | f78fb77a2c4ad101c8950738645fc507262e8199 |
-| Extracted | 2026-05-15T09:41:14Z |
+| Extracted | 2026-05-15T11:36:58Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

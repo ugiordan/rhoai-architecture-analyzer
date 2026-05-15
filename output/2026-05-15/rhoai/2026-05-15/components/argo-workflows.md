@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | argoproj/argo-workflows |
 | Commit | 003ed2b35a398772211441cb7c866c51f6f87e2d |
-| Extracted | 2026-05-15T09:52:14Z |
+| Extracted | 2026-05-15T11:48:22Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

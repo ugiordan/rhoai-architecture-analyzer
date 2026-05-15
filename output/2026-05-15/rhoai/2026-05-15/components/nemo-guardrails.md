@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | red-hat-data-services/NeMo-Guardrails |
 | Commit | 488345c4a7b04768550f4da8b42493ce77acb6fc |
-| Extracted | 2026-05-15T09:50:53Z |
+| Extracted | 2026-05-15T11:47:33Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 

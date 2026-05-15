@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | kubeflow/trainer |
 | Commit | 51baadf644cd5d2c1672f1c658be46ad82f01b44 |
-| Extracted | 2026-05-15T09:41:38Z |
+| Extracted | 2026-05-15T11:38:09Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 
@@ -20,8 +20,8 @@
 | Kind | Group | Version | Scope | Fields | Validation Rules | Discovery | Source |
 |------|-------|---------|-------|--------|------------------|-----------|--------|
 | ClusterTrainingRuntime | trainer.kubeflow.org | v1alpha1 | Cluster | 1246 | !(has(self.numNodes) && (has(self.torch) && has(self.torch.elasticPolicy))), !(has(self.torch) && has(self.mpi)), self > 0 \|\| self in ['auto', 'cpu', 'gpu'], !(has(self.startupPolicy) && self.startupPolicy.startupPolicyOrder == 'InOrder' && self.replicatedJobs.exists(x, has(x.dependsOn))), self == oldSelf, self == oldSelf, self == oldSelf, self == oldSelf, self == oldSelf | YAML | [`manifests/base/crds/trainer.kubeflow.org_clustertrainingruntimes.yaml`](https://github.com/kubeflow/trainer/blob/51baadf644cd5d2c1672f1c658be46ad82f01b44/manifests/base/crds/trainer.kubeflow.org_clustertrainingruntimes.yaml) |
-| TrainJob | trainer.kubeflow.org | v1alpha1 | Namespaced | 562 | self.metadata.name.matches('^[a-z]([-a-z0-9]*[a-z0-9])?$'), size(self.metadata.name) <= 63, self in ['trainer.kubeflow.org/trainjob-controller', 'kueue.x-k8s.io/multikueue'], self == oldSelf, self == oldSelf | YAML | [`manifests/base/crds/trainer.kubeflow.org_trainjobs.yaml`](https://github.com/kubeflow/trainer/blob/51baadf644cd5d2c1672f1c658be46ad82f01b44/manifests/base/crds/trainer.kubeflow.org_trainjobs.yaml) |
-| TrainingRuntime | trainer.kubeflow.org | v1alpha1 | Namespaced | 1246 | !(has(self.numNodes) && (has(self.torch) && has(self.torch.elasticPolicy))), !(has(self.torch) && has(self.mpi)), self > 0 \|\| self in ['auto', 'cpu', 'gpu'], !(has(self.startupPolicy) && self.startupPolicy.startupPolicyOrder == 'InOrder' && self.replicatedJobs.exists(x, has(x.dependsOn))), self == oldSelf, self == oldSelf, self == oldSelf, self == oldSelf, self == oldSelf | YAML | [`manifests/base/crds/trainer.kubeflow.org_trainingruntimes.yaml`](https://github.com/kubeflow/trainer/blob/51baadf644cd5d2c1672f1c658be46ad82f01b44/manifests/base/crds/trainer.kubeflow.org_trainingruntimes.yaml) |
+| TrainJob | trainer.kubeflow.org | v1alpha1 | Namespaced | 562 | self.metadata.name.matches('^[a-z]([-a-z0-9]*[a-z0-9])?$'), size(self.metadata.name) <= 63, self == oldSelf, self in ['trainer.kubeflow.org/trainjob-controller', 'kueue.x-k8s.io/multikueue'], self == oldSelf | YAML | [`manifests/base/crds/trainer.kubeflow.org_trainjobs.yaml`](https://github.com/kubeflow/trainer/blob/51baadf644cd5d2c1672f1c658be46ad82f01b44/manifests/base/crds/trainer.kubeflow.org_trainjobs.yaml) |
+| TrainingRuntime | trainer.kubeflow.org | v1alpha1 | Namespaced | 1246 | !(has(self.startupPolicy) && self.startupPolicy.startupPolicyOrder == 'InOrder' && self.replicatedJobs.exists(x, has(x.dependsOn))), self == oldSelf, self == oldSelf, self == oldSelf, self == oldSelf, self == oldSelf, !(has(self.numNodes) && (has(self.torch) && has(self.torch.elasticPolicy))), !(has(self.torch) && has(self.mpi)), self > 0 \|\| self in ['auto', 'cpu', 'gpu'] | YAML | [`manifests/base/crds/trainer.kubeflow.org_trainingruntimes.yaml`](https://github.com/kubeflow/trainer/blob/51baadf644cd5d2c1672f1c658be46ad82f01b44/manifests/base/crds/trainer.kubeflow.org_trainingruntimes.yaml) |
 
 
 ## Webhooks

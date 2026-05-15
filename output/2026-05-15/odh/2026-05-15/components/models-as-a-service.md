@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | opendatahub-io/models-as-a-service |
 | Commit | fd24b957864d0dd33372e0db1ff4bec51354fdb5 |
-| Extracted | 2026-05-15T09:40:03Z |
+| Extracted | 2026-05-15T11:36:24Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 
@@ -186,7 +186,7 @@
 
 | Name | Type | Evidence |
 |------|------|----------|
-| PostgreSQL | database | uri:postgresql:// |
+| PostgreSQL | database | uri:postgres:// |
 | kubernetes | service | dns:kubernetes.default.svc |
 
 

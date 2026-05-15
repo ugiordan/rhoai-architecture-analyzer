@@ -10,7 +10,7 @@
 |-------|-------|
 | Repository | opendatahub-io/mlflow-operator |
 | Commit | e68add073b5755c9417d37dc4cd2f5e1cda6dbab |
-| Extracted | 2026-05-15T09:42:24Z |
+| Extracted | 2026-05-15T11:38:28Z |
 | Analyzer Version | 0.2.0 |
 | Data Coverage | full |
 
@@ -19,7 +19,7 @@
 
 | Kind | Group | Version | Scope | Fields | Validation Rules | Discovery | Source |
 |------|-------|---------|-------|--------|------------------|-----------|--------|
-| MLflowConfig | mlflow.kubeflow.org | v1 | Namespaced | 6 | self.metadata.name == 'mlflow', self == '' \|\| !self.startsWith('/'), self == '' \|\| !self.matches(r'(^\|.*/)\.\.(\|/.*)$'), self == 'mlflow-artifact-connection' | YAML | [`config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml) |
+| MLflowConfig | mlflow.kubeflow.org | v1 | Namespaced | 6 | self.metadata.name == 'mlflow', self == 'mlflow-artifact-connection', self == '' \|\| !self.startsWith('/'), self == '' \|\| !self.matches(r'(^\|.*/)\.\.(\|/.*)$') | YAML | [`config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml) |
 | MLflow | mlflow.opendatahub.io | v1 | Cluster | 287 | self.metadata.name == 'mlflow', self.metadata.name.size() <= 40, has(self.defaultArtifactRoot) \|\| (has(self.serveArtifacts) && self.serveArtifacts), !has(self.defaultArtifactRoot) \|\| !self.defaultArtifactRoot.startsWith('file://') \|\| (has(self.serveArtifacts) && self.serveArtifacts), (has(self.backendStoreUri) && size(self.backendStoreUri) > 0) \|\| (has(self.backendStoreUriFrom) && size(self.backendStoreUriFrom.name) > 0 && size(self.backendStoreUriFrom.key) > 0), !(has(self.backendStoreUri) && has(self.backendStoreUriFrom)), !(has(self.registryStoreUri) && has(self.registryStoreUriFrom)), !has(self.registryStoreUriFrom) \|\| (size(self.registryStoreUriFrom.name) > 0 && size(self.registryStoreUriFrom.key) > 0), !has(self.backendStoreUri) \|\| (!self.backendStoreUri.startsWith('sqlite://') && !self.backendStoreUri.startsWith('file://')) \|\| has(self.storage), !has(self.registryStoreUri) \|\| (!self.registryStoreUri.startsWith('sqlite://') && !self.registryStoreUri.startsWith('file://')) \|\| has(self.storage), !has(self.artifactsDestination) \|\| !self.artifactsDestination.startsWith('file://') \|\| has(self.storage), !has(self.artifactsDestination) \|\| !self.artifactsDestination.startsWith('file://') \|\| (has(self.serveArtifacts) && self.serveArtifacts), !has(self.env) \|\| self.env.all(e, e.name != 'MLFLOW_SERVER_DISABLE_SECURITY_MIDDLEWARE'), !has(self.networkPolicyAdditionalEgressRules) \|\| self.networkPolicyAdditionalEgressRules.all(r, (has(r.ports) && size(r.ports) > 0) \|\| (has(r.to) && size(r.to) > 0)), self.all(key, size(self[key]) <= 63), self.all(key, size(self[key]) <= 63) | YAML | [`config/crd/bases/mlflow.opendatahub.io_mlflows.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/config/crd/bases/mlflow.opendatahub.io_mlflows.yaml) |
 
 
