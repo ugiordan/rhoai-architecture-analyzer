@@ -386,33 +386,39 @@ func renderPlatformArchDocPage(data map[string]interface{}) string {
 			if len(platformWH) > 0 {
 				b.WriteString("### Cross-Component Webhooks\n\n")
 				b.WriteString("Webhooks whose service reference points to a different component:\n\n")
-				b.WriteString("| Webhook | Owner | Target Component | Service |\n")
-				b.WriteString("|---------|-------|------------------|---------|\n")
+				b.WriteString("| Webhook | Type | Owner | Target Component | Target Type | Path |\n")
+				b.WriteString("|---------|------|-------|------------------|-------------|------|\n")
 				for _, wh := range platformWH {
-					b.WriteString(fmt.Sprintf("| %s | %s | %s | %s |\n",
+					b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
 						escapeMdCell(getStr(wh, "name", "")),
+						escapeMdCell(getStr(wh, "type", "")),
 						escapeMdCell(getStr(wh, "owner", "")),
 						escapeMdCell(getStr(wh, "target_component", "")),
-						escapeMdCell(getStr(wh, "service_ref", "")),
+						escapeMdCell(getStr(wh, "target_type", "")),
+						escapeMdCell(getStr(wh, "path", "")),
 					))
 				}
 				b.WriteString("\n")
+				renderWebhookBehaviorSummary(&b, platformWH)
 			}
 
 			externalWH := getSlice(webhookData, "external_webhooks")
 			if len(externalWH) > 0 {
 				b.WriteString("### External Webhooks\n\n")
-				b.WriteString("Webhooks referencing services not in the analyzed component set:\n\n")
-				b.WriteString("| Webhook | Owner | Service |\n")
-				b.WriteString("|---------|-------|---------|\n")
+				b.WriteString("| Webhook | Type | Owner | Target Type | Path | Failure Policy |\n")
+				b.WriteString("|---------|------|-------|-------------|------|----------------|\n")
 				for _, wh := range externalWH {
-					b.WriteString(fmt.Sprintf("| %s | %s | %s |\n",
+					b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s | %s |\n",
 						escapeMdCell(getStr(wh, "name", "")),
+						escapeMdCell(getStr(wh, "type", "")),
 						escapeMdCell(getStr(wh, "owner", "")),
-						escapeMdCell(getStr(wh, "service_ref", "")),
+						escapeMdCell(getStr(wh, "target_type", "")),
+						escapeMdCell(getStr(wh, "path", "")),
+						escapeMdCell(getStr(wh, "failure_policy", "")),
 					))
 				}
 				b.WriteString("\n")
+				renderWebhookBehaviorSummary(&b, externalWH)
 			}
 		}
 	}
@@ -421,6 +427,46 @@ func renderPlatformArchDocPage(data map[string]interface{}) string {
 }
 
 // --- Platform network page ---
+
+func renderWebhookBehaviorSummary(b *strings.Builder, webhooks []map[string]interface{}) {
+	var hasBehavior bool
+	for _, wh := range webhooks {
+		mutations := getSlice(wh, "mutations")
+		validations := getSlice(wh, "validations")
+		if len(mutations) > 0 || len(validations) > 0 {
+			hasBehavior = true
+			break
+		}
+	}
+	if !hasBehavior {
+		return
+	}
+	b.WriteString("#### Webhook Behavioral Analysis\n\n")
+	b.WriteString("Field-level operations extracted from Go AST analysis of webhook handlers:\n\n")
+	b.WriteString("| Webhook | Owner | Field | Operation | Condition |\n")
+	b.WriteString("|---------|-------|-------|-----------|----------|\n")
+	for _, wh := range webhooks {
+		name := getStr(wh, "name", "")
+		owner := getStr(wh, "owner", "")
+		for _, m := range getSlice(wh, "mutations") {
+			b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s |\n",
+				escapeMdCell(name), escapeMdCell(owner),
+				escapeMdCell(getStr(m, "field", "")),
+				escapeMdCell(getStr(m, "operation", "")),
+				escapeMdCell(getStr(m, "condition", "")),
+			))
+		}
+		for _, v := range getSlice(wh, "validations") {
+			b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s |\n",
+				escapeMdCell(name), escapeMdCell(owner),
+				escapeMdCell(getStr(v, "field", "")),
+				escapeMdCell(getStr(v, "operation", "")),
+				escapeMdCell(getStr(v, "condition", "")),
+			))
+		}
+	}
+	b.WriteString("\n")
+}
 
 func renderPlatformNetworkDocPage(data map[string]interface{}) string {
 	var b strings.Builder
