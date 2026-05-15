@@ -1,8 +1,7 @@
 # Platform scan configuration
 # Each platform produces its own aggregated architecture analysis and docs section.
 # Repos are listed under their GitHub org. The workflow combines org + repo name.
-# Go repos get full extraction (22 extractors + CPG). Non-Go repos get partial
-# extraction (Dockerfiles, K8s manifests, Helm charts) and multi-language CPG.
+# Aligned with opendatahub-io/architecture-context platforms.yaml.
 
 platforms:
   odh:
@@ -25,7 +24,7 @@ platforms:
         aliases: ["Training operator", "Kubeflow Training operator"]
     orgs:
       opendatahub-io:
-        # Operators (Go)
+        # Operators
         - opendatahub-operator
         - data-science-pipelines-operator
         - model-registry-operator
@@ -37,47 +36,52 @@ platforms:
         - spark-operator
         - codeflare-operator
         - kubeflow
-        # Core services (Go)
+        # Core services
         - odh-dashboard
         - data-science-pipelines
         - model-registry
         - models-as-a-service
         - notebooks
-        # Inference (Go)
+        # Inference
         - modelmesh-serving
         - odh-model-controller
-        # Infrastructure (Go)
+        - kserve-autogluon-server
+        - modelmesh
+        # Infrastructure
         - kube-auth-proxy
         - distributed-workloads
         - kueue
-        # AI Safety / Guardrails (Go)
+        # AI Safety / Guardrails
         - fms-guardrails-orchestrator
-        # LLM Infrastructure (Go)
+        - guardrails-detectors
+        # LLM Infrastructure
         - llm-d-inference-scheduler
         - llm-d-kv-cache
-        # Evaluation (Go)
+        # Evaluation
         - eval-hub
-        # Batch (Go)
+        - lm-evaluation-harness
+        # Batch
         - argo-workflows
         - batch-gateway
-        # Other (Go)
+        # Other
         - workload-variant-autoscaler
-        # Non-Go components (partial extraction: Dockerfiles, manifests, CPG)
-        - guardrails-detectors        # Python
-        - kserve-autogluon-server     # Python
-        - llama-stack                 # Python
-        - llama-stack-provider-trustyai-garak  # Python
-        - lm-evaluation-harness       # Python
-        - mlflow                      # Python
-        - modelmesh                   # Java
-        - vllm                        # Python/C++
-      # External upstream dependencies
+        - llama-stack
+        - llama-stack-provider-trustyai-garak
+        - mlflow
+        - vllm
+      # External upstream
       kserve:
         - kserve
       ray-project:
         - kuberay
       brancz:
         - kube-rbac-proxy
+      llm-d:
+        - llm-d
+      kubernetes-sigs:
+        - gateway-api-inference-extension
+      IBM:
+        - ai4rag
 
   rhoai:
     name: "Red Hat OpenShift AI"
@@ -115,7 +119,7 @@ platforms:
         aliases: ["Training operator", "Kubeflow Training operator"]
     orgs:
       red-hat-data-services:
-        # Operators (Go, downstream of opendatahub-io)
+        # Operators (downstream forks of opendatahub-io)
         - opendatahub-operator
         - data-science-pipelines-operator
         - model-registry-operator
@@ -126,70 +130,70 @@ platforms:
         - mlflow-operator
         - spark-operator
         - codeflare-operator
-        # Core services (Go)
+        - kubeflow
+        # Core services
         - odh-dashboard
         - data-science-pipelines
         - model-registry
         - models-as-a-service
         - notebooks
-        # Inference (Go)
+        # Inference
         - kserve
         - modelmesh-serving
         - odh-model-controller
-        # Infrastructure (Go)
+        # Infrastructure
         - kube-auth-proxy
         - kube-rbac-proxy
         - kuberay
-        - kubeflow
         - distributed-workloads
         - kueue
-        # AI Safety / Guardrails (Go)
+        # AI Safety / Guardrails
         - fms-guardrails-orchestrator
-        # LLM Infrastructure (Go)
+        # LLM Infrastructure
         - llm-d-inference-scheduler
         - llm-d-kv-cache
-        # Evaluation (Go)
+        - llm-d-routing-sidecar
+        # Evaluation
         - eval-hub
-        # Batch (Go)
+        - lm-evaluation-harness
+        # Batch
         - argo-workflows
         - batch-gateway
-        # Other (Go)
+        # Other
         - workload-variant-autoscaler
-        # Non-Go components (partial extraction: Dockerfiles, manifests, CPG)
-        - codeflare-sdk               # Python
-        - fms-hf-tuning               # Python
-        - vllm-cpu                    # Python/C++
-        - lm-evaluation-harness       # Python
-        - llama-stack                 # Python
-        - MLServer                    # Python
-        - NeMo-Guardrails             # Python
-        - ai-gateway-payload-processing   # Go
-        - caikit                      # Python
-        - caikit-nlp                  # Python
-        - caikit-tgis-serving         # Python
-        - feast                       # Python/Go
-        - guardrails-regex-detector   # Rust
-        - llm-d-routing-sidecar       # Go
-        - ml-metadata                 # C++
-        - model-metadata-collection   # Python
-        - modelmesh-runtime-adapter   # Java
-        - notebooks-downstream        # Various
-        - odh-cli                     # Go
-        - odh-deployer                # Shell
-        - openvino_model_server       # Python/C++
-        - pipelines-components        # Python
-        - rest-proxy                  # Go
-        - rhds-llama-stack-distribution   # Python
-        - rhods-operator              # Go (downstream of opendatahub-operator)
-        - text-generation-inference   # Rust/Python
-        - trustyai-explainability     # Java
-        - vllm-gaudi                  # Python
-        - vllm-orchestrator-gateway   # Rust
-        - vllm-rocm                   # Python
-        - vllm-spyre                  # Python
+        - llama-stack
+        # RHOAI-specific components (not in ODH)
+        - rhods-operator
+        - notebooks-downstream
+        - odh-cli
+        - odh-deployer
+        - codeflare-sdk
+        - fms-hf-tuning
+        - caikit
+        - caikit-nlp
+        - caikit-tgis-serving
+        - MLServer
+        - NeMo-Guardrails
+        - guardrails-regex-detector
+        - modelmesh-runtime-adapter
+        - trustyai-explainability
+        - openvino_model_server
+        - text-generation-inference
+        - ml-metadata
+        - model-metadata-collection
+        - pipelines-components
+        - rest-proxy
+        - ai-gateway-payload-processing
+        - rhds-llama-stack-distribution
+        - feast
+        - vllm-cpu
+        - vllm-gaudi
+        - vllm-rocm
+        - vllm-spyre
+        - vllm-orchestrator-gateway
       kubernetes-sigs:
-        - gateway-api-inference-extension # Go
+        - gateway-api-inference-extension
       IBM:
-        - ai4rag                      # Python
+        - ai4rag
       llm-d:
-        - llm-d                       # Go
+        - llm-d
