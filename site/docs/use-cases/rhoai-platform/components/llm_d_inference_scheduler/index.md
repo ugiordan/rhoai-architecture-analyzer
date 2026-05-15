@@ -5,7 +5,7 @@
 
 **Repository:** llm-d/llm-d-inference-scheduler  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:47:14Z
+**Extracted:** 2026-05-15T11:43:47Z
 
 ## Summary
 

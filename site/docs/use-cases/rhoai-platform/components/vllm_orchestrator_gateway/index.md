@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/vllm-orchestrator-gateway  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:53:22Z
+**Extracted:** 2026-05-15T11:49:39Z
 
 ## Summary
 

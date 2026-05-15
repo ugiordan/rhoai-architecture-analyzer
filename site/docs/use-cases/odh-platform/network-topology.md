@@ -52,27 +52,27 @@ graph LR
     spark_operator["spark-operator"]:::comp
     workload_variant_autoscaler["workload-variant-autoscaler"]:::comp
 
+    kuberay -.->|"kuberay-operator"| distributed_workloads
+    kueue -.->|"kuberay-operator"| distributed_workloads
+    kserve_autogluon_server -.->|"keda-operator"| kserve
+    workload_variant_autoscaler -.->|"keda-operator"| kserve
+    kueue -.->|"training-operator"| distributed_workloads
+    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
     kserve -.->|"uvicorn-server"| gateway_api_inference_extension
     kserve_autogluon_server -.->|"uvicorn-server"| gateway_api_inference_extension
     llm_d_inference_scheduler -.->|"uvicorn-server"| gateway_api_inference_extension
     workload_variant_autoscaler -.->|"uvicorn-server"| gateway_api_inference_extension
-    kserve_autogluon_server -.->|"llmisvc-controller-manager-service"| kserve
-    kserve_autogluon_server -.->|"keda-operator"| kserve
-    workload_variant_autoscaler -.->|"keda-operator"| kserve
     kserve_autogluon_server -.->|"cli-port-default"| kserve
     llama_stack -.->|"cli-port-default"| kserve
     modelmesh_serving -.->|"cli-port-default"| kserve
+    kserve_autogluon_server -.->|"llmisvc-controller-manager-service"| kserve
+    kserve_autogluon_server -.->|"kserve-controller-manager-service"| kserve
+    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
+    kueue -.->|"visibility-server"| distributed_workloads
     data_science_pipelines_operator -.->|"the-service"| argo_workflows
     kuberay -.->|"the-service"| argo_workflows
     kueue -.->|"the-service"| argo_workflows
     spark_operator -.->|"the-service"| argo_workflows
-    kueue -.->|"visibility-server"| distributed_workloads
-    kueue -.->|"training-operator"| distributed_workloads
-    kserve_autogluon_server -.->|"kserve-controller-manager-service"| kserve
-    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
-    kuberay -.->|"kuberay-operator"| distributed_workloads
-    kueue -.->|"kuberay-operator"| distributed_workloads
-    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
 ```
 
 ## Services by Component

@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/MLServer  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:50:42Z
+**Extracted:** 2026-05-15T11:47:25Z
 
 ## Summary
 

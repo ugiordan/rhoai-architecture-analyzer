@@ -5,7 +5,7 @@
 
 **Repository:** opendatahub-io/kube-auth-proxy  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:43:21Z
+**Extracted:** 2026-05-15T11:39:21Z
 
 ## Summary
 

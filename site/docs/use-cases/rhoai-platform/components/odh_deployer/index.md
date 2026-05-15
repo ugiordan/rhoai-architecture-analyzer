@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/odh-deployer  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:50:14Z
+**Extracted:** 2026-05-15T11:46:59Z
 
 ## Summary
 

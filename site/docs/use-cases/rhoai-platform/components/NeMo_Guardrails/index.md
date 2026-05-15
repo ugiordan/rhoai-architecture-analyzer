@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/NeMo-Guardrails  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:50:53Z
+**Extracted:** 2026-05-15T11:47:33Z
 
 ## Summary
 

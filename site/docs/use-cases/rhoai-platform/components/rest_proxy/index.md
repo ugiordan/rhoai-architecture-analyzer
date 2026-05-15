@@ -5,7 +5,7 @@
 
 **Repository:** kserve/rest-proxy  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:51:58Z
+**Extracted:** 2026-05-15T11:48:39Z
 
 ## Summary
 

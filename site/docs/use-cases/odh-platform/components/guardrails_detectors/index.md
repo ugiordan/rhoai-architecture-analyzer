@@ -5,7 +5,7 @@
 
 **Repository:** opendatahub-io/guardrails-detectors  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:44:07Z
+**Extracted:** 2026-05-15T11:40:28Z
 
 ## Summary
 

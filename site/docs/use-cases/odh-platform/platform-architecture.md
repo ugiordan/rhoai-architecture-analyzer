@@ -80,74 +80,99 @@ Relationships detected through Go module imports and CRD watch patterns.
 
 Webhooks whose service reference points to a different component:
 
-| Webhook | Owner | Target Component | Service |
-|---------|-------|------------------|---------|
-| clusterservingruntime.kserve-webhook-server.validator | kserve | modelmesh-serving | kserve/kserve-webhook-server-service |
-| conversion-unknown | kserve | kserve-autogluon-server | kserve/llmisvc-webhook-server-service |
-| inferencegraph.kserve-webhook-server.validator | kserve | modelmesh-serving | kserve/kserve-webhook-server-service |
-| inferenceservice.kserve-webhook-server.defaulter | kserve | modelmesh-serving | kserve/kserve-webhook-server-service |
-| inferenceservice.kserve-webhook-server.pod-mutator | kserve | modelmesh-serving | kserve/kserve-webhook-server-service |
-| inferenceservice.kserve-webhook-server.validator | kserve | modelmesh-serving | kserve/kserve-webhook-server-service |
-| llminferenceservice.kserve-webhook-server.v1alpha1.defaulter | kserve | kserve-autogluon-server | kserve/llmisvc-webhook-server-service |
-| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | kserve-autogluon-server | kserve/llmisvc-webhook-server-service |
-| llminferenceservice.kserve-webhook-server.v1alpha2.defaulter | kserve | kserve-autogluon-server | kserve/llmisvc-webhook-server-service |
-| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | kserve-autogluon-server | kserve/llmisvc-webhook-server-service |
-| llminferenceserviceconfig.kserve-webhook-server.v1alpha1.validator | kserve | kserve-autogluon-server | kserve/llmisvc-webhook-server-service |
-| llminferenceserviceconfig.kserve-webhook-server.v1alpha2.validator | kserve | kserve-autogluon-server | kserve/llmisvc-webhook-server-service |
-| localmodelcache.kserve-webhook-server.validator | kserve | kserve-autogluon-server | kserve/localmodel-webhook-server-service |
-| servingruntime.kserve-webhook-server.validator | kserve | modelmesh-serving | kserve/kserve-webhook-server-service |
-| trainedmodel.kserve-webhook-server.validator | kserve | modelmesh-serving | kserve/kserve-webhook-server-service |
-| clusterservingruntime.kserve-webhook-server.validator | kserve-autogluon-server | modelmesh-serving | kserve/kserve-webhook-server-service |
-| inferencegraph.kserve-webhook-server.validator | kserve-autogluon-server | modelmesh-serving | kserve/kserve-webhook-server-service |
-| inferenceservice.kserve-webhook-server.defaulter | kserve-autogluon-server | modelmesh-serving | kserve/kserve-webhook-server-service |
-| inferenceservice.kserve-webhook-server.pod-mutator | kserve-autogluon-server | modelmesh-serving | kserve/kserve-webhook-server-service |
-| inferenceservice.kserve-webhook-server.validator | kserve-autogluon-server | modelmesh-serving | kserve/kserve-webhook-server-service |
-| servingruntime.kserve-webhook-server.validator | kserve-autogluon-server | modelmesh-serving | kserve/kserve-webhook-server-service |
-| trainedmodel.kserve-webhook-server.validator | kserve-autogluon-server | modelmesh-serving | kserve/kserve-webhook-server-service |
-| conversion-unknown | modelmesh-serving | kuberay | /webhook-service |
-| conversion-unknown | spark-operator | kuberay | system/webhook-service |
+| Webhook | Type | Owner | Target Component | Target Type | Path |
+|---------|------|-------|------------------|-------------|------|
+| clusterservingruntime.kserve-webhook-server.validator | validating | kserve | modelmesh-serving | ServingRuntimeValidator | /validate-serving-kserve-io-v1alpha1-clusterservingruntime |
+| conversion-unknown | conversion | kserve | kserve-autogluon-server |  | /convert |
+| inferencegraph.kserve-webhook-server.validator | validating | kserve | modelmesh-serving |  | /validate-serving-kserve-io-v1alpha1-inferencegraph |
+| inferenceservice.kserve-webhook-server.defaulter | mutating | kserve | modelmesh-serving |  | /mutate-serving-kserve-io-v1beta1-inferenceservice |
+| inferenceservice.kserve-webhook-server.pod-mutator | mutating | kserve | modelmesh-serving | Mutator | /mutate-pods |
+| inferenceservice.kserve-webhook-server.validator | validating | kserve | modelmesh-serving |  | /validate-serving-kserve-io-v1beta1-inferenceservice |
+| llminferenceservice.kserve-webhook-server.v1alpha1.defaulter | mutating | kserve | kserve-autogluon-server | LLMInferenceServiceDefaulterV1Alpha1 | /mutate-serving-kserve-io-v1alpha1-llminferenceservice |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | validating | kserve | kserve-autogluon-server | LLMInferenceServiceValidator | /validate-serving-kserve-io-v1alpha1-llminferenceservice |
+| llminferenceservice.kserve-webhook-server.v1alpha2.defaulter | mutating | kserve | kserve-autogluon-server | LLMInferenceServiceDefaulterV1Alpha2 | /mutate-serving-kserve-io-v1alpha2-llminferenceservice |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | validating | kserve | kserve-autogluon-server | LLMInferenceServiceValidator | /validate-serving-kserve-io-v1alpha2-llminferenceservice |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha1.validator | validating | kserve | kserve-autogluon-server | LLMInferenceServiceConfigValidator | /validate-serving-kserve-io-v1alpha1-llminferenceserviceconfig |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha2.validator | validating | kserve | kserve-autogluon-server | LLMInferenceServiceConfigValidator | /validate-serving-kserve-io-v1alpha2-llminferenceserviceconfig |
+| localmodelcache.kserve-webhook-server.validator | validating | kserve | kserve-autogluon-server |  | /validate-serving-kserve-io-v1alpha1-localmodelcache |
+| servingruntime.kserve-webhook-server.validator | validating | kserve | modelmesh-serving | ServingRuntimeValidator | /validate-serving-kserve-io-v1alpha1-servingruntime |
+| trainedmodel.kserve-webhook-server.validator | validating | kserve | modelmesh-serving |  | /validate-serving-kserve-io-v1alpha1-trainedmodel |
+| clusterservingruntime.kserve-webhook-server.validator | validating | kserve-autogluon-server | modelmesh-serving | ServingRuntimeValidator | /validate-serving-kserve-io-v1alpha1-clusterservingruntime |
+| inferencegraph.kserve-webhook-server.validator | validating | kserve-autogluon-server | modelmesh-serving |  | /validate-serving-kserve-io-v1alpha1-inferencegraph |
+| inferenceservice.kserve-webhook-server.defaulter | mutating | kserve-autogluon-server | modelmesh-serving |  | /mutate-serving-kserve-io-v1beta1-inferenceservice |
+| inferenceservice.kserve-webhook-server.pod-mutator | mutating | kserve-autogluon-server | modelmesh-serving | Mutator | /mutate-pods |
+| inferenceservice.kserve-webhook-server.validator | validating | kserve-autogluon-server | modelmesh-serving |  | /validate-serving-kserve-io-v1beta1-inferenceservice |
+| servingruntime.kserve-webhook-server.validator | validating | kserve-autogluon-server | modelmesh-serving | ServingRuntimeValidator | /validate-serving-kserve-io-v1alpha1-servingruntime |
+| trainedmodel.kserve-webhook-server.validator | validating | kserve-autogluon-server | modelmesh-serving |  | /validate-serving-kserve-io-v1alpha1-trainedmodel |
+| conversion-unknown | conversion | modelmesh-serving | kuberay |  | /convert |
+| conversion-unknown | conversion | spark-operator | kuberay |  | /convert |
+
+#### Webhook Behavioral Analysis
+
+Field-level operations extracted from Go AST analysis of webhook handlers:
+
+| Webhook | Owner | Field | Operation | Condition |
+|---------|-------|-------|-----------|----------|
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | spec | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | worker | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | dataLocal | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | data | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | pipeline | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | replicas | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | inline | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha1.validator | kserve | ref.name | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | spec | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | worker | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | dataLocal | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | data | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | pipeline | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | replicas | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | inline | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | ref.name | invalid |  |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha1.validator | kserve | spec.baseRefs | forbidden |  |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha1.validator | kserve | replicas | invalid |  |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha2.validator | kserve | spec.baseRefs | forbidden |  |
+| llminferenceserviceconfig.kserve-webhook-server.v1alpha2.validator | kserve | replicas | invalid |  |
 
 ### External Webhooks
 
-Webhooks referencing services not in the analyzed component set:
-
-| Webhook | Owner | Service |
-|---------|-------|---------|
-| mappwrapper.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mclusterqueue.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mdeployment.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mjaxjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mjobset.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mleaderworkerset.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mmpijob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mpaddlejob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mpod.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mpytorchjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mraycluster.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mrayjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mresourceflavor.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mstatefulset.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mtfjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mtrainjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mworkload.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| mxgboostjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vappwrapper.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vclusterqueue.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vcohort.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vdeployment.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vjaxjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vleaderworkerset.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vmpijob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vpaddlejob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vpod.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vpytorchjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vraycluster.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vresourceflavor.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vstatefulset.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vtfjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vtrainjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vworkload.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
-| vxgboostjob.kb.io | distributed-workloads | openshift-kueue-operator/kueue-webhook-service |
+| Webhook | Type | Owner | Target Type | Path | Failure Policy |
+|---------|------|-------|-------------|------|----------------|
+| mappwrapper.kb.io | mutating | distributed-workloads |  | /mutate-workload-codeflare-dev-v1beta2-appwrapper | Fail |
+| mclusterqueue.kb.io | mutating | distributed-workloads |  | /mutate-kueue-x-k8s-io-v1beta2-clusterqueue | Fail |
+| mdeployment.kb.io | mutating | distributed-workloads |  | /mutate-apps-v1-deployment | Fail |
+| mjaxjob.kb.io | mutating | distributed-workloads |  | /mutate-kubeflow-org-v1-jaxjob | Fail |
+| mjob.kb.io | mutating | distributed-workloads |  | /mutate-batch-v1-job | Fail |
+| mjobset.kb.io | mutating | distributed-workloads |  | /mutate-jobset-x-k8s-io-v1alpha2-jobset | Fail |
+| mleaderworkerset.kb.io | mutating | distributed-workloads |  | /mutate-leaderworkerset-x-k8s-io-v1-leaderworkerset | Fail |
+| mmpijob.kb.io | mutating | distributed-workloads |  | /mutate-kubeflow-org-v2beta1-mpijob | Fail |
+| mpaddlejob.kb.io | mutating | distributed-workloads |  | /mutate-kubeflow-org-v1-paddlejob | Fail |
+| mpod.kb.io | mutating | distributed-workloads |  | /mutate--v1-pod | Fail |
+| mpytorchjob.kb.io | mutating | distributed-workloads |  | /mutate-kubeflow-org-v1-pytorchjob | Fail |
+| mraycluster.kb.io | mutating | distributed-workloads |  | /mutate-ray-io-v1-raycluster | Fail |
+| mrayjob.kb.io | mutating | distributed-workloads |  | /mutate-ray-io-v1-rayjob | Fail |
+| mresourceflavor.kb.io | mutating | distributed-workloads |  | /mutate-kueue-x-k8s-io-v1beta2-resourceflavor | Fail |
+| mstatefulset.kb.io | mutating | distributed-workloads |  | /mutate-apps-v1-statefulset | Fail |
+| mtfjob.kb.io | mutating | distributed-workloads |  | /mutate-kubeflow-org-v1-tfjob | Fail |
+| mtrainjob.kb.io | mutating | distributed-workloads |  | /mutate-trainer-kubeflow-org-v1alpha1-trainjob | Fail |
+| mworkload.kb.io | mutating | distributed-workloads |  | /mutate-kueue-x-k8s-io-v1beta2-workload | Fail |
+| mxgboostjob.kb.io | mutating | distributed-workloads |  | /mutate-kubeflow-org-v1-xgboostjob | Fail |
+| vappwrapper.kb.io | validating | distributed-workloads |  | /validate-workload-codeflare-dev-v1beta2-appwrapper | Fail |
+| vclusterqueue.kb.io | validating | distributed-workloads |  | /validate-kueue-x-k8s-io-v1beta2-clusterqueue | Fail |
+| vcohort.kb.io | validating | distributed-workloads |  | /validate-kueue-x-k8s-io-v1beta2-cohort | Fail |
+| vdeployment.kb.io | validating | distributed-workloads |  | /validate-apps-v1-deployment | Fail |
+| vjaxjob.kb.io | validating | distributed-workloads |  | /validate-kubeflow-org-v1-jaxjob | Fail |
+| vjob.kb.io | validating | distributed-workloads |  | /validate-batch-v1-job | Fail |
+| vleaderworkerset.kb.io | validating | distributed-workloads |  | /validate-leaderworkerset-x-k8s-io-v1-leaderworkerset | Fail |
+| vmpijob.kb.io | validating | distributed-workloads |  | /validate-kubeflow-org-v2beta1-mpijob | Fail |
+| vpaddlejob.kb.io | validating | distributed-workloads |  | /validate-kubeflow-org-v1-paddlejob | Fail |
+| vpod.kb.io | validating | distributed-workloads |  | /validate--v1-pod | Fail |
+| vpytorchjob.kb.io | validating | distributed-workloads |  | /validate-kubeflow-org-v1-pytorchjob | Fail |
+| vraycluster.kb.io | validating | distributed-workloads |  | /validate-ray-io-v1-raycluster | Fail |
+| vresourceflavor.kb.io | validating | distributed-workloads |  | /validate-kueue-x-k8s-io-v1beta2-resourceflavor | Fail |
+| vstatefulset.kb.io | validating | distributed-workloads |  | /validate-apps-v1-statefulset | Fail |
+| vtfjob.kb.io | validating | distributed-workloads |  | /validate-kubeflow-org-v1-tfjob | Fail |
+| vtrainjob.kb.io | validating | distributed-workloads |  | /validate-trainer-kubeflow-org-v1alpha1-trainjob | Fail |
+| vworkload.kb.io | validating | distributed-workloads |  | /validate-kueue-x-k8s-io-v1beta2-workload | Fail |
+| vxgboostjob.kb.io | validating | distributed-workloads |  | /validate-kubeflow-org-v1-xgboostjob | Fail |
 

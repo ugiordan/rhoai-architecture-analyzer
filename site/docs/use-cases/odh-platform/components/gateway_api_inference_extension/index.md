@@ -5,7 +5,7 @@
 
 **Repository:** kubernetes-sigs/gateway-api-inference-extension  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:51:56Z
+**Extracted:** 2026-05-15T11:48:36Z
 
 ## Summary
 

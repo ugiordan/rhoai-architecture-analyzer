@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/kubeflow  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:41:02Z
+**Extracted:** 2026-05-15T11:36:41Z
 
 ## Summary
 

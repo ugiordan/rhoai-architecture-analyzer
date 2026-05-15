@@ -5,7 +5,7 @@
 
 **Repository:** opendatahub-io/fms-guardrails-orchestrator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:43:50Z
+**Extracted:** 2026-05-15T11:40:19Z
 
 ## Summary
 

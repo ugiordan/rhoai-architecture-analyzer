@@ -5,7 +5,7 @@
 
 **Repository:** llm-d/llm-d-routing-sidecar  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:47:53Z
+**Extracted:** 2026-05-15T11:43:56Z
 
 ## Summary
 

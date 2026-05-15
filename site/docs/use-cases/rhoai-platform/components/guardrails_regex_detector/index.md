@@ -5,7 +5,7 @@
 
 **Repository:** red-hat-data-services/guardrails-regex-detector  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:50:48Z
+**Extracted:** 2026-05-15T11:47:36Z
 
 ## Summary
 

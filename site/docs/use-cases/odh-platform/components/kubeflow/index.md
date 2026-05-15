@@ -5,7 +5,7 @@
 
 **Repository:** opendatahub-io/kubeflow  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T09:40:08Z
+**Extracted:** 2026-05-15T11:36:25Z
 
 ## Summary
 
