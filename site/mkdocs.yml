@@ -29,7 +29,6 @@ theme:
         name: Switch to light mode
   features:
     - navigation.tabs
-    - navigation.sections
     - navigation.top
     - navigation.indexes
     - navigation.instant
