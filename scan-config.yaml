@@ -187,7 +187,7 @@ platforms:
         - vllm-orchestrator-gateway   # Rust
         - vllm-rocm                   # Python
         - vllm-spyre                  # Python
-      gateway-api-sigs:
+      kubernetes-sigs:
         - gateway-api-inference-extension # Go
       IBM:
         - ai4rag                      # Python
