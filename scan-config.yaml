@@ -68,7 +68,6 @@ platforms:
         - llama-stack
         - llama-stack-provider-trustyai-garak
         - mlflow
-        - vllm
       # External upstream
       kserve:
         - kserve
@@ -95,8 +94,8 @@ platforms:
       min: "4.14"
       max: "4.17"
     repo_overrides:
-      opendatahub-operator:
-        aliases: ["rhods-operator", "RHODS operator"]
+      rhods-operator:
+        aliases: ["opendatahub-operator", "RHODS operator"]
       odh-dashboard:
         aliases: ["RHOAI Dashboard", "rhods-dashboard"]
       data-science-pipelines-operator:
@@ -120,7 +119,7 @@ platforms:
     orgs:
       red-hat-data-services:
         # Operators (downstream forks of opendatahub-io)
-        - opendatahub-operator
+        - rhods-operator
         - data-science-pipelines-operator
         - model-registry-operator
         - trustyai-service-operator
@@ -169,7 +168,6 @@ platforms:
         - odh-deployer
         - codeflare-sdk
         - fms-hf-tuning
-        - caikit
         - caikit-nlp
         - caikit-tgis-serving
         - MLServer

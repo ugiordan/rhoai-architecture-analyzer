@@ -49,6 +49,14 @@ else
     ANALYZER_BIN="${ANALYZER_DIR}/arch-analyzer"
 fi
 
+# Skip archived repos
+if command -v gh &>/dev/null; then
+    if gh api "repos/${REPO}" --jq '.archived' 2>/dev/null | grep -q "true"; then
+        echo "::warning::Skipping ${REPO}: repository is archived"
+        exit 0
+    fi
+fi
+
 mkdir -p "${OUTDIR}"
 
 CLONE_BASE="${RUNNER_TEMP:-/tmp}/arch-analyzer-repos"
