@@ -1,8 +1,11 @@
 # llama-stack
 
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
 **Repository:** red-hat-data-services/llama-stack  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-08T08:19:40Z
+**Extracted:** 2026-05-15T09:49:38Z
 
 ## Summary
 
@@ -10,7 +13,7 @@
 |--------|-------|
 | CRDs | 0 |
 | Deployments | 0 |
-| Services | 1 |
+| Services | 0 |
 | Secrets | 0 |
 | Cluster Roles | 0 |
 | Controller Watches | 0 |

@@ -1,8 +1,11 @@
 # kubeflow
 
-**Repository:** red-hat-data-services/kubeflow  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** opendatahub-io/kubeflow  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:05:48Z
+**Extracted:** 2026-05-15T09:40:08Z
 
 ## Summary
 

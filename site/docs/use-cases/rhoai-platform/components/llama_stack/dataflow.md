@@ -16,10 +16,6 @@ sequenceDiagram
 
     participant KubernetesAPI as Kubernetes API
     participant llama_stack as llama-stack
-
-
-    Note over llama_stack: Exposed Services
-    Note right of llama_stack: cli-port-default:8081/TCP []
 ```
 
 ## Configuration

@@ -1,8 +1,11 @@
 # batch-gateway
 
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
 **Repository:** llm-d-incubation/batch-gateway  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:07:16Z
+**Extracted:** 2026-05-15T09:45:47Z
 
 ## Summary
 
@@ -45,7 +48,33 @@ No CRDs defined.
 
 | Module | Version |
 |--------|---------|
+| github.com/go-logr/logr | v1.4.1 |
 | github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
 | github.com/prometheus/client_golang | v1.23.2 |
 | github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/common | v0.66.1 |
+| github.com/prometheus/common | v0.66.1 |
+| github.com/prometheus/procfs | v0.16.1 |
+| github.com/prometheus/procfs | v0.16.1 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.79.2 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.79.1 |
+| google.golang.org/grpc | v1.79.2 |
+| google.golang.org/grpc | v1.79.1 |
 

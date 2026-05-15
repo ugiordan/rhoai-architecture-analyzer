@@ -123,6 +123,12 @@ nav:
       - RBAC Surface: use-cases/odh-platform/rbac-surface.md
       - Secrets Inventory: use-cases/odh-platform/secrets-inventory.md
       - Components:
+        - ai4rag:
+          - Overview: use-cases/odh-platform/components/ai4rag/index.md
+          - Network: use-cases/odh-platform/components/ai4rag/network.md
+          - RBAC: use-cases/odh-platform/components/ai4rag/rbac.md
+          - Security: use-cases/odh-platform/components/ai4rag/security.md
+          - Dataflow: use-cases/odh-platform/components/ai4rag/dataflow.md
         - argo-workflows:
           - Overview: use-cases/odh-platform/components/argo_workflows/index.md
           - Network: use-cases/odh-platform/components/argo_workflows/network.md
@@ -185,6 +191,12 @@ nav:
           - RBAC: use-cases/odh-platform/components/fms_hf_tuning/rbac.md
           - Security: use-cases/odh-platform/components/fms_hf_tuning/security.md
           - Dataflow: use-cases/odh-platform/components/fms_hf_tuning/dataflow.md
+        - gateway-api-inference-extension:
+          - Overview: use-cases/odh-platform/components/gateway_api_inference_extension/index.md
+          - Network: use-cases/odh-platform/components/gateway_api_inference_extension/network.md
+          - RBAC: use-cases/odh-platform/components/gateway_api_inference_extension/rbac.md
+          - Security: use-cases/odh-platform/components/gateway_api_inference_extension/security.md
+          - Dataflow: use-cases/odh-platform/components/gateway_api_inference_extension/dataflow.md
         - guardrails-detectors:
           - Overview: use-cases/odh-platform/components/guardrails_detectors/index.md
           - Network: use-cases/odh-platform/components/guardrails_detectors/network.md
@@ -255,6 +267,12 @@ nav:
           - RBAC: use-cases/odh-platform/components/llama_stack_provider_trustyai_garak/rbac.md
           - Security: use-cases/odh-platform/components/llama_stack_provider_trustyai_garak/security.md
           - Dataflow: use-cases/odh-platform/components/llama_stack_provider_trustyai_garak/dataflow.md
+        - llm-d:
+          - Overview: use-cases/odh-platform/components/llm_d/index.md
+          - Network: use-cases/odh-platform/components/llm_d/network.md
+          - RBAC: use-cases/odh-platform/components/llm_d/rbac.md
+          - Security: use-cases/odh-platform/components/llm_d/security.md
+          - Dataflow: use-cases/odh-platform/components/llm_d/dataflow.md
         - llm-d-inference-scheduler:
           - Overview: use-cases/odh-platform/components/llm_d_inference_scheduler/index.md
           - Network: use-cases/odh-platform/components/llm_d_inference_scheduler/network.md
@@ -398,6 +416,30 @@ nav:
       - RBAC Surface: use-cases/rhoai-platform/rbac-surface.md
       - Secrets Inventory: use-cases/rhoai-platform/secrets-inventory.md
       - Components:
+        - MLServer:
+          - Overview: use-cases/rhoai-platform/components/MLServer/index.md
+          - Network: use-cases/rhoai-platform/components/MLServer/network.md
+          - RBAC: use-cases/rhoai-platform/components/MLServer/rbac.md
+          - Security: use-cases/rhoai-platform/components/MLServer/security.md
+          - Dataflow: use-cases/rhoai-platform/components/MLServer/dataflow.md
+        - NeMo-Guardrails:
+          - Overview: use-cases/rhoai-platform/components/NeMo_Guardrails/index.md
+          - Network: use-cases/rhoai-platform/components/NeMo_Guardrails/network.md
+          - RBAC: use-cases/rhoai-platform/components/NeMo_Guardrails/rbac.md
+          - Security: use-cases/rhoai-platform/components/NeMo_Guardrails/security.md
+          - Dataflow: use-cases/rhoai-platform/components/NeMo_Guardrails/dataflow.md
+        - ai4rag:
+          - Overview: use-cases/rhoai-platform/components/ai4rag/index.md
+          - Network: use-cases/rhoai-platform/components/ai4rag/network.md
+          - RBAC: use-cases/rhoai-platform/components/ai4rag/rbac.md
+          - Security: use-cases/rhoai-platform/components/ai4rag/security.md
+          - Dataflow: use-cases/rhoai-platform/components/ai4rag/dataflow.md
+        - ai-gateway-payload-processing:
+          - Overview: use-cases/rhoai-platform/components/ai_gateway_payload_processing/index.md
+          - Network: use-cases/rhoai-platform/components/ai_gateway_payload_processing/network.md
+          - RBAC: use-cases/rhoai-platform/components/ai_gateway_payload_processing/rbac.md
+          - Security: use-cases/rhoai-platform/components/ai_gateway_payload_processing/security.md
+          - Dataflow: use-cases/rhoai-platform/components/ai_gateway_payload_processing/dataflow.md
         - argo-workflows:
           - Overview: use-cases/rhoai-platform/components/argo_workflows/index.md
           - Network: use-cases/rhoai-platform/components/argo_workflows/network.md
@@ -410,6 +452,18 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/batch_gateway/rbac.md
           - Security: use-cases/rhoai-platform/components/batch_gateway/security.md
           - Dataflow: use-cases/rhoai-platform/components/batch_gateway/dataflow.md
+        - caikit-nlp:
+          - Overview: use-cases/rhoai-platform/components/caikit_nlp/index.md
+          - Network: use-cases/rhoai-platform/components/caikit_nlp/network.md
+          - RBAC: use-cases/rhoai-platform/components/caikit_nlp/rbac.md
+          - Security: use-cases/rhoai-platform/components/caikit_nlp/security.md
+          - Dataflow: use-cases/rhoai-platform/components/caikit_nlp/dataflow.md
+        - caikit-tgis-serving:
+          - Overview: use-cases/rhoai-platform/components/caikit_tgis_serving/index.md
+          - Network: use-cases/rhoai-platform/components/caikit_tgis_serving/network.md
+          - RBAC: use-cases/rhoai-platform/components/caikit_tgis_serving/rbac.md
+          - Security: use-cases/rhoai-platform/components/caikit_tgis_serving/security.md
+          - Dataflow: use-cases/rhoai-platform/components/caikit_tgis_serving/dataflow.md
         - codeflare-operator:
           - Overview: use-cases/rhoai-platform/components/codeflare_operator/index.md
           - Network: use-cases/rhoai-platform/components/codeflare_operator/network.md
@@ -448,6 +502,12 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/eval_hub/rbac.md
           - Security: use-cases/rhoai-platform/components/eval_hub/security.md
           - Dataflow: use-cases/rhoai-platform/components/eval_hub/dataflow.md
+        - feast:
+          - Overview: use-cases/rhoai-platform/components/feast/index.md
+          - Network: use-cases/rhoai-platform/components/feast/network.md
+          - RBAC: use-cases/rhoai-platform/components/feast/rbac.md
+          - Security: use-cases/rhoai-platform/components/feast/security.md
+          - Dataflow: use-cases/rhoai-platform/components/feast/dataflow.md
         - fms-guardrails-orchestrator:
           - Overview: use-cases/rhoai-platform/components/fms_guardrails_orchestrator/index.md
           - Network: use-cases/rhoai-platform/components/fms_guardrails_orchestrator/network.md
@@ -460,12 +520,24 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/fms_hf_tuning/rbac.md
           - Security: use-cases/rhoai-platform/components/fms_hf_tuning/security.md
           - Dataflow: use-cases/rhoai-platform/components/fms_hf_tuning/dataflow.md
+        - gateway-api-inference-extension:
+          - Overview: use-cases/rhoai-platform/components/gateway_api_inference_extension/index.md
+          - Network: use-cases/rhoai-platform/components/gateway_api_inference_extension/network.md
+          - RBAC: use-cases/rhoai-platform/components/gateway_api_inference_extension/rbac.md
+          - Security: use-cases/rhoai-platform/components/gateway_api_inference_extension/security.md
+          - Dataflow: use-cases/rhoai-platform/components/gateway_api_inference_extension/dataflow.md
         - guardrails-detectors:
           - Overview: use-cases/rhoai-platform/components/guardrails_detectors/index.md
           - Network: use-cases/rhoai-platform/components/guardrails_detectors/network.md
           - RBAC: use-cases/rhoai-platform/components/guardrails_detectors/rbac.md
           - Security: use-cases/rhoai-platform/components/guardrails_detectors/security.md
           - Dataflow: use-cases/rhoai-platform/components/guardrails_detectors/dataflow.md
+        - guardrails-regex-detector:
+          - Overview: use-cases/rhoai-platform/components/guardrails_regex_detector/index.md
+          - Network: use-cases/rhoai-platform/components/guardrails_regex_detector/network.md
+          - RBAC: use-cases/rhoai-platform/components/guardrails_regex_detector/rbac.md
+          - Security: use-cases/rhoai-platform/components/guardrails_regex_detector/security.md
+          - Dataflow: use-cases/rhoai-platform/components/guardrails_regex_detector/dataflow.md
         - kserve:
           - Overview: use-cases/rhoai-platform/components/kserve/index.md
           - Network: use-cases/rhoai-platform/components/kserve/network.md
@@ -530,6 +602,12 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/llama_stack_provider_trustyai_garak/rbac.md
           - Security: use-cases/rhoai-platform/components/llama_stack_provider_trustyai_garak/security.md
           - Dataflow: use-cases/rhoai-platform/components/llama_stack_provider_trustyai_garak/dataflow.md
+        - llm-d:
+          - Overview: use-cases/rhoai-platform/components/llm_d/index.md
+          - Network: use-cases/rhoai-platform/components/llm_d/network.md
+          - RBAC: use-cases/rhoai-platform/components/llm_d/rbac.md
+          - Security: use-cases/rhoai-platform/components/llm_d/security.md
+          - Dataflow: use-cases/rhoai-platform/components/llm_d/dataflow.md
         - llm-d-inference-scheduler:
           - Overview: use-cases/rhoai-platform/components/llm_d_inference_scheduler/index.md
           - Network: use-cases/rhoai-platform/components/llm_d_inference_scheduler/network.md
@@ -542,12 +620,24 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/llm_d_kv_cache/rbac.md
           - Security: use-cases/rhoai-platform/components/llm_d_kv_cache/security.md
           - Dataflow: use-cases/rhoai-platform/components/llm_d_kv_cache/dataflow.md
+        - llm-d-routing-sidecar:
+          - Overview: use-cases/rhoai-platform/components/llm_d_routing_sidecar/index.md
+          - Network: use-cases/rhoai-platform/components/llm_d_routing_sidecar/network.md
+          - RBAC: use-cases/rhoai-platform/components/llm_d_routing_sidecar/rbac.md
+          - Security: use-cases/rhoai-platform/components/llm_d_routing_sidecar/security.md
+          - Dataflow: use-cases/rhoai-platform/components/llm_d_routing_sidecar/dataflow.md
         - lm-evaluation-harness:
           - Overview: use-cases/rhoai-platform/components/lm_evaluation_harness/index.md
           - Network: use-cases/rhoai-platform/components/lm_evaluation_harness/network.md
           - RBAC: use-cases/rhoai-platform/components/lm_evaluation_harness/rbac.md
           - Security: use-cases/rhoai-platform/components/lm_evaluation_harness/security.md
           - Dataflow: use-cases/rhoai-platform/components/lm_evaluation_harness/dataflow.md
+        - ml-metadata:
+          - Overview: use-cases/rhoai-platform/components/ml_metadata/index.md
+          - Network: use-cases/rhoai-platform/components/ml_metadata/network.md
+          - RBAC: use-cases/rhoai-platform/components/ml_metadata/rbac.md
+          - Security: use-cases/rhoai-platform/components/ml_metadata/security.md
+          - Dataflow: use-cases/rhoai-platform/components/ml_metadata/dataflow.md
         - mlflow:
           - Overview: use-cases/rhoai-platform/components/mlflow/index.md
           - Network: use-cases/rhoai-platform/components/mlflow/network.md
@@ -561,6 +651,12 @@ nav:
           - Security: use-cases/rhoai-platform/components/mlflow_operator/security.md
           - Cache: use-cases/rhoai-platform/components/mlflow_operator/cache.md
           - Dataflow: use-cases/rhoai-platform/components/mlflow_operator/dataflow.md
+        - model-metadata-collection:
+          - Overview: use-cases/rhoai-platform/components/model_metadata_collection/index.md
+          - Network: use-cases/rhoai-platform/components/model_metadata_collection/network.md
+          - RBAC: use-cases/rhoai-platform/components/model_metadata_collection/rbac.md
+          - Security: use-cases/rhoai-platform/components/model_metadata_collection/security.md
+          - Dataflow: use-cases/rhoai-platform/components/model_metadata_collection/dataflow.md
         - model-registry:
           - Overview: use-cases/rhoai-platform/components/model_registry/index.md
           - Network: use-cases/rhoai-platform/components/model_registry/network.md
@@ -581,6 +677,12 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/modelmesh/rbac.md
           - Security: use-cases/rhoai-platform/components/modelmesh/security.md
           - Dataflow: use-cases/rhoai-platform/components/modelmesh/dataflow.md
+        - modelmesh-runtime-adapter:
+          - Overview: use-cases/rhoai-platform/components/modelmesh_runtime_adapter/index.md
+          - Network: use-cases/rhoai-platform/components/modelmesh_runtime_adapter/network.md
+          - RBAC: use-cases/rhoai-platform/components/modelmesh_runtime_adapter/rbac.md
+          - Security: use-cases/rhoai-platform/components/modelmesh_runtime_adapter/security.md
+          - Dataflow: use-cases/rhoai-platform/components/modelmesh_runtime_adapter/dataflow.md
         - modelmesh-serving:
           - Overview: use-cases/rhoai-platform/components/modelmesh_serving/index.md
           - Network: use-cases/rhoai-platform/components/modelmesh_serving/network.md
@@ -600,12 +702,30 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/notebooks/rbac.md
           - Security: use-cases/rhoai-platform/components/notebooks/security.md
           - Dataflow: use-cases/rhoai-platform/components/notebooks/dataflow.md
+        - notebooks-downstream:
+          - Overview: use-cases/rhoai-platform/components/notebooks_downstream/index.md
+          - Network: use-cases/rhoai-platform/components/notebooks_downstream/network.md
+          - RBAC: use-cases/rhoai-platform/components/notebooks_downstream/rbac.md
+          - Security: use-cases/rhoai-platform/components/notebooks_downstream/security.md
+          - Dataflow: use-cases/rhoai-platform/components/notebooks_downstream/dataflow.md
+        - odh-cli:
+          - Overview: use-cases/rhoai-platform/components/odh_cli/index.md
+          - Network: use-cases/rhoai-platform/components/odh_cli/network.md
+          - RBAC: use-cases/rhoai-platform/components/odh_cli/rbac.md
+          - Security: use-cases/rhoai-platform/components/odh_cli/security.md
+          - Dataflow: use-cases/rhoai-platform/components/odh_cli/dataflow.md
         - odh-dashboard:
           - Overview: use-cases/rhoai-platform/components/odh_dashboard/index.md
           - Network: use-cases/rhoai-platform/components/odh_dashboard/network.md
           - RBAC: use-cases/rhoai-platform/components/odh_dashboard/rbac.md
           - Security: use-cases/rhoai-platform/components/odh_dashboard/security.md
           - Dataflow: use-cases/rhoai-platform/components/odh_dashboard/dataflow.md
+        - odh-deployer:
+          - Overview: use-cases/rhoai-platform/components/odh_deployer/index.md
+          - Network: use-cases/rhoai-platform/components/odh_deployer/network.md
+          - RBAC: use-cases/rhoai-platform/components/odh_deployer/rbac.md
+          - Security: use-cases/rhoai-platform/components/odh_deployer/security.md
+          - Dataflow: use-cases/rhoai-platform/components/odh_deployer/dataflow.md
         - odh-model-controller:
           - Overview: use-cases/rhoai-platform/components/odh_model_controller/index.md
           - Network: use-cases/rhoai-platform/components/odh_model_controller/network.md
@@ -620,12 +740,42 @@ nav:
           - Security: use-cases/rhoai-platform/components/opendatahub_operator/security.md
           - Cache: use-cases/rhoai-platform/components/opendatahub_operator/cache.md
           - Dataflow: use-cases/rhoai-platform/components/opendatahub_operator/dataflow.md
+        - openvino-model-server:
+          - Overview: use-cases/rhoai-platform/components/openvino_model_server/index.md
+          - Network: use-cases/rhoai-platform/components/openvino_model_server/network.md
+          - RBAC: use-cases/rhoai-platform/components/openvino_model_server/rbac.md
+          - Security: use-cases/rhoai-platform/components/openvino_model_server/security.md
+          - Dataflow: use-cases/rhoai-platform/components/openvino_model_server/dataflow.md
+        - pipelines-components:
+          - Overview: use-cases/rhoai-platform/components/pipelines_components/index.md
+          - Network: use-cases/rhoai-platform/components/pipelines_components/network.md
+          - RBAC: use-cases/rhoai-platform/components/pipelines_components/rbac.md
+          - Security: use-cases/rhoai-platform/components/pipelines_components/security.md
+          - Dataflow: use-cases/rhoai-platform/components/pipelines_components/dataflow.md
+        - rest-proxy:
+          - Overview: use-cases/rhoai-platform/components/rest_proxy/index.md
+          - Network: use-cases/rhoai-platform/components/rest_proxy/network.md
+          - RBAC: use-cases/rhoai-platform/components/rest_proxy/rbac.md
+          - Security: use-cases/rhoai-platform/components/rest_proxy/security.md
+          - Dataflow: use-cases/rhoai-platform/components/rest_proxy/dataflow.md
+        - rhds-llama-stack-distribution:
+          - Overview: use-cases/rhoai-platform/components/rhds_llama_stack_distribution/index.md
+          - Network: use-cases/rhoai-platform/components/rhds_llama_stack_distribution/network.md
+          - RBAC: use-cases/rhoai-platform/components/rhds_llama_stack_distribution/rbac.md
+          - Security: use-cases/rhoai-platform/components/rhds_llama_stack_distribution/security.md
+          - Dataflow: use-cases/rhoai-platform/components/rhds_llama_stack_distribution/dataflow.md
         - spark-operator:
           - Overview: use-cases/rhoai-platform/components/spark_operator/index.md
           - Network: use-cases/rhoai-platform/components/spark_operator/network.md
           - RBAC: use-cases/rhoai-platform/components/spark_operator/rbac.md
           - Security: use-cases/rhoai-platform/components/spark_operator/security.md
           - Dataflow: use-cases/rhoai-platform/components/spark_operator/dataflow.md
+        - text-generation-inference:
+          - Overview: use-cases/rhoai-platform/components/text_generation_inference/index.md
+          - Network: use-cases/rhoai-platform/components/text_generation_inference/network.md
+          - RBAC: use-cases/rhoai-platform/components/text_generation_inference/rbac.md
+          - Security: use-cases/rhoai-platform/components/text_generation_inference/security.md
+          - Dataflow: use-cases/rhoai-platform/components/text_generation_inference/dataflow.md
         - trainer:
           - Overview: use-cases/rhoai-platform/components/trainer/index.md
           - Network: use-cases/rhoai-platform/components/trainer/network.md
@@ -640,6 +790,12 @@ nav:
           - Security: use-cases/rhoai-platform/components/training_operator/security.md
           - Cache: use-cases/rhoai-platform/components/training_operator/cache.md
           - Dataflow: use-cases/rhoai-platform/components/training_operator/dataflow.md
+        - trustyai-explainability:
+          - Overview: use-cases/rhoai-platform/components/trustyai_explainability/index.md
+          - Network: use-cases/rhoai-platform/components/trustyai_explainability/network.md
+          - RBAC: use-cases/rhoai-platform/components/trustyai_explainability/rbac.md
+          - Security: use-cases/rhoai-platform/components/trustyai_explainability/security.md
+          - Dataflow: use-cases/rhoai-platform/components/trustyai_explainability/dataflow.md
         - trustyai-service-operator:
           - Overview: use-cases/rhoai-platform/components/trustyai_service_operator/index.md
           - Network: use-cases/rhoai-platform/components/trustyai_service_operator/network.md
@@ -659,6 +815,30 @@ nav:
           - RBAC: use-cases/rhoai-platform/components/vllm_cpu/rbac.md
           - Security: use-cases/rhoai-platform/components/vllm_cpu/security.md
           - Dataflow: use-cases/rhoai-platform/components/vllm_cpu/dataflow.md
+        - vllm-gaudi:
+          - Overview: use-cases/rhoai-platform/components/vllm_gaudi/index.md
+          - Network: use-cases/rhoai-platform/components/vllm_gaudi/network.md
+          - RBAC: use-cases/rhoai-platform/components/vllm_gaudi/rbac.md
+          - Security: use-cases/rhoai-platform/components/vllm_gaudi/security.md
+          - Dataflow: use-cases/rhoai-platform/components/vllm_gaudi/dataflow.md
+        - vllm-orchestrator-gateway:
+          - Overview: use-cases/rhoai-platform/components/vllm_orchestrator_gateway/index.md
+          - Network: use-cases/rhoai-platform/components/vllm_orchestrator_gateway/network.md
+          - RBAC: use-cases/rhoai-platform/components/vllm_orchestrator_gateway/rbac.md
+          - Security: use-cases/rhoai-platform/components/vllm_orchestrator_gateway/security.md
+          - Dataflow: use-cases/rhoai-platform/components/vllm_orchestrator_gateway/dataflow.md
+        - vllm-rocm:
+          - Overview: use-cases/rhoai-platform/components/vllm_rocm/index.md
+          - Network: use-cases/rhoai-platform/components/vllm_rocm/network.md
+          - RBAC: use-cases/rhoai-platform/components/vllm_rocm/rbac.md
+          - Security: use-cases/rhoai-platform/components/vllm_rocm/security.md
+          - Dataflow: use-cases/rhoai-platform/components/vllm_rocm/dataflow.md
+        - vllm-spyre:
+          - Overview: use-cases/rhoai-platform/components/vllm_spyre/index.md
+          - Network: use-cases/rhoai-platform/components/vllm_spyre/network.md
+          - RBAC: use-cases/rhoai-platform/components/vllm_spyre/rbac.md
+          - Security: use-cases/rhoai-platform/components/vllm_spyre/security.md
+          - Dataflow: use-cases/rhoai-platform/components/vllm_spyre/dataflow.md
         - workload-variant-autoscaler:
           - Overview: use-cases/rhoai-platform/components/workload_variant_autoscaler/index.md
           - Network: use-cases/rhoai-platform/components/workload_variant_autoscaler/network.md

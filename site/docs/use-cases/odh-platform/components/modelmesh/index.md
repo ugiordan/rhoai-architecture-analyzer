@@ -1,8 +1,11 @@
 # modelmesh
 
-**Repository:** red-hat-data-services/modelmesh  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** opendatahub-io/modelmesh  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-08T08:16:05Z
+**Extracted:** 2026-05-15T09:40:01Z
 
 ## Summary
 

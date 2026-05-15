@@ -2,6 +2,8 @@
 
 ## Service Map
 
+*2 unique services (3 total, duplicates from test fixtures collapsed).*
+
 ```mermaid
 graph LR
     classDef svc fill:#2ecc71,stroke:#27ae60,color:#fff
@@ -11,25 +13,31 @@ graph LR
 
     spark_operator["spark-operator"]:::component
     spark_operator --> svc_0["spark-operator-webhook-svc\nClusterIP: 443/TCP"]:::svc
+    spark_operator --> svc_1["the-service\nLoadBalancer: 8666/TCP"]:::svc
+    spark_operator -.-> ext_postgres[["postgres\ndatabase"]]:::ext
+    spark_operator -.-> ext_sqlite[["sqlite\ndatabase"]]:::ext
+    spark_operator -.-> ext_grpc[["grpc\ngrpc"]]:::ext
 ```
 
 ### Services
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| spark-operator-webhook-svc | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/red-hat-data-services/spark-operator/blob/b0bb86c06a58fb4bc04eee576b37a1377325a4ff/kustomize:config/overlays/odh) |
+| spark-operator-webhook-svc | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh) |
+| the-service | LoadBalancer | 8666/TCP | [`.gomod-cache/k8s.io/cli-runtime@v0.32.5/artifacts/kustomization/service.yaml`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/.gomod-cache/k8s.io/cli-runtime@v0.32.5/artifacts/kustomization/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.32.5/artifacts/kustomization/service.yaml`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.32.5/artifacts/kustomization/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Ingress | rbac-inferred |  |  | no | [`rbac/spark-operator-controller`](https://github.com/red-hat-data-services/spark-operator/blob/b0bb86c06a58fb4bc04eee576b37a1377325a4ff/rbac/spark-operator-controller) |
+| Ingress | rbac-inferred |  |  | no | [`rbac/spark-operator-controller`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/rbac/spark-operator-controller) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| spark-operator-allow-internal | Ingress | [`kustomize:config/overlays/odh`](https://github.com/red-hat-data-services/spark-operator/blob/b0bb86c06a58fb4bc04eee576b37a1377325a4ff/kustomize:config/overlays/odh) |
+| spark-operator-allow-internal | Ingress | [`kustomize:config/overlays/odh`](https://github.com/kubeflow/spark-operator/blob/bc7885e2d34a9a0293672c1e8155e5446dcc0722/kustomize:config/overlays/odh) |
 
 ## Network Policy Graph
 

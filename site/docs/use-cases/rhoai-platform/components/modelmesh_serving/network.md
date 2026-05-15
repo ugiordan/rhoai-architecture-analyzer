@@ -2,6 +2,8 @@
 
 ## Service Map
 
+*7 unique services (9 total, duplicates from test fixtures collapsed).*
+
 ```mermaid
 graph LR
     classDef svc fill:#2ecc71,stroke:#27ae60,color:#fff
@@ -10,19 +12,34 @@ graph LR
     classDef ext fill:#e74c3c,stroke:#c0392b,color:#fff
 
     modelmesh_serving["modelmesh-serving"]:::component
-    modelmesh_serving --> svc_0["etcd\nClusterIP: 2379/TCP"]:::svc
-    modelmesh_serving --> svc_1["modelmesh-controller\nClusterIP: 8080/TCP"]:::svc
-    modelmesh_serving --> svc_2["modelmesh-webhook-server-service\nClusterIP: 9443/TCP"]:::svc
+    modelmesh_serving --> svc_0["cli-port-default\npython-source: 80/TCP"]:::svc
+    modelmesh_serving --> svc_1["etcd\nClusterIP: 2379/TCP"]:::svc
+    modelmesh_serving --> svc_2["kserve-controller-manager-service\nClusterIP: 8443/TCP"]:::svc
+    modelmesh_serving --> svc_3["kserve-webhook-server-service\nClusterIP: 443/TCP"]:::svc
+    modelmesh_serving --> svc_4["modelmesh-controller\nClusterIP: 8080/TCP"]:::svc
+    modelmesh_serving --> svc_5["modelmesh-webhook-server-service\nClusterIP: 9443/TCP"]:::svc
+    modelmesh_serving --> svc_6["models-server\npython-source: 8080/TCP"]:::svc
+    modelmesh_serving -.-> ext_etcd[["etcd\ndatabase"]]:::ext
+    modelmesh_serving -.-> ext_mysql[["mysql\ndatabase"]]:::ext
+    modelmesh_serving -.-> ext_grpc[["grpc\ngrpc"]]:::ext
     modelmesh_serving -.-> ext_azure_blob[["azure-blob\nobject-storage"]]:::ext
+    modelmesh_serving -.-> ext_gcs[["gcs\nobject-storage"]]:::ext
+    modelmesh_serving -.-> ext_s3[["s3\nobject-storage"]]:::ext
 ```
 
 ### Services
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
+| cli-port-default | python-source | 80/TCP | [`.gomod-cache/github.com/kserve/kserve@v0.12.0/docs/samples/v1beta1/tensorflow/grpc_client.py:40`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/.gomod-cache/github.com/kserve/kserve@v0.12.0/docs/samples/v1beta1/tensorflow/grpc_client.py#L40) |
 | etcd | ClusterIP | 2379/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/kustomize:config/overlays/odh) |
+| kserve-controller-manager-service | ClusterIP | 8443/TCP | [`.gomod-cache/github.com/kserve/kserve@v0.12.0/config/manager/service.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/.gomod-cache/github.com/kserve/kserve@v0.12.0/config/manager/service.yaml) |
+| kserve-controller-manager-service | ClusterIP | 8443/TCP | [`.gopath-loader/pkg/mod/github.com/kserve/kserve@v0.12.0/config/manager/service.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/.gopath-loader/pkg/mod/github.com/kserve/kserve@v0.12.0/config/manager/service.yaml) |
+| kserve-webhook-server-service | ClusterIP | 443/TCP | [`.gomod-cache/github.com/kserve/kserve@v0.12.0/config/webhook/service.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/.gomod-cache/github.com/kserve/kserve@v0.12.0/config/webhook/service.yaml) |
+| kserve-webhook-server-service | ClusterIP | 443/TCP | [`.gopath-loader/pkg/mod/github.com/kserve/kserve@v0.12.0/config/webhook/service.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/.gopath-loader/pkg/mod/github.com/kserve/kserve@v0.12.0/config/webhook/service.yaml) |
 | modelmesh-controller | ClusterIP | 8080/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/kustomize:config/overlays/odh) |
 | modelmesh-webhook-server-service | ClusterIP | 9443/TCP | [`kustomize:config/overlays/odh`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/kustomize:config/overlays/odh) |
+| models-server | python-source | 8080/TCP | [`.gomod-cache/github.com/kserve/kserve@v0.12.0/docs/samples/fluid/docker/models.py:94`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/.gomod-cache/github.com/kserve/kserve@v0.12.0/docs/samples/fluid/docker/models.py#L94) |
 
 ### Network Policies
 

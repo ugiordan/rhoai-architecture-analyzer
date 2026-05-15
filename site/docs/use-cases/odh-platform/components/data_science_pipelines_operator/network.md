@@ -2,6 +2,8 @@
 
 ## Service Map
 
+*12 unique services (13 total, duplicates from test fixtures collapsed).*
+
 ```mermaid
 graph LR
     classDef svc fill:#2ecc71,stroke:#27ae60,color:#fff
@@ -21,8 +23,11 @@ graph LR
     data_science_pipelines_operator --> svc_8["pypi-server\nClusterIP: 8080/TCP"]:::svc
     data_science_pipelines_operator --> svc_9["template-value\nClusterIP: 8443/TCP,8887/TCP,8888/TCP"]:::svc
     data_science_pipelines_operator --> svc_10["template-value\nClusterIP: 8443/TCP"]:::svc
+    data_science_pipelines_operator --> svc_11["the-service\nLoadBalancer: 8666/TCP"]:::svc
     data_science_pipelines_operator -.-> ext_mysql[["mysql\ndatabase"]]:::ext
+    data_science_pipelines_operator -.-> ext_azure_blob[["azure-blob\nobject-storage"]]:::ext
     data_science_pipelines_operator -.-> ext_minio[["minio\nobject-storage"]]:::ext
+    data_science_pipelines_operator -.-> ext_s3[["s3\nobject-storage"]]:::ext
 ```
 
 ### Services
@@ -40,6 +45,8 @@ graph LR
 | pypi-server | ClusterIP | 8080/TCP | [`.github/resources/pypiserver/base/service.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/.github/resources/pypiserver/base/service.yaml) |
 | template-value | ClusterIP | 8443/TCP, 8888/TCP, 8887/TCP | [`config/internal/apiserver/default/service.yaml.tmpl`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/config/internal/apiserver/default/service.yaml.tmpl) |
 | template-value | ClusterIP | 8443/TCP | [`config/internal/webhook/service.yaml.tmpl`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/config/internal/webhook/service.yaml.tmpl) |
+| the-service | LoadBalancer | 8666/TCP | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/service.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/service.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/service.yaml) |
 
 ### Ingress / Routing
 

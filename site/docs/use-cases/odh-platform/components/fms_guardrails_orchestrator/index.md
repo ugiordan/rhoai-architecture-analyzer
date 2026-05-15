@@ -1,8 +1,11 @@
 # fms-guardrails-orchestrator
 
-**Repository:** red-hat-data-services/fms-guardrails-orchestrator  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** opendatahub-io/fms-guardrails-orchestrator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:06:15Z
+**Extracted:** 2026-05-15T09:43:50Z
 
 ## Summary
 

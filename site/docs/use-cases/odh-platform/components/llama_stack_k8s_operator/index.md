@@ -1,19 +1,22 @@
 # llama-stack-k8s-operator
 
-**Repository:** llamastack/llama-stack-k8s-operator  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** ogx-ai/llama-stack-k8s-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:03:31Z
+**Extracted:** 2026-05-15T09:41:29Z
 
 ## Summary
 
 | Metric | Count |
 |--------|-------|
-| CRDs | 1 |
+| CRDs | 2 |
 | Deployments | 2 |
-| Services | 1 |
-| Secrets | 0 |
+| Services | 2 |
+| Secrets | 1 |
 | Cluster Roles | 5 |
-| Controller Watches | 9 |
+| Controller Watches | 10 |
 
 ## Component Architecture
 
@@ -32,13 +35,15 @@ graph LR
     subgraph controller["llama-stack-k8s-operator Controller"]
         dep_1["deployment"]
         class dep_1 controller
-        dep_2["llama-stack-k8s-operator-controller-manager"]
+        dep_2["ogx-k8s-operator-controller-manager"]
         class dep_2 controller
     end
 
     crd_LlamaStackDistribution{{"LlamaStackDistribution\nllamastack.io/v1alpha1"}}
     class crd_LlamaStackDistribution crd
-    crd_LlamaStackDistribution -->|"For (reconciles)"| controller
+    crd_OGXServer{{"OGXServer\nogx.io/v1beta1"}}
+    class crd_OGXServer crd
+    crd_OGXServer -->|"For (reconciles)"| controller
     controller -->|"Owns"| owned_3["ConfigMap"]
     class owned_3 owned
     controller -->|"Owns"| owned_4["Deployment"]
@@ -59,9 +64,10 @@ graph LR
 
 ### CRDs
 
-| Group | Version | Kind | Scope | Fields | Validation Rules | Source |
-|-------|---------|------|-------|--------|------------------|--------|
-| llamastack.io | v1alpha1 | LlamaStackDistribution | Namespaced | 371 | 1 | [`config/crd/bases/llamastack.io_llamastackdistributions.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/crd/bases/llamastack.io_llamastackdistributions.yaml) |
+| Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
+|-------|---------|------|-------|--------|------------------|-----------|--------|
+| llamastack.io | v1alpha1 | LlamaStackDistribution | Namespaced | 371 | 1 | YAML | [`config/crd/bases/llamastack.io_llamastackdistributions.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/crd/bases/llamastack.io_llamastackdistributions.yaml) |
+| ogx.io | v1beta1 | OGXServer | Namespaced | 892 | 118 | YAML | [`config/crd/bases/ogx.io_ogxservers.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/crd/bases/ogx.io_ogxservers.yaml) |
 
 ## Dependencies
 
@@ -69,10 +75,58 @@ graph LR
 
 | Module | Version |
 |--------|---------|
+| github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.3.0 |
+| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.3.0 |
+| github.com/go-logr/zapr | v1.3.0 |
+| github.com/go-logr/zapr | v1.3.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_model | v0.6.1 |
+| github.com/prometheus/client_model | v0.6.1 |
+| github.com/prometheus/client_model | v0.6.1 |
+| github.com/prometheus/client_model | v0.6.1 |
+| github.com/prometheus/client_model | v0.6.1 |
+| github.com/prometheus/client_model | v0.6.1 |
+| github.com/prometheus/common | v0.62.0 |
+| github.com/prometheus/common | v0.62.0 |
+| github.com/prometheus/procfs | v0.15.1 |
+| github.com/prometheus/procfs | v0.15.1 |
+| google.golang.org/grpc | v1.72.1 |
+| google.golang.org/grpc | v1.72.1 |
 | k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.1 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.1 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
+| k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apiserver | v0.34.1 |
+| k8s.io/apiserver | v0.34.3 |
+| k8s.io/apiserver | v0.34.1 |
+| k8s.io/apiserver | v0.34.3 |
+| k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.3 |
 | sigs.k8s.io/controller-runtime | v0.22.4 |
 

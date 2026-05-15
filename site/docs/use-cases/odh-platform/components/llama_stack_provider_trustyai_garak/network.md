@@ -8,7 +8,7 @@ No services defined.
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| allow-kfp-to-llamastack | Ingress | [`lsd_remote/kfp-setup/kfp-networkpolicy.yaml`](https://github.com/red-hat-data-services/llama-stack-provider-trustyai-garak/blob/37e9b4476992e8313fbeaa0541867097b3d5e9cc/lsd_remote/kfp-setup/kfp-networkpolicy.yaml) |
+| allow-kfp-to-llamastack | Ingress | [`lsd_remote/kfp-setup/kfp-networkpolicy.yaml`](https://github.com/opendatahub-io/llama-stack-provider-trustyai-garak/blob/37e9b4476992e8313fbeaa0541867097b3d5e9cc/lsd_remote/kfp-setup/kfp-networkpolicy.yaml) |
 
 ## Network Policy Graph
 

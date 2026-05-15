@@ -15,7 +15,6 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | Path | Base Image | Stages | User | Ports | Architectures | FIPS | Issues |
 |------|------------|--------|------|-------|---------------|------|--------|
 | `Dockerfile.amd64` | ${UBI_MINIMAL_BASE_IMAGE}:${UBI_BASE_IMAGE_TAG} | 3 | orchestr8 |  |  |  | Unpinned base image: rust-builder |
-| `Dockerfile.konflux` | ${UBI_MINIMAL_BASE_IMAGE}:${UBI_BASE_IMAGE_TAG} | 3 | orchestr8 |  | multi-arch |  | Unpinned base image: rust-builder |
 | `Dockerfile.ppc64le` | ${UBI_MINIMAL_BASE_IMAGE}:${UBI_BASE_IMAGE_TAG} | 3 | orchestr8 |  |  |  | Unpinned base image: rust-builder |
 | `Dockerfile.s390x` | ${UBI_MINIMAL_BASE_IMAGE}:${UBI_BASE_IMAGE_TAG} | 3 | orchestr8 |  |  |  | Unpinned base image: rust-builder |
 

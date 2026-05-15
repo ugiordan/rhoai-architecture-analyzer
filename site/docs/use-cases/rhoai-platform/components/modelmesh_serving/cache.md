@@ -11,7 +11,7 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 | Manager file | `main.go` |
 | Cache scope | namespace-scoped |
 | DefaultTransform | no |
-| Memory limit | 512Mi |
+| Memory limit | 300Mi |
 
 ### Issues
 
@@ -20,11 +20,15 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 - Type ClusterServingRuntime is watched but has no cache filter (cluster-wide informer)
 - Type ConfigMap is watched but has no cache filter (cluster-wide informer)
 - Type Deployment is watched but has no cache filter (cluster-wide informer)
+- Type InferenceGraph is watched but has no cache filter (cluster-wide informer)
 - Type InferenceService is watched but has no cache filter (cluster-wide informer)
+- Type Kind is watched but has no cache filter (cluster-wide informer)
 - Type Namespace is watched but has no cache filter (cluster-wide informer)
 - Type Predictor is watched but has no cache filter (cluster-wide informer)
 - Type Secret is watched but has no cache filter (cluster-wide informer)
 - Type Service is watched but has no cache filter (cluster-wide informer)
 - Type ServiceMonitor is watched but has no cache filter (cluster-wide informer)
 - Type ServingRuntime is watched but has no cache filter (cluster-wide informer)
+- Type TrainedModel is watched but has no cache filter (cluster-wide informer)
+- Type VirtualService is watched but has no cache filter (cluster-wide informer)
 

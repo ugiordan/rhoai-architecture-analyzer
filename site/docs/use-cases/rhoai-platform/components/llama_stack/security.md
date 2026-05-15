@@ -14,6 +14,5 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 
 | Path | Base Image | Stages | User | Ports | Architectures | FIPS | Issues |
 |------|------------|--------|------|-------|---------------|------|--------|
-| `containers/Containerfile` | ${BASE_IMAGE} | 1 |  |  |  |  | Unpinned base image: ${BASE_IMAGE}; No USER directive found (defaults to root) |
-| `src/ogx_ui/Containerfile` | node:22.5.1-alpine | 1 | nextjs |  |  |  |  |
+| `llama_stack/distribution/ui/Containerfile` | python:3.12-slim | 1 |  |  |  |  | No USER directive found (defaults to root) |
 

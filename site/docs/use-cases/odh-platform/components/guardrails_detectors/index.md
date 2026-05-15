@@ -1,8 +1,11 @@
 # guardrails-detectors
 
-**Repository:** red-hat-data-services/guardrails-detectors  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** opendatahub-io/guardrails-detectors  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-08T08:19:34Z
+**Extracted:** 2026-05-15T09:44:07Z
 
 ## Summary
 

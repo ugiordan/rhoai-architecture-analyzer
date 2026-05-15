@@ -1,8 +1,11 @@
 # eval-hub
 
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
 **Repository:** eval-hub/eval-hub  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:07:05Z
+**Extracted:** 2026-05-15T09:50:23Z
 
 ## Summary
 
@@ -46,10 +49,106 @@ No CRDs defined.
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/zapr | v1.3.0 |
+| github.com/go-logr/zapr | v1.3.0 |
+| github.com/prometheus/client_golang | v1.20.5 |
+| github.com/prometheus/client_golang | v1.11.1 |
 | github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_golang | v1.20.5 |
+| github.com/prometheus/client_golang | v1.14.0 |
+| github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_golang | v1.14.0 |
+| github.com/prometheus/client_golang | v1.11.1 |
+| github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.3.0 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.3.0 |
+| github.com/prometheus/common | v0.66.1 |
+| github.com/prometheus/common | v0.66.1 |
+| github.com/prometheus/common | v0.66.1 |
+| github.com/prometheus/common | v0.66.1 |
+| github.com/prometheus/procfs | v0.16.1 |
+| github.com/prometheus/procfs | v0.16.1 |
+| github.com/prometheus/procfs | v0.16.1 |
+| github.com/prometheus/procfs | v0.16.1 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.79.2 |
+| google.golang.org/grpc | v1.79.2 |
+| google.golang.org/grpc | v1.74.2 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.63.2 |
+| google.golang.org/grpc | v1.72.2 |
+| google.golang.org/grpc | v1.63.2 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.56.3 |
+| google.golang.org/grpc | v1.56.3 |
 | google.golang.org/grpc | v1.81.0 |
+| google.golang.org/grpc | v1.72.2 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.74.2 |
+| google.golang.org/grpc | v1.80.0 |
+| google.golang.org/grpc | v1.72.2 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.72.2 |
+| google.golang.org/grpc | v1.79.3 |
+| google.golang.org/grpc | v1.80.0 |
+| k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.35.4 |
 | k8s.io/api | v0.35.4 |
 | k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apiserver | v0.35.4 |
+| k8s.io/client-go | v0.35.4 |
+| k8s.io/client-go | v0.35.4 |
+| k8s.io/client-go | v0.35.4 |
+| k8s.io/client-go | v0.35.4 |
 | k8s.io/client-go | v0.35.4 |
 

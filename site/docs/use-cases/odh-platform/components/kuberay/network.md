@@ -2,6 +2,8 @@
 
 ## Service Map
 
+*3 unique services (4 total, duplicates from test fixtures collapsed).*
+
 ```mermaid
 graph LR
     classDef svc fill:#2ecc71,stroke:#27ae60,color:#fff
@@ -11,22 +13,21 @@ graph LR
 
     kuberay["kuberay"]:::component
     kuberay --> svc_0["kuberay-operator\nClusterIP: 8080/TCP"]:::svc
-    kuberay --> svc_1["webhook-service\nClusterIP: 443/TCP"]:::svc
+    kuberay --> svc_1["the-service\nLoadBalancer: 8666/TCP"]:::svc
+    kuberay --> svc_2["webhook-service\nClusterIP: 443/TCP"]:::svc
     kuberay -.-> ext_grpc[["grpc\ngrpc"]]:::ext
+    kuberay -.-> ext_azure_blob[["azure-blob\nobject-storage"]]:::ext
+    kuberay -.-> ext_gcs[["gcs\nobject-storage"]]:::ext
 ```
 
 ### Services
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/d0d3df30d3856bd330ad0e6ab19a70eb27d7eb32/ray-operator/config/manager/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/d0d3df30d3856bd330ad0e6ab19a70eb27d7eb32/ray-operator/config/webhook/service.yaml) |
-
-### Ingress / Routing
-
-| Kind | Name | Hosts | Paths | TLS | Source |
-|------|------|-------|-------|-----|--------|
-| Ingress | rayclient-ingress | localhost | / | no | [`ray-operator/config/samples/ingress-rayclient-tls.yaml`](https://github.com/ray-project/kuberay/blob/d0d3df30d3856bd330ad0e6ab19a70eb27d7eb32/ray-operator/config/samples/ingress-rayclient-tls.yaml) |
+| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/ray-operator/config/manager/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gomod-cache/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/service.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/.gomod-cache/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/service.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/ray-operator/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

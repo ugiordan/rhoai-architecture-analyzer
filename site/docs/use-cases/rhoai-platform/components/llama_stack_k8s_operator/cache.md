@@ -30,5 +30,5 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 ### Issues
 
 - GOMEMLIMIT ratio 78.1% is below recommended 80% minimum (GC cannot pressure-tune effectively)
-- Type LlamaStackDistribution is watched but has no cache filter (cluster-wide informer)
+- Type OGXServer is watched but has no cache filter (cluster-wide informer)
 

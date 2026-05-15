@@ -1,8 +1,11 @@
 # mlflow
 
-**Repository:** red-hat-data-services/mlflow  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** opendatahub-io/mlflow  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-08T08:19:53Z
+**Extracted:** 2026-05-15T09:49:01Z
 
 ## Summary
 
@@ -10,7 +13,7 @@
 |--------|-------|
 | CRDs | 0 |
 | Deployments | 0 |
-| Services | 0 |
+| Services | 1 |
 | Secrets | 0 |
 | Cluster Roles | 0 |
 | Controller Watches | 0 |

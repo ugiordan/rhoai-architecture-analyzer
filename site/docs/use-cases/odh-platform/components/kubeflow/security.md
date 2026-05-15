@@ -19,14 +19,14 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | kube-rbac-proxy | ? | ? | ? | [`components/notebook-controller/config/default/manager_auth_proxy_patch.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/notebook-controller/config/default/manager_auth_proxy_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_auth_proxy_patch.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/notebook-controller/config/default/manager_auth_proxy_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_image_patch.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/notebook-controller/config/default/manager_image_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_prometheus_metrics_patch.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/notebook-controller/config/default/manager_prometheus_metrics_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_webhook_patch.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/notebook-controller/config/default/manager_webhook_patch.yaml) |
-| deployment | manager | ? | ? | ? | [`components/notebook-controller/config/manager/manager.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/notebook-controller/config/manager/manager.yaml) |
-| deployment | manager | ? | ? | ? | [`components/notebook-controller/config/overlays/openshift/manager_openshift_patch.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/notebook-controller/config/overlays/openshift/manager_openshift_patch.yaml) |
-| manager | manager | ? | ? | ? | [`components/odh-notebook-controller/config/manager/manager.yaml`](https://github.com/red-hat-data-services/kubeflow/blob/43634e181ec76e3493cf7f3660253d410ae92d79/components/odh-notebook-controller/config/manager/manager.yaml) |
+| controller-manager | kube-rbac-proxy | ? | ? | ? | [`components/notebook-controller/config/default/manager_auth_proxy_patch.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/notebook-controller/config/default/manager_auth_proxy_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_auth_proxy_patch.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/notebook-controller/config/default/manager_auth_proxy_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_image_patch.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/notebook-controller/config/default/manager_image_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_prometheus_metrics_patch.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/notebook-controller/config/default/manager_prometheus_metrics_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`components/notebook-controller/config/default/manager_webhook_patch.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/notebook-controller/config/default/manager_webhook_patch.yaml) |
+| deployment | manager | ? | ? | ? | [`components/notebook-controller/config/manager/manager.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/notebook-controller/config/manager/manager.yaml) |
+| deployment | manager | ? | ? | ? | [`components/notebook-controller/config/overlays/openshift/manager_openshift_patch.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/notebook-controller/config/overlays/openshift/manager_openshift_patch.yaml) |
+| manager | manager | ? | ? | ? | [`components/odh-notebook-controller/config/manager/manager.yaml`](https://github.com/opendatahub-io/kubeflow/blob/a6c3778f8c25ad19f8f719b80be98d8dd093703b/components/odh-notebook-controller/config/manager/manager.yaml) |
 
 ## Build Security
 
@@ -36,7 +36,5 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 |------|------------|--------|------|-------|---------------|------|--------|
 | `components/notebook-controller/Dockerfile` | registry.access.redhat.com/ubi9/ubi-minimal:latest | 2 | 1001:0 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest |
 | `components/notebook-controller/Dockerfile.ci` | gcr.io/distroless/base:debug | 2 |  |  |  |  | No USER directive found (defaults to root) |
-| `components/notebook-controller/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | 1001:0 |  | multi-arch |  |  |
 | `components/odh-notebook-controller/Dockerfile` | registry.access.redhat.com/ubi9/ubi-minimal:latest | 2 | 1001:0 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest |
-| `components/odh-notebook-controller/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6 | 2 | 1001:0 |  | multi-arch |  |  |
 

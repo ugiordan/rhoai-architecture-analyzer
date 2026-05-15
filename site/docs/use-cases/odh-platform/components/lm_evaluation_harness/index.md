@@ -1,8 +1,11 @@
 # lm-evaluation-harness
 
-**Repository:** red-hat-data-services/lm-evaluation-harness  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** opendatahub-io/lm-evaluation-harness  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-08T08:19:45Z
+**Extracted:** 2026-05-15T09:44:17Z
 
 ## Summary
 

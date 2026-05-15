@@ -12,7 +12,7 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| model-mesh | mm | ? | ? | ? | [`config/base/deployment.yaml`](https://github.com/red-hat-data-services/modelmesh/blob/663e9404150dc48010c5e9263bdbdfd24a561f65/config/base/deployment.yaml) |
+| model-mesh | mm | ? | ? | ? | [`config/base/deployment.yaml`](https://github.com/opendatahub-io/modelmesh/blob/663e9404150dc48010c5e9263bdbdfd24a561f65/config/base/deployment.yaml) |
 
 ## Build Security
 

@@ -1,8 +1,11 @@
 # model-registry
 
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
 **Repository:** kubeflow/model-registry  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:04:14Z
+**Extracted:** 2026-05-15T09:41:46Z
 
 ## Summary
 
@@ -50,10 +53,24 @@ No CRDs defined.
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
-| k8s.io/api | v0.34.4 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| github.com/go-logr/stdr | v1.2.2 |
+| google.golang.org/grpc | v1.67.0 |
+| google.golang.org/grpc | v1.67.0 |
 | k8s.io/api | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/api | v0.34.4 |
 | k8s.io/apimachinery | v0.35.2 |
+| k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.2 |
 | k8s.io/client-go | v0.34.4 |

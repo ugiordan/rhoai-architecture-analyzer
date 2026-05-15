@@ -1,8 +1,11 @@
 # models-as-a-service
 
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
 **Repository:** red-hat-data-services/models-as-a-service  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-07T15:04:18Z
+**Extracted:** 2026-05-15T09:41:14Z
 
 ## Summary
 
@@ -13,7 +16,7 @@
 | Services | 3 |
 | Secrets | 1 |
 | Cluster Roles | 0 |
-| Controller Watches | 11 |
+| Controller Watches | 14 |
 
 ## Component Architecture
 
@@ -44,10 +47,14 @@ graph LR
     class watch_5 external
     watch_6["LLMInferenceService"] -->|"Watches"| controller
     class watch_6 external
-    watch_7["MaaSModelRef"] -->|"Watches"| controller
+    watch_7["MaaSAuthPolicy"] -->|"Watches"| controller
     class watch_7 external
-    controller -.->|"depends on"| odh_8["kserve"]
-    class odh_8 dep
+    watch_8["MaaSModelRef"] -->|"Watches"| controller
+    class watch_8 external
+    watch_9["MaaSSubscription"] -->|"Watches"| controller
+    class watch_9 external
+    controller -.->|"depends on"| odh_10["kserve"]
+    class odh_10 dep
 ```
 
 ### CRDs
@@ -67,12 +74,14 @@ No CRDs defined.
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
+| github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_model | v0.6.2 |
 | k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.33.1 |
 | k8s.io/apiextensions-apiserver | v0.33.1 |
-| k8s.io/apimachinery | v0.34.1 |
 | k8s.io/apimachinery | v0.33.1 |
-| k8s.io/client-go | v0.33.1 |
+| k8s.io/apimachinery | v0.34.1 |
 | k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.33.1 |
 | sigs.k8s.io/controller-runtime | v0.20.4 |
 

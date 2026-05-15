@@ -1,8 +1,11 @@
 # llama-stack
 
-**Repository:** red-hat-data-services/llama-stack  
+> **Architecture snapshot: 2026-05-15** (2026-05-15)
+
+
+**Repository:** opendatahub-io/llama-stack  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-08T08:19:40Z
+**Extracted:** 2026-05-15T09:48:11Z
 
 ## Summary
 

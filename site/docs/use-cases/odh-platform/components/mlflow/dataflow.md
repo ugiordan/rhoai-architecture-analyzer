@@ -16,6 +16,10 @@ sequenceDiagram
 
     participant KubernetesAPI as Kubernetes API
     participant mlflow as mlflow
+
+
+    Note over mlflow: Exposed Services
+    Note right of mlflow: env-port-default:9137/TCP []
 ```
 
 ## Configuration

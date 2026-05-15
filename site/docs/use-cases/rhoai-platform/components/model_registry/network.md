@@ -11,13 +11,18 @@ graph LR
 
     model_registry["model-registry"]:::component
     model_registry --> svc_0["model-catalog\nClusterIP: 8080/TCP"]:::svc
+    model_registry -.-> ext_mongodb[["mongodb\ndatabase"]]:::ext
+    model_registry -.-> ext_mysql[["mysql\ndatabase"]]:::ext
+    model_registry -.-> ext_postgres[["postgres\ndatabase"]]:::ext
+    model_registry -.-> ext_sqlite[["sqlite\ndatabase"]]:::ext
+    model_registry -.-> ext_gcs[["gcs\nobject-storage"]]:::ext
 ```
 
 ### Services
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| model-catalog | ClusterIP | 8080/TCP | [`manifests/kustomize/options/catalog/base/service.yaml`](https://github.com/kubeflow/model-registry/blob/fe60a29ae1c2aaaa9ead26cd46682bf3551ebfa7/manifests/kustomize/options/catalog/base/service.yaml) |
+| model-catalog | ClusterIP | 8080/TCP | [`manifests/kustomize/options/catalog/base/service.yaml`](https://github.com/kubeflow/model-registry/blob/2bccb683c2f077c6d39db5588d7cb908885ac975/manifests/kustomize/options/catalog/base/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

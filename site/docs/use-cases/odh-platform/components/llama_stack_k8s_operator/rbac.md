@@ -4,7 +4,7 @@ ServiceAccount bindings, roles, and resource permissions.
 
 ## RBAC Overview
 
-This component defines a large RBAC surface (69 diagram lines). The graph below groups roles by permission scope.
+This component defines a large RBAC surface (71 diagram lines). The graph below groups roles by permission scope.
 
 ```mermaid
 graph LR
@@ -14,12 +14,12 @@ graph LR
     classDef subject fill:#3498db,stroke:#2980b9,color:#fff
 
     subgraph med["Medium Scope (10-30)"]
-    manager_role["manager-role\n17 resources"]:::medium
+    manager_role["manager-role\n18 resources"]:::medium
     end
     subgraph nar["Narrow Scope (<10)"]
-    llsd_editor_role["llsd-editor-role\n2 resources"]:::narrow
-    llsd_viewer_role["llsd-viewer-role\n2 resources"]:::narrow
     metrics_reader["metrics-reader"]:::narrow
+    ogxserver_editor_role["ogxserver-editor-role\n2 resources"]:::narrow
+    ogxserver_viewer_role["ogxserver-viewer-role\n2 resources"]:::narrow
     proxy_role["proxy-role\n2 resources"]:::narrow
     leader_election_role["leader-election-role\n3 resources"]:::narrow
     end
@@ -46,19 +46,15 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 
 | Role | Kind | API Groups | Resources | Verbs |
 |------|------|------------|-----------|-------|
-| llsd-editor-role | ClusterRole |  | llamastackdistributions | create, delete, get, list, patch, update, watch |
-| llsd-editor-role | ClusterRole |  | llamastackdistributions/status | get |
-| llsd-viewer-role | ClusterRole |  | llamastackdistributions | get, list, watch |
-| llsd-viewer-role | ClusterRole |  | llamastackdistributions/status | get |
-| manager-role | ClusterRole |  | configmaps | create, get, list, patch, update, watch |
-| manager-role | ClusterRole |  | persistentvolumeclaims | create, get, list, watch |
+| manager-role | ClusterRole |  | configmaps, persistentvolumeclaims | create, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | pods | list |
 | manager-role | ClusterRole |  | serviceaccounts, services | create, delete, get, list, patch, update, watch |
 | manager-role | ClusterRole |  | deployments | create, delete, get, list, patch, update, watch |
 | manager-role | ClusterRole |  | horizontalpodautoscalers | create, delete, get, list, patch, update, watch |
-| manager-role | ClusterRole |  | llamastackdistributions | create, delete, get, list, patch, update, watch |
-| manager-role | ClusterRole |  | llamastackdistributions/finalizers | update |
-| manager-role | ClusterRole |  | llamastackdistributions/status | get, patch, update |
 | manager-role | ClusterRole |  | ingresses, networkpolicies | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | ogxservers | create, delete, get, list, patch, update, watch |
+| manager-role | ClusterRole |  | ogxservers/finalizers | update |
+| manager-role | ClusterRole |  | ogxservers/status | get, patch, update |
 | manager-role | ClusterRole |  | poddisruptionbudgets | create, delete, get, list, patch, update, watch |
 | manager-role | ClusterRole |  | clusterrolebindings | delete, get, list |
 | manager-role | ClusterRole |  | clusterroles | get, list, watch |
@@ -66,6 +62,10 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 | manager-role | ClusterRole |  | securitycontextconstraints | use |
 | manager-role | ClusterRole |  | securitycontextconstraints | use |
 | metrics-reader | ClusterRole |  |  | get |
+| ogxserver-editor-role | ClusterRole |  | ogxservers | create, delete, get, list, patch, update, watch |
+| ogxserver-editor-role | ClusterRole |  | ogxservers/status | get |
+| ogxserver-viewer-role | ClusterRole |  | ogxservers | get, list, watch |
+| ogxserver-viewer-role | ClusterRole |  | ogxservers/status | get |
 | proxy-role | ClusterRole |  | tokenreviews | create |
 | proxy-role | ClusterRole |  | subjectaccessreviews | create |
 | leader-election-role | Role |  | configmaps | get, list, watch, create, update, patch, delete |
@@ -76,50 +76,51 @@ Per-rule breakdown of API groups, resources, and verbs for each role.
 
 | Name | Resources | Verbs | Source |
 |------|-----------|-------|--------|
-| llsd-editor-role | llamastackdistributions | create, delete, get, list, patch, update, watch | [`config/rbac/llsd_editor_role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/llsd_editor_role.yaml) |
-| llsd-editor-role | llamastackdistributions/status | get | [`config/rbac/llsd_editor_role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/llsd_editor_role.yaml) |
-| llsd-viewer-role | llamastackdistributions | get, list, watch | [`config/rbac/llsd_viewer_role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/llsd_viewer_role.yaml) |
-| llsd-viewer-role | llamastackdistributions/status | get | [`config/rbac/llsd_viewer_role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/llsd_viewer_role.yaml) |
-| manager-role | configmaps | create, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | persistentvolumeclaims | create, get, list, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | serviceaccounts, services | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | deployments | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | horizontalpodautoscalers | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | llamastackdistributions | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | llamastackdistributions/finalizers | update | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | llamastackdistributions/status | get, patch, update | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | ingresses, networkpolicies | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | poddisruptionbudgets | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | clusterrolebindings | delete, get, list | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | clusterroles | get, list, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | rolebindings | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | securitycontextconstraints | use | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| manager-role | securitycontextconstraints | use | [`config/rbac/role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/role.yaml) |
-| metrics-reader |  | get | [`config/rbac/auth_proxy_client_clusterrole.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/auth_proxy_client_clusterrole.yaml) |
-| proxy-role | tokenreviews | create | [`config/rbac/auth_proxy_role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/auth_proxy_role.yaml) |
-| proxy-role | subjectaccessreviews | create | [`config/rbac/auth_proxy_role.yaml`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/config/rbac/auth_proxy_role.yaml) |
+| manager-role | configmaps, persistentvolumeclaims | create, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | pods | list | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | serviceaccounts, services | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | deployments | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | horizontalpodautoscalers | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | ingresses, networkpolicies | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | ogxservers | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | ogxservers/finalizers | update | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | ogxservers/status | get, patch, update | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | poddisruptionbudgets | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | clusterrolebindings | delete, get, list | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | clusterroles | get, list, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | rolebindings | create, delete, get, list, patch, update, watch | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | securitycontextconstraints | use | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| manager-role | securitycontextconstraints | use | [`config/rbac/role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/role.yaml) |
+| metrics-reader |  | get | [`config/rbac/auth_proxy_client_clusterrole.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/auth_proxy_client_clusterrole.yaml) |
+| ogxserver-editor-role | ogxservers | create, delete, get, list, patch, update, watch | [`config/rbac/ogxserver_editor_role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/ogxserver_editor_role.yaml) |
+| ogxserver-editor-role | ogxservers/status | get | [`config/rbac/ogxserver_editor_role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/ogxserver_editor_role.yaml) |
+| ogxserver-viewer-role | ogxservers | get, list, watch | [`config/rbac/ogxserver_viewer_role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/ogxserver_viewer_role.yaml) |
+| ogxserver-viewer-role | ogxservers/status | get | [`config/rbac/ogxserver_viewer_role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/ogxserver_viewer_role.yaml) |
+| proxy-role | tokenreviews | create | [`config/rbac/auth_proxy_role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/auth_proxy_role.yaml) |
+| proxy-role | subjectaccessreviews | create | [`config/rbac/auth_proxy_role.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/config/rbac/auth_proxy_role.yaml) |
 
 ### Kubebuilder RBAC Markers
 
-Kubebuilder `+kubebuilder:rbac` markers declare the RBAC requirements of controller reconcilers. These are the source of truth for generated ClusterRole manifests. 17 markers found.
+Kubebuilder `+kubebuilder:rbac` markers declare the RBAC requirements of controller reconcilers. These are the source of truth for generated ClusterRole manifests. 18 markers found.
 
 | File | Line | Groups | Resources | Verbs |
 |------|------|--------|-----------|-------|
-| [`controllers/kubebuilder_rbac.go:4`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L4) | 4 | llamastack.io | llamastackdistributions | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:5`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L5) | 5 | llamastack.io | llamastackdistributions/status | get, update, patch |
-| [`controllers/kubebuilder_rbac.go:6`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L6) | 6 | llamastack.io | llamastackdistributions/finalizers | update |
-| [`controllers/kubebuilder_rbac.go:9`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L9) | 9 | apps | deployments | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:12`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L12) | 12 | "" | services | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:15`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L15) | 15 | "" | serviceaccounts | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:17`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L17) | 17 | rbac.authorization.k8s.io | clusterrolebindings | get, list, delete |
-| [`controllers/kubebuilder_rbac.go:18`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L18) | 18 | rbac.authorization.k8s.io | clusterroles | get, list, watch |
-| [`controllers/kubebuilder_rbac.go:21`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L21) | 21 | rbac.authorization.k8s.io | rolebindings | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:23`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L23) | 23 | security.openshift.io | securitycontextconstraints | use |
-| [`controllers/kubebuilder_rbac.go:24`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L24) | 24 | security.openshift.io | securitycontextconstraints | use |
-| [`controllers/kubebuilder_rbac.go:26`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L26) | 26 | "" | persistentvolumeclaims | get, list, watch, create |
-| [`controllers/kubebuilder_rbac.go:29`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L29) | 29 | "" | configmaps | get, list, watch, create, update, patch |
-| [`controllers/kubebuilder_rbac.go:32`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L32) | 32 | networking.k8s.io | networkpolicies | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:35`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L35) | 35 | networking.k8s.io | ingresses | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:38`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L38) | 38 | policy | poddisruptionbudgets | get, list, watch, create, update, patch, delete |
-| [`controllers/kubebuilder_rbac.go:41`](https://github.com/llamastack/llama-stack-k8s-operator/blob/521ca25391e1deca8e192b010c16f86b3c97fbf8/controllers/kubebuilder_rbac.go#L41) | 41 | autoscaling | horizontalpodautoscalers | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:4`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L4) | 4 | ogx.io | ogxservers | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:5`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L5) | 5 | ogx.io | ogxservers/status | get, update, patch |
+| [`controllers/kubebuilder_rbac.go:6`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L6) | 6 | ogx.io | ogxservers/finalizers | update |
+| [`controllers/kubebuilder_rbac.go:9`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L9) | 9 | apps | deployments | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:12`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L12) | 12 | "" | services | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:16`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L16) | 16 | "" | pods | list |
+| [`controllers/kubebuilder_rbac.go:19`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L19) | 19 | "" | serviceaccounts | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:21`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L21) | 21 | rbac.authorization.k8s.io | clusterrolebindings | get, list, delete |
+| [`controllers/kubebuilder_rbac.go:22`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L22) | 22 | rbac.authorization.k8s.io | clusterroles | get, list, watch |
+| [`controllers/kubebuilder_rbac.go:25`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L25) | 25 | rbac.authorization.k8s.io | rolebindings | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:27`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L27) | 27 | security.openshift.io | securitycontextconstraints | use |
+| [`controllers/kubebuilder_rbac.go:28`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L28) | 28 | security.openshift.io | securitycontextconstraints | use |
+| [`controllers/kubebuilder_rbac.go:30`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L30) | 30 | "" | persistentvolumeclaims | get, list, watch, create, update, patch |
+| [`controllers/kubebuilder_rbac.go:33`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L33) | 33 | "" | configmaps | get, list, watch, create, update, patch |
+| [`controllers/kubebuilder_rbac.go:36`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L36) | 36 | networking.k8s.io | networkpolicies | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:39`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L39) | 39 | networking.k8s.io | ingresses | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:42`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L42) | 42 | policy | poddisruptionbudgets | get, list, watch, create, update, patch, delete |
+| [`controllers/kubebuilder_rbac.go:45`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/54ce7ea2e3501040c33c1d1b5ab9a69ef51ceadf/controllers/kubebuilder_rbac.go#L45) | 45 | autoscaling | horizontalpodautoscalers | get, list, watch, create, update, patch, delete |
 
