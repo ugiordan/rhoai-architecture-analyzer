@@ -1,11 +1,11 @@
 # argo-workflows
 
-> **Architecture snapshot: 2026-05-15** (2026-05-15)
+> **Architecture snapshot: 2026-05-16** (2026-05-16)
 
 
 **Repository:** argoproj/argo-workflows  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T11:43:49Z
+**Extracted:** 2026-05-16T03:47:18Z
 
 ## Summary
 

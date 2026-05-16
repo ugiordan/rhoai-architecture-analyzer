@@ -12,8 +12,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| controller-manager | manager | ? | ? | ? | [`infra/feast-operator/config/default/manager_config_patch.yaml`](https://github.com/feast-dev/feast/blob/0d2984d427b0773c832dc7ff0b20ae3193d9ca04/infra/feast-operator/config/default/manager_config_patch.yaml) |
-| controller-manager | manager | ? | ? | ? | [`infra/feast-operator/config/manager/manager.yaml`](https://github.com/feast-dev/feast/blob/0d2984d427b0773c832dc7ff0b20ae3193d9ca04/infra/feast-operator/config/manager/manager.yaml) |
+| controller-manager | manager | ? | ? | ? | [`infra/feast-operator/config/default/manager_config_patch.yaml`](https://github.com/feast-dev/feast/blob/0ab134e67b808322415520a6f071e722ef5a9b45/infra/feast-operator/config/default/manager_config_patch.yaml) |
+| controller-manager | manager | ? | ? | ? | [`infra/feast-operator/config/manager/manager.yaml`](https://github.com/feast-dev/feast/blob/0ab134e67b808322415520a6f071e722ef5a9b45/infra/feast-operator/config/manager/manager.yaml) |
 
 ## Build Security
 

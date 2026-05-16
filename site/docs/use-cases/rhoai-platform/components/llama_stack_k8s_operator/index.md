@@ -1,11 +1,11 @@
 # llama-stack-k8s-operator
 
-> **Architecture snapshot: 2026-05-15** (2026-05-15)
+> **Architecture snapshot: 2026-05-16** (2026-05-16)
 
 
 **Repository:** ogx-ai/llama-stack-k8s-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T11:38:25Z
+**Extracted:** 2026-05-16T03:41:57Z
 
 ## Summary
 
@@ -66,8 +66,8 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
 |-------|---------|------|-------|--------|------------------|-----------|--------|
-| llamastack.io | v1alpha1 | LlamaStackDistribution | Namespaced | 371 | 1 | YAML | [`config/crd/bases/llamastack.io_llamastackdistributions.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/59b7abdb4d1e84ea265cfe850e28df382641cbcd/config/crd/bases/llamastack.io_llamastackdistributions.yaml) |
-| ogx.io | v1beta1 | OGXServer | Namespaced | 892 | 118 | YAML | [`config/crd/bases/ogx.io_ogxservers.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/59b7abdb4d1e84ea265cfe850e28df382641cbcd/config/crd/bases/ogx.io_ogxservers.yaml) |
+| llamastack.io | v1alpha1 | LlamaStackDistribution | Namespaced | 371 | 1 | YAML | [`config/crd/bases/llamastack.io_llamastackdistributions.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/afe4ca00de332c1bb90e2b172ab51ca621f868bc/config/crd/bases/llamastack.io_llamastackdistributions.yaml) |
+| ogx.io | v1beta1 | OGXServer | Namespaced | 892 | 118 | YAML | [`config/crd/bases/ogx.io_ogxservers.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/afe4ca00de332c1bb90e2b172ab51ca621f868bc/config/crd/bases/ogx.io_ogxservers.yaml) |
 
 ## Dependencies
 

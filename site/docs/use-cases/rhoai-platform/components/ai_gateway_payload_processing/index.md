@@ -1,11 +1,11 @@
 # ai-gateway-payload-processing
 
-> **Architecture snapshot: 2026-05-15** (2026-05-15)
+> **Architecture snapshot: 2026-05-16** (2026-05-16)
 
 
 **Repository:** opendatahub-io/ai-gateway-payload-processing  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T11:49:47Z
+**Extracted:** 2026-05-16T03:52:37Z
 
 ## Summary
 
@@ -55,8 +55,8 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
 |-------|---------|------|-------|--------|------------------|-----------|--------|
-| inference.opendatahub.io | v1alpha1 | ExternalModel | Namespaced | 18 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalmodels.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/d76130133ddf032f777eb4661c6ff4c01b0e0e64/config/crd/bases/inference.opendatahub.io_externalmodels.yaml) |
-| inference.opendatahub.io | v1alpha1 | ExternalProvider | Namespaced | 19 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalproviders.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/d76130133ddf032f777eb4661c6ff4c01b0e0e64/config/crd/bases/inference.opendatahub.io_externalproviders.yaml) |
+| inference.opendatahub.io | v1alpha1 | ExternalModel | Namespaced | 18 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalmodels.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/d873739d504086159cbe9a1bf0c410fbd908196b/config/crd/bases/inference.opendatahub.io_externalmodels.yaml) |
+| inference.opendatahub.io | v1alpha1 | ExternalProvider | Namespaced | 19 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalproviders.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/d873739d504086159cbe9a1bf0c410fbd908196b/config/crd/bases/inference.opendatahub.io_externalproviders.yaml) |
 
 ## Dependencies
 
@@ -153,14 +153,14 @@ graph LR
 | google.golang.org/grpc | v1.80.0 |
 | k8s.io/api | v0.35.4 |
 | k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.35.5 |
 | k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.35.5 |
+| k8s.io/api | v0.35.5 |
 | k8s.io/api | v0.35.4 |
-| k8s.io/api | v0.35.4 |
-| k8s.io/api | v0.35.4 |
-| k8s.io/api | v0.35.4 |
-| k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.35.5 |
 | k8s.io/api | v0.35.0 |
-| k8s.io/api | v0.35.4 |
+| k8s.io/api | v0.35.5 |
 | k8s.io/api | v0.35.4 |
 | k8s.io/api | v0.35.4 |
 | k8s.io/api | v0.35.0 |
@@ -169,21 +169,21 @@ graph LR
 | k8s.io/apiextensions-apiserver | v0.35.0 |
 | k8s.io/apiextensions-apiserver | v0.35.0 |
 | k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.5 |
 | k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.1 |
+| k8s.io/apimachinery | v0.35.5 |
+| k8s.io/apimachinery | v0.35.5 |
+| k8s.io/apimachinery | v0.35.5 |
 | k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.5 |
+| k8s.io/apimachinery | v0.35.5 |
 | k8s.io/apimachinery | v0.35.0 |
-| k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
-| k8s.io/apimachinery | v0.35.4 |
+| k8s.io/apimachinery | v0.35.5 |
+| k8s.io/apimachinery | v0.35.5 |
+| k8s.io/apimachinery | v0.35.5 |
 | k8s.io/apimachinery | v0.35.4 |
 | k8s.io/apimachinery | v0.35.1 |
 | k8s.io/apimachinery | v0.35.0 |
@@ -192,18 +192,18 @@ graph LR
 | k8s.io/apiserver | v0.35.0 |
 | k8s.io/apiserver | v0.35.4 |
 | k8s.io/client-go | v0.35.1 |
-| k8s.io/client-go | v0.35.4 |
+| k8s.io/client-go | v0.35.5 |
 | k8s.io/client-go | v0.35.1 |
 | k8s.io/client-go | v0.35.4 |
 | k8s.io/client-go | v0.35.0 |
+| k8s.io/client-go | v0.35.5 |
+| k8s.io/client-go | v0.35.4 |
+| k8s.io/client-go | v0.35.5 |
 | k8s.io/client-go | v0.35.4 |
 | k8s.io/client-go | v0.35.4 |
 | k8s.io/client-go | v0.35.4 |
-| k8s.io/client-go | v0.35.4 |
-| k8s.io/client-go | v0.35.4 |
-| k8s.io/client-go | v0.35.4 |
-| k8s.io/client-go | v0.35.4 |
-| k8s.io/client-go | v0.35.4 |
+| k8s.io/client-go | v0.35.5 |
+| k8s.io/client-go | v0.35.5 |
 | k8s.io/client-go | v0.35.0 |
 | k8s.io/client-go | v0.35.4 |
 | sigs.k8s.io/controller-runtime | v0.23.3 |

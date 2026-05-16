@@ -18,20 +18,20 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| ogx-k8s-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/59b7abdb4d1e84ea265cfe850e28df382641cbcd/kustomize:config/overlays/odh) |
-| ogx-k8s-operator-webhook-service | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/59b7abdb4d1e84ea265cfe850e28df382641cbcd/kustomize:config/overlays/odh) |
+| ogx-k8s-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/afe4ca00de332c1bb90e2b172ab51ca621f868bc/kustomize:config/overlays/odh) |
+| ogx-k8s-operator-webhook-service | ClusterIP | 443/TCP | [`kustomize:config/overlays/odh`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/afe4ca00de332c1bb90e2b172ab51ca621f868bc/kustomize:config/overlays/odh) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| Ingress | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/59b7abdb4d1e84ea265cfe850e28df382641cbcd/rbac/manager-role) |
+| Ingress | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/afe4ca00de332c1bb90e2b172ab51ca621f868bc/rbac/manager-role) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| network-policy | Ingress | [`controllers/manifests/base/networkpolicy.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/59b7abdb4d1e84ea265cfe850e28df382641cbcd/controllers/manifests/base/networkpolicy.yaml) |
+| network-policy | Ingress | [`controllers/manifests/base/networkpolicy.yaml`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/afe4ca00de332c1bb90e2b172ab51ca621f868bc/controllers/manifests/base/networkpolicy.yaml) |
 
 ## Network Policy Graph
 

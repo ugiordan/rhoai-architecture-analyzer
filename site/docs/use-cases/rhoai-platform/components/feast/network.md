@@ -23,7 +23,7 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| uvicorn-server | python-source | 6566/TCP | [`infra/scripts/feature_server_docker_smoke.py:38`](https://github.com/feast-dev/feast/blob/0d2984d427b0773c832dc7ff0b20ae3193d9ca04/infra/scripts/feature_server_docker_smoke.py#L38) |
+| uvicorn-server | python-source | 6566/TCP | [`infra/scripts/feature_server_docker_smoke.py:38`](https://github.com/feast-dev/feast/blob/0ab134e67b808322415520a6f071e722ef5a9b45/infra/scripts/feature_server_docker_smoke.py#L38) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.

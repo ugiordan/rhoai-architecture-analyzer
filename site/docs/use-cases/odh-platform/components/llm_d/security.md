@@ -12,7 +12,7 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| interactive-pod | benchmark-runner | ? | ? | ? | [`helpers/interactive-pod/manifests/deployment.yaml`](https://github.com/llm-d/llm-d/blob/3d04e73d481491695c0ffcdfee300628afb3f404/helpers/interactive-pod/manifests/deployment.yaml) |
+| interactive-pod | benchmark-runner | ? | ? | ? | [`helpers/interactive-pod/manifests/deployment.yaml`](https://github.com/llm-d/llm-d/blob/d173d26f55d7b09a0b47dcd76f7a4e3c092f3380/helpers/interactive-pod/manifests/deployment.yaml) |
 
 ## Build Security
 

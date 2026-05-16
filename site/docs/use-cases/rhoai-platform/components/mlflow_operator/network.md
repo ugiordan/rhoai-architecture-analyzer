@@ -21,21 +21,21 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| minio-service | ClusterIP | 9000/TCP | [`config/seaweedfs/components/tls/service-tls-patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/config/seaweedfs/components/tls/service-tls-patch.yaml) |
-| mlflow-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/kustomize:config/overlays/odh) |
-| postgres-service | ClusterIP | 5432/TCP | [`config/postgres/base/service.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/config/postgres/base/service.yaml) |
+| minio-service | ClusterIP | 9000/TCP | [`config/seaweedfs/components/tls/service-tls-patch.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/8fdb97ce99551b30dcbc50b98407cfdeb1b49d1c/config/seaweedfs/components/tls/service-tls-patch.yaml) |
+| mlflow-operator-controller-manager-metrics-service | ClusterIP | 8443/TCP | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/mlflow-operator/blob/8fdb97ce99551b30dcbc50b98407cfdeb1b49d1c/kustomize:config/overlays/odh) |
+| postgres-service | ClusterIP | 5432/TCP | [`config/postgres/base/service.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/8fdb97ce99551b30dcbc50b98407cfdeb1b49d1c/config/postgres/base/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| HTTPRoute | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/rbac/manager-role) |
+| HTTPRoute | rbac-inferred |  |  | no | [`rbac/manager-role`](https://github.com/opendatahub-io/mlflow-operator/blob/8fdb97ce99551b30dcbc50b98407cfdeb1b49d1c/rbac/manager-role) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| seaweedfs | Ingress | [`config/seaweedfs/base/seaweedfs-networkpolicy.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/e68add073b5755c9417d37dc4cd2f5e1cda6dbab/config/seaweedfs/base/seaweedfs-networkpolicy.yaml) |
+| seaweedfs | Ingress | [`config/seaweedfs/base/seaweedfs-networkpolicy.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/8fdb97ce99551b30dcbc50b98407cfdeb1b49d1c/config/seaweedfs/base/seaweedfs-networkpolicy.yaml) |
 
 ## Network Policy Graph
 

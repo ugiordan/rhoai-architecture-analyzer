@@ -18,7 +18,7 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| ogx-k8s-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/59b7abdb4d1e84ea265cfe850e28df382641cbcd/kustomize:config/overlays/odh) |
+| ogx-k8s-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/ogx-ai/llama-stack-k8s-operator/blob/afe4ca00de332c1bb90e2b172ab51ca621f868bc/kustomize:config/overlays/odh) |
 
 ## Build Security
 

@@ -1,11 +1,11 @@
 # kueue
 
-> **Architecture snapshot: 2026-05-15** (2026-05-15)
+> **Architecture snapshot: 2026-05-16** (2026-05-16)
 
 
 **Repository:** red-hat-data-services/kueue  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T11:43:36Z
+**Extracted:** 2026-05-16T03:46:56Z
 
 ## Summary
 

@@ -129,6 +129,9 @@ Field-level operations extracted from Go AST analysis of webhook handlers:
 | llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | replicas | invalid |  |
 | llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | inline | invalid |  |
 | llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | ref.name | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | maxRank | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | maxAdapters | invalid |  |
+| llminferenceservice.kserve-webhook-server.v1alpha2.validator | kserve | maxCpuAdapters | invalid |  |
 | llminferenceserviceconfig.kserve-webhook-server.v1alpha1.validator | kserve | spec.baseRefs | forbidden |  |
 | llminferenceserviceconfig.kserve-webhook-server.v1alpha1.validator | kserve | replicas | invalid |  |
 | llminferenceserviceconfig.kserve-webhook-server.v1alpha2.validator | kserve | spec.baseRefs | forbidden |  |

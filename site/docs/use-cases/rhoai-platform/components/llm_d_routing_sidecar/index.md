@@ -1,11 +1,11 @@
 # llm-d-routing-sidecar
 
-> **Architecture snapshot: 2026-05-15** (2026-05-15)
+> **Architecture snapshot: 2026-05-16** (2026-05-16)
 
 
 **Repository:** llm-d/llm-d-routing-sidecar  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T11:43:56Z
+**Extracted:** 2026-05-16T03:47:38Z
 
 ## Summary
 

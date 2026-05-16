@@ -1,11 +1,11 @@
 # MLServer
 
-> **Architecture snapshot: 2026-05-15** (2026-05-15)
+> **Architecture snapshot: 2026-05-16** (2026-05-16)
 
 
 **Repository:** red-hat-data-services/MLServer  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-15T11:47:25Z
+**Extracted:** 2026-05-16T03:50:20Z
 
 ## Summary
 
