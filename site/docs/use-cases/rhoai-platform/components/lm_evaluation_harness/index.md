@@ -1,11 +1,11 @@
 # lm-evaluation-harness
 
-> **Architecture snapshot: 2026-05-16** (2026-05-16)
+> **Architecture snapshot: 2026-05-17** (2026-05-17)
 
 
 **Repository:** red-hat-data-services/lm-evaluation-harness  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-16T03:47:24Z
+**Extracted:** 2026-05-17T04:06:39Z
 
 ## Summary
 

@@ -1,11 +1,11 @@
 # llama-stack-provider-trustyai-garak
 
-> **Architecture snapshot: 2026-05-16** (2026-05-16)
+> **Architecture snapshot: 2026-05-17** (2026-05-17)
 
 
 **Repository:** opendatahub-io/llama-stack-provider-trustyai-garak  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-16T03:48:47Z
+**Extracted:** 2026-05-17T04:07:03Z
 
 ## Summary
 

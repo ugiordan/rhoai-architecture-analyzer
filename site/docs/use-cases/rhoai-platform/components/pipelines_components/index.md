@@ -1,11 +1,11 @@
 # pipelines-components
 
-> **Architecture snapshot: 2026-05-16** (2026-05-16)
+> **Architecture snapshot: 2026-05-17** (2026-05-17)
 
 
 **Repository:** red-hat-data-services/pipelines-components  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-16T03:50:49Z
+**Extracted:** 2026-05-17T04:10:20Z
 
 ## Summary
 

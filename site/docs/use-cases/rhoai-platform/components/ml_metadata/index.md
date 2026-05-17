@@ -1,11 +1,11 @@
 # ml-metadata
 
-> **Architecture snapshot: 2026-05-16** (2026-05-16)
+> **Architecture snapshot: 2026-05-17** (2026-05-17)
 
 
 **Repository:** red-hat-data-services/ml-metadata  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-16T03:50:39Z
+**Extracted:** 2026-05-17T04:10:08Z
 
 ## Summary
 

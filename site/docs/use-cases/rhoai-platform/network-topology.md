@@ -57,27 +57,27 @@ graph LR
     vllm_gaudi["vllm-gaudi"]:::comp
     workload_variant_autoscaler["workload-variant-autoscaler"]:::comp
 
-    kueue -.->|"visibility-server"| distributed_workloads
+    notebooks_downstream -.->|"notebook"| notebooks
+    workload_variant_autoscaler -.->|"keda-operator"| kserve
+    kueue -.->|"training-operator"| distributed_workloads
     modelmesh_serving -.->|"cli-port-default"| kserve
     vllm_cpu -.->|"cli-port-default"| kserve
     vllm_gaudi -.->|"cli-port-default"| kserve
-    notebooks_downstream -.->|"notebook"| notebooks
-    kueue -.->|"training-operator"| distributed_workloads
-    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
-    kuberay -.->|"kuberay-operator"| distributed_workloads
-    kueue -.->|"kuberay-operator"| distributed_workloads
-    workload_variant_autoscaler -.->|"keda-operator"| kserve
-    data_science_pipelines_operator -.->|"the-service"| argo_workflows
-    kuberay -.->|"the-service"| argo_workflows
-    kueue -.->|"the-service"| argo_workflows
-    odh_cli -.->|"the-service"| argo_workflows
-    spark_operator -.->|"the-service"| argo_workflows
-    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
     feast -.->|"uvicorn-server"| ai_gateway_payload_processing
     gateway_api_inference_extension -.->|"uvicorn-server"| ai_gateway_payload_processing
     kserve -.->|"uvicorn-server"| ai_gateway_payload_processing
     llm_d_inference_scheduler -.->|"uvicorn-server"| ai_gateway_payload_processing
     workload_variant_autoscaler -.->|"uvicorn-server"| ai_gateway_payload_processing
+    kuberay -.->|"kuberay-operator"| distributed_workloads
+    kueue -.->|"kuberay-operator"| distributed_workloads
+    data_science_pipelines_operator -.->|"the-service"| argo_workflows
+    kuberay -.->|"the-service"| argo_workflows
+    kueue -.->|"the-service"| argo_workflows
+    odh_cli -.->|"the-service"| argo_workflows
+    spark_operator -.->|"the-service"| argo_workflows
+    kueue -.->|"visibility-server"| distributed_workloads
+    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
+    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
 ```
 
 ## Services by Component
