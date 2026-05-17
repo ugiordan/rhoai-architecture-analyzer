@@ -1,0 +1,144 @@
+graph LR
+    %% Platform-wide dependency graph
+
+    classDef component fill:#3498db,stroke:#2980b9,color:#fff,stroke-width:2px
+    classDef gomod fill:#2ecc71,stroke:#27ae60,color:#fff
+    classDef crdwatch fill:#e74c3c,stroke:#c0392b,color:#fff
+
+    ai4rag["ai4rag"]
+    class ai4rag component
+    gateway_api_inference_extension["gateway-api-inference-extension"]
+    class gateway_api_inference_extension component
+    llm_d["llm-d"]
+    class llm_d component
+    MLServer["MLServer"]
+    class MLServer component
+    NeMo_Guardrails["NeMo-Guardrails"]
+    class NeMo_Guardrails component
+    ai_gateway_payload_processing["ai-gateway-payload-processing"]
+    class ai_gateway_payload_processing component
+    argo_workflows["argo-workflows"]
+    class argo_workflows component
+    batch_gateway["batch-gateway"]
+    class batch_gateway component
+    caikit_nlp["caikit-nlp"]
+    class caikit_nlp component
+    caikit_tgis_serving["caikit-tgis-serving"]
+    class caikit_tgis_serving component
+    codeflare_sdk["codeflare-sdk"]
+    class codeflare_sdk component
+    data_science_pipelines_operator["data-science-pipelines-operator"]
+    class data_science_pipelines_operator component
+    data_science_pipelines["data-science-pipelines"]
+    class data_science_pipelines component
+    distributed_workloads["distributed-workloads"]
+    class distributed_workloads component
+    eval_hub["eval-hub"]
+    class eval_hub component
+    feast["feast"]
+    class feast component
+    fms_guardrails_orchestrator["fms-guardrails-orchestrator"]
+    class fms_guardrails_orchestrator component
+    fms_hf_tuning["fms-hf-tuning"]
+    class fms_hf_tuning component
+    guardrails_regex_detector["guardrails-regex-detector"]
+    class guardrails_regex_detector component
+    kserve["kserve"]
+    class kserve component
+    kube_auth_proxy["kube-auth-proxy"]
+    class kube_auth_proxy component
+    kube_rbac_proxy["kube-rbac-proxy"]
+    class kube_rbac_proxy component
+    kubeflow["kubeflow"]
+    class kubeflow component
+    kuberay["kuberay"]
+    class kuberay component
+    kueue["kueue"]
+    class kueue component
+    llama_stack_k8s_operator["llama-stack-k8s-operator"]
+    class llama_stack_k8s_operator component
+    llama_stack["llama-stack"]
+    class llama_stack component
+    llm_d_inference_scheduler["llm-d-inference-scheduler"]
+    class llm_d_inference_scheduler component
+    llm_d_kv_cache["llm-d-kv-cache"]
+    class llm_d_kv_cache component
+    llm_d_routing_sidecar["llm-d-routing-sidecar"]
+    class llm_d_routing_sidecar component
+    lm_evaluation_harness["lm-evaluation-harness"]
+    class lm_evaluation_harness component
+    ml_metadata["ml-metadata"]
+    class ml_metadata component
+    mlflow_operator["mlflow-operator"]
+    class mlflow_operator component
+    model_metadata_collection["model-metadata-collection"]
+    class model_metadata_collection component
+    model_registry["model-registry"]
+    class model_registry component
+    modelmesh_runtime_adapter["modelmesh-runtime-adapter"]
+    class modelmesh_runtime_adapter component
+    modelmesh_serving["modelmesh-serving"]
+    class modelmesh_serving component
+    models_as_a_service["models-as-a-service"]
+    class models_as_a_service component
+    notebooks_downstream["notebooks-downstream"]
+    class notebooks_downstream component
+    notebooks["notebooks"]
+    class notebooks component
+    odh_cli["odh-cli"]
+    class odh_cli component
+    odh_deployer["odh-deployer"]
+    class odh_deployer component
+    openvino_model_server["openvino_model_server"]
+    class openvino_model_server component
+    pipelines_components["pipelines-components"]
+    class pipelines_components component
+    rest_proxy["rest-proxy"]
+    class rest_proxy component
+    rhds_llama_stack_distribution["rhds-llama-stack-distribution"]
+    class rhds_llama_stack_distribution component
+    spark_operator["spark-operator"]
+    class spark_operator component
+    text_generation_inference["text-generation-inference"]
+    class text_generation_inference component
+    trainer["trainer"]
+    class trainer component
+    trustyai_explainability["trustyai-explainability"]
+    class trustyai_explainability component
+    vllm_cpu["vllm-cpu"]
+    class vllm_cpu component
+    vllm_gaudi["vllm-gaudi"]
+    class vllm_gaudi component
+    vllm_orchestrator_gateway["vllm-orchestrator-gateway"]
+    class vllm_orchestrator_gateway component
+    vllm_rocm["vllm-rocm"]
+    class vllm_rocm component
+    vllm_spyre["vllm-spyre"]
+    class vllm_spyre component
+    workload_variant_autoscaler["workload-variant-autoscaler"]
+    class workload_variant_autoscaler component
+
+    ai_gateway_payload_processing -->|"watches InferencePool"| gateway_api_inference_extension
+    ai_gateway_payload_processing -->|"watches InferenceModelRewrite"| gateway_api_inference_extension
+    ai_gateway_payload_processing -->|"watches InferenceObjective"| gateway_api_inference_extension
+    kserve -->|"watches InferencePool"| gateway_api_inference_extension
+    kserve -->|"watches InferenceModelRewrite"| gateway_api_inference_extension
+    kserve -->|"watches InferenceObjective"| gateway_api_inference_extension
+    kubeflow -.->|"go-module"| data_science_pipelines_operator
+    llm_d_inference_scheduler -->|"watches InferencePool"| gateway_api_inference_extension
+    llm_d_inference_scheduler -->|"watches InferenceModelRewrite"| gateway_api_inference_extension
+    llm_d_inference_scheduler -->|"watches InferenceObjective"| gateway_api_inference_extension
+    mlflow_operator -.->|"go-module"| mlflow_operator
+    model_registry -->|"watches InferenceService"| kserve
+    modelmesh_serving -->|"watches InferenceGraph"| kserve
+    modelmesh_serving -->|"watches ServingRuntime"| kserve
+    modelmesh_serving -->|"watches TrainedModel"| kserve
+    modelmesh_serving -->|"watches InferenceService"| kserve
+    models_as_a_service -.->|"go-module"| kserve
+    models_as_a_service -->|"watches ExternalModel"| ai_gateway_payload_processing
+    odh_cli -.->|"go-module"| opendatahub_operator
+    workload_variant_autoscaler -->|"watches InferencePool"| gateway_api_inference_extension
+    workload_variant_autoscaler -->|"watches InferenceObjective"| gateway_api_inference_extension
+    kserve -.->|"webhook-ref"| modelmesh_serving
+    modelmesh_serving -.->|"webhook-ref"| workload_variant_autoscaler
+    spark_operator -.->|"webhook-ref"| workload_variant_autoscaler
