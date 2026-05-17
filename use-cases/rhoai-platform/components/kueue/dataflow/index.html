@@ -26272,37 +26272,7 @@
 <tr>
 <td>JobControl-webhook</td>
 <td>validating</td>
-<td>/validate-kubeflow-org-v1-pytorchjob</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>JobControl-webhook</td>
-<td>mutating</td>
-<td>/mutate-kubeflow-org-v1-xgboostjob</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>JobControl-webhook</td>
-<td>mutating</td>
-<td>/mutate-kubeflow-org-v1-paddlejob</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>JobControl-webhook</td>
-<td>validating</td>
-<td>/validate-kubeflow-org-v1-xgboostjob</td>
+<td>/validate-kubeflow-org-v1-paddlejob</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26322,17 +26292,7 @@
 <tr>
 <td>JobControl-webhook</td>
 <td>validating</td>
-<td>/validate-kubeflow-org-v1-tfjob</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>JobControl-webhook</td>
-<td>validating</td>
-<td>/validate-kubeflow-org-v1-paddlejob</td>
+<td>/validate-kubeflow-org-v1-xgboostjob</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26350,9 +26310,39 @@
 <td></td>
 </tr>
 <tr>
-<td>JobWebhook-webhook</td>
+<td>JobControl-webhook</td>
+<td>validating</td>
+<td>/validate-kubeflow-org-v1-tfjob</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JobControl-webhook</td>
+<td>validating</td>
+<td>/validate-kubeflow-org-v1-pytorchjob</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JobControl-webhook</td>
 <td>mutating</td>
-<td>/mutate-batch-v1-job</td>
+<td>/mutate-kubeflow-org-v1-paddlejob</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>JobControl-webhook</td>
+<td>mutating</td>
+<td>/mutate-kubeflow-org-v1-xgboostjob</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26370,9 +26360,9 @@
 <td></td>
 </tr>
 <tr>
-<td>MpiJobWebhook-webhook</td>
+<td>JobWebhook-webhook</td>
 <td>mutating</td>
-<td>/mutate-kubeflow-org-v2beta1-mpijob</td>
+<td>/mutate-batch-v1-job</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26383,6 +26373,16 @@
 <td>MpiJobWebhook-webhook</td>
 <td>validating</td>
 <td>/validate-kubeflow-org-v2beta1-mpijob</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MpiJobWebhook-webhook</td>
+<td>mutating</td>
+<td>/mutate-kubeflow-org-v2beta1-mpijob</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26401,8 +26401,8 @@
 </tr>
 <tr>
 <td>RayJobWebhook-webhook</td>
-<td>mutating</td>
-<td>/mutate-ray-io-v1-rayjob</td>
+<td>validating</td>
+<td>/validate-ray-io-v1-rayjob</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26411,8 +26411,8 @@
 </tr>
 <tr>
 <td>RayJobWebhook-webhook</td>
-<td>validating</td>
-<td>/validate-ray-io-v1-rayjob</td>
+<td>mutating</td>
+<td>/mutate-ray-io-v1-rayjob</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26441,8 +26441,8 @@
 </tr>
 <tr>
 <td>Webhook-webhook</td>
-<td>mutating</td>
-<td>/mutate-apps-v1-deployment</td>
+<td>validating</td>
+<td>/validate-apps-v1-deployment</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26462,16 +26462,6 @@
 <tr>
 <td>Webhook-webhook</td>
 <td>validating</td>
-<td>/validate-apps-v1-deployment</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Webhook-webhook</td>
-<td>validating</td>
 <td>/validate-apps-v1-statefulset</td>
 <td></td>
 <td></td>
@@ -26480,9 +26470,9 @@
 <td></td>
 </tr>
 <tr>
-<td>WorkloadWebhook-webhook</td>
+<td>Webhook-webhook</td>
 <td>mutating</td>
-<td>/mutate-kueue-x-k8s-io-v1beta1-workload</td>
+<td>/mutate-apps-v1-deployment</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26493,6 +26483,16 @@
 <td>WorkloadWebhook-webhook</td>
 <td>validating</td>
 <td>/validate-kueue-x-k8s-io-v1beta1-workload</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>WorkloadWebhook-webhook</td>
+<td>mutating</td>
+<td>/mutate-kueue-x-k8s-io-v1beta1-workload</td>
 <td></td>
 <td></td>
 <td></td>
@@ -26567,7 +26567,7 @@
 <td></td>
 <td></td>
 <td></td>
-<td><a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a>, <a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a></td>
+<td><a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a>, <a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a></td>
 </tr>
 <tr>
 <td>mleaderworkerset.kb.io</td>
@@ -26577,7 +26577,7 @@
 <td></td>
 <td></td>
 <td></td>
-<td><a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a>, <a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gomod-cache/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a></td>
+<td><a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a>, <a href="https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go"><code>.gopath-loader/pkg/mod/sigs.k8s.io/lws@v0.5.1/pkg/webhooks/leaderworkerset_webhook.go</code></a></td>
 </tr>
 <tr>
 <td>mpod.kb.io</td>
@@ -26833,12 +26833,12 @@
 <tr>
 <td>spec.template.annotations</td>
 <td>set</td>
-<td>suspend &amp;&amp; deployment.Spec.Template.Annotations == nil</td>
+<td>suspend &amp;&amp; ss.Spec.Template.Annotations == nil</td>
 </tr>
 <tr>
 <td>spec.template.labels</td>
 <td>set</td>
-<td>suspend &amp;&amp; deployment.Spec.Template.Labels == nil</td>
+<td>suspend &amp;&amp; ss.Spec.Template.Labels == nil</td>
 </tr>
 </tbody>
 </table>
@@ -26855,12 +26855,12 @@
 <tr>
 <td>spec.template.annotations</td>
 <td>set</td>
-<td>suspend &amp;&amp; ss.Spec.Template.Annotations == nil</td>
+<td>suspend &amp;&amp; deployment.Spec.Template.Annotations == nil</td>
 </tr>
 <tr>
 <td>spec.template.labels</td>
 <td>set</td>
-<td>suspend &amp;&amp; ss.Spec.Template.Labels == nil</td>
+<td>suspend &amp;&amp; deployment.Spec.Template.Labels == nil</td>
 </tr>
 </tbody>
 </table>
@@ -28743,7 +28743,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 16, 2026 04:08:06 UTC">May 16, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 17, 2026 04:28:00 UTC">May 17, 2026</span>
   </span>
 
     
