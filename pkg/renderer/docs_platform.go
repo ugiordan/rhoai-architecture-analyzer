@@ -356,7 +356,7 @@ func renderPlatformArchDocPage(data map[string]interface{}) string {
 			b.WriteString(fmt.Sprintf("**Tightest coupling:** `%s` (%d dependency edges).\n\n", maxKey, maxCount))
 		}
 	} else {
-		b.WriteString("No cross-component dependencies detected.\n\n")
+		b.WriteString("No cross-component dependencies detected in analyzed sources.\n\n")
 	}
 
 	// Platform Webhook Summary
@@ -844,7 +844,7 @@ func renderPlatformRBACGraph(b *strings.Builder, rbacRoles []map[string]interfac
 	}
 
 	if len(bindings) == 0 {
-		b.WriteString("No RBAC bindings found across components.\n\n")
+		b.WriteString("No RBAC bindings found across analyzed components.\n\n")
 		return
 	}
 

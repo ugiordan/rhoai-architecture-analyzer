@@ -70,7 +70,7 @@ func (r *ReportRenderer) Render(data map[string]interface{}) string {
 func renderCRDTable(b *strings.Builder, data map[string]interface{}) {
 	crds := getSlice(data, "crds")
 	if len(crds) == 0 {
-		b.WriteString("### CRDs\n\nNo CRDs defined.\n\n")
+		b.WriteString("### CRDs\n\nNo CRDs found in analyzed sources.\n\n")
 		return
 	}
 	b.WriteString("### CRDs\n\n")
@@ -182,7 +182,7 @@ func renderHTTPEndpointTable(b *strings.Builder, data map[string]interface{}) {
 func renderDependencySection(b *strings.Builder, data map[string]interface{}) {
 	deps := getMap(data, "dependencies")
 	if deps == nil {
-		b.WriteString("No dependencies found.\n\n")
+		b.WriteString("No dependencies found in analyzed sources.\n\n")
 		return
 	}
 
@@ -226,7 +226,7 @@ func renderDependencySection(b *strings.Builder, data map[string]interface{}) {
 func renderServiceTable(b *strings.Builder, data map[string]interface{}) {
 	services := getSlice(data, "services")
 	if len(services) == 0 {
-		b.WriteString("### Services\n\nNo services defined.\n\n")
+		b.WriteString("### Services\n\nNo services found in analyzed sources.\n\n")
 		return
 	}
 	b.WriteString("### Services\n\n")
@@ -433,7 +433,7 @@ func renderHelmSection(b *strings.Builder, data map[string]interface{}) {
 func renderDockerfileTable(b *strings.Builder, data map[string]interface{}) {
 	dockerfiles := getSlice(data, "dockerfiles")
 	if len(dockerfiles) == 0 {
-		b.WriteString("No Dockerfiles found.\n\n")
+		b.WriteString("No Dockerfiles found in analyzed sources.\n\n")
 		return
 	}
 	b.WriteString("| Path | Base Image | Stages | User | Ports | Architectures | FIPS | Issues |\n")
@@ -464,7 +464,7 @@ func renderDockerfileTable(b *strings.Builder, data map[string]interface{}) {
 func renderControllerWatchTable(b *strings.Builder, data map[string]interface{}) {
 	watches := getSlice(data, "controller_watches")
 	if len(watches) == 0 {
-		b.WriteString("No controller watches found.\n\n")
+		b.WriteString("No controller watches found in analyzed sources.\n\n")
 		return
 	}
 

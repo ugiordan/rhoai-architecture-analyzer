@@ -61,7 +61,7 @@ func (r *SecurityNetworkRenderer) Render(data map[string]interface{}) string {
 			}
 		}
 	} else {
-		b.WriteString("  (none found)\n")
+		b.WriteString("  (none found in analyzed sources)\n")
 	}
 
 	// Network Policies
@@ -107,7 +107,7 @@ func (r *SecurityNetworkRenderer) Render(data map[string]interface{}) string {
 			}
 		}
 	} else {
-		b.WriteString("  (none found - all traffic allowed by default)\n")
+		b.WriteString("  (none found in analyzed sources)\n")
 	}
 
 	// RBAC Summary
@@ -153,7 +153,7 @@ func (r *SecurityNetworkRenderer) Render(data map[string]interface{}) string {
 			}
 		}
 	} else {
-		b.WriteString("  (no secret references found)\n")
+		b.WriteString("  (no secret references found in analyzed sources)\n")
 	}
 
 	// Deployment Security Controls
@@ -213,7 +213,7 @@ func (r *SecurityNetworkRenderer) Render(data map[string]interface{}) string {
 			}
 		}
 	} else {
-		b.WriteString("  (no deployments found)\n")
+		b.WriteString("  (no deployments found in analyzed sources)\n")
 	}
 
 	// Dockerfile Security
@@ -238,7 +238,7 @@ func (r *SecurityNetworkRenderer) Render(data map[string]interface{}) string {
 			}
 		}
 	} else {
-		b.WriteString("  (no Dockerfiles found)\n")
+		b.WriteString("  (no Dockerfiles found in analyzed sources)\n")
 	}
 
 	b.WriteString("\n+" + strings.Repeat("=", width-2) + "+")

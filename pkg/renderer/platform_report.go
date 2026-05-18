@@ -73,7 +73,7 @@ func renderPlatformReport(data map[string]interface{}) string {
 		}
 		b.WriteString("\n")
 	} else {
-		b.WriteString("No CRDs found.\n\n")
+		b.WriteString("No CRDs found in analyzed sources.\n\n")
 	}
 
 	// Cross-Component Dependencies
@@ -88,7 +88,7 @@ func renderPlatformReport(data map[string]interface{}) string {
 		}
 		b.WriteString("\n")
 	} else {
-		b.WriteString("No cross-component dependencies found.\n\n")
+		b.WriteString("No cross-component dependencies found in analyzed sources.\n\n")
 	}
 
 	// Shared Secrets

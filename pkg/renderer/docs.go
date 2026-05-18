@@ -280,7 +280,7 @@ func renderComponentNetworkPage(data map[string]interface{}, component string) s
 
 	if len(netpols) == 0 {
 		b.WriteString("!!! warning \"No Network Policies\"\n")
-		b.WriteString("    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.\n\n")
+		b.WriteString("    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.\n\n")
 	} else {
 		// NetworkPolicy graph showing ingress/egress flows
 		renderNetworkPolicyGraph(&b, netpols, component)
@@ -305,8 +305,9 @@ func renderComponentRBACPage(data map[string]interface{}, component string) stri
 
 	if !hasBindings && !hasRoles {
 		b.WriteString("!!! info \"No RBAC Resources\"\n")
-		b.WriteString("    This component does not define any ClusterRoles, Roles, or RoleBindings.\n")
-		b.WriteString("    It may operate as a sidecar or library used by other components that define their own RBAC.\n\n")
+		b.WriteString("    No ClusterRoles, Roles, or RoleBindings were found in the analyzed sources.\n")
+		b.WriteString("    No RBAC bindings found across analyzed components for this component.\n")
+		b.WriteString("    This component may define RBAC via Kustomize overlays, Helm templates, or rely on roles defined by other components.\n\n")
 		return b.String()
 	}
 
