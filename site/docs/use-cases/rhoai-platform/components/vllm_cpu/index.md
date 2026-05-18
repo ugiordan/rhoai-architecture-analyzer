@@ -1,11 +1,11 @@
 # vllm-cpu
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** red-hat-data-services/vllm-cpu  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:11:33Z
+**Extracted:** 2026-05-18T04:24:09Z
 
 ## Summary
 

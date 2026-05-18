@@ -202,16 +202,16 @@ sequenceDiagram
 |------|------|------|----------------|---------|----------|------------------|----------|
 | ClusterQueueWebhook-webhook | validating | /validate-kueue-x-k8s-io-v1beta1-clusterqueue |  |  |  |  |  |
 | ClusterQueueWebhook-webhook | mutating | /mutate-kueue-x-k8s-io-v1beta1-clusterqueue |  |  |  |  |  |
+| JobControl-webhook | mutating | /mutate-kubeflow-org-v1-paddlejob |  |  |  |  |  |
 | JobControl-webhook | validating | /validate-kubeflow-org-v1-paddlejob |  |  |  |  |  |
 | JobControl-webhook | mutating | /mutate-kubeflow-org-v1-pytorchjob |  |  |  |  |  |
-| JobControl-webhook | validating | /validate-kubeflow-org-v1-xgboostjob |  |  |  |  |  |
 | JobControl-webhook | mutating | /mutate-kubeflow-org-v1-tfjob |  |  |  |  |  |
 | JobControl-webhook | validating | /validate-kubeflow-org-v1-tfjob |  |  |  |  |  |
-| JobControl-webhook | validating | /validate-kubeflow-org-v1-pytorchjob |  |  |  |  |  |
-| JobControl-webhook | mutating | /mutate-kubeflow-org-v1-paddlejob |  |  |  |  |  |
 | JobControl-webhook | mutating | /mutate-kubeflow-org-v1-xgboostjob |  |  |  |  |  |
-| JobWebhook-webhook | validating | /validate-batch-v1-job |  |  |  |  |  |
+| JobControl-webhook | validating | /validate-kubeflow-org-v1-pytorchjob |  |  |  |  |  |
+| JobControl-webhook | validating | /validate-kubeflow-org-v1-xgboostjob |  |  |  |  |  |
 | JobWebhook-webhook | mutating | /mutate-batch-v1-job |  |  |  |  |  |
+| JobWebhook-webhook | validating | /validate-batch-v1-job |  |  |  |  |  |
 | MpiJobWebhook-webhook | validating | /validate-kubeflow-org-v2beta1-mpijob |  |  |  |  |  |
 | MpiJobWebhook-webhook | mutating | /mutate-kubeflow-org-v2beta1-mpijob |  |  |  |  |  |
 | RayClusterWebhook-webhook | mutating | /mutate-ray-io-v1-raycluster |  |  |  |  |  |
@@ -219,10 +219,10 @@ sequenceDiagram
 | RayJobWebhook-webhook | mutating | /mutate-ray-io-v1-rayjob |  |  |  |  |  |
 | ResourceFlavorWebhook-webhook | validating | /validate-kueue-x-k8s-io-v1beta1-resourceflavor |  |  |  |  |  |
 | ResourceFlavorWebhook-webhook | mutating | /mutate-kueue-x-k8s-io-v1beta1-resourceflavor |  |  |  |  |  |
+| Webhook-webhook | mutating | /mutate-apps-v1-deployment |  |  |  |  |  |
 | Webhook-webhook | validating | /validate-apps-v1-deployment |  |  |  |  |  |
 | Webhook-webhook | mutating | /mutate-apps-v1-statefulset |  |  |  |  |  |
 | Webhook-webhook | validating | /validate-apps-v1-statefulset |  |  |  |  |  |
-| Webhook-webhook | mutating | /mutate-apps-v1-deployment |  |  |  |  |  |
 | WorkloadWebhook-webhook | validating | /validate-kueue-x-k8s-io-v1beta1-workload |  |  |  |  |  |
 | WorkloadWebhook-webhook | mutating | /mutate-kueue-x-k8s-io-v1beta1-workload |  |  |  |  |  |
 | mappwrapper.kb.io | mutating | /mutate-workload-codeflare-dev-v1beta2-appwrapper | fail |  |  |  | [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go), [`.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go`](https://github.com/red-hat-data-services/kueue/blob/211e5019ceb7a5069b0a2965405f0bde8fa9ebc8/.gomod-cache/github.com/project-codeflare/appwrapper@v1.1.0/internal/webhook/appwrapper_webhook.go) |
@@ -272,15 +272,15 @@ sequenceDiagram
 
 | Field | Operation | Condition |
 |-------|-----------|----------|
-| spec.template.annotations | set | suspend && ss.Spec.Template.Annotations == nil |
-| spec.template.labels | set | suspend && ss.Spec.Template.Labels == nil |
+| spec.template.annotations | set | suspend && deployment.Spec.Template.Annotations == nil |
+| spec.template.labels | set | suspend && deployment.Spec.Template.Labels == nil |
 
 #### Webhook-webhook Behavior
 
 | Field | Operation | Condition |
 |-------|-----------|----------|
-| spec.template.annotations | set | suspend && deployment.Spec.Template.Annotations == nil |
-| spec.template.labels | set | suspend && deployment.Spec.Template.Labels == nil |
+| spec.template.annotations | set | suspend && ss.Spec.Template.Annotations == nil |
+| spec.template.labels | set | suspend && ss.Spec.Template.Labels == nil |
 
 #### mleaderworkerset.kb.io Behavior
 

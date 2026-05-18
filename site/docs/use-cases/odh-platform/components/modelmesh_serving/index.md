@@ -1,11 +1,11 @@
 # modelmesh-serving
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** kserve/modelmesh-serving  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:00:38Z
+**Extracted:** 2026-05-18T04:13:14Z
 
 ## Summary
 

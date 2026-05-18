@@ -1,11 +1,11 @@
 # llm-d
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** llm-d/llm-d  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:08:41Z
+**Extracted:** 2026-05-18T04:21:36Z
 
 ## Summary
 

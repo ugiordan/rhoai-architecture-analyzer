@@ -12,14 +12,14 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| notebook | notebook | ? | ? | ? | [`jupyter/datascience/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/datascience/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
-| notebook | notebook | ? | ? | ? | [`jupyter/minimal/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/minimal/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
-| notebook | notebook | ? | ? | ? | [`jupyter/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
-| notebook | notebook | ? | ? | ? | [`jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
-| notebook | notebook | ? | ? | ? | [`jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
-| notebook | notebook | ? | ? | ? | [`jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
-| notebook | notebook | ? | ? | ? | [`jupyter/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
-| notebook | notebook | ? | ? | ? | [`jupyter/trustyai/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/2a95313d254fa0512ffe5af8f45fba99613f5ff1/jupyter/trustyai/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/datascience/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/datascience/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/minimal/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/minimal/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/pytorch+llmcompressor/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/rocm/pytorch/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/rocm/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/tensorflow/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
+| notebook | notebook | ? | ? | ? | [`jupyter/trustyai/ubi9-python-3.12/kustomize/base/statefulset.yaml`](https://github.com/opendatahub-io/notebooks/blob/298bb1bde4074b4cfe5ddecf3fb66ca172802140/jupyter/trustyai/ubi9-python-3.12/kustomize/base/statefulset.yaml) |
 
 ## Build Security
 
@@ -31,7 +31,6 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `base-images/cpu/c9s-python-3.12/Dockerfile.cpu` | quay.io/centos/centos:stream9 | 2 | ${CNB_USER_ID}:${CNB_GROUP_ID} |  | multi-arch |  |  |
 | `base-images/cuda/12.9/c9s-python-3.12/Dockerfile.cuda` | cuda-base-${TARGETARCH} | 5 | 1001 |  | multi-arch |  | Unpinned base image: base; Unpinned base image: base; Unpinned base image: cuda-base-${TARGETARCH} |
 | `base-images/cuda/13.0/c9s-python-3.12/Dockerfile.cuda` | cuda-base-${TARGETARCH} | 5 | 1001 |  | multi-arch |  | Unpinned base image: base; Unpinned base image: base; Unpinned base image: cuda-base-${TARGETARCH} |
-| `base-images/rocm/6.4/c9s-python-3.12/Dockerfile.rocm` | base | 3 | 1001 |  | multi-arch |  | Unpinned base image: base |
 | `base-images/rocm/7.1/c9s-python-3.12/Dockerfile.rocm` | base | 3 | 1001 |  | multi-arch |  | Unpinned base image: base |
 | `codeserver/ubi9-python-3.12/Dockerfile.konflux.cpu` | codeserver | 6 | 1001 |  | multi-arch |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest; Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: codeserver; Unpinned base image: codeserver |
 | `jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu` | jupyter-minimal | 4 | 1001 |  |  |  | Unpinned base image: ${BASE_IMAGE}; Unpinned base image: cpu-base; Unpinned base image: jupyter-minimal |

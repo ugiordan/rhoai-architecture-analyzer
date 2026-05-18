@@ -1,11 +1,11 @@
 # data-science-pipelines-operator
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** opendatahub-io/data-science-pipelines-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:01:50Z
+**Extracted:** 2026-05-18T04:13:27Z
 
 ## Summary
 

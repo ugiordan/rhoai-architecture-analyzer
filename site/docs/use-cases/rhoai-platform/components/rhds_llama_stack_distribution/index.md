@@ -1,11 +1,11 @@
 # rhds-llama-stack-distribution
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** red-hat-data-services/rhds-llama-stack-distribution  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:10:45Z
+**Extracted:** 2026-05-18T04:23:13Z
 
 ## Summary
 

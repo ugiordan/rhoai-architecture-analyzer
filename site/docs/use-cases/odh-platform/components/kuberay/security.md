@@ -18,11 +18,11 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/overlays/test-overrides/deployment-override.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/ray-operator/config/overlays/test-overrides/deployment-override.yaml) |
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
-| kuberay-operator | kuberay-operator | ? | true | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/ray-operator/config/manager/manager.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/.gomod-cache/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/f38493262c54bf1a21f97614eb3bbb9cea95f769/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/overlays/test-overrides/deployment-override.yaml`](https://github.com/ray-project/kuberay/blob/1466289a1bcff3df4b0be5f0c804e178b7aa8e05/ray-operator/config/overlays/test-overrides/deployment-override.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/1466289a1bcff3df4b0be5f0c804e178b7aa8e05/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
+| kuberay-operator | kuberay-operator | ? | true | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/1466289a1bcff3df4b0be5f0c804e178b7aa8e05/ray-operator/config/manager/manager.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/1466289a1bcff3df4b0be5f0c804e178b7aa8e05/.gomod-cache/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/1466289a1bcff3df4b0be5f0c804e178b7aa8e05/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.36.0/artifacts/kustomization/deployment.yaml) |
 
 ## Build Security
 

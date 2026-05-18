@@ -1,11 +1,11 @@
 # openvino_model_server
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** red-hat-data-services/openvino_model_server  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:09:57Z
+**Extracted:** 2026-05-18T04:22:49Z
 
 ## Summary
 

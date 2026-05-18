@@ -1,11 +1,11 @@
 # notebooks-downstream
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** red-hat-data-services/notebooks-downstream  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:09:09Z
+**Extracted:** 2026-05-18T04:21:47Z
 
 ## Summary
 

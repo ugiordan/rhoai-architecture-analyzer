@@ -1,11 +1,11 @@
 # gateway-api-inference-extension
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** kubernetes-sigs/gateway-api-inference-extension  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T04:14:15Z
+**Extracted:** 2026-05-18T04:26:52Z
 
 ## Summary
 

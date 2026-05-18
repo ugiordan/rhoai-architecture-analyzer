@@ -1,11 +1,11 @@
 # notebooks
 
-> **Architecture snapshot: 2026-05-17** (2026-05-17)
+> **Architecture snapshot: 2026-05-18** (2026-05-18)
 
 
 **Repository:** opendatahub-io/notebooks  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-17T03:58:40Z
+**Extracted:** 2026-05-18T04:11:33Z
 
 ## Summary
 

@@ -17,7 +17,7 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| cli-port-default | python-source | 8081/TCP | [`benchmarking/k8s-benchmark/openai-mock-server.py:191`](https://github.com/opendatahub-io/llama-stack/blob/eb8738c138d0881b51e9711223b30249432a9221/benchmarking/k8s-benchmark/openai-mock-server.py#L191) |
+| cli-port-default | python-source | 8081/TCP | [`benchmarking/k8s-benchmark/openai-mock-server.py:191`](https://github.com/opendatahub-io/llama-stack/blob/64e0d27c8bb5bd89792e2869952c3e0b25892114/benchmarking/k8s-benchmark/openai-mock-server.py#L191) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
