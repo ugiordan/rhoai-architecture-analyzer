@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"strings"
+	"unicode"
 )
 
 // FlowNodeType controls the visual style and layer assignment of a node.
@@ -33,7 +34,7 @@ type FlowEdge struct {
 	ID    string `json:"id"`
 	From  string `json:"from"`
 	To    string `json:"to"`
-	Type  string `json:"type"`  // route, intercept, target, watches, creates, external
+	Type  string `json:"type"` // route, intercept, target, watches, creates, external
 	Label string `json:"label,omitempty"`
 }
 
@@ -59,33 +60,66 @@ func (r *FlowRenderer) Filename() string { return "flow.html" }
 
 func (r *FlowRenderer) Render(data map[string]interface{}) string {
 	g := buildFlowGraph(data)
-	graphJSON, _ := json.Marshal(g)
+	graphJSON, err := json.Marshal(g)
+	if err != nil {
+		graphJSON = []byte(`{"component":"error","nodes":[],"edges":[],"paths":[]}`)
+	}
 
 	tmpl := template.Must(template.New("flow").Parse(flowHTMLTemplate))
 	var b strings.Builder
-	_ = tmpl.Execute(&b, map[string]interface{}{
+	if err := tmpl.Execute(&b, map[string]interface{}{
 		"Component": g.Component,
-		"GraphJSON": template.JS(graphJSON), //nolint:gosec // content is generated, not user input
-	})
+		"GraphJSON": template.JS(graphJSON), //nolint:gosec // generated from struct, not user input; json.Marshal HTML-escapes </>
+	}); err != nil {
+		return "<!DOCTYPE html><html><body>Flow render error: " + err.Error() + "</body></html>"
+	}
 	return b.String()
 }
 
 // flowNodeID returns a safe HTML element ID suffix for a node label.
-// Hyphens are preserved (valid in HTML IDs); spaces become underscores.
+// Letters, digits, hyphens, and underscores are preserved; everything else
+// (dots, slashes, colons, spaces) becomes a hyphen.
 func flowNodeID(s string) string {
 	var b strings.Builder
 	for _, ch := range s {
-		switch {
-		case ch == ' ' || ch == '\t':
-			b.WriteByte('_')
-		default:
+		if unicode.IsLetter(ch) || unicode.IsDigit(ch) || ch == '-' || ch == '_' {
 			b.WriteRune(ch)
+		} else {
+			b.WriteByte('-')
 		}
 	}
-	if b.Len() == 0 {
+	result := b.String()
+	if result == "" {
 		return "node"
 	}
-	return b.String()
+	return result
+}
+
+// stripNamespace removes a "namespace/" prefix from a service reference.
+func stripNamespace(ref string) string {
+	if idx := strings.LastIndex(ref, "/"); idx >= 0 {
+		return ref[idx+1:]
+	}
+	return ref
+}
+
+// controllerDepID picks the best deployment for controller watch edges.
+// Prefers a deployment whose name contains the component name.
+func controllerDepID(nodes []FlowNode, component string) string {
+	var firstDep string
+	comp := strings.ToLower(component)
+	for _, n := range nodes {
+		if n.Type != FlowNodeDeployment {
+			continue
+		}
+		if firstDep == "" {
+			firstDep = n.ID
+		}
+		if strings.Contains(strings.ToLower(n.Label), comp) {
+			return n.ID
+		}
+	}
+	return firstDep
 }
 
 // buildFlowGraph converts component architecture data into a FlowGraph.
@@ -95,6 +129,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	}
 
 	seen := map[string]bool{}
+	nameCounter := map[string]int{}
 	addNode := func(n FlowNode) {
 		if seen[n.ID] {
 			return
@@ -103,9 +138,20 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		g.Nodes = append(g.Nodes, n)
 	}
 
+	// uniqueName deduplicates fallback default names
+	uniqueName := func(name, prefix string) string {
+		key := prefix + ":" + name
+		nameCounter[key]++
+		if nameCounter[key] > 1 {
+			return fmt.Sprintf("%s-%d", name, nameCounter[key])
+		}
+		return name
+	}
+
 	// Layer 0: ingress routing
 	for _, item := range getSlice(data, "ingress_routing") {
 		name := getStr(item, "name", "ingress")
+		name = uniqueName(name, "ingress")
 		addNode(FlowNode{
 			ID:    "ingress-" + flowNodeID(name),
 			Label: name,
@@ -118,6 +164,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	// Layer 1: webhooks
 	for _, item := range getSlice(data, "webhooks") {
 		name := getStr(item, "name", "webhook")
+		name = uniqueName(name, "webhook")
 		addNode(FlowNode{
 			ID:    "wh-" + flowNodeID(name),
 			Label: name,
@@ -130,6 +177,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	// Layer 2: services
 	for _, item := range getSlice(data, "services") {
 		name := getStr(item, "name", "service")
+		name = uniqueName(name, "service")
 		svcType := getStr(item, "type", "ClusterIP")
 		ports := getSlice(item, "ports")
 		var portParts []string
@@ -152,6 +200,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	// Layer 3: deployments
 	for _, item := range getSlice(data, "deployments") {
 		name := getStr(item, "name", "deployment")
+		name = uniqueName(name, "deployment")
 		addNode(FlowNode{
 			ID:    "dep-" + flowNodeID(name),
 			Label: name,
@@ -163,6 +212,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	// Layer 4: external connections
 	for _, item := range getSlice(data, "external_connections") {
 		target := getStr(item, "target", "external")
+		target = uniqueName(target, "external")
 		addNode(FlowNode{
 			ID:    "ext-" + flowNodeID(target),
 			Label: target,
@@ -187,7 +237,6 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	// Build lookup maps for edge wiring
 	serviceByName := map[string]string{}
 	crdByKind := map[string]string{}
-	var firstDepID string
 	var firstSvcID string
 	for _, n := range g.Nodes {
 		switch n.Type {
@@ -198,12 +247,10 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 			}
 		case FlowNodeCRD:
 			crdByKind[n.Label] = n.ID
-		case FlowNodeDeployment:
-			if firstDepID == "" {
-				firstDepID = n.ID
-			}
 		}
 	}
+
+	ctrlDepID := controllerDepID(g.Nodes, g.Component)
 
 	edgeSeen := map[string]bool{}
 	addEdge := func(from, to, edgeType, label string) {
@@ -223,10 +270,10 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		})
 	}
 
-	// Ingress → service (by service_ref, or single-service heuristic)
+	// Ingress → service (by service_ref with namespace stripping, or single-service heuristic)
 	for _, item := range getSlice(data, "ingress_routing") {
 		ingressID := "ingress-" + flowNodeID(getStr(item, "name", "ingress"))
-		svcRef := getStr(item, "service_ref", "")
+		svcRef := stripNamespace(getStr(item, "service_ref", ""))
 		if svcID, ok := serviceByName[svcRef]; ok {
 			addEdge(ingressID, svcID, "route", "")
 		} else if len(serviceByName) == 1 {
@@ -234,14 +281,10 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		}
 	}
 
-	// Webhook → service (by service_ref, which may be "namespace/name" or bare "name")
+	// Webhook → service (by service_ref with namespace stripping, or single-service heuristic)
 	for _, item := range getSlice(data, "webhooks") {
 		whID := "wh-" + flowNodeID(getStr(item, "name", "webhook"))
-		svcRef := getStr(item, "service_ref", "")
-		// Strip namespace prefix if present (e.g. "ns/svc-name" → "svc-name")
-		if idx := strings.LastIndex(svcRef, "/"); idx >= 0 {
-			svcRef = svcRef[idx+1:]
-		}
+		svcRef := stripNamespace(getStr(item, "service_ref", ""))
 		if svcID, ok := serviceByName[svcRef]; ok {
 			addEdge(whID, svcID, "intercept", "")
 		} else if len(serviceByName) == 1 {
@@ -253,18 +296,20 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	for _, item := range getSlice(data, "services") {
 		svcID := "svc-" + flowNodeID(getStr(item, "name", "service"))
 		target := getStr(item, "target_deployment", "")
-		depID := "dep-" + flowNodeID(target)
 		if target != "" {
-			addEdge(svcID, depID, "target", "")
-		} else if firstDepID != "" {
-			addEdge(svcID, firstDepID, "target", "")
+			depID := "dep-" + flowNodeID(target)
+			if seen[depID] {
+				addEdge(svcID, depID, "target", "")
+			}
+		} else if ctrlDepID != "" {
+			addEdge(svcID, ctrlDepID, "target", "")
 		}
 	}
 
 	// Controller watches → CRDs (or built-in k8s resources for Owns)
 	for _, item := range getSlice(data, "controller_watches") {
 		watchType := getStr(item, "type", "")
-		gvk := getStr(item, "gvk", "")
+		gvk := strings.TrimRight(getStr(item, "gvk", ""), "/")
 		parts := strings.Split(gvk, "/")
 		kind := parts[len(parts)-1]
 		if kind == "" {
@@ -272,23 +317,22 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		}
 		if crdID, ok := crdByKind[kind]; ok {
 			if watchType == "Owns" {
-				addEdge(firstDepID, crdID, "creates", "")
+				addEdge(ctrlDepID, crdID, "creates", "")
 			} else {
-				addEdge(firstDepID, crdID, "watches", "")
+				addEdge(ctrlDepID, crdID, "watches", "")
 			}
 		} else if watchType == "Owns" {
-			// Owns a built-in k8s resource — add it as a CRD node if not seen
 			nodeID := "crd-" + flowNodeID(kind)
 			addNode(FlowNode{ID: nodeID, Label: kind, Type: FlowNodeCRD, Layer: 5})
 			crdByKind[kind] = nodeID
-			addEdge(firstDepID, nodeID, "creates", "")
+			addEdge(ctrlDepID, nodeID, "creates", "")
 		}
 	}
 
 	// Deployment → external connections
 	for _, item := range getSlice(data, "external_connections") {
 		extID := "ext-" + flowNodeID(getStr(item, "target", "external"))
-		addEdge(firstDepID, extID, "external", "")
+		addEdge(ctrlDepID, extID, "external", "")
 	}
 
 	// Assign stable edge IDs
@@ -302,7 +346,6 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 
 // buildFlowPaths infers animated flow paths from the graph structure.
 func buildFlowPaths(g FlowGraph) []FlowPath {
-	// Index edges by from node and by type
 	edgesByFrom := map[string][]FlowEdge{}
 	for _, e := range g.Edges {
 		edgesByFrom[e.From] = append(edgesByFrom[e.From], e)
@@ -406,8 +449,6 @@ func buildFlowPaths(g FlowGraph) []FlowPath {
 }
 
 // flowHTMLTemplate is the self-contained HTML/JS flow diagram template.
-// Uses html/template syntax: {{.Component}} and {{.GraphJSON}}.
-// The JS uses no backtick template literals to stay compatible with Go raw strings.
 const flowHTMLTemplate = `<!DOCTYPE html>
 <html data-theme="dark">
 <head>
@@ -460,6 +501,7 @@ input[type=range] { width: 80px; cursor: pointer; vertical-align: middle; }
 #legend { font-size: 11px; color: var(--legend-fg); white-space: nowrap; }
 #legend span { margin-right: 10px; }
 .node-label { pointer-events: none; }
+.empty-msg { fill: var(--legend-fg); font-size: 16px; font-family: monospace; }
 </style>
 </head>
 <body>
@@ -493,7 +535,6 @@ input[type=range] { width: 80px; cursor: pointer; vertical-align: middle; }
 <script>
 const GRAPH = {{.GraphJSON}};
 var SVG_NS = 'http://www.w3.org/2000/svg';
-var XLINK_NS = 'http://www.w3.org/1999/xlink';
 
 var NODE_STYLE = {
   ingress:    { w: 130, h: 38, rx: 19, fill: '#1a5276', stroke: '#2980b9' },
@@ -513,10 +554,24 @@ var EDGE_COLOR = {
   external:  '#e74c3c'
 };
 
+var nodeById = {};
 var positions = {};
 var playing = false;
 var currentPathIdx = 0;
+var dragDist = 0;
 var svg = document.getElementById('diagram');
+
+function buildNodeIndex() {
+  nodeById = {};
+  for (var i = 0; i < GRAPH.nodes.length; i++) {
+    nodeById[GRAPH.nodes[i].id] = GRAPH.nodes[i];
+  }
+}
+
+function nodeLabel(id) {
+  var n = nodeById[id];
+  return n ? n.label : id;
+}
 
 function svgEl(tag, attrs) {
   var el = document.createElementNS(SVG_NS, tag);
@@ -532,14 +587,14 @@ function computeLayout(nodes) {
     layers[n.layer].push(n);
   }
   var W = svg.clientWidth || window.innerWidth;
-  var H = (svg.clientHeight || window.innerHeight) - 48;
+  var H = svg.clientHeight || (window.innerHeight - 48);
   var layerKeys = Object.keys(layers).map(Number).sort(function(a,b){return a-b;});
   var layerCount = layerKeys.length || 1;
   var result = {};
   for (var li = 0; li < layerKeys.length; li++) {
     var layer = layerKeys[li];
     var layerNodes = layers[layer];
-    var y = 60 + (li + 0.5) * ((H - 80) / layerCount);
+    var y = 50 + (li + 0.5) * ((H - 80) / layerCount);
     for (var ni = 0; ni < layerNodes.length; ni++) {
       var x = (ni + 1) * W / (layerNodes.length + 1);
       result[layerNodes[ni].id] = { x: x, y: y };
@@ -568,7 +623,9 @@ function makeNodeEl(node, pos) {
   text.textContent = label;
   g.appendChild(text);
 
-  g.addEventListener('click', function() { showDetail(node); });
+  g.addEventListener('click', function(ev) {
+    if (dragDist < 4) showDetail(node);
+  });
   return g;
 }
 
@@ -597,10 +654,13 @@ function clearDots() {
 function startAnimation() {
   clearDots();
   if (!GRAPH.paths || GRAPH.paths.length === 0) return;
+  if (currentPathIdx >= GRAPH.paths.length) currentPathIdx = 0;
   var flowPath = GRAPH.paths[currentPathIdx];
   var speed = parseFloat(document.getElementById('speed').value) || 1;
-  var dur = (3 / speed).toFixed(1) + 's';
+  var durVal = 3 / speed;
+  var dur = durVal.toFixed(1) + 's';
   var dotsEl = document.getElementById('g-dots');
+  var edgeCount = flowPath.edges.length || 1;
 
   for (var i = 0; i < flowPath.edges.length; i++) {
     var edgeId = flowPath.edges[i];
@@ -610,14 +670,15 @@ function startAnimation() {
     var circle = svgEl('circle', { r: '6', fill: flowPath.color });
     circle.setAttribute('filter', 'drop-shadow(0 0 4px ' + flowPath.color + ')');
 
+    var stagger = (i / edgeCount) * durVal * 0.8;
     var motion = svgEl('animateMotion', {
       dur: dur,
-      begin: (i * parseFloat(dur) * 0.3).toFixed(1) + 's',
+      begin: stagger.toFixed(1) + 's',
       repeatCount: 'indefinite',
       rotate: 'auto'
     });
     var mpath = document.createElementNS(SVG_NS, 'mpath');
-    mpath.setAttributeNS(XLINK_NS, 'xlink:href', '#edge-' + edgeId);
+    mpath.setAttribute('href', '#edge-' + edgeId);
     motion.appendChild(mpath);
     circle.appendChild(motion);
     dotsEl.appendChild(circle);
@@ -632,7 +693,7 @@ function showDetail(node) {
   var incoming = GRAPH.edges.filter(function(e) { return e.to === node.id; });
   var outgoing = GRAPH.edges.filter(function(e) { return e.from === node.id; });
 
-  var html = '<button class="close-btn" onclick="document.getElementById(\'detail-panel\').style.display=\'none\'">&#10005;</button>';
+  var html = '<button class="close-btn" id="detail-close">&#10005;</button>';
   html += '<h3>' + escHtml(node.label) + '</h3>';
   html += '<p class="meta-row" style="margin-bottom:8px">' + escHtml(node.type) + '</p>';
 
@@ -644,20 +705,23 @@ function showDetail(node) {
   if (incoming.length > 0) {
     html += '<p class="section-title">Receives from</p>';
     for (var i = 0; i < incoming.length; i++) {
-      html += '<p class="meta-row">← ' + escHtml(incoming[i].from) + ' <span style="color:var(--legend-fg)">(' + escHtml(incoming[i].type) + ')</span></p>';
+      html += '<p class="meta-row">← ' + escHtml(nodeLabel(incoming[i].from)) + ' <span style="color:var(--legend-fg)">(' + escHtml(incoming[i].type) + ')</span></p>';
     }
   }
   if (outgoing.length > 0) {
     html += '<p class="section-title">Sends to</p>';
     for (var j = 0; j < outgoing.length; j++) {
-      html += '<p class="meta-row">→ ' + escHtml(outgoing[j].to) + ' <span style="color:var(--legend-fg)">(' + escHtml(outgoing[j].type) + ')</span></p>';
+      html += '<p class="meta-row">→ ' + escHtml(nodeLabel(outgoing[j].to)) + ' <span style="color:var(--legend-fg)">(' + escHtml(outgoing[j].type) + ')</span></p>';
     }
   }
   panel.innerHTML = html;
+  document.getElementById('detail-close').addEventListener('click', function() {
+    panel.style.display = 'none';
+  });
 }
 
 function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 function renderLegend() {
@@ -697,12 +761,23 @@ function drawAll() {
   positions = computeLayout(GRAPH.nodes);
   var edgesEl = document.getElementById('g-edges');
   edgesEl.innerHTML = '';
+  var nodesEl = document.getElementById('g-nodes');
+  nodesEl.innerHTML = '';
+
+  if (GRAPH.nodes.length === 0) {
+    var msg = svgEl('text', {
+      x: (vb.w / 2), y: (vb.h / 2),
+      'text-anchor': 'middle', 'class': 'empty-msg'
+    });
+    msg.textContent = 'No architecture data found in analyzed sources';
+    nodesEl.appendChild(msg);
+    return;
+  }
+
   for (var i = 0; i < GRAPH.edges.length; i++) {
     var el = makeEdgeEl(GRAPH.edges[i]);
     if (el) edgesEl.appendChild(el);
   }
-  var nodesEl = document.getElementById('g-nodes');
-  nodesEl.innerHTML = '';
   for (var j = 0; j < GRAPH.nodes.length; j++) {
     var pos = positions[GRAPH.nodes[j].id];
     if (pos) nodesEl.appendChild(makeNodeEl(GRAPH.nodes[j], pos));
@@ -716,21 +791,25 @@ var drag = false, dragOrigin = null, vbOrigin = null;
 function initViewBox() {
   vb.x = 0; vb.y = 0;
   vb.w = svg.clientWidth || window.innerWidth;
-  vb.h = (svg.clientHeight || window.innerHeight) - 48;
+  vb.h = svg.clientHeight || (window.innerHeight - 48);
   svg.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
 }
 
 svg.addEventListener('mousedown', function(e) {
   drag = true;
+  dragDist = 0;
   dragOrigin = { x: e.clientX, y: e.clientY };
   vbOrigin = { x: vb.x, y: vb.y, w: vb.w, h: vb.h };
 });
 svg.addEventListener('mousemove', function(e) {
   if (!drag) return;
+  var dx = e.clientX - dragOrigin.x;
+  var dy = e.clientY - dragOrigin.y;
+  dragDist = Math.sqrt(dx * dx + dy * dy);
   var sx = vb.w / (svg.clientWidth || 1);
   var sy = vb.h / (svg.clientHeight || 1);
-  vb.x = vbOrigin.x - (e.clientX - dragOrigin.x) * sx;
-  vb.y = vbOrigin.y - (e.clientY - dragOrigin.y) * sy;
+  vb.x = vbOrigin.x - dx * sx;
+  vb.y = vbOrigin.y - dy * sy;
   svg.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
 });
 svg.addEventListener('mouseup', function() { drag = false; });
@@ -772,6 +851,7 @@ document.getElementById('btn-theme').addEventListener('click', function() {
 });
 
 window.addEventListener('load', function() {
+  buildNodeIndex();
   initViewBox();
   drawAll();
   populateFlowSelect();
