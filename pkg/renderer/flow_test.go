@@ -505,6 +505,341 @@ func TestBuildFlowGraph_DefaultNameCollision(t *testing.T) {
 	}
 }
 
+// ---- stripNamespace tests ----
+
+func TestStripNamespace_WithNamespace(t *testing.T) {
+	if r := stripNamespace("opendatahub/my-svc"); r != "my-svc" {
+		t.Errorf("expected 'my-svc', got %q", r)
+	}
+}
+
+func TestStripNamespace_NoNamespace(t *testing.T) {
+	if r := stripNamespace("my-svc"); r != "my-svc" {
+		t.Errorf("expected 'my-svc', got %q", r)
+	}
+}
+
+func TestStripNamespace_Empty(t *testing.T) {
+	if r := stripNamespace(""); r != "" {
+		t.Errorf("expected empty, got %q", r)
+	}
+}
+
+func TestStripNamespace_JustSlash(t *testing.T) {
+	if r := stripNamespace("/"); r != "" {
+		t.Errorf("expected empty, got %q", r)
+	}
+}
+
+func TestStripNamespace_MultiSlash(t *testing.T) {
+	if r := stripNamespace("a/b/c"); r != "c" {
+		t.Errorf("expected 'c', got %q", r)
+	}
+}
+
+// ---- controllerDepID tests ----
+
+func TestControllerDepID_MatchesComponentName(t *testing.T) {
+	nodes := []FlowNode{
+		{ID: "dep-webhook", Label: "webhook", Type: FlowNodeDeployment},
+		{ID: "dep-kserve-ctrl", Label: "kserve-ctrl", Type: FlowNodeDeployment},
+	}
+	id := controllerDepID(nodes, "kserve")
+	if id != "dep-kserve-ctrl" {
+		t.Errorf("expected dep-kserve-ctrl, got %q", id)
+	}
+}
+
+func TestControllerDepID_FallsBackToFirstDep(t *testing.T) {
+	nodes := []FlowNode{
+		{ID: "dep-alpha", Label: "alpha", Type: FlowNodeDeployment},
+		{ID: "dep-beta", Label: "beta", Type: FlowNodeDeployment},
+	}
+	id := controllerDepID(nodes, "unrelated-component")
+	if id != "dep-alpha" {
+		t.Errorf("expected dep-alpha (first deployment), got %q", id)
+	}
+}
+
+func TestControllerDepID_NoDeployments(t *testing.T) {
+	nodes := []FlowNode{
+		{ID: "svc-x", Label: "x", Type: FlowNodeService},
+	}
+	id := controllerDepID(nodes, "comp")
+	if id != "" {
+		t.Errorf("expected empty string, got %q", id)
+	}
+}
+
+// ---- edge wiring with uniqueName tests ----
+
+func TestBuildFlowGraph_UniqueNameEdgeSync(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"services": []interface{}{
+			map[string]interface{}{"type": "ClusterIP"},
+			map[string]interface{}{"type": "NodePort"},
+		},
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "app"},
+		},
+	}
+	g := buildFlowGraph(data)
+	nodeIDs := map[string]bool{}
+	for _, n := range g.Nodes {
+		nodeIDs[n.ID] = true
+	}
+	for _, e := range g.Edges {
+		if !nodeIDs[e.From] {
+			t.Errorf("edge From %q does not correspond to any node", e.From)
+		}
+		if !nodeIDs[e.To] {
+			t.Errorf("edge To %q does not correspond to any node", e.To)
+		}
+	}
+}
+
+func TestBuildFlowGraph_UniqueNameExternalEdgeSync(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "app"},
+		},
+		"external_connections": []interface{}{
+			map[string]interface{}{"type": "database"},
+			map[string]interface{}{"type": "cache"},
+		},
+	}
+	g := buildFlowGraph(data)
+	nodeIDs := map[string]bool{}
+	for _, n := range g.Nodes {
+		nodeIDs[n.ID] = true
+	}
+	for _, e := range g.Edges {
+		if e.Type == "external" && !nodeIDs[e.To] {
+			t.Errorf("external edge To %q does not correspond to any node", e.To)
+		}
+	}
+}
+
+// ---- single-service heuristic test ----
+
+func TestBuildFlowGraph_SingleServiceHeuristic(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"services": []interface{}{
+			map[string]interface{}{"name": "only-svc"},
+		},
+		"ingress_routing": []interface{}{
+			map[string]interface{}{"name": "gw", "service_ref": "nonexistent"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var found bool
+	for _, e := range g.Edges {
+		if e.Type == "route" && e.To == "svc-only-svc" {
+			found = true
+		}
+	}
+	if !found {
+		t.Error("with one service and non-matching service_ref, should fall back to single-service heuristic")
+	}
+}
+
+func TestBuildFlowGraph_MultiServiceNoFallback(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"services": []interface{}{
+			map[string]interface{}{"name": "svc-a"},
+			map[string]interface{}{"name": "svc-b"},
+		},
+		"ingress_routing": []interface{}{
+			map[string]interface{}{"name": "gw", "service_ref": "nonexistent"},
+		},
+	}
+	g := buildFlowGraph(data)
+	for _, e := range g.Edges {
+		if e.Type == "route" {
+			t.Error("with multiple services and non-matching service_ref, should NOT create a route edge")
+		}
+	}
+}
+
+// ---- flow path type tests ----
+
+func TestBuildFlowPaths_ControllerFlow(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "ctrl"},
+		},
+		"crds": []interface{}{
+			map[string]interface{}{"kind": "Widget", "group": "g"},
+		},
+		"controller_watches": []interface{}{
+			map[string]interface{}{"type": "For", "gvk": "g/v1/Widget"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var found *FlowPath
+	for i := range g.Paths {
+		if g.Paths[i].Name == "Controller Flow" {
+			found = &g.Paths[i]
+		}
+	}
+	if found == nil {
+		t.Fatal("should have a 'Controller Flow' path")
+	}
+	if len(found.Edges) == 0 {
+		t.Error("Controller Flow should have at least one edge")
+	}
+}
+
+func TestBuildFlowPaths_ExternalCalls(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "app"},
+		},
+		"external_connections": []interface{}{
+			map[string]interface{}{"target": "redis", "type": "cache"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var found *FlowPath
+	for i := range g.Paths {
+		if g.Paths[i].Name == "External Calls" {
+			found = &g.Paths[i]
+		}
+	}
+	if found == nil {
+		t.Fatal("should have an 'External Calls' path")
+	}
+	if len(found.Edges) == 0 {
+		t.Error("External Calls should have at least one edge")
+	}
+}
+
+func TestBuildFlowPaths_WebhookIntercept(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"services": []interface{}{
+			map[string]interface{}{"name": "webhook-svc"},
+		},
+		"webhooks": []interface{}{
+			map[string]interface{}{"name": "validate", "service_ref": "webhook-svc"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var found *FlowPath
+	for i := range g.Paths {
+		if g.Paths[i].Name == "Webhook Intercept" {
+			found = &g.Paths[i]
+		}
+	}
+	if found == nil {
+		t.Fatal("should have a 'Webhook Intercept' path")
+	}
+	if len(found.Edges) == 0 {
+		t.Error("Webhook Intercept should have at least one edge")
+	}
+}
+
+func TestBuildFlowPaths_RequestFlowFollowsActualRoute(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"services": []interface{}{
+			map[string]interface{}{"name": "frontend"},
+			map[string]interface{}{"name": "backend"},
+		},
+		"ingress_routing": []interface{}{
+			map[string]interface{}{"name": "gw", "service_ref": "backend"},
+		},
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "test-app"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var routeEdge *FlowEdge
+	for i := range g.Edges {
+		if g.Edges[i].Type == "route" {
+			routeEdge = &g.Edges[i]
+		}
+	}
+	if routeEdge == nil {
+		t.Fatal("should have a route edge")
+	}
+	if routeEdge.To != "svc-backend" {
+		t.Errorf("route edge should go to svc-backend, got %q", routeEdge.To)
+	}
+	var reqFlow *FlowPath
+	for i := range g.Paths {
+		if g.Paths[i].Name == "Request Flow" {
+			reqFlow = &g.Paths[i]
+		}
+	}
+	if reqFlow == nil {
+		t.Fatal("should have a Request Flow path")
+	}
+	if len(reqFlow.Edges) < 1 {
+		t.Fatal("Request Flow should have edges")
+	}
+	// Verify the path follows the actual route, not the first service
+	edgeByID := map[string]FlowEdge{}
+	for _, e := range g.Edges {
+		edgeByID[e.ID] = e
+	}
+	firstEdge := edgeByID[reqFlow.Edges[0]]
+	if firstEdge.To != "svc-backend" {
+		t.Errorf("Request Flow first edge should go to svc-backend (the routed service), got %q", firstEdge.To)
+	}
+}
+
+// ---- controllerDepID edge From verification ----
+
+func TestBuildFlowGraph_ControllerWatchEdgeFrom(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "test-controller"},
+		},
+		"crds": []interface{}{
+			map[string]interface{}{"kind": "MyKind", "group": "g"},
+		},
+		"controller_watches": []interface{}{
+			map[string]interface{}{"type": "For", "gvk": "g/v1/MyKind"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var watchEdge *FlowEdge
+	for i := range g.Edges {
+		if g.Edges[i].Type == "watches" {
+			watchEdge = &g.Edges[i]
+		}
+	}
+	if watchEdge == nil {
+		t.Fatal("should have a watches edge")
+	}
+	if watchEdge.From != "dep-test-controller" {
+		t.Errorf("watches edge From should be dep-test-controller, got %q", watchEdge.From)
+	}
+}
+
+// ---- nil slice safety test ----
+
+func TestBuildFlowGraph_EmptyData_NilSafety(t *testing.T) {
+	g := buildFlowGraph(emptyComponentData())
+	if g.Nodes == nil {
+		t.Error("Nodes should be empty slice, not nil (JSON serializes nil as null)")
+	}
+	if g.Edges == nil {
+		t.Error("Edges should be empty slice, not nil")
+	}
+	if g.Paths == nil {
+		t.Error("Paths should be empty slice, not nil")
+	}
+}
+
 // ---- FlowRenderer tests ----
 
 func TestFlowRenderer_Filename(t *testing.T) {

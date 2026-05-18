@@ -126,6 +126,9 @@ func controllerDepID(nodes []FlowNode, component string) string {
 func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	g := FlowGraph{
 		Component: getStr(data, "component", "unknown"),
+		Nodes:     []FlowNode{},
+		Edges:     []FlowEdge{},
+		Paths:     []FlowPath{},
 	}
 
 	seen := map[string]bool{}
@@ -148,30 +151,33 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		return name
 	}
 
+	// nodeRef ties a raw data item to its created node ID.
+	type nodeRef struct {
+		id   string
+		item map[string]interface{}
+	}
+
+	// Phase 1: create all nodes, storing refs for edge wiring.
+	var ingressRefs, webhookRefs, serviceRefs, externalRefs []nodeRef
+
 	// Layer 0: ingress routing
 	for _, item := range getSlice(data, "ingress_routing") {
 		name := getStr(item, "name", "ingress")
 		name = uniqueName(name, "ingress")
-		addNode(FlowNode{
-			ID:    "ingress-" + flowNodeID(name),
-			Label: name,
-			Type:  FlowNodeIngress,
-			Layer: 0,
-			Meta:  map[string]string{"kind": getStr(item, "kind", "")},
-		})
+		id := "ingress-" + flowNodeID(name)
+		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeIngress, Layer: 0,
+			Meta: map[string]string{"kind": getStr(item, "kind", "")}})
+		ingressRefs = append(ingressRefs, nodeRef{id, item})
 	}
 
 	// Layer 1: webhooks
 	for _, item := range getSlice(data, "webhooks") {
 		name := getStr(item, "name", "webhook")
 		name = uniqueName(name, "webhook")
-		addNode(FlowNode{
-			ID:    "wh-" + flowNodeID(name),
-			Label: name,
-			Type:  FlowNodeWebhook,
-			Layer: 1,
-			Meta:  map[string]string{"type": getStr(item, "type", "")},
-		})
+		id := "wh-" + flowNodeID(name)
+		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeWebhook, Layer: 1,
+			Meta: map[string]string{"type": getStr(item, "type", "")}})
+		webhookRefs = append(webhookRefs, nodeRef{id, item})
 	}
 
 	// Layer 2: services
@@ -188,53 +194,38 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		if len(portParts) > 0 {
 			meta["ports"] = strings.Join(portParts, ", ")
 		}
-		addNode(FlowNode{
-			ID:    "svc-" + flowNodeID(name),
-			Label: name,
-			Type:  FlowNodeService,
-			Layer: 2,
-			Meta:  meta,
-		})
+		id := "svc-" + flowNodeID(name)
+		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeService, Layer: 2, Meta: meta})
+		serviceRefs = append(serviceRefs, nodeRef{id, item})
 	}
 
 	// Layer 3: deployments
 	for _, item := range getSlice(data, "deployments") {
 		name := getStr(item, "name", "deployment")
 		name = uniqueName(name, "deployment")
-		addNode(FlowNode{
-			ID:    "dep-" + flowNodeID(name),
-			Label: name,
-			Type:  FlowNodeDeployment,
-			Layer: 3,
-		})
+		id := "dep-" + flowNodeID(name)
+		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeDeployment, Layer: 3})
 	}
 
 	// Layer 4: external connections
 	for _, item := range getSlice(data, "external_connections") {
 		target := getStr(item, "target", "external")
 		target = uniqueName(target, "external")
-		addNode(FlowNode{
-			ID:    "ext-" + flowNodeID(target),
-			Label: target,
-			Type:  FlowNodeExternal,
-			Layer: 4,
-			Meta:  map[string]string{"type": getStr(item, "type", "")},
-		})
+		id := "ext-" + flowNodeID(target)
+		addNode(FlowNode{ID: id, Label: target, Type: FlowNodeExternal, Layer: 4,
+			Meta: map[string]string{"type": getStr(item, "type", "")}})
+		externalRefs = append(externalRefs, nodeRef{id, item})
 	}
 
 	// Layer 5: CRDs
 	for _, item := range getSlice(data, "crds") {
 		kind := getStr(item, "kind", "CRD")
-		addNode(FlowNode{
-			ID:    "crd-" + flowNodeID(kind),
-			Label: kind,
-			Type:  FlowNodeCRD,
-			Layer: 5,
-			Meta:  map[string]string{"group": getStr(item, "group", "")},
-		})
+		id := "crd-" + flowNodeID(kind)
+		addNode(FlowNode{ID: id, Label: kind, Type: FlowNodeCRD, Layer: 5,
+			Meta: map[string]string{"group": getStr(item, "group", "")}})
 	}
 
-	// Build lookup maps for edge wiring
+	// Phase 2: build lookup maps for edge wiring.
 	serviceByName := map[string]string{}
 	crdByKind := map[string]string{}
 	var firstSvcID string
@@ -270,39 +261,38 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		})
 	}
 
-	// Ingress → service (by service_ref with namespace stripping, or single-service heuristic)
-	for _, item := range getSlice(data, "ingress_routing") {
-		ingressID := "ingress-" + flowNodeID(getStr(item, "name", "ingress"))
-		svcRef := stripNamespace(getStr(item, "service_ref", ""))
+	// Phase 3: wire edges using stored node refs (not re-reading raw data).
+
+	// Ingress → service
+	for _, ref := range ingressRefs {
+		svcRef := stripNamespace(getStr(ref.item, "service_ref", ""))
 		if svcID, ok := serviceByName[svcRef]; ok {
-			addEdge(ingressID, svcID, "route", "")
+			addEdge(ref.id, svcID, "route", "")
 		} else if len(serviceByName) == 1 {
-			addEdge(ingressID, firstSvcID, "route", "")
+			addEdge(ref.id, firstSvcID, "route", "")
 		}
 	}
 
-	// Webhook → service (by service_ref with namespace stripping, or single-service heuristic)
-	for _, item := range getSlice(data, "webhooks") {
-		whID := "wh-" + flowNodeID(getStr(item, "name", "webhook"))
-		svcRef := stripNamespace(getStr(item, "service_ref", ""))
+	// Webhook → service
+	for _, ref := range webhookRefs {
+		svcRef := stripNamespace(getStr(ref.item, "service_ref", ""))
 		if svcID, ok := serviceByName[svcRef]; ok {
-			addEdge(whID, svcID, "intercept", "")
+			addEdge(ref.id, svcID, "intercept", "")
 		} else if len(serviceByName) == 1 {
-			addEdge(whID, firstSvcID, "intercept", "")
+			addEdge(ref.id, firstSvcID, "intercept", "")
 		}
 	}
 
-	// Service → deployment (by target_deployment, or single-deployment heuristic)
-	for _, item := range getSlice(data, "services") {
-		svcID := "svc-" + flowNodeID(getStr(item, "name", "service"))
-		target := getStr(item, "target_deployment", "")
+	// Service → deployment
+	for _, ref := range serviceRefs {
+		target := getStr(ref.item, "target_deployment", "")
 		if target != "" {
 			depID := "dep-" + flowNodeID(target)
 			if seen[depID] {
-				addEdge(svcID, depID, "target", "")
+				addEdge(ref.id, depID, "target", "")
 			}
 		} else if ctrlDepID != "" {
-			addEdge(svcID, ctrlDepID, "target", "")
+			addEdge(ref.id, ctrlDepID, "target", "")
 		}
 	}
 
@@ -330,9 +320,8 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	}
 
 	// Deployment → external connections
-	for _, item := range getSlice(data, "external_connections") {
-		extID := "ext-" + flowNodeID(getStr(item, "target", "external"))
-		addEdge(ctrlDepID, extID, "external", "")
+	for _, ref := range externalRefs {
+		addEdge(ctrlDepID, ref.id, "external", "")
 	}
 
 	// Assign stable edge IDs
@@ -340,7 +329,9 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		g.Edges[i].ID = fmt.Sprintf("e%d", i)
 	}
 
-	g.Paths = buildFlowPaths(g)
+	if paths := buildFlowPaths(g); len(paths) > 0 {
+		g.Paths = paths
+	}
 	return g
 }
 
@@ -370,19 +361,18 @@ func buildFlowPaths(g FlowGraph) []FlowPath {
 	}
 
 	ingressID := firstNodeOfType(FlowNodeIngress)
-	svcID := firstNodeOfType(FlowNodeService)
 	depID := firstNodeOfType(FlowNodeDeployment)
 
 	var paths []FlowPath
 
-	// Request Flow: ingress → service → deployment
-	if ingressID != "" && svcID != "" && depID != "" {
+	// Request Flow: ingress → service (following the actual route edge) → deployment
+	if ingressID != "" && depID != "" {
 		var edges []string
-		if e, ok := firstEdgeOfType(ingressID, "route"); ok {
-			edges = append(edges, e.ID)
-		}
-		if e, ok := firstEdgeOfType(svcID, "target"); ok {
-			edges = append(edges, e.ID)
+		if routeEdge, ok := firstEdgeOfType(ingressID, "route"); ok {
+			edges = append(edges, routeEdge.ID)
+			if targetEdge, ok := firstEdgeOfType(routeEdge.To, "target"); ok {
+				edges = append(edges, targetEdge.ID)
+			}
 		}
 		if len(edges) > 0 {
 			paths = append(paths, FlowPath{
