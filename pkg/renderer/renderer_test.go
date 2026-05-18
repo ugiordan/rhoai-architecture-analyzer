@@ -285,8 +285,8 @@ func TestDataflowRenderer(t *testing.T) {
 
 func TestRenderAll_Empty(t *testing.T) {
 	results := RenderAll(sampleData(), nil)
-	if len(results) != 7 {
-		t.Errorf("RenderAll with nil formats should return 7 renderers, got %d", len(results))
+	if len(results) != 8 {
+		t.Errorf("RenderAll with nil formats should return 8 renderers, got %d", len(results))
 	}
 }
 

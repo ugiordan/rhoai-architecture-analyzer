@@ -27,6 +27,7 @@ var rendererRegistry = map[string]Renderer{
 	"c4":               &C4Renderer{},
 	"dataflow":         &DataflowRenderer{},
 	"report":           &ReportRenderer{},
+	"flow":             &FlowRenderer{},
 }
 
 // allRenderers returns every available per-component renderer in stable order.
