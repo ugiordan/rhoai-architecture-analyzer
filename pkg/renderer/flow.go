@@ -234,12 +234,18 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		}
 	}
 
-	// Webhook → service (by service_ref)
+	// Webhook → service (by service_ref, which may be "namespace/name" or bare "name")
 	for _, item := range getSlice(data, "webhooks") {
 		whID := "wh-" + flowNodeID(getStr(item, "name", "webhook"))
 		svcRef := getStr(item, "service_ref", "")
+		// Strip namespace prefix if present (e.g. "ns/svc-name" → "svc-name")
+		if idx := strings.LastIndex(svcRef, "/"); idx >= 0 {
+			svcRef = svcRef[idx+1:]
+		}
 		if svcID, ok := serviceByName[svcRef]; ok {
 			addEdge(whID, svcID, "intercept", "")
+		} else if len(serviceByName) == 1 {
+			addEdge(whID, firstSvcID, "intercept", "")
 		}
 	}
 
@@ -255,19 +261,27 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		}
 	}
 
-	// Controller watches → CRDs
+	// Controller watches → CRDs (or built-in k8s resources for Owns)
 	for _, item := range getSlice(data, "controller_watches") {
 		watchType := getStr(item, "type", "")
 		gvk := getStr(item, "gvk", "")
-		// gvk format: "group/version/Kind" or just "Kind"
 		parts := strings.Split(gvk, "/")
 		kind := parts[len(parts)-1]
+		if kind == "" {
+			continue
+		}
 		if crdID, ok := crdByKind[kind]; ok {
 			if watchType == "Owns" {
 				addEdge(firstDepID, crdID, "creates", "")
 			} else {
 				addEdge(firstDepID, crdID, "watches", "")
 			}
+		} else if watchType == "Owns" {
+			// Owns a built-in k8s resource — add it as a CRD node if not seen
+			nodeID := "crd-" + flowNodeID(kind)
+			addNode(FlowNode{ID: nodeID, Label: kind, Type: FlowNodeCRD, Layer: 5})
+			crdByKind[kind] = nodeID
+			addEdge(firstDepID, nodeID, "creates", "")
 		}
 	}
 
