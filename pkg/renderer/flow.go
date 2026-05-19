@@ -1,10 +1,7 @@
 package renderer
 
 import (
-	"encoding/json"
 	"fmt"
-	"html"
-	"html/template"
 	"strings"
 	"unicode"
 )
@@ -52,29 +49,6 @@ type FlowGraph struct {
 	Nodes     []FlowNode `json:"nodes"`
 	Edges     []FlowEdge `json:"edges"`
 	Paths     []FlowPath `json:"paths"`
-}
-
-// FlowRenderer generates a self-contained interactive HTML flow diagram.
-type FlowRenderer struct{}
-
-func (r *FlowRenderer) Filename() string { return "flow.html" }
-
-func (r *FlowRenderer) Render(data map[string]interface{}) string {
-	diagram := buildFlowDiagram(data)
-	diagramJSON, err := json.Marshal(diagram)
-	if err != nil {
-		diagramJSON = []byte(`{"meta":{"title":"error"},"canvas":{"width":800,"height":400},"nodes":{},"tooltips":{},"flows":{},"legend":[],"flowOrder":[],"defaultFlow":""}`)
-	}
-
-	tmpl := template.Must(template.New("flow").Parse(flowCanvasTemplate))
-	var b strings.Builder
-	if err := tmpl.Execute(&b, map[string]interface{}{
-		"Title":       diagram.Meta.Title,
-		"DiagramJSON": template.JS(diagramJSON), //nolint:gosec // generated from struct, not user input; json.Marshal HTML-escapes </>
-	}); err != nil {
-		return "<!DOCTYPE html><html><body>Flow render error: " + html.EscapeString(err.Error()) + "</body></html>"
-	}
-	return b.String()
 }
 
 // flowNodeID returns a safe HTML element ID suffix for a node label.
@@ -127,7 +101,9 @@ func controllerDepID(nodes []FlowNode, component string) string {
 // focused FlowGraph. Only includes nodes relevant to request flow:
 // Client → Ingress → Webhooks → Services → Deployments → External.
 // CRDs and controller watches are excluded (better suited for static diagrams).
-func buildFlowGraph(data map[string]interface{}) FlowGraph {
+// BuildFlowGraph converts component architecture data into a network-flow
+// focused FlowGraph. Exported for use by the /flow-diagram skill.
+func BuildFlowGraph(data map[string]interface{}) FlowGraph {
 	g := FlowGraph{
 		Component: getStr(data, "component", "unknown"),
 		Nodes:     []FlowNode{},

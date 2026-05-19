@@ -243,7 +243,7 @@ func cmdExtract(args []string) error {
 func cmdRender(args []string) error {
 	fs := flag.NewFlagSet("render", flag.ExitOnError)
 	outputDir := fs.String("output-dir", "", "Output directory (default: <json-dir>/diagrams)")
-	formats := fs.String("formats", "", "Comma-separated formats: rbac,component,security_network,dependencies,c4,dataflow,report,flow (default: all)")
+	formats := fs.String("formats", "", "Comma-separated formats: rbac,component,security_network,dependencies,c4,dataflow,report (default: all)")
 	fs.Parse(args)
 
 	if fs.NArg() < 1 {

@@ -118,7 +118,7 @@ func TestControllerDepID_NoDeployments(t *testing.T) {
 // ---- FlowGraph builder: network flow focus ----
 
 func TestBuildFlowGraph_HasClientNode(t *testing.T) {
-	g := buildFlowGraph(emptyComponentData())
+	g := BuildFlowGraph(emptyComponentData())
 	var found bool
 	for _, n := range g.Nodes {
 		if n.ID == "client" && n.Label == "Client" {
@@ -137,7 +137,7 @@ func TestBuildFlowGraph_ServicesBecomesNodes(t *testing.T) {
 			map[string]interface{}{"name": "my-svc", "type": "ClusterIP"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var found bool
 	for _, n := range g.Nodes {
 		if n.ID == "svc-my-svc" && n.Type == FlowNodeService {
@@ -154,7 +154,7 @@ func TestBuildFlowGraph_WebhooksCollapsed(t *testing.T) {
 		"component": "test",
 		"webhooks": makeWebhooks(5, "validating"),
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var whCount int
 	for _, n := range g.Nodes {
 		if n.Type == FlowNodeWebhook {
@@ -176,7 +176,7 @@ func TestBuildFlowGraph_ExternalCollapsedByType(t *testing.T) {
 			map[string]interface{}{"target": "redis", "type": "cache"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var extLabels []string
 	for _, n := range g.Nodes {
 		if n.Type == FlowNodeExternal {
@@ -195,7 +195,7 @@ func TestBuildFlowGraph_NoCRDNodes(t *testing.T) {
 			map[string]interface{}{"kind": "MyKind", "group": "g"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	for _, n := range g.Nodes {
 		if n.Type == FlowNodeCRD {
 			t.Error("network flow graph should not contain CRD nodes")
@@ -210,7 +210,7 @@ func TestBuildFlowGraph_DeploymentsBecomesNodes(t *testing.T) {
 			map[string]interface{}{"name": "my-controller"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var found bool
 	for _, n := range g.Nodes {
 		if n.Type == FlowNodeDeployment && n.ID == "dep-my-controller" {
@@ -229,7 +229,7 @@ func TestBuildFlowGraph_ClientToIngressEdge(t *testing.T) {
 			map[string]interface{}{"name": "gw"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var found bool
 	for _, e := range g.Edges {
 		if e.From == "client" && e.Type == "route" {
@@ -254,7 +254,7 @@ func TestBuildFlowGraph_RequestFlowPathExists(t *testing.T) {
 			map[string]interface{}{"name": "app"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var found bool
 	for _, p := range g.Paths {
 		if p.Name == "Request Flow" && len(p.Edges) >= 2 {
@@ -276,7 +276,7 @@ func TestBuildFlowGraph_ExternalEdgesFromDeployment(t *testing.T) {
 			map[string]interface{}{"target": "redis", "type": "cache"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var found bool
 	for _, e := range g.Edges {
 		if e.Type == "external" {
@@ -289,7 +289,7 @@ func TestBuildFlowGraph_ExternalEdgesFromDeployment(t *testing.T) {
 }
 
 func TestBuildFlowGraph_NilSliceSafety(t *testing.T) {
-	g := buildFlowGraph(emptyComponentData())
+	g := BuildFlowGraph(emptyComponentData())
 	if g.Nodes == nil {
 		t.Error("Nodes should be empty slice, not nil")
 	}
@@ -314,7 +314,7 @@ func TestBuildFlowGraph_WebhookServiceRefWithNamespace(t *testing.T) {
 			},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var found bool
 	for _, e := range g.Edges {
 		if e.Type == "intercept" {
@@ -336,7 +336,7 @@ func TestBuildFlowGraph_IngressServiceRefWithNamespace(t *testing.T) {
 			map[string]interface{}{"name": "route", "service_ref": "default/my-svc"},
 		},
 	}
-	g := buildFlowGraph(data)
+	g := BuildFlowGraph(data)
 	var found bool
 	for _, e := range g.Edges {
 		if e.Type == "route" && e.To == "svc-my-svc" {
@@ -348,78 +348,10 @@ func TestBuildFlowGraph_IngressServiceRefWithNamespace(t *testing.T) {
 	}
 }
 
-// ---- FlowRenderer tests ----
-
-func TestFlowRenderer_Filename(t *testing.T) {
-	if (&FlowRenderer{}).Filename() != "flow.html" {
-		t.Error("filename should be flow.html")
-	}
-}
-
-func TestFlowRenderer_ProducesHTML(t *testing.T) {
-	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "<!DOCTYPE html>") {
-		t.Error("output should be HTML")
-	}
-	if !strings.Contains(out, "var D =") {
-		t.Error("output should embed diagram JSON")
-	}
-	if !strings.Contains(out, "<canvas") {
-		t.Error("output should contain canvas element")
-	}
-}
-
-func TestFlowRenderer_EmptyData_ProducesValidHTML(t *testing.T) {
-	out := (&FlowRenderer{}).Render(emptyComponentData())
-	if !strings.Contains(out, "<!DOCTYPE html>") {
-		t.Error("even empty data should produce valid HTML")
-	}
-}
-
-func TestFlowRenderer_EmptyData_NoForbiddenClaims(t *testing.T) {
-	out := (&FlowRenderer{}).Render(emptyComponentData())
-	assertNoForbidden(t, out, "FlowRenderer empty data")
-}
-
-func TestFlowRenderer_FullData_NoForbiddenClaims(t *testing.T) {
-	out := (&FlowRenderer{}).Render(sampleData())
-	assertNoForbidden(t, out, "FlowRenderer full data")
-}
-
-func TestFlowRenderer_ComponentNameInTitle(t *testing.T) {
-	data := map[string]interface{}{"component": "my-special-component"}
-	out := (&FlowRenderer{}).Render(data)
-	if !strings.Contains(out, "my-special-component") {
-		t.Error("component name should appear in the HTML output")
-	}
-}
-
-func TestFlowRenderer_ContainsPlaybackControls(t *testing.T) {
-	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "btn-play") {
-		t.Error("should contain play button")
-	}
-	if !strings.Contains(out, "btn-loop") {
-		t.Error("should contain loop button")
-	}
-	if !strings.Contains(out, "btn-reset") {
-		t.Error("should contain reset button")
-	}
-}
-
-func TestFlowRenderer_ContainsInspector(t *testing.T) {
-	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "insp-content") {
-		t.Error("should contain inspector panel")
-	}
-}
-
-func TestFlowRenderer_ContainsStepsPanel(t *testing.T) {
-	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "steps-container") {
-		t.Error("should contain steps panel")
-	}
-}
+// FlowRenderer has been removed. Flow visualization is now handled by
+// a separate frontend project (viz/) using proper JS tooling, not Go templates.
+// The graph builder (buildFlowGraph, buildFlowPaths) is kept as exported
+// functions for the /flow-diagram skill to use.
 
 // ---- helpers ----
 
