@@ -97,12 +97,11 @@ func controllerDepID(nodes []FlowNode, component string) string {
 	return firstDep
 }
 
-// buildFlowGraph converts component architecture data into a network-flow
-// focused FlowGraph. Only includes nodes relevant to request flow:
+// BuildFlowGraph converts component architecture data into a network-flow
+// focused FlowGraph. Only includes nodes relevant to request paths:
 // Client → Ingress → Webhooks → Services → Deployments → External.
 // CRDs and controller watches are excluded (better suited for static diagrams).
-// BuildFlowGraph converts component architecture data into a network-flow
-// focused FlowGraph. Exported for use by the /flow-diagram skill.
+// Exported for use by the /flow-diagram skill.
 func BuildFlowGraph(data map[string]interface{}) FlowGraph {
 	g := FlowGraph{
 		Component: getStr(data, "component", "unknown"),
