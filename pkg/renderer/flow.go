@@ -123,7 +123,10 @@ func controllerDepID(nodes []FlowNode, component string) string {
 	return firstDep
 }
 
-// buildFlowGraph converts component architecture data into a FlowGraph.
+// buildFlowGraph converts component architecture data into a network-flow
+// focused FlowGraph. Only includes nodes relevant to request flow:
+// Client → Ingress → Webhooks → Services → Deployments → External.
+// CRDs and controller watches are excluded (better suited for static diagrams).
 func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	g := FlowGraph{
 		Component: getStr(data, "component", "unknown"),
@@ -142,7 +145,6 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		g.Nodes = append(g.Nodes, n)
 	}
 
-	// uniqueName deduplicates fallback default names
 	uniqueName := func(name, prefix string) string {
 		key := prefix + ":" + name
 		nameCounter[key]++
@@ -152,36 +154,80 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		return name
 	}
 
-	// nodeRef ties a raw data item to its created node ID.
 	type nodeRef struct {
 		id   string
 		item map[string]interface{}
 	}
 
-	// Phase 1: create all nodes, storing refs for edge wiring.
+	// Synthetic "Client" entry point (layer 0).
+	addNode(FlowNode{
+		ID: "client", Label: "Client", Type: FlowNodeIngress, Layer: 0,
+		Meta: map[string]string{"kind": "icon"},
+	})
+
+	// Phase 1: extract network-relevant nodes only.
 	var ingressRefs, webhookRefs, serviceRefs, externalRefs []nodeRef
 
-	// Layer 0: ingress routing
+	// Layer 1: ingress/gateway routing
 	for _, item := range getSlice(data, "ingress_routing") {
 		name := getStr(item, "name", "ingress")
 		name = uniqueName(name, "ingress")
 		id := "ingress-" + flowNodeID(name)
-		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeIngress, Layer: 0,
+		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeIngress, Layer: 1,
 			Meta: map[string]string{"kind": getStr(item, "kind", "")}})
 		ingressRefs = append(ingressRefs, nodeRef{id, item})
 	}
 
-	// Layer 1: webhooks
-	for _, item := range getSlice(data, "webhooks") {
-		name := getStr(item, "name", "webhook")
-		name = uniqueName(name, "webhook")
-		id := "wh-" + flowNodeID(name)
-		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeWebhook, Layer: 1,
-			Meta: map[string]string{"type": getStr(item, "type", "")}})
-		webhookRefs = append(webhookRefs, nodeRef{id, item})
+	// Layer 2: webhooks (collapsed if many)
+	webhooks := getSlice(data, "webhooks")
+	if len(webhooks) > 3 {
+		// Group by type: validating vs mutating
+		valCount, mutCount := 0, 0
+		var valRef, mutRef map[string]interface{}
+		for _, item := range webhooks {
+			whType := getStr(item, "type", "validating")
+			if whType == "mutating" {
+				mutCount++
+				if mutRef == nil {
+					mutRef = item
+				}
+			} else {
+				valCount++
+				if valRef == nil {
+					valRef = item
+				}
+			}
+		}
+		if valCount > 0 {
+			label := fmt.Sprintf("Validating Webhooks (%d)", valCount)
+			id := "wh-validating"
+			addNode(FlowNode{ID: id, Label: label, Type: FlowNodeWebhook, Layer: 2,
+				Meta: map[string]string{"type": "validating", "count": fmt.Sprintf("%d", valCount)}})
+			if valRef != nil {
+				webhookRefs = append(webhookRefs, nodeRef{id, valRef})
+			}
+		}
+		if mutCount > 0 {
+			label := fmt.Sprintf("Mutating Webhooks (%d)", mutCount)
+			id := "wh-mutating"
+			addNode(FlowNode{ID: id, Label: label, Type: FlowNodeWebhook, Layer: 2,
+				Meta: map[string]string{"type": "mutating", "count": fmt.Sprintf("%d", mutCount)}})
+			if mutRef != nil {
+				webhookRefs = append(webhookRefs, nodeRef{id, mutRef})
+			}
+		}
+	} else {
+		for _, item := range webhooks {
+			name := getStr(item, "name", "webhook")
+			name = uniqueName(name, "webhook")
+			id := "wh-" + flowNodeID(name)
+			addNode(FlowNode{ID: id, Label: name, Type: FlowNodeWebhook, Layer: 2,
+				Meta: map[string]string{"type": getStr(item, "type", "")}})
+			webhookRefs = append(webhookRefs, nodeRef{id, item})
+		}
 	}
 
-	// Layer 2: services
+	// Layer 3: services
 	for _, item := range getSlice(data, "services") {
 		name := getStr(item, "name", "service")
 		name = uniqueName(name, "service")
@@ -196,67 +242,51 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 			meta["ports"] = strings.Join(portParts, ", ")
 		}
 		id := "svc-" + flowNodeID(name)
-		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeService, Layer: 2, Meta: meta})
+		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeService, Layer: 3, Meta: meta})
 		serviceRefs = append(serviceRefs, nodeRef{id, item})
 	}
 
-	// Layer 3: deployments
+	// Layer 4: deployments
 	for _, item := range getSlice(data, "deployments") {
 		name := getStr(item, "name", "deployment")
 		name = uniqueName(name, "deployment")
 		id := "dep-" + flowNodeID(name)
-		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeDeployment, Layer: 3})
+		addNode(FlowNode{ID: id, Label: name, Type: FlowNodeDeployment, Layer: 4})
 	}
 
-	// Layer 4: external connections
+	// Layer 5: external connections (collapsed by type)
+	extByType := map[string]int{}
+	extFirstItem := map[string]map[string]interface{}{}
 	for _, item := range getSlice(data, "external_connections") {
 		target := getStr(item, "target", "")
 		connType := getStr(item, "type", "external")
 		if target == "" || strings.Contains(target, "%s") || strings.Contains(target, "%d") {
 			target = connType
 		}
-		target = uniqueName(target, "external")
-		id := "ext-" + flowNodeID(target)
-		addNode(FlowNode{ID: id, Label: target, Type: FlowNodeExternal, Layer: 4,
-			Meta: map[string]string{"type": connType}})
-		externalRefs = append(externalRefs, nodeRef{id, item})
+		extByType[connType]++
+		if extFirstItem[connType] == nil {
+			extFirstItem[connType] = item
+		}
+	}
+	for connType, count := range extByType {
+		label := connType
+		if count > 1 {
+			label = fmt.Sprintf("%s (%d)", connType, count)
+		}
+		id := "ext-" + flowNodeID(connType)
+		addNode(FlowNode{ID: id, Label: label, Type: FlowNodeExternal, Layer: 5,
+			Meta: map[string]string{"type": connType, "count": fmt.Sprintf("%d", count)}})
+		externalRefs = append(externalRefs, nodeRef{id, extFirstItem[connType]})
 	}
 
-	// Layer 5: CRDs (group-qualified to avoid kind collisions across API groups)
-	// Store the original kind in Meta so crdLookup can use the un-mangled name.
-	for _, item := range getSlice(data, "crds") {
-		origKind := getStr(item, "kind", "CRD")
-		group := getStr(item, "group", "")
-		displayKind := uniqueName(origKind, "crd")
-		id := "crd-" + flowNodeID(displayKind)
-		addNode(FlowNode{ID: id, Label: displayKind, Type: FlowNodeCRD, Layer: 5,
-			Meta: map[string]string{"group": group, "kind": origKind}})
-	}
-
-	// Phase 2: build lookup maps for edge wiring.
-	// crdLookup maps both bare "Kind" and "group/Kind" to the node ID.
-	// Uses Meta["kind"] (the original, un-mangled kind) for the lookup key
-	// so controller watches can match by their GVK-extracted kind.
+	// Phase 2: build lookup maps.
 	serviceByName := map[string]string{}
-	crdLookup := map[string]string{}
 	var firstSvcID string
 	for _, n := range g.Nodes {
-		switch n.Type {
-		case FlowNodeService:
+		if n.Type == FlowNodeService {
 			serviceByName[n.Label] = n.ID
 			if firstSvcID == "" {
 				firstSvcID = n.ID
-			}
-		case FlowNodeCRD:
-			origKind := n.Meta["kind"]
-			if origKind == "" {
-				origKind = n.Label
-			}
-			if _, exists := crdLookup[origKind]; !exists {
-				crdLookup[origKind] = n.ID
-			}
-			if group := n.Meta["group"]; group != "" {
-				crdLookup[group+"/"+origKind] = n.ID
 			}
 		}
 	}
@@ -273,15 +303,17 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 			return
 		}
 		edgeSeen[key] = true
-		g.Edges = append(g.Edges, FlowEdge{
-			From:  from,
-			To:    to,
-			Type:  edgeType,
-			Label: label,
-		})
+		g.Edges = append(g.Edges, FlowEdge{From: from, To: to, Type: edgeType, Label: label})
 	}
 
-	// Phase 3: wire edges using stored node refs (not re-reading raw data).
+	// Phase 3: wire edges for network flow.
+
+	// Client → first ingress (or first service if no ingress)
+	if len(ingressRefs) > 0 {
+		addEdge("client", ingressRefs[0].id, "route", "")
+	} else if firstSvcID != "" {
+		addEdge("client", firstSvcID, "route", "")
+	}
 
 	// Ingress → service
 	for _, ref := range ingressRefs {
@@ -293,7 +325,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		}
 	}
 
-	// Webhook → service
+	// Webhook → service (intercept on the request path)
 	for _, ref := range webhookRefs {
 		svcRef := stripNamespace(getStr(ref.item, "service_ref", ""))
 		if svcID, ok := serviceByName[svcRef]; ok {
@@ -316,50 +348,12 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		}
 	}
 
-	// Controller watches → CRDs (or built-in k8s resources for Owns)
-	// Try group-qualified lookup first ("group/Kind"), then bare kind.
-	for _, item := range getSlice(data, "controller_watches") {
-		watchType := getStr(item, "type", "")
-		gvk := strings.TrimRight(getStr(item, "gvk", ""), "/")
-		parts := strings.Split(gvk, "/")
-		kind := parts[len(parts)-1]
-		if kind == "" {
-			continue
-		}
-		group := ""
-		if len(parts) >= 3 {
-			group = parts[0]
-		}
-		crdID := ""
-		if group != "" {
-			crdID = crdLookup[group+"/"+kind]
-		}
-		if crdID == "" {
-			crdID = crdLookup[kind]
-		}
-		if crdID != "" {
-			if watchType == "Owns" {
-				addEdge(ctrlDepID, crdID, "creates", "")
-			} else {
-				addEdge(ctrlDepID, crdID, "watches", "")
-			}
-		} else if watchType == "Owns" {
-			nodeID := "crd-" + flowNodeID(kind)
-			addNode(FlowNode{ID: nodeID, Label: kind, Type: FlowNodeCRD, Layer: 5})
-			crdLookup[kind] = nodeID
-			addEdge(ctrlDepID, nodeID, "creates", "")
-		}
-	}
-
 	// Deployment → external connections
 	for _, ref := range externalRefs {
 		addEdge(ctrlDepID, ref.id, "external", "")
 	}
 
-	// Collapse similar nodes to reduce visual clutter.
-	g = collapseFlowGraph(g)
-
-	// Assign stable edge IDs
+	// Assign stable edge IDs.
 	for i := range g.Edges {
 		g.Edges[i].ID = fmt.Sprintf("e%d", i)
 	}
@@ -370,112 +364,10 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	return g
 }
 
-// collapseFlowGraph merges nodes of the same type that share the same
-// meta characteristics into a single group node, rewiring all edges.
-// This reduces visual clutter (e.g. 12 webhooks → "Webhooks (12)").
-const collapseThreshold = 3
-
-func collapseFlowGraph(g FlowGraph) FlowGraph {
-	// Group nodes by type+meta key for potential collapsing.
-	type groupKey struct {
-		nodeType FlowNodeType
-		metaKey  string // the distinguishing meta value
-	}
-	groups := map[groupKey][]FlowNode{}
-	for _, n := range g.Nodes {
-		mk := ""
-		switch n.Type {
-		case FlowNodeWebhook:
-			mk = n.Meta["type"] // group by validating/mutating
-		case FlowNodeExternal:
-			mk = n.Meta["type"] // group by connection type
-		case FlowNodeCRD:
-			mk = "crd"
-		default:
-			// Deployments, services, ingress: never collapse
-			mk = n.ID
-		}
-		gk := groupKey{n.Type, mk}
-		groups[gk] = append(groups[gk], n)
-	}
-
-	// Build replacement map: old node ID → new collapsed node ID.
-	replace := map[string]string{}
-	var newNodes []FlowNode
-
-	for gk, nodes := range groups {
-		if len(nodes) < collapseThreshold {
-			newNodes = append(newNodes, nodes...)
-			continue
-		}
-		// Collapse this group into a single node.
-		var label string
-		switch gk.nodeType {
-		case FlowNodeWebhook:
-			label = fmt.Sprintf("%s webhooks (%d)", gk.metaKey, len(nodes))
-		case FlowNodeExternal:
-			label = fmt.Sprintf("%s (%d)", gk.metaKey, len(nodes))
-		case FlowNodeCRD:
-			label = fmt.Sprintf("CRDs (%d)", len(nodes))
-		default:
-			label = fmt.Sprintf("%s (%d)", gk.metaKey, len(nodes))
-		}
-		groupID := flowNodeID(label)
-		collapsed := FlowNode{
-			ID:    groupID,
-			Label: label,
-			Type:  gk.nodeType,
-			Layer: nodes[0].Layer,
-			Meta:  map[string]string{"count": fmt.Sprintf("%d", len(nodes))},
-		}
-		// Preserve first node's meta for tooltips.
-		for k, v := range nodes[0].Meta {
-			if collapsed.Meta[k] == "" {
-				collapsed.Meta[k] = v
-			}
-		}
-		newNodes = append(newNodes, collapsed)
-		for _, n := range nodes {
-			replace[n.ID] = groupID
-		}
-	}
-
-	// Rewire edges to point to collapsed nodes; dedup.
-	edgeSeen := map[string]bool{}
-	var newEdges []FlowEdge
-	for _, e := range g.Edges {
-		from := e.From
-		if r, ok := replace[from]; ok {
-			from = r
-		}
-		to := e.To
-		if r, ok := replace[to]; ok {
-			to = r
-		}
-		key := from + "|" + to + "|" + e.Type
-		if edgeSeen[key] || from == to {
-			continue
-		}
-		edgeSeen[key] = true
-		newEdges = append(newEdges, FlowEdge{From: from, To: to, Type: e.Type, Label: e.Label})
-	}
-
-	if newNodes == nil {
-		newNodes = []FlowNode{}
-	}
-	if newEdges == nil {
-		newEdges = []FlowEdge{}
-	}
-	return FlowGraph{
-		Component: g.Component,
-		Nodes:     newNodes,
-		Edges:     newEdges,
-		Paths:     []FlowPath{},
-	}
-}
-
-// buildFlowPaths generates animated flow paths for each deployment
-// that has outgoing edges, not just the first one.
+// buildFlowPaths generates a single end-to-end request flow tracing
+// Client → Ingress → Webhook → Service → Deployment → External,
+// following actual edges in the graph. Also generates per-deployment
+// external connection flows if there are external nodes.
 func buildFlowPaths(g FlowGraph) []FlowPath {
 	edgesByFrom := map[string][]FlowEdge{}
 	for _, e := range g.Edges {
@@ -498,84 +390,88 @@ func buildFlowPaths(g FlowGraph) []FlowPath {
 
 	var paths []FlowPath
 
-	// Request Flow: for each ingress, trace ingress → service → deployment
-	for _, n := range g.Nodes {
-		if n.Type != FlowNodeIngress {
-			continue
-		}
-		var edges []string
-		if routeEdge, ok := firstEdgeOfType(n.ID, "route"); ok {
-			edges = append(edges, routeEdge.ID)
-			if targetEdge, ok := firstEdgeOfType(routeEdge.To, "target"); ok {
-				edges = append(edges, targetEdge.ID)
-			}
-		}
-		if len(edges) > 0 {
-			name := "Request Flow"
-			if n.Label != "" {
-				name = n.Label + " request"
-			}
-			paths = append(paths, FlowPath{Name: name, Edges: edges, Color: "#3498db"})
-		}
-	}
-
-	// Per-deployment flows: controller watches, external calls
-	for _, n := range g.Nodes {
-		if n.Type != FlowNodeDeployment {
-			continue
-		}
-		outEdges := edgesByFrom[n.ID]
+	// Main request flow: trace from "client" through the network.
+	var requestEdges []string
+	cursor := "client"
+	visited := map[string]bool{"client": true}
+	for i := 0; i < 10; i++ { // safety limit
+		outEdges := edgesByFrom[cursor]
 		if len(outEdges) == 0 {
-			continue
+			break
 		}
-
-		// Collect edges by type for this deployment.
-		var watchEdges, externalEdges []string
-		for _, e := range outEdges {
-			switch e.Type {
-			case "watches", "creates":
-				watchEdges = append(watchEdges, e.ID)
-			case "external":
-				externalEdges = append(externalEdges, e.ID)
+		// Pick the best next edge: prefer route > intercept > target > external
+		var best *FlowEdge
+		for _, pref := range []string{"route", "intercept", "target", "external"} {
+			for j := range outEdges {
+				if outEdges[j].Type == pref && !visited[outEdges[j].To] {
+					best = &outEdges[j]
+					break
+				}
+			}
+			if best != nil {
+				break
 			}
 		}
-
-		depLabel := n.Label
-		if watchEdges != nil {
-			paths = append(paths, FlowPath{
-				Name:  depLabel + " reconcile",
-				Edges: watchEdges,
-				Color: "#9b59b6",
-			})
+		if best == nil {
+			break
 		}
-		if externalEdges != nil {
-			paths = append(paths, FlowPath{
-				Name:  depLabel + " external",
-				Edges: externalEdges,
-				Color: "#e74c3c",
-			})
-		}
+		requestEdges = append(requestEdges, best.ID)
+		visited[best.To] = true
+		cursor = best.To
+	}
+	if len(requestEdges) > 0 {
+		paths = append(paths, FlowPath{
+			Name:  "Request Flow",
+			Edges: requestEdges,
+			Color: "#3498db",
+		})
 	}
 
-	// Webhook intercepts: for each webhook with outgoing intercept edges
+	// Webhook intercept flow (if webhooks exist and have intercept edges)
 	for _, n := range g.Nodes {
 		if n.Type != FlowNodeWebhook {
 			continue
 		}
 		var edges []string
+		// Client → ingress → webhook → service path
+		if e, ok := firstEdgeOfType("client", "route"); ok {
+			edges = append(edges, e.ID)
+		}
 		for _, e := range edgesByFrom[n.ID] {
 			if e.Type == "intercept" {
 				edges = append(edges, e.ID)
+				break
 			}
 		}
-		if len(edges) > 0 {
+		if len(edges) > 1 {
 			paths = append(paths, FlowPath{
-				Name:  n.Label + " intercept",
+				Name:  n.Label + " validation",
 				Edges: edges,
 				Color: "#e67e22",
 			})
 		}
 	}
 
+	// External connection flows (deployment → external)
+	for _, n := range g.Nodes {
+		if n.Type != FlowNodeDeployment {
+			continue
+		}
+		var edges []string
+		for _, e := range edgesByFrom[n.ID] {
+			if e.Type == "external" {
+				edges = append(edges, e.ID)
+			}
+		}
+		if len(edges) > 0 {
+			paths = append(paths, FlowPath{
+				Name:  n.Label + " external calls",
+				Edges: edges,
+				Color: "#e74c3c",
+			})
+		}
+	}
+
 	return paths
 }
+

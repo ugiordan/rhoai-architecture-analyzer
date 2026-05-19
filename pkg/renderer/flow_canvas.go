@@ -188,7 +188,7 @@ function drawNode(key, node){
   var fillColor = node.color || c.dim;
   var r = ts(8);
   roundRect(x, y, w, h, r);
-  ctx.fillStyle = fillColor + '30';
+  ctx.fillStyle = fillColor + '60';
   ctx.fill();
   ctx.strokeStyle = fillColor;
   ctx.lineWidth = isActive ? 2.5 : 1.5;
@@ -669,7 +669,8 @@ function init(){
   requestAnimationFrame(frame);
 }
 
-init();
+if (document.readyState === 'complete') { init(); }
+else { window.addEventListener('load', init); }
 })();
 </script>
 </body>
