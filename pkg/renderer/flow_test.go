@@ -409,14 +409,14 @@ func TestFlowRenderer_ContainsPlaybackControls(t *testing.T) {
 
 func TestFlowRenderer_ContainsInspector(t *testing.T) {
 	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "inspector-panel") {
+	if !strings.Contains(out, "insp-content") {
 		t.Error("should contain inspector panel")
 	}
 }
 
 func TestFlowRenderer_ContainsStepsPanel(t *testing.T) {
 	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "steps-panel") {
+	if !strings.Contains(out, "steps-container") {
 		t.Error("should contain steps panel")
 	}
 }
