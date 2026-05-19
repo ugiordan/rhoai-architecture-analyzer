@@ -30,6 +30,7 @@ import (
 	"github.com/ugiordan/architecture-analyzer/pkg/query"
 	"github.com/ugiordan/architecture-analyzer/pkg/renderer"
 	"github.com/ugiordan/architecture-analyzer/pkg/sarif"
+	"github.com/ugiordan/architecture-analyzer/pkg/sbom"
 	"github.com/ugiordan/architecture-analyzer/pkg/validator"
 )
 
@@ -135,6 +136,8 @@ func main() {
 		err = cmdPlatforms(args)
 	case "full-analysis":
 		err = cmdFullAnalysis(args)
+	case "sbom":
+		err = cmdSBOM(args)
 	case "version":
 		fmt.Printf("arch-analyzer %s\n", version)
 	case "help", "-h", "--help":
@@ -1213,6 +1216,37 @@ func detectOrgFromRepo(repoPath string) string {
 		}
 	}
 	return ""
+}
+
+func cmdSBOM(args []string) error {
+	fs := flag.NewFlagSet("sbom", flag.ExitOnError)
+	output := fs.String("output", "", "Output file (default: stdout)")
+	fs.Parse(args)
+
+	if fs.NArg() < 1 {
+		return fmt.Errorf("usage: arch-analyzer sbom <component-architecture.json> [--output file.json]")
+	}
+
+	data, err := loadJSON(fs.Arg(0))
+	if err != nil {
+		return err
+	}
+
+	bomJSON, err := sbom.GenerateJSON(data)
+	if err != nil {
+		return fmt.Errorf("generating SBOM: %w", err)
+	}
+
+	if *output != "" {
+		if err := os.MkdirAll(filepath.Dir(*output), 0o755); err != nil {
+			return err
+		}
+		return os.WriteFile(*output, bomJSON, 0o644)
+	}
+
+	_, err = os.Stdout.Write(bomJSON)
+	fmt.Fprintln(os.Stdout)
+	return err
 }
 
 // cmdFullAnalysis runs architecture extraction + code graph scan.
