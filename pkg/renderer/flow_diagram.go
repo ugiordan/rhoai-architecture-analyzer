@@ -291,11 +291,7 @@ func buildFlowSteps(paths []FlowPath, edges []FlowEdge, nodes []FlowNode) (map[s
 			fromNode := nodeByID[edge.From]
 			toNode := nodeByID[edge.To]
 
-			// Arrow step: animated dot from source to target.
-			arrowText := fmt.Sprintf("%s → %s", fromNode.Label, toNode.Label)
-			if edge.Type != "" {
-				arrowText += " (" + edge.Type + ")"
-			}
+			arrowText := stepNarrative(edge.Type, fromNode, toNode)
 			steps = append(steps, DiagramStep{
 				Mode:  "arrow",
 				From:  edge.From,
@@ -306,11 +302,11 @@ func buildFlowSteps(paths []FlowPath, edges []FlowEdge, nodes []FlowNode) (map[s
 			})
 			stepNum++
 
-			// Lightup step: highlight the target node.
+			lightupText := stepLightupNarrative(edge.Type, toNode)
 			steps = append(steps, DiagramStep{
 				Mode:   "lightup",
 				Target: edge.To,
-				Text:   toNode.Label + " receives",
+				Text:   lightupText,
 				Badge:  fmt.Sprintf("%d", stepNum),
 			})
 			stepNum++
@@ -326,6 +322,46 @@ func buildFlowSteps(paths []FlowPath, edges []FlowEdge, nodes []FlowNode) (map[s
 	}
 
 	return flows, flowOrder
+}
+
+// stepNarrative generates a human-readable description for an arrow step.
+func stepNarrative(edgeType string, from, to FlowNode) string {
+	switch edgeType {
+	case "route":
+		return fmt.Sprintf("Traffic routed from %s to %s", from.Label, to.Label)
+	case "intercept":
+		return fmt.Sprintf("%s intercepts and validates request", from.Label)
+	case "target":
+		return fmt.Sprintf("Request forwarded to %s", to.Label)
+	case "watches":
+		return fmt.Sprintf("%s watches %s resources for changes", from.Label, to.Label)
+	case "creates":
+		return fmt.Sprintf("%s creates/owns %s resources", from.Label, to.Label)
+	case "external":
+		return fmt.Sprintf("%s connects to external %s", from.Label, to.Label)
+	default:
+		return fmt.Sprintf("%s communicates with %s", from.Label, to.Label)
+	}
+}
+
+// stepLightupNarrative generates a description for a lightup step.
+func stepLightupNarrative(edgeType string, target FlowNode) string {
+	switch edgeType {
+	case "route":
+		return fmt.Sprintf("%s receives incoming traffic", target.Label)
+	case "intercept":
+		return fmt.Sprintf("%s processes the validated request", target.Label)
+	case "target":
+		return fmt.Sprintf("%s handles the request", target.Label)
+	case "watches":
+		return fmt.Sprintf("%s reconciliation triggered", target.Label)
+	case "creates":
+		return fmt.Sprintf("%s resource updated", target.Label)
+	case "external":
+		return fmt.Sprintf("%s responds", target.Label)
+	default:
+		return fmt.Sprintf("%s activated", target.Label)
+	}
 }
 
 // buildInspector creates architecture-context inspector data for each flow.

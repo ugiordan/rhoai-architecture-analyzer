@@ -356,6 +356,9 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		addEdge(ctrlDepID, ref.id, "external", "")
 	}
 
+	// Collapse similar nodes to reduce visual clutter.
+	g = collapseFlowGraph(g)
+
 	// Assign stable edge IDs
 	for i := range g.Edges {
 		g.Edges[i].ID = fmt.Sprintf("e%d", i)
@@ -367,11 +370,121 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	return g
 }
 
-// buildFlowPaths infers animated flow paths from the graph structure.
+// collapseFlowGraph merges nodes of the same type that share the same
+// meta characteristics into a single group node, rewiring all edges.
+// This reduces visual clutter (e.g. 12 webhooks → "Webhooks (12)").
+const collapseThreshold = 3
+
+func collapseFlowGraph(g FlowGraph) FlowGraph {
+	// Group nodes by type+meta key for potential collapsing.
+	type groupKey struct {
+		nodeType FlowNodeType
+		metaKey  string // the distinguishing meta value
+	}
+	groups := map[groupKey][]FlowNode{}
+	for _, n := range g.Nodes {
+		mk := ""
+		switch n.Type {
+		case FlowNodeWebhook:
+			mk = n.Meta["type"] // group by validating/mutating
+		case FlowNodeExternal:
+			mk = n.Meta["type"] // group by connection type
+		case FlowNodeCRD:
+			mk = "crd"
+		default:
+			// Deployments, services, ingress: never collapse
+			mk = n.ID
+		}
+		gk := groupKey{n.Type, mk}
+		groups[gk] = append(groups[gk], n)
+	}
+
+	// Build replacement map: old node ID → new collapsed node ID.
+	replace := map[string]string{}
+	var newNodes []FlowNode
+
+	for gk, nodes := range groups {
+		if len(nodes) < collapseThreshold {
+			newNodes = append(newNodes, nodes...)
+			continue
+		}
+		// Collapse this group into a single node.
+		var label string
+		switch gk.nodeType {
+		case FlowNodeWebhook:
+			label = fmt.Sprintf("%s webhooks (%d)", gk.metaKey, len(nodes))
+		case FlowNodeExternal:
+			label = fmt.Sprintf("%s (%d)", gk.metaKey, len(nodes))
+		case FlowNodeCRD:
+			label = fmt.Sprintf("CRDs (%d)", len(nodes))
+		default:
+			label = fmt.Sprintf("%s (%d)", gk.metaKey, len(nodes))
+		}
+		groupID := flowNodeID(label)
+		collapsed := FlowNode{
+			ID:    groupID,
+			Label: label,
+			Type:  gk.nodeType,
+			Layer: nodes[0].Layer,
+			Meta:  map[string]string{"count": fmt.Sprintf("%d", len(nodes))},
+		}
+		// Preserve first node's meta for tooltips.
+		for k, v := range nodes[0].Meta {
+			if collapsed.Meta[k] == "" {
+				collapsed.Meta[k] = v
+			}
+		}
+		newNodes = append(newNodes, collapsed)
+		for _, n := range nodes {
+			replace[n.ID] = groupID
+		}
+	}
+
+	// Rewire edges to point to collapsed nodes; dedup.
+	edgeSeen := map[string]bool{}
+	var newEdges []FlowEdge
+	for _, e := range g.Edges {
+		from := e.From
+		if r, ok := replace[from]; ok {
+			from = r
+		}
+		to := e.To
+		if r, ok := replace[to]; ok {
+			to = r
+		}
+		key := from + "|" + to + "|" + e.Type
+		if edgeSeen[key] || from == to {
+			continue
+		}
+		edgeSeen[key] = true
+		newEdges = append(newEdges, FlowEdge{From: from, To: to, Type: e.Type, Label: e.Label})
+	}
+
+	if newNodes == nil {
+		newNodes = []FlowNode{}
+	}
+	if newEdges == nil {
+		newEdges = []FlowEdge{}
+	}
+	return FlowGraph{
+		Component: g.Component,
+		Nodes:     newNodes,
+		Edges:     newEdges,
+		Paths:     []FlowPath{},
+	}
+}
+
+// buildFlowPaths generates animated flow paths for each deployment
+// that has outgoing edges, not just the first one.
 func buildFlowPaths(g FlowGraph) []FlowPath {
 	edgesByFrom := map[string][]FlowEdge{}
 	for _, e := range g.Edges {
 		edgesByFrom[e.From] = append(edgesByFrom[e.From], e)
+	}
+
+	nodeByID := map[string]FlowNode{}
+	for _, n := range g.Nodes {
+		nodeByID[n.ID] = n
 	}
 
 	firstEdgeOfType := func(fromID, edgeType string) (FlowEdge, bool) {
@@ -383,84 +496,81 @@ func buildFlowPaths(g FlowGraph) []FlowPath {
 		return FlowEdge{}, false
 	}
 
-	firstNodeOfType := func(t FlowNodeType) string {
-		for _, n := range g.Nodes {
-			if n.Type == t {
-				return n.ID
-			}
-		}
-		return ""
-	}
-
-	ingressID := firstNodeOfType(FlowNodeIngress)
-	depID := firstNodeOfType(FlowNodeDeployment)
-
 	var paths []FlowPath
 
-	// Request Flow: ingress → service (following the actual route edge) → deployment
-	if ingressID != "" && depID != "" {
+	// Request Flow: for each ingress, trace ingress → service → deployment
+	for _, n := range g.Nodes {
+		if n.Type != FlowNodeIngress {
+			continue
+		}
 		var edges []string
-		if routeEdge, ok := firstEdgeOfType(ingressID, "route"); ok {
+		if routeEdge, ok := firstEdgeOfType(n.ID, "route"); ok {
 			edges = append(edges, routeEdge.ID)
 			if targetEdge, ok := firstEdgeOfType(routeEdge.To, "target"); ok {
 				edges = append(edges, targetEdge.ID)
 			}
 		}
 		if len(edges) > 0 {
-			paths = append(paths, FlowPath{
-				Name:  "Request Flow",
-				Edges: edges,
-				Color: "#3498db",
-			})
+			name := "Request Flow"
+			if n.Label != "" {
+				name = n.Label + " request"
+			}
+			paths = append(paths, FlowPath{Name: name, Edges: edges, Color: "#3498db"})
 		}
 	}
 
-	// Controller Flow: deployment → CRD watches/creates
-	if depID != "" {
-		var edges []string
-		for _, e := range edgesByFrom[depID] {
-			if e.Type == "watches" || e.Type == "creates" {
-				edges = append(edges, e.ID)
+	// Per-deployment flows: controller watches, external calls
+	for _, n := range g.Nodes {
+		if n.Type != FlowNodeDeployment {
+			continue
+		}
+		outEdges := edgesByFrom[n.ID]
+		if len(outEdges) == 0 {
+			continue
+		}
+
+		// Collect edges by type for this deployment.
+		var watchEdges, externalEdges []string
+		for _, e := range outEdges {
+			switch e.Type {
+			case "watches", "creates":
+				watchEdges = append(watchEdges, e.ID)
+			case "external":
+				externalEdges = append(externalEdges, e.ID)
 			}
 		}
-		if len(edges) > 0 {
+
+		depLabel := n.Label
+		if watchEdges != nil {
 			paths = append(paths, FlowPath{
-				Name:  "Controller Flow",
-				Edges: edges,
+				Name:  depLabel + " reconcile",
+				Edges: watchEdges,
 				Color: "#9b59b6",
 			})
 		}
-	}
-
-	// External Calls: deployment → external connections
-	if depID != "" {
-		var edges []string
-		for _, e := range edgesByFrom[depID] {
-			if e.Type == "external" {
-				edges = append(edges, e.ID)
-			}
-		}
-		if len(edges) > 0 {
+		if externalEdges != nil {
 			paths = append(paths, FlowPath{
-				Name:  "External Calls",
-				Edges: edges,
+				Name:  depLabel + " external",
+				Edges: externalEdges,
 				Color: "#e74c3c",
 			})
 		}
 	}
 
-	// Webhook Intercept: webhook → service
-	whID := firstNodeOfType(FlowNodeWebhook)
-	if whID != "" {
+	// Webhook intercepts: for each webhook with outgoing intercept edges
+	for _, n := range g.Nodes {
+		if n.Type != FlowNodeWebhook {
+			continue
+		}
 		var edges []string
-		for _, e := range edgesByFrom[whID] {
+		for _, e := range edgesByFrom[n.ID] {
 			if e.Type == "intercept" {
 				edges = append(edges, e.ID)
 			}
 		}
 		if len(edges) > 0 {
 			paths = append(paths, FlowPath{
-				Name:  "Webhook Intercept",
+				Name:  n.Label + " intercept",
 				Edges: edges,
 				Color: "#e67e22",
 			})

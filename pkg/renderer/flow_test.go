@@ -316,27 +316,24 @@ func TestBuildFlowGraph_PathsBuiltWhenDataPresent(t *testing.T) {
 	if len(g.Paths) == 0 {
 		t.Fatal("should build at least one flow path when ingress+service+deployment are present")
 	}
-	var requestFlow *FlowPath
-	for i := range g.Paths {
-		if g.Paths[i].Name == "Request Flow" {
-			requestFlow = &g.Paths[i]
-		}
-	}
-	if requestFlow == nil {
-		t.Fatal("should have a 'Request Flow' path")
-	}
-	if len(requestFlow.Edges) == 0 {
-		t.Error("Request Flow path should have at least one edge")
-	}
-	// Verify edge IDs in path actually exist in g.Edges
+	// Verify at least one path has edges that reference real edge IDs.
 	edgeIDs := map[string]bool{}
 	for _, e := range g.Edges {
 		edgeIDs[e.ID] = true
 	}
-	for _, eid := range requestFlow.Edges {
-		if !edgeIDs[eid] {
-			t.Errorf("path references edge ID %q which doesn't exist in g.Edges", eid)
+	var foundPath bool
+	for _, p := range g.Paths {
+		if len(p.Edges) > 0 {
+			foundPath = true
+			for _, eid := range p.Edges {
+				if !edgeIDs[eid] {
+					t.Errorf("path %q references edge ID %q which doesn't exist in g.Edges", p.Name, eid)
+				}
+			}
 		}
+	}
+	if !foundPath {
+		t.Error("at least one path should have edges")
 	}
 }
 
@@ -750,17 +747,14 @@ func TestBuildFlowPaths_ControllerFlow(t *testing.T) {
 		},
 	}
 	g := buildFlowGraph(data)
-	var found *FlowPath
-	for i := range g.Paths {
-		if g.Paths[i].Name == "Controller Flow" {
-			found = &g.Paths[i]
+	var found bool
+	for _, p := range g.Paths {
+		if strings.Contains(p.Name, "reconcile") && len(p.Edges) > 0 {
+			found = true
 		}
 	}
-	if found == nil {
-		t.Fatal("should have a 'Controller Flow' path")
-	}
-	if len(found.Edges) == 0 {
-		t.Error("Controller Flow should have at least one edge")
+	if !found {
+		t.Fatalf("should have a reconcile path, got paths: %v", pathNames(g.Paths))
 	}
 }
 
@@ -775,17 +769,14 @@ func TestBuildFlowPaths_ExternalCalls(t *testing.T) {
 		},
 	}
 	g := buildFlowGraph(data)
-	var found *FlowPath
-	for i := range g.Paths {
-		if g.Paths[i].Name == "External Calls" {
-			found = &g.Paths[i]
+	var found bool
+	for _, p := range g.Paths {
+		if strings.Contains(p.Name, "external") && len(p.Edges) > 0 {
+			found = true
 		}
 	}
-	if found == nil {
-		t.Fatal("should have an 'External Calls' path")
-	}
-	if len(found.Edges) == 0 {
-		t.Error("External Calls should have at least one edge")
+	if !found {
+		t.Fatalf("should have an external path, got paths: %v", pathNames(g.Paths))
 	}
 }
 
@@ -800,17 +791,14 @@ func TestBuildFlowPaths_WebhookIntercept(t *testing.T) {
 		},
 	}
 	g := buildFlowGraph(data)
-	var found *FlowPath
-	for i := range g.Paths {
-		if g.Paths[i].Name == "Webhook Intercept" {
-			found = &g.Paths[i]
+	var found bool
+	for _, p := range g.Paths {
+		if strings.Contains(p.Name, "intercept") && len(p.Edges) > 0 {
+			found = true
 		}
 	}
-	if found == nil {
-		t.Fatal("should have a 'Webhook Intercept' path")
-	}
-	if len(found.Edges) == 0 {
-		t.Error("Webhook Intercept should have at least one edge")
+	if !found {
+		t.Fatalf("should have an intercept path, got paths: %v", pathNames(g.Paths))
 	}
 }
 
@@ -841,27 +829,31 @@ func TestBuildFlowPaths_RequestFlowFollowsActualRoute(t *testing.T) {
 	if routeEdge.To != "svc-backend" {
 		t.Errorf("route edge should go to svc-backend, got %q", routeEdge.To)
 	}
-	var reqFlow *FlowPath
-	for i := range g.Paths {
-		if g.Paths[i].Name == "Request Flow" {
-			reqFlow = &g.Paths[i]
-		}
-	}
-	if reqFlow == nil {
-		t.Fatal("should have a Request Flow path")
-	}
-	if len(reqFlow.Edges) < 1 {
-		t.Fatal("Request Flow should have edges")
-	}
-	// Verify the path follows the actual route, not the first service
+	// Find request path and verify it follows the actual route
 	edgeByID := map[string]FlowEdge{}
 	for _, e := range g.Edges {
 		edgeByID[e.ID] = e
 	}
-	firstEdge := edgeByID[reqFlow.Edges[0]]
-	if firstEdge.To != "svc-backend" {
-		t.Errorf("Request Flow first edge should go to svc-backend (the routed service), got %q", firstEdge.To)
+	var found bool
+	for _, p := range g.Paths {
+		if strings.Contains(p.Name, "request") && len(p.Edges) > 0 {
+			firstEdge := edgeByID[p.Edges[0]]
+			if firstEdge.To == "svc-backend" {
+				found = true
+			}
+		}
 	}
+	if !found {
+		t.Errorf("request path should route to svc-backend, got paths: %v", pathNames(g.Paths))
+	}
+}
+
+func pathNames(paths []FlowPath) []string {
+	var names []string
+	for _, p := range paths {
+		names = append(names, p.Name)
+	}
+	return names
 }
 
 // ---- controllerDepID edge From verification ----
