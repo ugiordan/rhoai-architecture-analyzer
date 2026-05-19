@@ -219,18 +219,20 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	}
 
 	// Layer 5: CRDs (group-qualified to avoid kind collisions across API groups)
+	// Store the original kind in Meta so crdLookup can use the un-mangled name.
 	for _, item := range getSlice(data, "crds") {
-		kind := getStr(item, "kind", "CRD")
+		origKind := getStr(item, "kind", "CRD")
 		group := getStr(item, "group", "")
-		kind = uniqueName(kind, "crd")
-		id := "crd-" + flowNodeID(kind)
-		addNode(FlowNode{ID: id, Label: kind, Type: FlowNodeCRD, Layer: 5,
-			Meta: map[string]string{"group": group}})
+		displayKind := uniqueName(origKind, "crd")
+		id := "crd-" + flowNodeID(displayKind)
+		addNode(FlowNode{ID: id, Label: displayKind, Type: FlowNodeCRD, Layer: 5,
+			Meta: map[string]string{"group": group, "kind": origKind}})
 	}
 
 	// Phase 2: build lookup maps for edge wiring.
-	// crdLookup maps both "kind" and "group/kind" to the node ID so controller
-	// watches can match by either full GVK or bare kind.
+	// crdLookup maps both bare "Kind" and "group/Kind" to the node ID.
+	// Uses Meta["kind"] (the original, un-mangled kind) for the lookup key
+	// so controller watches can match by their GVK-extracted kind.
 	serviceByName := map[string]string{}
 	crdLookup := map[string]string{}
 	var firstSvcID string
@@ -242,9 +244,15 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 				firstSvcID = n.ID
 			}
 		case FlowNodeCRD:
-			crdLookup[n.Label] = n.ID
+			origKind := n.Meta["kind"]
+			if origKind == "" {
+				origKind = n.Label
+			}
+			if _, exists := crdLookup[origKind]; !exists {
+				crdLookup[origKind] = n.ID
+			}
 			if group := n.Meta["group"]; group != "" {
-				crdLookup[group+"/"+n.Label] = n.ID
+				crdLookup[group+"/"+origKind] = n.ID
 			}
 		}
 	}
@@ -768,12 +776,16 @@ function populateFlowSelect() {
   }
 }
 
+function clearChildren(el) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+}
+
 function drawAll() {
   positions = computeLayout(GRAPH.nodes);
   var edgesEl = document.getElementById('g-edges');
-  edgesEl.innerHTML = '';
+  clearChildren(edgesEl);
   var nodesEl = document.getElementById('g-nodes');
-  nodesEl.innerHTML = '';
+  clearChildren(nodesEl);
 
   if (GRAPH.nodes.length === 0) {
     var msg = svgEl('text', {

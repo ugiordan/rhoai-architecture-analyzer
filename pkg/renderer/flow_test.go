@@ -460,6 +460,75 @@ func TestBuildFlowGraph_ServiceTargetDeploymentMissing(t *testing.T) {
 	}
 }
 
+func TestBuildFlowGraph_ServiceTargetDeploymentHappyPath(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"services": []interface{}{
+			map[string]interface{}{"name": "svc", "target_deployment": "my-dep"},
+		},
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "my-dep"},
+			map[string]interface{}{"name": "other-dep"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var found bool
+	for _, e := range g.Edges {
+		if e.Type == "target" && e.From == "svc-svc" && e.To == "dep-my-dep" {
+			found = true
+		}
+	}
+	if !found {
+		t.Error("explicit target_deployment should wire to the named deployment, not fallback")
+	}
+}
+
+func TestBuildFlowGraph_CRDCrossGroupLookup(t *testing.T) {
+	data := map[string]interface{}{
+		"component": "test",
+		"deployments": []interface{}{
+			map[string]interface{}{"name": "ctrl"},
+		},
+		"crds": []interface{}{
+			map[string]interface{}{"kind": "Certificate", "group": "cert-manager.io"},
+			map[string]interface{}{"kind": "Certificate", "group": "networking.knative.dev"},
+		},
+		"controller_watches": []interface{}{
+			map[string]interface{}{"type": "For", "gvk": "networking.knative.dev/v1alpha1/Certificate"},
+		},
+	}
+	g := buildFlowGraph(data)
+	var watchEdge *FlowEdge
+	for i := range g.Edges {
+		if g.Edges[i].Type == "watches" {
+			watchEdge = &g.Edges[i]
+		}
+	}
+	if watchEdge == nil {
+		t.Fatal("should produce a watches edge for cross-group CRD")
+	}
+	// The watch should target the knative Certificate, not the cert-manager one
+	certManagerID := ""
+	knativeID := ""
+	for _, n := range g.Nodes {
+		if n.Type == FlowNodeCRD && n.Meta["group"] == "cert-manager.io" {
+			certManagerID = n.ID
+		}
+		if n.Type == FlowNodeCRD && n.Meta["group"] == "networking.knative.dev" {
+			knativeID = n.ID
+		}
+	}
+	if knativeID == "" {
+		t.Fatal("should have a knative Certificate CRD node")
+	}
+	if watchEdge.To == certManagerID {
+		t.Error("watch for networking.knative.dev/Certificate should NOT wire to the cert-manager CRD")
+	}
+	if watchEdge.To != knativeID {
+		t.Errorf("watch should wire to knative Certificate node %q, got %q", knativeID, watchEdge.To)
+	}
+}
+
 func TestBuildFlowGraph_GVKTrailingSlash(t *testing.T) {
 	data := map[string]interface{}{
 		"component": "test",
