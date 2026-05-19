@@ -3,6 +3,7 @@ package renderer
 import (
 	"encoding/json"
 	"fmt"
+	"html"
 	"html/template"
 	"strings"
 	"unicode"
@@ -71,7 +72,7 @@ func (r *FlowRenderer) Render(data map[string]interface{}) string {
 		"Component": g.Component,
 		"GraphJSON": template.JS(graphJSON), //nolint:gosec // generated from struct, not user input; json.Marshal HTML-escapes </>
 	}); err != nil {
-		return "<!DOCTYPE html><html><body>Flow render error: " + err.Error() + "</body></html>"
+		return "<!DOCTYPE html><html><body>Flow render error: " + html.EscapeString(err.Error()) + "</body></html>"
 	}
 	return b.String()
 }
@@ -217,17 +218,21 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		externalRefs = append(externalRefs, nodeRef{id, item})
 	}
 
-	// Layer 5: CRDs
+	// Layer 5: CRDs (group-qualified to avoid kind collisions across API groups)
 	for _, item := range getSlice(data, "crds") {
 		kind := getStr(item, "kind", "CRD")
+		group := getStr(item, "group", "")
+		kind = uniqueName(kind, "crd")
 		id := "crd-" + flowNodeID(kind)
 		addNode(FlowNode{ID: id, Label: kind, Type: FlowNodeCRD, Layer: 5,
-			Meta: map[string]string{"group": getStr(item, "group", "")}})
+			Meta: map[string]string{"group": group}})
 	}
 
 	// Phase 2: build lookup maps for edge wiring.
+	// crdLookup maps both "kind" and "group/kind" to the node ID so controller
+	// watches can match by either full GVK or bare kind.
 	serviceByName := map[string]string{}
-	crdByKind := map[string]string{}
+	crdLookup := map[string]string{}
 	var firstSvcID string
 	for _, n := range g.Nodes {
 		switch n.Type {
@@ -237,7 +242,10 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 				firstSvcID = n.ID
 			}
 		case FlowNodeCRD:
-			crdByKind[n.Label] = n.ID
+			crdLookup[n.Label] = n.ID
+			if group := n.Meta["group"]; group != "" {
+				crdLookup[group+"/"+n.Label] = n.ID
+			}
 		}
 	}
 
@@ -297,6 +305,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 	}
 
 	// Controller watches → CRDs (or built-in k8s resources for Owns)
+	// Try group-qualified lookup first ("group/Kind"), then bare kind.
 	for _, item := range getSlice(data, "controller_watches") {
 		watchType := getStr(item, "type", "")
 		gvk := strings.TrimRight(getStr(item, "gvk", ""), "/")
@@ -305,7 +314,18 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		if kind == "" {
 			continue
 		}
-		if crdID, ok := crdByKind[kind]; ok {
+		group := ""
+		if len(parts) >= 3 {
+			group = parts[0]
+		}
+		crdID := ""
+		if group != "" {
+			crdID = crdLookup[group+"/"+kind]
+		}
+		if crdID == "" {
+			crdID = crdLookup[kind]
+		}
+		if crdID != "" {
 			if watchType == "Owns" {
 				addEdge(ctrlDepID, crdID, "creates", "")
 			} else {
@@ -314,7 +334,7 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 		} else if watchType == "Owns" {
 			nodeID := "crd-" + flowNodeID(kind)
 			addNode(FlowNode{ID: nodeID, Label: kind, Type: FlowNodeCRD, Layer: 5})
-			crdByKind[kind] = nodeID
+			crdLookup[kind] = nodeID
 			addEdge(ctrlDepID, nodeID, "creates", "")
 		}
 	}
@@ -505,7 +525,7 @@ input[type=range] { width: 80px; cursor: pointer; vertical-align: middle; }
   <span id="legend"></span>
   <button id="btn-theme">&#9728; Light</button>
 </div>
-<svg id="diagram" xmlns="http://www.w3.org/2000/svg">
+<svg id="diagram" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs>
     <marker id="arrow-dark" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
       <path d="M0,0 L0,6 L8,3 z" fill="#8b949e"/>
@@ -658,7 +678,7 @@ function startAnimation() {
     if (!pathEl) continue;
 
     var circle = svgEl('circle', { r: '6', fill: flowPath.color });
-    circle.setAttribute('filter', 'drop-shadow(0 0 4px ' + flowPath.color + ')');
+    circle.style.filter = 'drop-shadow(0 0 4px ' + flowPath.color + ')';
 
     var stagger = (i / edgeCount) * durVal * 0.8;
     var motion = svgEl('animateMotion', {
@@ -669,6 +689,7 @@ function startAnimation() {
     });
     var mpath = document.createElementNS(SVG_NS, 'mpath');
     mpath.setAttribute('href', '#edge-' + edgeId);
+    mpath.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', '#edge-' + edgeId);
     motion.appendChild(mpath);
     circle.appendChild(motion);
     dotsEl.appendChild(circle);
