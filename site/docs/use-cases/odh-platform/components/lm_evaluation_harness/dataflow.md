@@ -4,7 +4,7 @@
 
 Kubernetes resources this controller monitors for changes. Each watch triggers reconciliation when the watched resource is created, updated, or deleted.
 
-No controller watches found.
+No controller watches found in analyzed sources.
 
 ## Reconciliation Flow
 

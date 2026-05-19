@@ -1,11 +1,11 @@
 # argo-workflows
 
-> **Architecture snapshot: 2026-05-18** (2026-05-18)
+> **Architecture snapshot: 2026-05-19** (2026-05-19)
 
 
 **Repository:** argoproj/argo-workflows  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-18T04:22:40Z
+**Extracted:** 2026-05-19T04:17:32Z
 
 ## Summary
 
@@ -42,7 +42,7 @@ graph LR
 
 ### CRDs
 
-No CRDs defined.
+No CRDs found in analyzed sources.
 
 ## Dependencies
 

@@ -12,8 +12,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/odh-cli/blob/cf052b38ada18b2ce6c95f60bfe80dc488e0022c/.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/odh-cli/blob/cf052b38ada18b2ce6c95f60bfe80dc488e0022c/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/odh-cli/blob/4b5786955aad21009155d57e47e555a035e71208/.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/odh-cli/blob/4b5786955aad21009155d57e47e555a035e71208/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/deployment.yaml) |
 
 ## Build Security
 

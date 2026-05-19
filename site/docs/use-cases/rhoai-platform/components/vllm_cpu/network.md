@@ -28,5 +28,5 @@ graph LR
 | moriio_toy_proxy_server-server | python-source | 10001/TCP | [`examples/online_serving/disaggregated_serving/moriio_toy_proxy_server.py:305`](https://github.com/red-hat-data-services/vllm-cpu/blob/4a21dc6fdc261bc6cd2b1200af5c3a495c5fc29b/examples/online_serving/disaggregated_serving/moriio_toy_proxy_server.py#L305) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

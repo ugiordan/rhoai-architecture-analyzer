@@ -34,5 +34,5 @@ graph LR
 | Gateway | inference-gateway |  |  | no | [`config/manifests/gateway/nginxgatewayfabric/gateway.yaml`](https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/a75cf430ae8e36c77a633bedd26d65947401da21/config/manifests/gateway/nginxgatewayfabric/gateway.yaml) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

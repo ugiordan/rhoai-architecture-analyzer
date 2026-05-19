@@ -2,7 +2,7 @@
 
 ### Services
 
-No services defined.
+No services found in analyzed sources.
 
 ### Ingress / Routing
 
@@ -14,5 +14,5 @@ No services defined.
 | Gateway | llm-d-inference-gateway |  |  | no | [`guides/recipes/gateway/kgateway/gateway.yaml`](https://github.com/llm-d/llm-d/blob/fcc90e6ba27b1227677e915ab8c9728d52a0deb9/guides/recipes/gateway/kgateway/gateway.yaml) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

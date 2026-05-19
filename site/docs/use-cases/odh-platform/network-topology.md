@@ -52,27 +52,27 @@ graph LR
     spark_operator["spark-operator"]:::comp
     workload_variant_autoscaler["workload-variant-autoscaler"]:::comp
 
-    kserve_autogluon_server -.->|"llmisvc-controller-manager-service"| kserve
-    kueue -.->|"training-operator"| distributed_workloads
     kserve_autogluon_server -.->|"cli-port-default"| kserve
     llama_stack -.->|"cli-port-default"| kserve
     modelmesh_serving -.->|"cli-port-default"| kserve
-    kuberay -.->|"kuberay-operator"| distributed_workloads
-    kueue -.->|"kuberay-operator"| distributed_workloads
-    kueue -.->|"visibility-server"| distributed_workloads
-    kserve_autogluon_server -.->|"keda-operator"| kserve
-    workload_variant_autoscaler -.->|"keda-operator"| kserve
-    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
-    kserve_autogluon_server -.->|"kserve-controller-manager-service"| kserve
-    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
-    data_science_pipelines_operator -.->|"the-service"| argo_workflows
-    kuberay -.->|"the-service"| argo_workflows
-    kueue -.->|"the-service"| argo_workflows
-    spark_operator -.->|"the-service"| argo_workflows
     kserve -.->|"uvicorn-server"| gateway_api_inference_extension
     kserve_autogluon_server -.->|"uvicorn-server"| gateway_api_inference_extension
     llm_d_inference_scheduler -.->|"uvicorn-server"| gateway_api_inference_extension
     workload_variant_autoscaler -.->|"uvicorn-server"| gateway_api_inference_extension
+    kueue -.->|"visibility-server"| distributed_workloads
+    kuberay -.->|"kuberay-operator"| distributed_workloads
+    kueue -.->|"kuberay-operator"| distributed_workloads
+    kueue -.->|"training-operator"| distributed_workloads
+    kserve_autogluon_server -.->|"keda-operator"| kserve
+    workload_variant_autoscaler -.->|"keda-operator"| kserve
+    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
+    kserve_autogluon_server -.->|"llmisvc-controller-manager-service"| kserve
+    data_science_pipelines_operator -.->|"the-service"| argo_workflows
+    kuberay -.->|"the-service"| argo_workflows
+    kueue -.->|"the-service"| argo_workflows
+    spark_operator -.->|"the-service"| argo_workflows
+    kserve_autogluon_server -.->|"kserve-controller-manager-service"| kserve
+    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
 ```
 
 ## Services by Component

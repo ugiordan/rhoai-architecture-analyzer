@@ -12,5 +12,5 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 Dockerfile patterns and base image analysis. Covers supply chain security: base images, build stages, runtime user, FIPS compliance.
 
-No Dockerfiles found.
+No Dockerfiles found in analyzed sources.
 

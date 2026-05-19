@@ -20,5 +20,5 @@ graph LR
 | inference-server | ClusterIP | 8033/TCP | [`deployment/base/service.yaml`](https://github.com/red-hat-data-services/text-generation-inference/blob/fded01861025fff09ba5f9a49cda710fcfd3ca93/deployment/base/service.yaml) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

@@ -26,5 +26,5 @@ graph LR
 | Route | route |  |  | yes | [`deploy/openshift/route.yaml`](https://github.com/llm-d/llm-d-routing-sidecar/blob/cc502d185a124d82170df5675b7ec9a533acfd4f/deploy/openshift/route.yaml) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

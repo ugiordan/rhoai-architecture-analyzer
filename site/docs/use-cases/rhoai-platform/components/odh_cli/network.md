@@ -20,9 +20,9 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| the-service | LoadBalancer | 8666/TCP | [`.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml`](https://github.com/opendatahub-io/odh-cli/blob/cf052b38ada18b2ce6c95f60bfe80dc488e0022c/.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml) |
-| the-service | LoadBalancer | 8666/TCP | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml`](https://github.com/opendatahub-io/odh-cli/blob/cf052b38ada18b2ce6c95f60bfe80dc488e0022c/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml`](https://github.com/opendatahub-io/odh-cli/blob/4b5786955aad21009155d57e47e555a035e71208/.gomod-cache/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml`](https://github.com/opendatahub-io/odh-cli/blob/4b5786955aad21009155d57e47e555a035e71208/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.2/artifacts/kustomization/service.yaml) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

@@ -3,6 +3,7 @@
 ServiceAccount bindings, roles, and resource permissions.
 
 !!! info "No RBAC Resources"
-    This component does not define any ClusterRoles, Roles, or RoleBindings.
-    It may operate as a sidecar or library used by other components that define their own RBAC.
+    No ClusterRoles, Roles, or RoleBindings were found in the analyzed sources.
+    No RBAC bindings found across analyzed components for this component.
+    This component may define RBAC via Kustomize overlays, Helm templates, or rely on roles defined by other components.
 

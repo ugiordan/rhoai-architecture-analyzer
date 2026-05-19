@@ -2,7 +2,7 @@
 
 ### Services
 
-No services defined.
+No services found in analyzed sources.
 
 ### Network Policies
 

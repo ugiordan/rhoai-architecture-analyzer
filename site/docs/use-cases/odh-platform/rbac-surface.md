@@ -84,9 +84,9 @@ How many distinct Kubernetes resource types can each component's most powerful C
 <div style="display: flex; align-items: center; gap: 8px;">
   <span style="min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;">workload-variant-autoscaler</span>
   <div style="flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;">
-    <div style="width: 36%; background: #f39c12; height: 100%; border-radius: 4px; min-width: 20px;"></div>
+    <div style="width: 40%; background: #f39c12; height: 100%; border-radius: 4px; min-width: 20px;"></div>
   </div>
-  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">20</span>
+  <span style="min-width: 30px; font-size: 0.85em; font-weight: 600;">22</span>
 </div>
 </div>
 </div>
@@ -199,5 +199,5 @@ graph LR
 | model-registry | 6 | model-registry-manager-role | 3 | narrow |
 | spark-operator | 5 | spark-operator-controller | 15 | medium |
 | trainer | 8 | kubeflow-trainer-controller-manager | 16 | medium |
-| workload-variant-autoscaler | 7 | manager-role | 20 | medium |
+| workload-variant-autoscaler | 7 | manager-role | 22 | medium |
 

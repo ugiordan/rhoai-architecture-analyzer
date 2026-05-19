@@ -1,11 +1,11 @@
 # mlflow-operator
 
-> **Architecture snapshot: 2026-05-18** (2026-05-18)
+> **Architecture snapshot: 2026-05-19** (2026-05-19)
 
 
 **Repository:** opendatahub-io/mlflow-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-18T04:13:14Z
+**Extracted:** 2026-05-19T04:07:16Z
 
 ## Summary
 
@@ -76,8 +76,8 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
 |-------|---------|------|-------|--------|------------------|-----------|--------|
-| mlflow.kubeflow.org | v1 | MLflowConfig | Namespaced | 6 | 4 | YAML | [`config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/8ab07a89d6d2d6bc2ffa0c8601f4a856a4cb1b18/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml) |
-| mlflow.opendatahub.io | v1 | MLflow | Cluster | 300 | 18 | YAML | [`config/crd/bases/mlflow.opendatahub.io_mlflows.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/8ab07a89d6d2d6bc2ffa0c8601f4a856a4cb1b18/config/crd/bases/mlflow.opendatahub.io_mlflows.yaml) |
+| mlflow.kubeflow.org | v1 | MLflowConfig | Namespaced | 6 | 4 | YAML | [`config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/4cccfcc2dd8576cabbf255f66894d801a68eb844/config/crd/mlflow.kubeflow.org_mlflowconfigs.yaml) |
+| mlflow.opendatahub.io | v1 | MLflow | Cluster | 321 | 19 | YAML | [`config/crd/bases/mlflow.opendatahub.io_mlflows.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/4cccfcc2dd8576cabbf255f66894d801a68eb844/config/crd/bases/mlflow.opendatahub.io_mlflows.yaml) |
 
 ## Dependencies
 
@@ -92,25 +92,25 @@ graph LR
 | Module | Version |
 |--------|---------|
 | github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.3.0 |
-| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.2.2 |
-| github.com/go-logr/logr | v1.3.0 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.2.2 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/logr | v1.2.2 |
+| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.3.0 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.3.0 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/stdr | v1.2.2 |
 | github.com/go-logr/stdr | v1.2.2 |
 | github.com/go-logr/zapr | v1.3.0 |
@@ -119,116 +119,116 @@ graph LR
 | github.com/go-logr/zapr | v1.3.0 |
 | github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring | v0.89.0 |
 | github.com/prometheus/client_golang | v1.11.1 |
-| github.com/prometheus/client_golang | v1.22.0 |
-| github.com/prometheus/client_golang | v1.22.0 |
-| github.com/prometheus/client_golang | v1.22.0 |
 | github.com/prometheus/client_golang | v1.11.1 |
 | github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
 | github.com/prometheus/client_model | v0.6.1 |
 | github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.1 |
 | github.com/prometheus/client_model | v0.6.1 |
 | github.com/prometheus/client_model | v0.6.2 |
-| github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.1 |
+| github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/common | v0.62.0 |
 | github.com/prometheus/common | v0.65.0 |
-| github.com/prometheus/common | v0.65.0 |
 | github.com/prometheus/common | v0.62.0 |
-| github.com/prometheus/procfs | v0.16.1 |
+| github.com/prometheus/common | v0.65.0 |
 | github.com/prometheus/procfs | v0.15.1 |
 | github.com/prometheus/procfs | v0.15.1 |
 | github.com/prometheus/procfs | v0.16.1 |
-| google.golang.org/grpc | v1.78.0 |
-| google.golang.org/grpc | v1.72.1 |
+| github.com/prometheus/procfs | v0.16.1 |
 | google.golang.org/grpc | v1.56.3 |
 | google.golang.org/grpc | v1.72.1 |
 | google.golang.org/grpc | v1.56.3 |
 | google.golang.org/grpc | v1.78.0 |
+| google.golang.org/grpc | v1.72.1 |
+| google.golang.org/grpc | v1.78.0 |
 | google.golang.org/grpc | v1.75.1 |
 | google.golang.org/grpc | v1.71.0 |
 | google.golang.org/grpc | v1.75.1 |
+| google.golang.org/grpc | v1.78.0 |
+| google.golang.org/grpc | v1.75.1 |
 | google.golang.org/grpc | v1.72.1 |
+| google.golang.org/grpc | v1.72.1 |
+| google.golang.org/grpc | v1.78.0 |
 | google.golang.org/grpc | v1.71.0 |
-| google.golang.org/grpc | v1.78.0 |
-| google.golang.org/grpc | v1.78.0 |
 | google.golang.org/grpc | v1.75.1 |
-| google.golang.org/grpc | v1.75.1 |
-| google.golang.org/grpc | v1.72.1 |
 | google.golang.org/grpc/cmd/protoc-gen-go-grpc | v1.5.1 |
 | google.golang.org/grpc/cmd/protoc-gen-go-grpc | v1.5.1 |
-| k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.34.1 |
-| k8s.io/api | v0.34.0 |
-| k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.34.1 |
-| k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.2 |
 | k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.0 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.1 |
+| k8s.io/api | v0.34.1 |
+| k8s.io/api | v0.34.1 |
 | k8s.io/api | v0.34.0 |
+| k8s.io/apiextensions-apiserver | v0.34.0 |
+| k8s.io/apiextensions-apiserver | v0.34.0 |
 | k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
-| k8s.io/apiextensions-apiserver | v0.34.0 |
-| k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
-| k8s.io/apiextensions-apiserver | v0.34.0 |
+| k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apiextensions-apiserver | v0.34.1 |
 | k8s.io/apimachinery | v0.34.1 |
-| k8s.io/apimachinery | v0.34.0 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.2 |
-| k8s.io/apimachinery | v0.34.1 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.1 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.0 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.1 |
 | k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.1 |
+| k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.0 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apiserver | v0.34.0 |
 | k8s.io/apiserver | v0.34.0 |
 | k8s.io/apiserver | v0.34.3 |
+| k8s.io/apiserver | v0.34.0 |
+| k8s.io/apiserver | v0.34.1 |
+| k8s.io/apiserver | v0.34.1 |
 | k8s.io/apiserver | v0.34.3 |
-| k8s.io/apiserver | v0.34.1 |
-| k8s.io/apiserver | v0.34.1 |
 | k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.1 |
-| k8s.io/client-go | v0.34.1 |
 | k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.34.1 |
 | k8s.io/client-go | v0.34.0 |
-| k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.0 |
 | k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.3 |
-| k8s.io/client-go | v0.34.1 |
+| k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.1 |
-| sigs.k8s.io/controller-runtime | v0.22.1 |
-| sigs.k8s.io/controller-runtime | v0.22.4 |
-| sigs.k8s.io/controller-runtime | v0.22.3 |
+| k8s.io/client-go | v0.34.1 |
 | sigs.k8s.io/controller-runtime | v0.22.3 |
 | sigs.k8s.io/controller-runtime | v0.22.1 |
+| sigs.k8s.io/controller-runtime | v0.22.3 |
 | sigs.k8s.io/controller-runtime | v0.22.4 |
+| sigs.k8s.io/controller-runtime | v0.22.4 |
+| sigs.k8s.io/controller-runtime | v0.22.1 |
 

@@ -1,11 +1,11 @@
 # modelmesh-runtime-adapter
 
-> **Architecture snapshot: 2026-05-18** (2026-05-18)
+> **Architecture snapshot: 2026-05-19** (2026-05-19)
 
 
 **Repository:** kserve/modelmesh-runtime-adapter  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-18T04:23:29Z
+**Extracted:** 2026-05-19T04:17:15Z
 
 ## Summary
 
@@ -43,7 +43,7 @@ graph LR
 
 ### CRDs
 
-No CRDs defined.
+No CRDs found in analyzed sources.
 
 ## Dependencies
 

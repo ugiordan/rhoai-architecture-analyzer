@@ -1,11 +1,11 @@
 # ml-metadata
 
-> **Architecture snapshot: 2026-05-18** (2026-05-18)
+> **Architecture snapshot: 2026-05-19** (2026-05-19)
 
 
 **Repository:** red-hat-data-services/ml-metadata  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-18T04:22:59Z
+**Extracted:** 2026-05-19T04:16:51Z
 
 ## Summary
 
@@ -40,7 +40,7 @@ graph LR
 
 ### CRDs
 
-No CRDs defined.
+No CRDs found in analyzed sources.
 
 ## Dependencies
 

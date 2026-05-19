@@ -1,11 +1,11 @@
 # feast
 
-> **Architecture snapshot: 2026-05-18** (2026-05-18)
+> **Architecture snapshot: 2026-05-19** (2026-05-19)
 
 
 **Repository:** feast-dev/feast  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-18T04:25:07Z
+**Extracted:** 2026-05-19T04:19:48Z
 
 ## Summary
 
@@ -67,7 +67,7 @@ graph LR
 
 ### CRDs
 
-No CRDs defined.
+No CRDs found in analyzed sources.
 
 ## Dependencies
 

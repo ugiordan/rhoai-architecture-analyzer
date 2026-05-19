@@ -57,6 +57,17 @@ graph LR
     vllm_gaudi["vllm-gaudi"]:::comp
     workload_variant_autoscaler["workload-variant-autoscaler"]:::comp
 
+    data_science_pipelines_operator -.->|"the-service"| argo_workflows
+    kuberay -.->|"the-service"| argo_workflows
+    kueue -.->|"the-service"| argo_workflows
+    odh_cli -.->|"the-service"| argo_workflows
+    spark_operator -.->|"the-service"| argo_workflows
+    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
+    kuberay -.->|"kuberay-operator"| distributed_workloads
+    kueue -.->|"kuberay-operator"| distributed_workloads
+    workload_variant_autoscaler -.->|"keda-operator"| kserve
+    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
+    kueue -.->|"visibility-server"| distributed_workloads
     feast -.->|"uvicorn-server"| ai_gateway_payload_processing
     gateway_api_inference_extension -.->|"uvicorn-server"| ai_gateway_payload_processing
     kserve -.->|"uvicorn-server"| ai_gateway_payload_processing
@@ -65,19 +76,8 @@ graph LR
     modelmesh_serving -.->|"cli-port-default"| kserve
     vllm_cpu -.->|"cli-port-default"| kserve
     vllm_gaudi -.->|"cli-port-default"| kserve
-    notebooks_downstream -.->|"notebook"| notebooks
-    kuberay -.->|"kuberay-operator"| distributed_workloads
-    kueue -.->|"kuberay-operator"| distributed_workloads
     kueue -.->|"training-operator"| distributed_workloads
-    modelmesh_serving -.->|"kserve-controller-manager-service"| kserve
-    data_science_pipelines_operator -.->|"the-service"| argo_workflows
-    kuberay -.->|"the-service"| argo_workflows
-    kueue -.->|"the-service"| argo_workflows
-    odh_cli -.->|"the-service"| argo_workflows
-    spark_operator -.->|"the-service"| argo_workflows
-    mlflow_operator -.->|"minio-service"| data_science_pipelines_operator
-    kueue -.->|"visibility-server"| distributed_workloads
-    workload_variant_autoscaler -.->|"keda-operator"| kserve
+    notebooks_downstream -.->|"notebook"| notebooks
 ```
 
 ## Services by Component

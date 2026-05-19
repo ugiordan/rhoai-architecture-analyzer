@@ -20,5 +20,5 @@ graph LR
 | cli-port-default | python-source | 8000/TCP | [`examples/lmcache/disagg_prefill_lmcache_v1/disagg_proxy_server.py:68`](https://github.com/red-hat-data-services/vllm-gaudi/blob/913c8137213a04b27d908d59479f1394ce8e5e9f/examples/lmcache/disagg_prefill_lmcache_v1/disagg_proxy_server.py#L68) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

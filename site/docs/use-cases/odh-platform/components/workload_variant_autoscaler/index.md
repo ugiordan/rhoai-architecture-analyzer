@@ -1,11 +1,11 @@
 # workload-variant-autoscaler
 
-> **Architecture snapshot: 2026-05-18** (2026-05-18)
+> **Architecture snapshot: 2026-05-19** (2026-05-19)
 
 
 **Repository:** llm-d/workload-variant-autoscaler  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-18T04:21:18Z
+**Extracted:** 2026-05-19T04:15:25Z
 
 ## Summary
 
@@ -16,7 +16,7 @@
 | Services | 9 |
 | Secrets | 5 |
 | Cluster Roles | 7 |
-| Controller Watches | 39 |
+| Controller Watches | 41 |
 
 ## Component Architecture
 
@@ -82,7 +82,7 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
 |-------|---------|------|-------|--------|------------------|-----------|--------|
-| llmd.ai | v1alpha1 | VariantAutoscaling | Namespaced | 26 | 1 | YAML | [`config/crd/bases/llmd.ai_variantautoscalings.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/fb7f5c6afd8a71201656c1ef69c5385487032501/config/crd/bases/llmd.ai_variantautoscalings.yaml) |
+| llmd.ai | v1alpha1 | VariantAutoscaling | Namespaced | 26 | 1 | YAML | [`config/crd/bases/llmd.ai_variantautoscalings.yaml`](https://github.com/llm-d/workload-variant-autoscaler/blob/0641ee03e8430cce5821797137b1b53bf70b98a2/config/crd/bases/llmd.ai_variantautoscalings.yaml) |
 
 ## Dependencies
 
@@ -90,31 +90,31 @@ graph LR
 
 | Module | Version |
 |--------|---------|
-| github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.3 |
-| github.com/go-logr/logr | v1.4.2 |
-| github.com/go-logr/logr | v1.4.1 |
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.3.0 |
+| github.com/go-logr/logr | v1.3.0 |
 | github.com/go-logr/logr | v1.2.2 |
-| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.2.2 |
-| github.com/go-logr/logr | v1.3.0 |
+| github.com/go-logr/logr | v1.4.2 |
+| github.com/go-logr/logr | v1.4.3 |
+| github.com/go-logr/logr | v1.4.3 |
 | github.com/go-logr/logr | v1.4.1 |
+| github.com/go-logr/logr | v1.4.2 |
 | github.com/go-logr/stdr | v1.2.2 |
 | github.com/go-logr/stdr | v1.2.2 |
 | github.com/go-logr/zapr | v1.3.0 |
@@ -125,17 +125,19 @@ graph LR
 | github.com/go-logr/zapr | v1.3.0 |
 | github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring | v0.89.0 |
 | github.com/prometheus/client_golang | v1.23.0 |
-| github.com/prometheus/client_golang | v1.23.2 |
-| github.com/prometheus/client_golang | v1.23.2 |
-| github.com/prometheus/client_golang | v1.22.0 |
-| github.com/prometheus/client_golang | v1.22.0 |
-| github.com/prometheus/client_golang | v1.23.2 |
-| github.com/prometheus/client_golang | v1.22.0 |
-| github.com/prometheus/client_golang | v1.22.0 |
-| github.com/prometheus/client_golang | v1.11.1 |
 | github.com/prometheus/client_golang | v1.23.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_golang | v1.23.2 |
+| github.com/prometheus/client_golang | v1.11.1 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.22.0 |
+| github.com/prometheus/client_golang | v1.23.2 |
 | github.com/prometheus/client_golang | v1.11.1 |
 | github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.2 |
+| github.com/prometheus/client_model | v0.6.1 |
 | github.com/prometheus/client_model | v0.6.1 |
 | github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.1 |
@@ -143,135 +145,134 @@ graph LR
 | github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.2 |
-| github.com/prometheus/client_model | v0.6.1 |
-| github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/client_model | v0.6.1 |
-| github.com/prometheus/common | v0.62.0 |
+| github.com/prometheus/client_model | v0.6.2 |
 | github.com/prometheus/common | v0.67.2 |
-| github.com/prometheus/common | v0.62.0 |
 | github.com/prometheus/common | v0.67.5 |
 | github.com/prometheus/common | v0.62.0 |
 | github.com/prometheus/common | v0.66.1 |
-| github.com/prometheus/common | v0.62.0 |
 | github.com/prometheus/common | v0.66.1 |
+| github.com/prometheus/common | v0.62.0 |
+| github.com/prometheus/common | v0.62.0 |
 | github.com/prometheus/common | v0.67.2 |
+| github.com/prometheus/common | v0.62.0 |
 | github.com/prometheus/procfs | v0.16.1 |
 | github.com/prometheus/procfs | v0.15.1 |
 | github.com/prometheus/procfs | v0.15.1 |
 | github.com/prometheus/procfs | v0.16.1 |
-| github.com/prometheus/prometheus | v0.307.3 |
-| github.com/prometheus/prometheus | v0.304.2 |
 | github.com/prometheus/prometheus | v0.304.2 |
 | github.com/prometheus/prometheus | v0.307.3 |
+| github.com/prometheus/prometheus | v0.304.2 |
+| github.com/prometheus/prometheus | v0.307.3 |
 | google.golang.org/grpc | v1.75.0 |
-| google.golang.org/grpc | v1.75.0 |
+| google.golang.org/grpc | v1.72.1 |
 | google.golang.org/grpc | v1.56.3 |
-| google.golang.org/grpc | v1.72.1 |
-| google.golang.org/grpc | v1.75.1 |
-| google.golang.org/grpc | v1.75.0 |
 | google.golang.org/grpc | v1.71.0 |
 | google.golang.org/grpc | v1.56.3 |
-| google.golang.org/grpc | v1.72.1 |
-| google.golang.org/grpc | v1.71.0 |
-| google.golang.org/grpc | v1.76.0 |
-| google.golang.org/grpc | v1.74.2 |
-| google.golang.org/grpc | v1.71.0 |
-| google.golang.org/grpc | v1.74.2 |
-| google.golang.org/grpc | v1.72.1 |
 | google.golang.org/grpc | v1.75.0 |
-| google.golang.org/grpc | v1.72.1 |
 | google.golang.org/grpc | v1.71.0 |
 | google.golang.org/grpc | v1.76.0 |
 | google.golang.org/grpc | v1.75.1 |
+| google.golang.org/grpc | v1.75.0 |
+| google.golang.org/grpc | v1.76.0 |
+| google.golang.org/grpc | v1.74.2 |
+| google.golang.org/grpc | v1.71.0 |
+| google.golang.org/grpc | v1.72.1 |
+| google.golang.org/grpc | v1.71.0 |
+| google.golang.org/grpc | v1.72.1 |
+| google.golang.org/grpc | v1.75.1 |
+| google.golang.org/grpc | v1.72.1 |
+| google.golang.org/grpc | v1.75.0 |
+| google.golang.org/grpc | v1.74.2 |
 | google.golang.org/grpc/cmd/protoc-gen-go-grpc | v1.5.1 |
 | google.golang.org/grpc/cmd/protoc-gen-go-grpc | v1.5.1 |
+| k8s.io/api | v0.33.5 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.33.5 |
-| k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.32.2 |
-| k8s.io/api | v0.32.2 |
-| k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.34.5 |
-| k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.34.5 |
 | k8s.io/api | v0.34.2 |
 | k8s.io/api | v0.34.3 |
-| k8s.io/api | v0.33.5 |
+| k8s.io/api | v0.32.2 |
+| k8s.io/api | v0.34.5 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.5 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.34.3 |
+| k8s.io/api | v0.32.2 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.2 |
+| k8s.io/api | v0.34.3 |
 | k8s.io/api | v0.34.5 |
-| k8s.io/apiextensions-apiserver | v0.34.3 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
 | k8s.io/apiextensions-apiserver | v0.34.2 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
+| k8s.io/apiextensions-apiserver | v0.34.3 |
+| k8s.io/apiextensions-apiserver | v0.32.1 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
 | k8s.io/apiextensions-apiserver | v0.34.3 |
 | k8s.io/apiextensions-apiserver | v0.34.2 |
 | k8s.io/apiextensions-apiserver | v0.32.1 |
-| k8s.io/apiextensions-apiserver | v0.32.1 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.5 |
-| k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.33.5 |
 | k8s.io/apimachinery | v0.34.5 |
-| k8s.io/apimachinery | v0.34.5 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.32.2 |
-| k8s.io/apimachinery | v0.34.2 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.5 |
-| k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.34.5 |
-| k8s.io/apimachinery | v0.32.2 |
+| k8s.io/apimachinery | v0.33.5 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apimachinery | v0.34.2 |
+| k8s.io/apimachinery | v0.34.2 |
+| k8s.io/apimachinery | v0.32.2 |
 | k8s.io/apimachinery | v0.34.3 |
-| k8s.io/apimachinery | v0.33.5 |
-| k8s.io/apiserver | v0.34.3 |
-| k8s.io/apiserver | v0.34.3 |
+| k8s.io/apimachinery | v0.34.5 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.32.2 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.5 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.3 |
+| k8s.io/apimachinery | v0.34.5 |
+| k8s.io/apimachinery | v0.34.3 |
 | k8s.io/apiserver | v0.34.3 |
 | k8s.io/apiserver | v0.34.3 |
 | k8s.io/apiserver | v0.34.3 |
 | k8s.io/apiserver | v0.33.5 |
 | k8s.io/apiserver | v0.34.3 |
 | k8s.io/apiserver | v0.33.5 |
-| k8s.io/client-go | v0.32.2 |
-| k8s.io/client-go | v0.33.5 |
+| k8s.io/apiserver | v0.34.3 |
+| k8s.io/apiserver | v0.34.3 |
+| k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.5 |
 | k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.3 |
-| k8s.io/client-go | v0.34.3 |
-| k8s.io/client-go | v0.34.3 |
-| k8s.io/client-go | v0.34.2 |
-| k8s.io/client-go | v0.34.3 |
-| k8s.io/client-go | v0.34.3 |
-| k8s.io/client-go | v0.34.2 |
-| k8s.io/client-go | v0.34.3 |
-| k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.33.5 |
 | k8s.io/client-go | v0.32.2 |
 | k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.34.2 |
+| k8s.io/client-go | v0.33.5 |
+| k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.32.2 |
+| k8s.io/client-go | v0.34.2 |
+| k8s.io/client-go | v0.34.3 |
+| k8s.io/client-go | v0.34.3 |
 | k8s.io/client-go | v0.34.3 |
 | sigs.k8s.io/controller-runtime | v0.22.4 |
-| sigs.k8s.io/controller-runtime | v0.22.4 |
-| sigs.k8s.io/controller-runtime | v0.22.4 |
-| sigs.k8s.io/controller-runtime | v0.22.4 |
-| sigs.k8s.io/controller-runtime | v0.21.0 |
+| sigs.k8s.io/controller-runtime | v0.22.3 |
 | sigs.k8s.io/controller-runtime | v0.22.3 |
 | sigs.k8s.io/controller-runtime | v0.21.0 |
-| sigs.k8s.io/controller-runtime | v0.22.3 |
 | sigs.k8s.io/controller-runtime | v0.22.5 |
+| sigs.k8s.io/controller-runtime | v0.22.4 |
+| sigs.k8s.io/controller-runtime | v0.22.4 |
+| sigs.k8s.io/controller-runtime | v0.21.0 |
+| sigs.k8s.io/controller-runtime | v0.22.4 |
 | sigs.k8s.io/controller-runtime/tools/setup-envtest | v0.0.0-20240804232438-89b5deec030c |
 | sigs.k8s.io/controller-runtime/tools/setup-envtest | v0.0.0-20240804232438-89b5deec030c |
 

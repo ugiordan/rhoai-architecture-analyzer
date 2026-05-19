@@ -23,7 +23,7 @@ Controller-runtime cache configuration controls which Kubernetes resources are c
 
 | Type | Source | Risk |
 |------|--------|------|
-| client.ListOptions | `internal/controller/configmap_bootstrap.go:53` | medium |
+| client.ListOptions | `internal/controller/configmap_bootstrap.go:56` | medium |
 
 ### Issues
 

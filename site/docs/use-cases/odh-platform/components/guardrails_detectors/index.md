@@ -1,11 +1,11 @@
 # guardrails-detectors
 
-> **Architecture snapshot: 2026-05-18** (2026-05-18)
+> **Architecture snapshot: 2026-05-19** (2026-05-19)
 
 
 **Repository:** opendatahub-io/guardrails-detectors  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-18T04:15:27Z
+**Extracted:** 2026-05-19T04:09:15Z
 
 ## Summary
 
@@ -40,7 +40,7 @@ graph LR
 
 ### CRDs
 
-No CRDs defined.
+No CRDs found in analyzed sources.
 
 ## Dependencies
 

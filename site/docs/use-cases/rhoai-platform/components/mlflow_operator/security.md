@@ -19,8 +19,8 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| mlflow-operator-controller-manager | manager | ? | true | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/mlflow-operator/blob/8fdb97ce99551b30dcbc50b98407cfdeb1b49d1c/kustomize:config/overlays/odh) |
-| postgres-deployment | postgres | ? | ? | ? | [`config/postgres/base/deployment.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/8fdb97ce99551b30dcbc50b98407cfdeb1b49d1c/config/postgres/base/deployment.yaml) |
+| mlflow-operator-controller-manager | manager | ? | true | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/mlflow-operator/blob/d6eee433c94c4492e55b5f16eda0c9f26f0291be/kustomize:config/overlays/odh) |
+| postgres-deployment | postgres | ? | ? | ? | [`config/postgres/base/deployment.yaml`](https://github.com/opendatahub-io/mlflow-operator/blob/d6eee433c94c4492e55b5f16eda0c9f26f0291be/config/postgres/base/deployment.yaml) |
 
 ## Build Security
 

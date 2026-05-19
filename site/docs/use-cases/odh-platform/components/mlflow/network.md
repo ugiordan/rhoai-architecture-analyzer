@@ -17,8 +17,8 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| env-port-default | python-source | 9137/TCP | [`dev/benchmarks/gateway/fake_server.py:66`](https://github.com/opendatahub-io/mlflow/blob/b4d3741f3c446a3087b1b159bba8303eeb9552bb/dev/benchmarks/gateway/fake_server.py#L66) |
+| env-port-default | python-source | 9137/TCP | [`dev/benchmarks/gateway/fake_server.py:66`](https://github.com/opendatahub-io/mlflow/blob/9700acd222c8f8b4300ff2bebf4966f448ebadda/dev/benchmarks/gateway/fake_server.py#L66) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 

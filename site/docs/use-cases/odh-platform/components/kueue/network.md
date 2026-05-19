@@ -50,5 +50,5 @@ graph LR
 | Gateway | acmesolver |  |  | no | [`.gopath-loader/pkg/mod/github.com/cert-manager/cert-manager@v1.17.1/make/config/projectcontour/gateway.yaml`](https://github.com/opendatahub-io/kueue/blob/97024bd289d2cc5c9369b40d9f3483ab1483143d/.gopath-loader/pkg/mod/github.com/cert-manager/cert-manager@v1.17.1/make/config/projectcontour/gateway.yaml) |
 
 !!! warning "No Network Policies"
-    No NetworkPolicy resources found. All pod-to-pod traffic is allowed by default.
+    No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.
 
