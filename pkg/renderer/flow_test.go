@@ -922,11 +922,11 @@ func TestFlowRenderer_ProducesHTML(t *testing.T) {
 	if !strings.Contains(out, "<!DOCTYPE html>") {
 		t.Error("output should be HTML")
 	}
-	if !strings.Contains(out, "const GRAPH =") {
-		t.Error("output should embed graph JSON")
+	if !strings.Contains(out, "var D =") {
+		t.Error("output should embed diagram JSON")
 	}
-	if !strings.Contains(out, "<svg") {
-		t.Error("output should contain SVG element")
+	if !strings.Contains(out, "<canvas") {
+		t.Error("output should contain canvas element")
 	}
 }
 
@@ -935,8 +935,8 @@ func TestFlowRenderer_EmptyData_ProducesValidHTML(t *testing.T) {
 	if !strings.Contains(out, "<!DOCTYPE html>") {
 		t.Error("even empty data should produce valid HTML")
 	}
-	if !strings.Contains(out, "const GRAPH =") {
-		t.Error("empty data should still embed graph JSON")
+	if !strings.Contains(out, "var D =") {
+		t.Error("empty data should still embed diagram JSON")
 	}
 }
 
@@ -971,23 +971,36 @@ func TestFlowRenderer_GraphJSONContainsNodes(t *testing.T) {
 	}
 }
 
-func TestFlowRenderer_HTMLContainsPlainHref(t *testing.T) {
+func TestFlowRenderer_HTMLContainsCanvasEngine(t *testing.T) {
 	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "mpath.setAttribute('href'") {
-		t.Error("mpath should use plain href for SVG2/Firefox compatibility")
+	if !strings.Contains(out, "requestAnimationFrame") {
+		t.Error("should contain Canvas render loop")
+	}
+	if !strings.Contains(out, "renderAll") {
+		t.Error("should contain renderAll function")
 	}
 }
 
-func TestFlowRenderer_HTMLContainsNodeByIdLookup(t *testing.T) {
+func TestFlowRenderer_HTMLContainsPlayback(t *testing.T) {
 	out := (&FlowRenderer{}).Render(sampleData())
-	if !strings.Contains(out, "nodeLabel(") {
-		t.Error("showDetail should use nodeLabel() to display human-readable names")
+	if !strings.Contains(out, "execStep") {
+		t.Error("should contain step execution logic")
+	}
+	if !strings.Contains(out, "btn-play") {
+		t.Error("should contain play button")
 	}
 }
 
-func TestFlowRenderer_HTMLContainsEmptyMessage(t *testing.T) {
-	out := (&FlowRenderer{}).Render(emptyComponentData())
-	if !strings.Contains(out, "No architecture data found in analyzed sources") {
-		t.Error("empty data should include a user-facing empty-state message in the template")
+func TestFlowRenderer_HTMLContainsInspector(t *testing.T) {
+	out := (&FlowRenderer{}).Render(sampleData())
+	if !strings.Contains(out, "inspector-panel") {
+		t.Error("should contain inspector panel")
+	}
+}
+
+func TestFlowRenderer_DiagramHasFlows(t *testing.T) {
+	out := (&FlowRenderer{}).Render(sampleData())
+	if !strings.Contains(out, "flowOrder") {
+		t.Error("diagram JSON should contain flowOrder")
 	}
 }
