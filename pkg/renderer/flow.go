@@ -210,11 +210,15 @@ func buildFlowGraph(data map[string]interface{}) FlowGraph {
 
 	// Layer 4: external connections
 	for _, item := range getSlice(data, "external_connections") {
-		target := getStr(item, "target", "external")
+		target := getStr(item, "target", "")
+		connType := getStr(item, "type", "external")
+		if target == "" || strings.Contains(target, "%s") || strings.Contains(target, "%d") {
+			target = connType
+		}
 		target = uniqueName(target, "external")
 		id := "ext-" + flowNodeID(target)
 		addNode(FlowNode{ID: id, Label: target, Type: FlowNodeExternal, Layer: 4,
-			Meta: map[string]string{"type": getStr(item, "type", "")}})
+			Meta: map[string]string{"type": connType}})
 		externalRefs = append(externalRefs, nodeRef{id, item})
 	}
 
