@@ -130,6 +130,77 @@ arch-analyzer domains
 
 Output includes domain name, supported languages, dependencies, and query count.
 
+## SBOM & Reporting Commands
+
+### arch-analyzer sbom
+
+Generate a CycloneDX 1.5 Software Bill of Materials from extracted architecture data.
+
+```bash
+arch-analyzer sbom <component-architecture.json> [--output <file>]
+```
+
+| Flag | Description |
+|------|-------------|
+| `--output` | Output file path (default: stdout) |
+
+**Components included**:
+
+| Source | Type | Details |
+|--------|------|---------|
+| Go modules | `library` | Module path, version, PURL (`pkg:golang/...`) |
+| Python deps | `library` | Package name, version, PURL (`pkg:pypi/...`) |
+| Dockerfile base images | `container` | Image name, tag, digest (SHA-256), stages, user, architectures, FIPS flag, issues |
+| Deployment containers | `container` | Image, security context (runAsNonRoot, readOnlyFS, privileged, drop ALL), resource limits/requests, health probes |
+| Operator image constants | `container` | Go const name, default image value, source file |
+
+Each component carries `arch-analyzer:*` properties for traceability (source file, ecosystem, deployment name, Dockerfile issues).
+
+!!! example "Generate SBOM for a component"
+    ```bash
+    arch-analyzer sbom component-architecture.json --output sbom.json
+    # Check component count
+    cat sbom.json | jq '.components | length'
+    ```
+
+### arch-analyzer report
+
+Generate a comprehensive image and container analysis report in markdown.
+
+```bash
+arch-analyzer report [--output <file>] <json-file>...
+```
+
+| Flag | Description |
+|------|-------------|
+| `--output` | Output markdown file (default: stdout) |
+
+Accepts one or more `component-architecture.json` files. When given multiple inputs, produces a cross-component analysis.
+
+**Report sections**:
+
+| Section | What it covers |
+|---------|---------------|
+| GPU / CUDA Dependencies | Components requiring NVIDIA CUDA, Intel Gaudi, AMD ROCm, with version detection |
+| Base Image Registry Distribution | Which registries are used (Red Hat, Docker Hub, Google, Quay, etc.) |
+| Multi-Architecture Support | Dockerfiles declaring multi-arch builds |
+| Dockerfile Security Issues | Unpinned images, missing USER, no health checks, etc. |
+| Container Security Contexts | RunAsNonRoot, ReadOnlyRootFilesystem, Privileged, Capabilities |
+| Resource Limits | CPU/memory requests and limits per container |
+| Health Probes | Liveness and readiness probe coverage |
+| Sidecar Containers | Deployments with kube-rbac-proxy, oauth-proxy, etc. |
+| Deployment Issues | Missing PodDisruptionBudget, HPA, resource limits |
+| Operator Image Constants | Go constants defining default images |
+
+!!! example "Cross-component report"
+    ```bash
+    # All components
+    arch-analyzer report --output platform-report.md results/*/component-architecture.json
+
+    # Single component
+    arch-analyzer report component-architecture.json
+    ```
+
 ## Contract Validation Commands
 
 ### arch-analyzer extract-schema

@@ -99,6 +99,7 @@ nav:
     - Security Scanning: guides/security-scanning.md
     - CRD Contract Validation: guides/crd-validation.md
     - Platform Aggregation: guides/platform-aggregation.md
+    - SBOM & Reporting: guides/sbom-and-reporting.md
     - CI Integration: guides/ci-integration.md
     - Skill Integration: guides/skill-integration.md
   - Reference:
