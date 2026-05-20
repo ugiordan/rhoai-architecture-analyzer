@@ -116,6 +116,13 @@ func (gp *GoParser) ParseFile(path string, content []byte) (*ParseResult, error)
 }
 
 func (gp *GoParser) walk(node *sitter.Node, src []byte, file string, result *ParseResult) {
+	gp.walkDepth(node, src, file, result, 0)
+}
+
+func (gp *GoParser) walkDepth(node *sitter.Node, src []byte, file string, result *ParseResult, depth int) {
+	if depth > dataflow.MaxASTDepth {
+		return
+	}
 	switch node.Type() {
 	case "function_declaration", "method_declaration":
 		gp.extractFunction(node, src, file, result)
@@ -128,7 +135,7 @@ func (gp *GoParser) walk(node *sitter.Node, src []byte, file string, result *Par
 	for i := 0; i < int(node.ChildCount()); i++ {
 		child := node.Child(i)
 		if child != nil {
-			gp.walk(child, src, file, result)
+			gp.walkDepth(child, src, file, result, depth+1)
 		}
 	}
 }

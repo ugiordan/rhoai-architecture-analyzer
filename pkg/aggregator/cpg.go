@@ -136,8 +136,8 @@ func mergeCPGs(snapshots []CPGSnapshot) *PlatformCPG {
 		prefix := snap.Component + "::"
 
 		for _, node := range snap.Nodes {
-			// Clone and prefix
-			n := copyMapIface(node)
+			// Mutate in place (original maps are not used after merge).
+			n := node
 			if id, ok := n["id"].(string); ok {
 				n["id"] = prefix + id
 			}
@@ -184,7 +184,7 @@ func mergeCPGs(snapshots []CPGSnapshot) *PlatformCPG {
 		}
 
 		for _, edge := range snap.Edges {
-			e := copyMapIface(edge)
+			e := edge
 			if from, ok := e["from"].(string); ok {
 				e["from"] = prefix + from
 			}

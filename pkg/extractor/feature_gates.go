@@ -161,7 +161,13 @@ func extractFeatureGates(repoPath string) []FeatureGate {
 // oversized. Uses os.Lstat (does not follow symlinks) for the check, then
 // opens and reads via the file descriptor to minimize the TOCTOU window.
 func readFileNoSymlink(fpath string) ([]byte, error) {
-	info, err := os.Lstat(fpath)
+	// Open first, then Fstat on the fd to avoid TOCTOU between Lstat and Open.
+	f, err := os.Open(fpath)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	info, err := f.Stat()
 	if err != nil {
 		return nil, err
 	}
@@ -171,11 +177,6 @@ func readFileNoSymlink(fpath string) ([]byte, error) {
 	if info.Size() > maxFileSize {
 		return nil, fmt.Errorf("skipping oversized file: %s", fpath)
 	}
-	f, err := os.Open(fpath)
-	if err != nil {
-		return nil, err
-	}
-	defer f.Close()
 	return io.ReadAll(f)
 }
 

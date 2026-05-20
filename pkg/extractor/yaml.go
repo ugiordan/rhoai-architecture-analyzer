@@ -1,6 +1,7 @@
 package extractor
 
 import (
+	"io"
 	"io/fs"
 	"log"
 	"os"
@@ -225,7 +226,14 @@ func matchRecursiveGlob(pattern, path string) bool {
 const maxFileSize = 50 * 1024 * 1024 // 50MB
 
 func parseYAMLSafe(path string) []map[string]interface{} {
-	info, err := os.Lstat(path)
+	// Open first, then Fstat on the fd to avoid TOCTOU between Lstat and Read.
+	f, err := os.Open(path)
+	if err != nil {
+		log.Printf("cannot open %s: %v", path, err)
+		return nil
+	}
+	defer f.Close()
+	info, err := f.Stat()
 	if err != nil {
 		log.Printf("cannot stat %s: %v", path, err)
 		return nil
@@ -237,7 +245,7 @@ func parseYAMLSafe(path string) []map[string]interface{} {
 		log.Printf("skipping oversized file %s: %d bytes", path, info.Size())
 		return nil
 	}
-	data, err := os.ReadFile(path)
+	data, err := io.ReadAll(f)
 	if err != nil {
 		log.Printf("cannot read %s: %v", path, err)
 		return nil
