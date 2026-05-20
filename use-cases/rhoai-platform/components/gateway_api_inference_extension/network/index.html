@@ -25459,8 +25459,13 @@
     gateway_api_inference_extension --&gt; svc_0["uvicorn-server\npython-source: 8000/TCP"]:::svc
     gateway_api_inference_extension -.-&gt; ext_etcd[["etcd\ndatabase"]]:::ext
     gateway_api_inference_extension -.-&gt; ext_mongodb[["mongodb\ndatabase"]]:::ext
+    gateway_api_inference_extension -.-&gt; ext_mysql[["mysql\ndatabase"]]:::ext
+    gateway_api_inference_extension -.-&gt; ext_sqlite[["sqlite\ndatabase"]]:::ext
     gateway_api_inference_extension -.-&gt; ext_grpc[["grpc\ngrpc"]]:::ext
-    gateway_api_inference_extension -.-&gt; ext_gcs[["gcs\nobject-storage"]]:::ext</code></pre>
+    gateway_api_inference_extension -.-&gt; ext_kafka[["kafka\nmessaging"]]:::ext
+    gateway_api_inference_extension -.-&gt; ext_rabbitmq[["rabbitmq\nmessaging"]]:::ext
+    gateway_api_inference_extension -.-&gt; ext_gcs[["gcs\nobject-storage"]]:::ext
+    gateway_api_inference_extension -.-&gt; ext_s3[["s3\nobject-storage"]]:::ext</code></pre>
 <h3 id="services">Services<a class="headerlink" href="#services" title="Permanent link">¶</a></h3>
 <table>
 <thead>
@@ -25476,7 +25481,7 @@
 <td>uvicorn-server</td>
 <td>python-source</td>
 <td>8000/TCP</td>
-<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/a75cf430ae8e36c77a633bedd26d65947401da21/latencypredictor/training_server.py#L2171"><code>latencypredictor/training_server.py:2171</code></a></td>
+<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/c4c8fef6438746226ed1b7d3cab210229d687f2c/latencypredictor/training_server.py#L2171"><code>latencypredictor/training_server.py:2171</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -25499,7 +25504,7 @@
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/a75cf430ae8e36c77a633bedd26d65947401da21/config/manifests/gateway/agentgateway/gateway.yaml"><code>config/manifests/gateway/agentgateway/gateway.yaml</code></a></td>
+<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/c4c8fef6438746226ed1b7d3cab210229d687f2c/config/manifests/gateway/agentgateway/gateway.yaml"><code>config/manifests/gateway/agentgateway/gateway.yaml</code></a></td>
 </tr>
 <tr>
 <td>Gateway</td>
@@ -25507,7 +25512,7 @@
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/a75cf430ae8e36c77a633bedd26d65947401da21/config/manifests/gateway/envoyaigateway/gateway.yaml"><code>config/manifests/gateway/envoyaigateway/gateway.yaml</code></a></td>
+<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/c4c8fef6438746226ed1b7d3cab210229d687f2c/config/manifests/gateway/envoyaigateway/gateway.yaml"><code>config/manifests/gateway/envoyaigateway/gateway.yaml</code></a></td>
 </tr>
 <tr>
 <td>Gateway</td>
@@ -25515,7 +25520,7 @@
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/a75cf430ae8e36c77a633bedd26d65947401da21/config/manifests/gateway/gke/gateway.yaml"><code>config/manifests/gateway/gke/gateway.yaml</code></a></td>
+<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/c4c8fef6438746226ed1b7d3cab210229d687f2c/config/manifests/gateway/gke/gateway.yaml"><code>config/manifests/gateway/gke/gateway.yaml</code></a></td>
 </tr>
 <tr>
 <td>Gateway</td>
@@ -25523,7 +25528,7 @@
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/a75cf430ae8e36c77a633bedd26d65947401da21/config/manifests/gateway/istio/gateway.yaml"><code>config/manifests/gateway/istio/gateway.yaml</code></a></td>
+<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/c4c8fef6438746226ed1b7d3cab210229d687f2c/config/manifests/gateway/istio/gateway.yaml"><code>config/manifests/gateway/istio/gateway.yaml</code></a></td>
 </tr>
 <tr>
 <td>Gateway</td>
@@ -25531,7 +25536,7 @@
 <td></td>
 <td></td>
 <td>no</td>
-<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/a75cf430ae8e36c77a633bedd26d65947401da21/config/manifests/gateway/nginxgatewayfabric/gateway.yaml"><code>config/manifests/gateway/nginxgatewayfabric/gateway.yaml</code></a></td>
+<td><a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/c4c8fef6438746226ed1b7d3cab210229d687f2c/config/manifests/gateway/nginxgatewayfabric/gateway.yaml"><code>config/manifests/gateway/nginxgatewayfabric/gateway.yaml</code></a></td>
 </tr>
 </tbody>
 </table>
@@ -25561,7 +25566,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 19, 2026 04:34:50 UTC">May 19, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 20, 2026 04:47:22 UTC">May 20, 2026</span>
   </span>
 
     
