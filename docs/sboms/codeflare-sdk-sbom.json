@@ -1,0 +1,61 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:13Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "codeflare-sdk",
+      "version": "13658b82a7fd1bb1ba656d7e3d9a27a608cd49e4",
+      "purl": "pkg:github/red-hat-data-services/codeflare-sdk@13658b82a7fd1bb1ba656d7e3d9a27a608cd49e4",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "red-hat-data-services/codeflare-sdk"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "13658b82a7fd1bb1ba656d7e3d9a27a608cd49e4"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "container",
+      "name": "registry.redhat.io/ubi9/python-39",
+      "version": "latest",
+      "purl": "pkg:docker/registry.redhat.io/ubi9/python-39@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": ".github/build/Containerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "$USERID"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.redhat.io/ubi9/python-39:latest"
+        }
+      ]
+    }
+  ]
+}

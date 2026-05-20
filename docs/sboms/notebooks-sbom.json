@@ -1,0 +1,2501 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:17Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "notebooks",
+      "version": "e834d4dc4f1fbfe4ec9aee0493c04ada442511f2",
+      "purl": "pkg:github/red-hat-data-services/notebooks@e834d4dc4f1fbfe4ec9aee0493c04ada442511f2",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "red-hat-data-services/notebooks"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "e834d4dc4f1fbfe4ec9aee0493c04ada442511f2"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "github.com/containerd/platforms",
+      "version": "v1.0.0-rc.3",
+      "purl": "pkg:golang/github.com/containerd/platforms@v1.0.0-rc.3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/google/go-cmp",
+      "version": "v0.7.0",
+      "purl": "pkg:golang/github.com/google/go-cmp@v0.7.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/moby/buildkit",
+      "version": "v0.29.0",
+      "purl": "pkg:golang/github.com/moby/buildkit@v0.29.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/opencontainers/go-digest",
+      "version": "v1.0.0",
+      "purl": "pkg:golang/github.com/opencontainers/go-digest@v1.0.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/opencontainers/image-spec",
+      "version": "v1.1.1",
+      "purl": "pkg:golang/github.com/opencontainers/image-spec@v1.1.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/openshift/check-payload",
+      "version": "v0.0.0-20260116025321-92e2a43f840e",
+      "purl": "pkg:golang/github.com/openshift/check-payload@v0.0.0-20260116025321-92e2a43f840e",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/pkg/errors",
+      "version": "v0.9.1",
+      "purl": "pkg:golang/github.com/pkg/errors@v0.9.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.fedoraproject.org/fedora",
+      "version": "${FEDORA_TAG}",
+      "purl": "pkg:docker/registry.fedoraproject.org/fedora@${FEDORA_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": ".devcontainer/Dockerfile.dev"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/centos/centos",
+      "version": "stream9",
+      "purl": "pkg:docker/quay.io/centos/centos@stream9",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cpu/c9s-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "${CNB_USER_ID}:${CNB_GROUP_ID}"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-312",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-312@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cpu/ubi9-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/12.6/c9s-python-3.11/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/12.6/c9s-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/12.6/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/12.8/c9s-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/12.8/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/12.9/c9s-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/12.9/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base-${TARGETARCH}",
+      "purl": "pkg:docker/cuda-base-${TARGETARCH}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/cuda/13.0/c9s-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base-${TARGETARCH}"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/rocm/6.2/c9s-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/rocm/6.2/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/rocm/6.3/c9s-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/rocm/6.3/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/rocm/6.4/c9s-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/rocm/6.4/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "base-images/rocm/7.1/c9s-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "codeserver",
+      "purl": "pkg:docker/codeserver",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "codeserver/ubi9-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "6"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: codeserver"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: codeserver"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "codeserver",
+      "purl": "pkg:docker/codeserver",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "codeserver/ubi9-python-3.12/Dockerfile.konflux.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "6"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: codeserver"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: codeserver"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "jupyter-minimal",
+      "purl": "pkg:docker/jupyter-minimal",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/datascience/ubi9-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "4"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: jupyter-minimal"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "jupyter-minimal",
+      "purl": "pkg:docker/jupyter-minimal",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "4"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: jupyter-minimal"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-base",
+      "purl": "pkg:docker/cpu-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/minimal/ubi9-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/minimal/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-base",
+      "purl": "pkg:docker/cpu-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/minimal/ubi9-python-3.12/Dockerfile.konflux.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/minimal/ubi9-python-3.12/Dockerfile.konflux.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-base",
+      "purl": "pkg:docker/rocm-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/minimal/ubi9-python-3.12/Dockerfile.konflux.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-base",
+      "purl": "pkg:docker/rocm-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/minimal/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-jupyter-datascience",
+      "purl": "pkg:docker/cuda-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-jupyter-datascience",
+      "purl": "pkg:docker/cuda-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-jupyter-datascience",
+      "purl": "pkg:docker/cuda-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/pytorch/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-jupyter-datascience",
+      "purl": "pkg:docker/cuda-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-jupyter-datascience",
+      "purl": "pkg:docker/rocm-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/rocm/pytorch/ubi9-python-3.12/Dockerfile.konflux.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-jupyter-datascience",
+      "purl": "pkg:docker/rocm-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/rocm/pytorch/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-jupyter-datascience",
+      "purl": "pkg:docker/rocm-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.konflux.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-jupyter-datascience",
+      "purl": "pkg:docker/rocm-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/rocm/tensorflow/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-jupyter-datascience",
+      "purl": "pkg:docker/cuda-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/tensorflow/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-jupyter-datascience",
+      "purl": "pkg:docker/cuda-jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/tensorflow/ubi9-python-3.12/Dockerfile.konflux.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "jupyter-datascience",
+      "purl": "pkg:docker/jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/trustyai/ubi9-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "jupyter-datascience",
+      "purl": "pkg:docker/jupyter-datascience",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "jupyter/trustyai/ubi9-python-3.12/Dockerfile.konflux.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: jupyter-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: jupyter-datascience"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-base",
+      "purl": "pkg:docker/cpu-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/datascience/ubi9-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-base",
+      "purl": "pkg:docker/cpu-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/datascience/ubi9-python-3.12/Dockerfile.konflux.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-base",
+      "purl": "pkg:docker/cpu-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/minimal/ubi9-python-3.12/Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-base",
+      "purl": "pkg:docker/cpu-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/minimal/ubi9-python-3.12/Dockerfile.konflux.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/pytorch+llmcompressor/ubi9-python-3.12/Dockerfile.konflux.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/pytorch/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/pytorch/ubi9-python-3.12/Dockerfile.konflux.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-base",
+      "purl": "pkg:docker/rocm-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/rocm-pytorch/ubi9-python-3.12/Dockerfile.konflux.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-base",
+      "purl": "pkg:docker/rocm-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/rocm-pytorch/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-base",
+      "purl": "pkg:docker/rocm-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/rocm-tensorflow/ubi9-python-3.12/Dockerfile.konflux.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocm-base",
+      "purl": "pkg:docker/rocm-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/rocm-tensorflow/ubi9-python-3.12/Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/tensorflow/ubi9-python-3.12/Dockerfile.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cuda-base",
+      "purl": "pkg:docker/cuda-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "runtimes/tensorflow/ubi9-python-3.12/Dockerfile.konflux.cuda"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "jupyter-datascience-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@jupyter-datascience-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "4Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "4Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "jupyter-minimal-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@jupyter-minimal-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "jupyter-pytorch-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@jupyter-pytorch-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "jupyter-pytorch-llmcompressor-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@jupyter-pytorch-llmcompressor-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "rocm-jupyter-pytorch-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@rocm-jupyter-pytorch-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "rocm-jupyter-tensorflow-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@rocm-jupyter-tensorflow-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "cuda-jupyter-tensorflow-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@cuda-jupyter-tensorflow-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/workbench-images",
+      "version": "jupyter-trustyai-ubi9-python-3.12",
+      "purl": "pkg:docker/quay.io/opendatahub/workbench-images@jupyter-trustyai-ubi9-python-3.12",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "notebook"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "2Gi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "tcpSocket "
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /notebook/opendatahub/jovyan/api"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1095 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:14Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "distributed-workloads",
+      "version": "cda9855ba3752ae0480c6f39b3a2d5e59ec0e467",
+      "purl": "pkg:github/opendatahub-io/distributed-workloads@cda9855ba3752ae0480c6f39b3a2d5e59ec0e467",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "opendatahub-io/distributed-workloads"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "cda9855ba3752ae0480c6f39b3a2d5e59ec0e467"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "github.com/kubeflow/trainer/v2",
+      "version": "v2.1.0",
+      "purl": "pkg:golang/github.com/kubeflow/trainer/v2@v2.1.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/kubeflow/training-operator",
+      "version": "v1.7.0",
+      "purl": "pkg:golang/github.com/kubeflow/training-operator@v1.7.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/matoous/go-nanoid/v2",
+      "version": "v2.1.0",
+      "purl": "pkg:golang/github.com/matoous/go-nanoid/v2@v2.1.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/minio/minio-go/v7",
+      "version": "v7.0.98",
+      "purl": "pkg:golang/github.com/minio/minio-go/v7@v7.0.98",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/onsi/gomega",
+      "version": "v1.38.2",
+      "purl": "pkg:golang/github.com/onsi/gomega@v1.38.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/openshift/api",
+      "version": "v0.0.0-20251124165233-999c45c0835a",
+      "purl": "pkg:golang/github.com/openshift/api@v0.0.0-20251124165233-999c45c0835a",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/openshift/client-go",
+      "version": "v0.0.0-20251015124057-db0dee36e235",
+      "purl": "pkg:golang/github.com/openshift/client-go@v0.0.0-20251015124057-db0dee36e235",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/openshift/kueue-operator",
+      "version": "v0.0.0-20251202204851-958c48004dad",
+      "purl": "pkg:golang/github.com/openshift/kueue-operator@v0.0.0-20251202204851-958c48004dad",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/operator-framework/api",
+      "version": "v0.36.0",
+      "purl": "pkg:golang/github.com/operator-framework/api@v0.36.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/operator-framework/operator-lifecycle-manager",
+      "version": "v0.38.0",
+      "purl": "pkg:golang/github.com/operator-framework/operator-lifecycle-manager@v0.38.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/prometheus/client_golang",
+      "version": "v1.23.2",
+      "purl": "pkg:golang/github.com/prometheus/client_golang@v1.23.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/prometheus/common",
+      "version": "v0.67.2",
+      "purl": "pkg:golang/github.com/prometheus/common@v0.67.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/ray-project/kuberay/ray-operator",
+      "version": "v1.3.0",
+      "purl": "pkg:golang/github.com/ray-project/kuberay/ray-operator@v1.3.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/api",
+      "version": "v0.34.1",
+      "purl": "pkg:golang/k8s.io/api@v0.34.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/apimachinery",
+      "version": "v0.34.1",
+      "purl": "pkg:golang/k8s.io/apimachinery@v0.34.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/client-go",
+      "version": "v0.34.1",
+      "purl": "pkg:golang/k8s.io/client-go@v0.34.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sigs.k8s.io/jobset",
+      "version": "v0.10.1",
+      "purl": "pkg:golang/sigs.k8s.io/jobset@v0.10.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sigs.k8s.io/kueue",
+      "version": "v0.6.2",
+      "purl": "pkg:golang/sigs.k8s.io/kueue@v0.6.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/odh-midstream-python-base-3-12",
+      "version": "11b0d2c14a1d8de8171d428172aef0cde54ec7a7",
+      "purl": "pkg:docker/quay.io/opendatahub/odh-midstream-python-base-3-12@11b0d2c14a1d8de8171d428172aef0cde54ec7a7",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "benchmarks/osu-benchmarks/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/dataset/alpaca/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9",
+      "version": "9.4",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9@9.4",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/model/bloom560m/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/ray/cpu/2.52.1-py311-cpu/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/ray/cpu/2.52.1-py312-cpu/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/ray/cuda/2.52.1-py311-cu121/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/ray/cuda/2.54.1-py312-cu128/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/ray/rocm/2.52.1-py311-rocm61/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/ray/rocm/2.54.1-py312-rocm64/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-cuda121-torch241/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-311",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-311@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-cuda121-torch241/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-cuda124-torch251/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-311",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-311@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-cuda124-torch251/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-rocm62-torch241/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-311",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-311@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-rocm62-torch241/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-rocm62-torch251/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-311",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-311@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py311-rocm62-torch251/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-311:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-cuda128-torch280/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-312",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-312@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-cuda128-torch280/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-cuda128-torch290/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-312",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-312@sha256:a0a5885769d5a8c5123d3b15d5135b254541d4da8e7bc445d95e1c90595de470",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a0a5885769d5a8c5123d3b15d5135b254541d4da8e7bc445d95e1c90595de470"
+        }
+      ],
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-cuda128-torch290/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/odh-midstream-cuda-base-13-0",
+      "version": "odh-midstream-cuda-base-13-0-on-push-p7nn6-build-images",
+      "purl": "pkg:docker/quay.io/opendatahub/odh-midstream-cuda-base-13-0@odh-midstream-cuda-base-13-0-on-push-p7nn6-build-images",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-cuda130-torch210-openmpi41/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/aipcc/base-images/cuda-13.0-el9.6",
+      "purl": "pkg:docker/quay.io/aipcc/base-images/cuda-13.0-el9.6@sha256:3de8a37c9172aea6a15fe12aeeb9fd6be09a5a5ca419ec2e9fc2e16c3f0b138d",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3de8a37c9172aea6a15fe12aeeb9fd6be09a5a5ca419ec2e9fc2e16c3f0b138d"
+        }
+      ],
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-cuda130-torch210-openmpi41/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-rocm64-torch280/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-312",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-312@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-rocm64-torch280/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/aipcc/base-images/rocm-6.4-el9.6",
+      "purl": "pkg:docker/quay.io/aipcc/base-images/rocm-6.4-el9.6@sha256:444b1345c0bcf09ae1cb9a4f618c349522930021c8fc3e105276768beaf322cd",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "444b1345c0bcf09ae1cb9a4f618c349522930021c8fc3e105276768beaf322cd"
+        }
+      ],
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-rocm64-torch29-openmpi41/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}",
+      "version": "${IMAGE_TAG}",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-${PYTHON_VERSION}@${IMAGE_TAG}",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-rocm64-torch290/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-312",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-312@sha256:a0a5885769d5a8c5123d3b15d5135b254541d4da8e7bc445d95e1c90595de470",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a0a5885769d5a8c5123d3b15d5135b254541d4da8e7bc445d95e1c90595de470"
+        }
+      ],
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/runtime/training/py312-rocm64-torch290/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "images/util/mc-cli/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9:latest"
+        }
+      ]
+    }
+  ]
+}

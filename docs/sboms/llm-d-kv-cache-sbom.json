@@ -1,0 +1,672 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:16Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "llm-d-kv-cache",
+      "version": "d54e631afebc240807275fd702a2277448fe4db8",
+      "purl": "pkg:github/llm-d/llm-d-kv-cache@d54e631afebc240807275fd702a2277448fe4db8",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "llm-d/llm-d-kv-cache"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "d54e631afebc240807275fd702a2277448fe4db8"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "github.com/alicebob/miniredis/v2",
+      "version": "v2.35.0",
+      "purl": "pkg:golang/github.com/alicebob/miniredis/v2@v2.35.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/dgraph-io/ristretto/v2",
+      "version": "v2.3.0",
+      "purl": "pkg:golang/github.com/dgraph-io/ristretto/v2@v2.3.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/docker/docker",
+      "version": "v28.5.1+incompatible",
+      "purl": "pkg:golang/github.com/docker/docker@v28.5.1+incompatible",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/dustin/go-humanize",
+      "version": "v1.0.1",
+      "purl": "pkg:golang/github.com/dustin/go-humanize@v1.0.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/fxamacker/cbor/v2",
+      "version": "v2.7.0",
+      "purl": "pkg:golang/github.com/fxamacker/cbor/v2@v2.7.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/go-logr/logr",
+      "version": "v1.4.3",
+      "purl": "pkg:golang/github.com/go-logr/logr@v1.4.3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/go-zeromq/zmq4",
+      "version": "v0.17.0",
+      "purl": "pkg:golang/github.com/go-zeromq/zmq4@v0.17.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/hashicorp/golang-lru/v2",
+      "version": "v2.0.7",
+      "purl": "pkg:golang/github.com/hashicorp/golang-lru/v2@v2.0.7",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/prometheus/client_golang",
+      "version": "v1.22.0",
+      "purl": "pkg:golang/github.com/prometheus/client_golang@v1.22.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/prometheus/client_model",
+      "version": "v0.6.1",
+      "purl": "pkg:golang/github.com/prometheus/client_model@v0.6.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/redis/go-redis/v9",
+      "version": "v9.7.3",
+      "purl": "pkg:golang/github.com/redis/go-redis/v9@v9.7.3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/stretchr/testify",
+      "version": "v1.11.1",
+      "purl": "pkg:golang/github.com/stretchr/testify@v1.11.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/testcontainers/testcontainers-go",
+      "version": "v0.40.0",
+      "purl": "pkg:golang/github.com/testcontainers/testcontainers-go@v0.40.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/vmihailenco/msgpack/v5",
+      "version": "v5.4.1",
+      "purl": "pkg:golang/github.com/vmihailenco/msgpack/v5@v5.4.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc",
+      "version": "v0.63.0",
+      "purl": "pkg:golang/go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc@v0.63.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel",
+      "version": "v1.39.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel@v1.39.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc",
+      "version": "v1.39.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc@v1.39.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/sdk",
+      "version": "v1.39.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/sdk@v1.39.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/trace",
+      "version": "v1.39.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/trace@v1.39.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.uber.org/multierr",
+      "version": "v1.11.0",
+      "purl": "pkg:golang/go.uber.org/multierr@v1.11.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.uber.org/zap",
+      "version": "v1.27.0",
+      "purl": "pkg:golang/go.uber.org/zap@v1.27.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "google.golang.org/grpc",
+      "version": "v1.77.0",
+      "purl": "pkg:golang/google.golang.org/grpc@v1.77.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "google.golang.org/protobuf",
+      "version": "v1.36.10",
+      "purl": "pkg:golang/google.golang.org/protobuf@v1.36.10",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/api",
+      "version": "v0.33.8",
+      "purl": "pkg:golang/k8s.io/api@v0.33.8",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/apimachinery",
+      "version": "v0.33.8",
+      "purl": "pkg:golang/k8s.io/apimachinery@v0.33.8",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/client-go",
+      "version": "v0.33.8",
+      "purl": "pkg:golang/k8s.io/client-go@v0.33.8",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/klog/v2",
+      "version": "v2.130.1",
+      "purl": "pkg:golang/k8s.io/klog/v2@v2.130.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sigs.k8s.io/controller-runtime",
+      "version": "v0.21.0",
+      "purl": "pkg:golang/sigs.k8s.io/controller-runtime@v0.21.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/ubi",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/ubi@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "65532:65532"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "nvcr.io/nvidia/cuda",
+      "version": "${CUDA_VERSION}-devel-ubuntu22.04",
+      "purl": "pkg:docker/nvcr.io/nvidia/cuda@${CUDA_VERSION}-devel-ubuntu22.04",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "kv_connectors/llmd_fs_backend/Dockerfile.wheel"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "python",
+      "version": "3.12-slim",
+      "purl": "pkg:docker/python@3.12-slim",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "kv_connectors/pvc_evictor/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "python",
+      "version": "3.12-slim",
+      "purl": "pkg:docker/python@3.12-slim",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "services/uds_tokenizer/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "65532:65532"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "runtime",
+      "purl": "pkg:docker/runtime",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "services/uds_tokenizer/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "4"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "65532:65532"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: runtime"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: runtime"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "ghcr.io/llm-d/placeholder",
+      "version": "placeholder",
+      "purl": "pkg:docker/ghcr.io/llm-d/placeholder@placeholder",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "0"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "cmd"
+        }
+      ]
+    }
+  ]
+}

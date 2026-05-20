@@ -1,0 +1,201 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:16Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "mlflow",
+      "version": "637390a14850824eb7b79a183b5c14d634e226f8",
+      "purl": "pkg:github/opendatahub-io/mlflow@637390a14850824eb7b79a183b5c14d634e226f8",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "opendatahub-io/mlflow"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "637390a14850824eb7b79a183b5c14d634e226f8"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/ubi-minimal",
+      "version": "9.7",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/ubi-minimal@9.7",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "python",
+      "version": "3.10-slim",
+      "purl": "pkg:docker/python@3.10-slim",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "dev/Dockerfile.protos"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "python",
+      "version": "3.10-slim-bullseye",
+      "purl": "pkg:docker/python@3.10-slim-bullseye",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "docker/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "python",
+      "version": "3.10-slim-bullseye",
+      "purl": "pkg:docker/python@3.10-slim-bullseye",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "docker/Dockerfile.full"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "python",
+      "version": "3.10-slim-bullseye",
+      "purl": "pkg:docker/python@3.10-slim-bullseye",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "docker/Dockerfile.full.dev"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocker/r-ver",
+      "version": "4.4.2",
+      "purl": "pkg:docker/rocker/r-ver@4.4.2",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "mlflow/R/mlflow/Dockerfile.dev"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "rocker/r-ver",
+      "version": "devel",
+      "purl": "pkg:docker/rocker/r-ver@devel",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "mlflow/R/mlflow/Dockerfile.r-devel"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    }
+  ]
+}

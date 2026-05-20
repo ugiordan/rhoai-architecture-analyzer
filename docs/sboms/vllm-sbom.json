@@ -1,0 +1,570 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:18Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "vllm",
+      "version": "7f15f7870a38aa1d06906c25156de8b100da140a",
+      "purl": "pkg:github/opendatahub-io/vllm@7f15f7870a38aa1d06906c25156de8b100da140a",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "opendatahub-io/vllm"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "7f15f7870a38aa1d06906c25156de8b100da140a"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "container",
+      "name": "vllm-openai-base",
+      "purl": "pkg:docker/vllm-openai-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "8"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-openai-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-openai-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-test-arm",
+      "purl": "pkg:docker/cpu-test-arm",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.arm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-test-arm"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "cpu-test-1",
+      "purl": "pkg:docker/cpu-test-1",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.cpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cpu-test-1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "vault.habana.ai/gaudi-docker/1.19.1/ubuntu22.04/habanalabs/pytorch-installer-2.5.1",
+      "version": "latest",
+      "purl": "pkg:docker/vault.habana.ai/gaudi-docker/1.19.1/ubuntu22.04/habanalabs/pytorch-installer-2.5.1@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.hpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vault.habana.ai/gaudi-docker/1.19.1/ubuntu22.04/habanalabs/pytorch-installer-2.5.1:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "ubuntu",
+      "version": "22.04",
+      "purl": "pkg:docker/ubuntu@22.04",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.openvino"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "mambaorg/micromamba",
+      "purl": "pkg:docker/mambaorg/micromamba",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.ppc64le"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "root"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: mambaorg/micromamba"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Container runs as root user"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "vllm-openai",
+      "purl": "pkg:docker/vllm-openai",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.ppc64le.ubi"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "9"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "2000"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base-builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base-builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base-builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base-builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base-builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base-builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-openai"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.rocm"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "8"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: fetch_vllm_${REMOTE_VLLM}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: fetch_vllm"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: scratch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "vllm-openai",
+      "purl": "pkg:docker/vllm-openai",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.rocm.ubi"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "9"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "2000"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm_base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm_devel"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm_devel"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm_devel"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm_base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: rocm_base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-openai"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "base",
+      "purl": "pkg:docker/base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.rocm_base"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "7"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: ${BASE_IMAGE}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "vllm-openai",
+      "purl": "pkg:docker/vllm-openai",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.s390x.ubi"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "9"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "2000"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-install"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-install"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-install"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-install"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-install"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-openai"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-openai"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "vllm-openai",
+      "purl": "pkg:docker/vllm-openai",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.ubi"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "9"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "2000"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-install"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: dev"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: python-install"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-openai"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "vllm-base",
+      "purl": "pkg:docker/vllm-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.xpu"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: vllm-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    }
+  ]
+}

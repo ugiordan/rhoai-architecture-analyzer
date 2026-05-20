@@ -1,0 +1,1692 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:13Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "argo-workflows",
+      "version": "003ed2b35a398772211441cb7c866c51f6f87e2d",
+      "purl": "pkg:github/argoproj/argo-workflows@003ed2b35a398772211441cb7c866c51f6f87e2d",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "argoproj/argo-workflows"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "003ed2b35a398772211441cb7c866c51f6f87e2d"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "cloud.google.com/go/storage",
+      "version": "v1.50.0",
+      "purl": "pkg:golang/cloud.google.com/go/storage@v1.50.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/Azure/azure-sdk-for-go/sdk/azcore",
+      "version": "v1.17.0",
+      "purl": "pkg:golang/github.com/Azure/azure-sdk-for-go/sdk/azcore@v1.17.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/Azure/azure-sdk-for-go/sdk/azidentity",
+      "version": "v1.8.2",
+      "purl": "pkg:golang/github.com/Azure/azure-sdk-for-go/sdk/azidentity@v1.8.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/Azure/azure-sdk-for-go/sdk/storage/azblob",
+      "version": "v1.3.2",
+      "purl": "pkg:golang/github.com/Azure/azure-sdk-for-go/sdk/storage/azblob@v1.3.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/Knetic/govaluate",
+      "version": "v3.0.1-0.20171022003610-9aa49832a739+incompatible",
+      "purl": "pkg:golang/github.com/Knetic/govaluate@v3.0.1-0.20171022003610-9aa49832a739+incompatible",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/Masterminds/sprig/v3",
+      "version": "v3.3.0",
+      "purl": "pkg:golang/github.com/Masterminds/sprig/v3@v3.3.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/TwiN/go-color",
+      "version": "v1.4.1",
+      "purl": "pkg:golang/github.com/TwiN/go-color@v1.4.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/alibabacloud-go/tea",
+      "version": "v1.2.1",
+      "purl": "pkg:golang/github.com/alibabacloud-go/tea@v1.2.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/aliyun/aliyun-oss-go-sdk",
+      "version": "v3.0.2+incompatible",
+      "purl": "pkg:golang/github.com/aliyun/aliyun-oss-go-sdk@v3.0.2+incompatible",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/aliyun/credentials-go",
+      "version": "v1.3.2",
+      "purl": "pkg:golang/github.com/aliyun/credentials-go@v1.3.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/argoproj/argo-events",
+      "version": "v1.9.6",
+      "purl": "pkg:golang/github.com/argoproj/argo-events@v1.9.6",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/argoproj/pkg",
+      "version": "v0.13.7-0.20250123033407-65f2d4777bfd",
+      "purl": "pkg:golang/github.com/argoproj/pkg@v0.13.7-0.20250123033407-65f2d4777bfd",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/blushft/go-diagrams",
+      "version": "v0.0.0-20201006005127-c78c821223d9",
+      "purl": "pkg:golang/github.com/blushft/go-diagrams@v0.0.0-20201006005127-c78c821223d9",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/colinmarc/hdfs/v2",
+      "version": "v2.4.0",
+      "purl": "pkg:golang/github.com/colinmarc/hdfs/v2@v2.4.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/coreos/go-oidc/v3",
+      "version": "v3.9.0",
+      "purl": "pkg:golang/github.com/coreos/go-oidc/v3@v3.9.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/creack/pty",
+      "version": "v1.1.21",
+      "purl": "pkg:golang/github.com/creack/pty@v1.1.21",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/doublerebel/bellows",
+      "version": "v0.0.0-20160303004610-f177d92a03d3",
+      "purl": "pkg:golang/github.com/doublerebel/bellows@v0.0.0-20160303004610-f177d92a03d3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/evanphx/json-patch",
+      "version": "v5.8.0+incompatible",
+      "purl": "pkg:golang/github.com/evanphx/json-patch@v5.8.0+incompatible",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/expr-lang/expr",
+      "version": "v1.17.7",
+      "purl": "pkg:golang/github.com/expr-lang/expr@v1.17.7",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/gavv/httpexpect/v2",
+      "version": "v2.16.0",
+      "purl": "pkg:golang/github.com/gavv/httpexpect/v2@v2.16.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/go-git/go-git/v5",
+      "version": "v5.14.0",
+      "purl": "pkg:golang/github.com/go-git/go-git/v5@v5.14.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/go-jose/go-jose/v3",
+      "version": "v3.0.4",
+      "purl": "pkg:golang/github.com/go-jose/go-jose/v3@v3.0.4",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/go-openapi/jsonreference",
+      "version": "v0.21.0",
+      "purl": "pkg:golang/github.com/go-openapi/jsonreference@v0.21.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/go-sql-driver/mysql",
+      "version": "v1.7.1",
+      "purl": "pkg:golang/github.com/go-sql-driver/mysql@v1.7.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/gogo/protobuf",
+      "version": "v1.3.2",
+      "purl": "pkg:golang/github.com/gogo/protobuf@v1.3.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/golang/mock",
+      "version": "v1.6.0",
+      "purl": "pkg:golang/github.com/golang/mock@v1.6.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/golang/protobuf",
+      "version": "v1.5.4",
+      "purl": "pkg:golang/github.com/golang/protobuf@v1.5.4",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/google/go-containerregistry",
+      "version": "v0.20.2",
+      "purl": "pkg:golang/github.com/google/go-containerregistry@v0.20.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/google/go-containerregistry/pkg/authn/k8schain",
+      "version": "v0.0.0-20241111191718-6bce25ecf029",
+      "purl": "pkg:golang/github.com/google/go-containerregistry/pkg/authn/k8schain@v0.0.0-20241111191718-6bce25ecf029",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/gorilla/handlers",
+      "version": "v1.5.2",
+      "purl": "pkg:golang/github.com/gorilla/handlers@v1.5.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/gorilla/websocket",
+      "version": "v1.5.1",
+      "purl": "pkg:golang/github.com/gorilla/websocket@v1.5.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/grpc-ecosystem/go-grpc-middleware",
+      "version": "v1.3.0",
+      "purl": "pkg:golang/github.com/grpc-ecosystem/go-grpc-middleware@v1.3.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/grpc-ecosystem/go-grpc-prometheus",
+      "version": "v1.2.0",
+      "purl": "pkg:golang/github.com/grpc-ecosystem/go-grpc-prometheus@v1.2.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/grpc-ecosystem/grpc-gateway",
+      "version": "v1.16.0",
+      "purl": "pkg:golang/github.com/grpc-ecosystem/grpc-gateway@v1.16.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/itchyny/gojq",
+      "version": "v0.12.17",
+      "purl": "pkg:golang/github.com/itchyny/gojq@v0.12.17",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/jcmturner/gokrb5/v8",
+      "version": "v8.4.4",
+      "purl": "pkg:golang/github.com/jcmturner/gokrb5/v8@v8.4.4",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/klauspost/pgzip",
+      "version": "v1.2.6",
+      "purl": "pkg:golang/github.com/klauspost/pgzip@v1.2.6",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/minio/minio-go/v7",
+      "version": "v7.0.89",
+      "purl": "pkg:golang/github.com/minio/minio-go/v7@v7.0.89",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/prometheus/client_golang",
+      "version": "v1.21.1",
+      "purl": "pkg:golang/github.com/prometheus/client_golang@v1.21.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/prometheus/common",
+      "version": "v0.62.0",
+      "purl": "pkg:golang/github.com/prometheus/common@v0.62.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/robfig/cron/v3",
+      "version": "v3.0.1",
+      "purl": "pkg:golang/github.com/robfig/cron/v3@v3.0.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/sethvargo/go-limiter",
+      "version": "v0.7.2",
+      "purl": "pkg:golang/github.com/sethvargo/go-limiter@v0.7.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/sirupsen/logrus",
+      "version": "v1.9.3",
+      "purl": "pkg:golang/github.com/sirupsen/logrus@v1.9.3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/skratchdot/open-golang",
+      "version": "v0.0.0-20200116055534-eef842397966",
+      "purl": "pkg:golang/github.com/skratchdot/open-golang@v0.0.0-20200116055534-eef842397966",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/spf13/cobra",
+      "version": "v1.9.1",
+      "purl": "pkg:golang/github.com/spf13/cobra@v1.9.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/spf13/pflag",
+      "version": "v1.0.6",
+      "purl": "pkg:golang/github.com/spf13/pflag@v1.0.6",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/spf13/viper",
+      "version": "v1.20.0",
+      "purl": "pkg:golang/github.com/spf13/viper@v1.20.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/stretchr/testify",
+      "version": "v1.10.0",
+      "purl": "pkg:golang/github.com/stretchr/testify@v1.10.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/tidwall/gjson",
+      "version": "v1.18.0",
+      "purl": "pkg:golang/github.com/tidwall/gjson@v1.18.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/upper/db/v4",
+      "version": "v4.7.0",
+      "purl": "pkg:golang/github.com/upper/db/v4@v4.7.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/valyala/fasttemplate",
+      "version": "v1.2.2",
+      "purl": "pkg:golang/github.com/valyala/fasttemplate@v1.2.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/xeipuuv/gojsonschema",
+      "version": "v1.2.0",
+      "purl": "pkg:golang/github.com/xeipuuv/gojsonschema@v1.2.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/contrib/instrumentation/runtime",
+      "version": "v0.48.0",
+      "purl": "pkg:golang/go.opentelemetry.io/contrib/instrumentation/runtime@v0.48.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel",
+      "version": "v1.34.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel@v1.34.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc",
+      "version": "v1.23.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetricgrpc@v1.23.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/exporters/prometheus",
+      "version": "v0.45.1",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/exporters/prometheus@v0.45.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/metric",
+      "version": "v1.34.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/metric@v1.34.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/sdk",
+      "version": "v1.34.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/sdk@v1.34.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "go.opentelemetry.io/otel/sdk/metric",
+      "version": "v1.34.0",
+      "purl": "pkg:golang/go.opentelemetry.io/otel/sdk/metric@v1.34.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/crypto",
+      "version": "v0.36.0",
+      "purl": "pkg:golang/golang.org/x/crypto@v0.36.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/exp",
+      "version": "v0.0.0-20240719175910-8a7402abbf56",
+      "purl": "pkg:golang/golang.org/x/exp@v0.0.0-20240719175910-8a7402abbf56",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/net",
+      "version": "v0.38.0",
+      "purl": "pkg:golang/golang.org/x/net@v0.38.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/oauth2",
+      "version": "v0.28.0",
+      "purl": "pkg:golang/golang.org/x/oauth2@v0.28.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/sync",
+      "version": "v0.12.0",
+      "purl": "pkg:golang/golang.org/x/sync@v0.12.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/sys",
+      "version": "v0.31.0",
+      "purl": "pkg:golang/golang.org/x/sys@v0.31.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/term",
+      "version": "v0.30.0",
+      "purl": "pkg:golang/golang.org/x/term@v0.30.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "golang.org/x/time",
+      "version": "v0.11.0",
+      "purl": "pkg:golang/golang.org/x/time@v0.11.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "google.golang.org/api",
+      "version": "v0.228.0",
+      "purl": "pkg:golang/google.golang.org/api@v0.228.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "google.golang.org/genproto/googleapis/api",
+      "version": "v0.0.0-20250303144028-a0af3efb3deb",
+      "purl": "pkg:golang/google.golang.org/genproto/googleapis/api@v0.0.0-20250303144028-a0af3efb3deb",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "google.golang.org/grpc",
+      "version": "v1.71.1",
+      "purl": "pkg:golang/google.golang.org/grpc@v1.71.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "gopkg.in/go-playground/webhooks.v5",
+      "version": "v5.17.0",
+      "purl": "pkg:golang/gopkg.in/go-playground/webhooks.v5@v5.17.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/api",
+      "version": "v0.32.2",
+      "purl": "pkg:golang/k8s.io/api@v0.32.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/apimachinery",
+      "version": "v0.32.2",
+      "purl": "pkg:golang/k8s.io/apimachinery@v0.32.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/cli-runtime",
+      "version": "v0.32.2",
+      "purl": "pkg:golang/k8s.io/cli-runtime@v0.32.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/client-go",
+      "version": "v0.32.2",
+      "purl": "pkg:golang/k8s.io/client-go@v0.32.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/gengo",
+      "version": "v0.0.0-20250207200755-1244d31929d7",
+      "purl": "pkg:golang/k8s.io/gengo@v0.0.0-20250207200755-1244d31929d7",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/klog/v2",
+      "version": "v2.130.1",
+      "purl": "pkg:golang/k8s.io/klog/v2@v2.130.1",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/kube-openapi",
+      "version": "v0.0.0-20250318190949-c8a335a9a2ff",
+      "purl": "pkg:golang/k8s.io/kube-openapi@v0.0.0-20250318190949-c8a335a9a2ff",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/kubectl",
+      "version": "v0.32.2",
+      "purl": "pkg:golang/k8s.io/kubectl@v0.32.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/utils",
+      "version": "v0.0.0-20241210054802-24370beab758",
+      "purl": "pkg:golang/k8s.io/utils@v0.0.0-20241210054802-24370beab758",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sigs.k8s.io/json",
+      "version": "v0.0.0-20241010143419-9aa6b5e7a4b3",
+      "purl": "pkg:golang/sigs.k8s.io/json@v0.0.0-20241010143419-9aa6b5e7a4b3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sigs.k8s.io/yaml",
+      "version": "v1.4.0",
+      "purl": "pkg:golang/sigs.k8s.io/yaml@v1.4.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "zombiezen.com/go/sqlite",
+      "version": "v1.2.0",
+      "purl": "pkg:golang/zombiezen.com/go/sqlite@v1.2.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "gcr.io/distroless/static",
+      "purl": "pkg:docker/gcr.io/distroless/static",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "10"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "8737"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: gcr.io/distroless/static"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: argoexec-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: argoexec-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: gcr.io/distroless/static"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: gcr.io/distroless/static"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "argoexec-base",
+      "purl": "pkg:docker/argoexec-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.windows"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "4"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "Administrator"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: argoexec-base"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.redhat.io/ubi9/ubi-minimal",
+      "version": "9.5",
+      "purl": "pkg:docker/registry.redhat.io/ubi9/ubi-minimal@9.5",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "argo-argoexec/Dockerfile.ODH"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "2000"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.redhat.io/ubi9/ubi-minimal",
+      "purl": "pkg:docker/registry.redhat.io/ubi9/ubi-minimal@sha256:8d905a93f1392d4a8f7fb906bd49bf540290674b28d82de3536bb4d0898bf9d7",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8d905a93f1392d4a8f7fb906bd49bf540290674b28d82de3536bb4d0898bf9d7"
+        }
+      ],
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "argo-argoexec/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "2000"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.redhat.io/ubi9/ubi-minimal",
+      "version": "9.5",
+      "purl": "pkg:docker/registry.redhat.io/ubi9/ubi-minimal@9.5",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "argo-workflowcontroller/Dockerfile.ODH"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "8737"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.redhat.io/ubi9/ubi-minimal",
+      "purl": "pkg:docker/registry.redhat.io/ubi9/ubi-minimal@sha256:8d905a93f1392d4a8f7fb906bd49bf540290674b28d82de3536bb4d0898bf9d7",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8d905a93f1392d4a8f7fb906bd49bf540290674b28d82de3536bb4d0898bf9d7"
+        }
+      ],
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "argo-workflowcontroller/Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "8737"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.redhat.io/ubi8/ubi-minimal",
+      "version": "latest",
+      "purl": "pkg:docker/registry.redhat.io/ubi8/ubi-minimal@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "rhoai/Dockerfile.argoexec"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "2000"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.redhat.io/ubi8/ubi-minimal:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.redhat.io/ubi8/ubi-minimal",
+      "version": "latest",
+      "purl": "pkg:docker/registry.redhat.io/ubi8/ubi-minimal@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "rhoai/Dockerfile.workflowcontroller"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "8737"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.redhat.io/ubi8/ubi-minimal:latest"
+        }
+      ]
+    }
+  ]
+}

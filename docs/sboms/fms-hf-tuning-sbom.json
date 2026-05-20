@@ -1,0 +1,76 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:14Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "fms-hf-tuning",
+      "version": "6142bd6ac182ae057cfb9a6ad387c22f78259638",
+      "purl": "pkg:github/red-hat-data-services/fms-hf-tuning@6142bd6ac182ae057cfb9a6ad387c22f78259638",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "red-hat-data-services/fms-hf-tuning"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "6142bd6ac182ae057cfb9a6ad387c22f78259638"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "container",
+      "name": "release-base",
+      "purl": "pkg:docker/release-base",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "build/Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "6"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "${USER}"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: cuda-devel"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: release-base"
+        }
+      ]
+    }
+  ]
+}

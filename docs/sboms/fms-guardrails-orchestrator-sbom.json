@@ -1,0 +1,32 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:14Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "fms-guardrails-orchestrator",
+      "version": "5be5f0dcca75fbcf02fdcf59d5315a0a4d28b7e7",
+      "purl": "pkg:github/red-hat-data-services/fms-guardrails-orchestrator@5be5f0dcca75fbcf02fdcf59d5315a0a4d28b7e7",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "red-hat-data-services/fms-guardrails-orchestrator"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "5be5f0dcca75fbcf02fdcf59d5315a0a4d28b7e7"
+        }
+      ]
+    }
+  },
+  "components": []
+}

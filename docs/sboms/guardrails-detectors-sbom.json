@@ -1,0 +1,154 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:14Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "guardrails-detectors",
+      "version": "cc801ec1473e15622be5851d3acd9d633995586e",
+      "purl": "pkg:github/opendatahub-io/guardrails-detectors@cc801ec1473e15622be5851d3acd9d633995586e",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "opendatahub-io/guardrails-detectors"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "cc801ec1473e15622be5851d3acd9d633995586e"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "container",
+      "name": "builder",
+      "purl": "pkg:docker/builder",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "detectors/Dockerfile.builtIn"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "builder",
+      "purl": "pkg:docker/builder",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "detectors/Dockerfile.hf"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "5"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "root"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Container runs as root user"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "builder",
+      "purl": "pkg:docker/builder",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "detectors/Dockerfile.judge"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: builder"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "No USER directive found (defaults to root)"
+        }
+      ]
+    }
+  ]
+}

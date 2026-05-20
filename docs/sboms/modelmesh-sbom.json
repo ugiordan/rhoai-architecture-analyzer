@@ -1,0 +1,113 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:17Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "modelmesh",
+      "version": "663e9404150dc48010c5e9263bdbdfd24a561f65",
+      "purl": "pkg:github/opendatahub-io/modelmesh@663e9404150dc48010c5e9263bdbdfd24a561f65",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "opendatahub-io/modelmesh"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "663e9404150dc48010c5e9263bdbdfd24a561f65"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/ubi-minimal",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/ubi-minimal@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "3"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "${USER}"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: build_base"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "kserve/modelmesh",
+      "version": "latest",
+      "purl": "pkg:docker/kserve/modelmesh@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "model-mesh"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "mm"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "1500m"
+        },
+        {
+          "name": "arch-analyzer:cpu-limit",
+          "value": "7500m"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "1280Mi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "httpGet /live"
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /ready"
+        }
+      ]
+    }
+  ]
+}

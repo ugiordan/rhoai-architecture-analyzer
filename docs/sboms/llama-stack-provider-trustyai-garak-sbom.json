@@ -1,0 +1,61 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:24:16Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "llama-stack-provider-trustyai-garak",
+      "version": "37e9b4476992e8313fbeaa0541867097b3d5e9cc",
+      "purl": "pkg:github/opendatahub-io/llama-stack-provider-trustyai-garak@37e9b4476992e8313fbeaa0541867097b3d5e9cc",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "opendatahub-io/llama-stack-provider-trustyai-garak"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "37e9b4476992e8313fbeaa0541867097b3d5e9cc"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/python-312",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/python-312@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Containerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "1"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "1001"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/python-312:latest"
+        }
+      ]
+    }
+  ]
+}
