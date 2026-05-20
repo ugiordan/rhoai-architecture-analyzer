@@ -13,6 +13,8 @@ A static analysis tool that extracts architecture data from Kubernetes/OpenShift
 - **SARIF ingestion** mapping external scanner findings (Semgrep, gosec, etc.) to CPG nodes for unified analysis
 - **Structural diff engine** comparing code graphs across versions to detect regressions
 - **7 renderers** producing Mermaid diagrams, Structurizr C4 DSL, ASCII security views, and structured markdown reports
+- **CycloneDX SBOM generation** from extracted data (Go modules, Python deps, Dockerfile base images, deployment container images, operator image constants) with full operational metadata (security contexts, resource limits, health probes)
+- **Image & container analysis report** covering GPU/CUDA dependencies, base image registries, multi-arch support, Dockerfile issues, container security contexts, resource limits, health probes, sidecar inventory, and deployment issues
 - **CRD contract validation** detecting breaking schema changes across repos
 - **Platform aggregation** merging multiple component analyses into a cross-repo view
 
@@ -101,6 +103,30 @@ Produces:
 ```bash
 ./arch-analyzer extract /path/to/repo --output component-architecture.json
 ```
+
+### Generate SBOM (CycloneDX 1.5)
+
+```bash
+# From existing extraction
+./arch-analyzer sbom component-architecture.json --output sbom.json
+
+# Pipe to stdout
+./arch-analyzer sbom component-architecture.json | jq '.components | length'
+```
+
+Includes Go modules, Python deps, Dockerfile base images, deployment container images, and operator image constants. Each component carries operational metadata: security context, resource limits, health probes, Dockerfile issues.
+
+### Image & Container Analysis Report
+
+```bash
+# Single component
+./arch-analyzer report component-architecture.json --output report.md
+
+# Cross-component analysis (multiple inputs)
+./arch-analyzer report results/*/component-architecture.json --output platform-report.md
+```
+
+10-section report: GPU/CUDA dependencies, base image registries, multi-arch support, Dockerfile issues, security contexts, resource limits, health probes, sidecars, deployment issues, operator image constants.
 
 ### Code graph security scan
 
