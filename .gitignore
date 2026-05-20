@@ -7,6 +7,8 @@ merged/
 /docs/*.md
 *.json
 !contracts/schemas/**/*.json
+!docs/sboms/**/*.json
+!docs/reports/**/*.md
 .DS_Store
 
 # Build output
@@ -26,4 +28,5 @@ docs/reviews/
 .gopath-loader/
 .claude/worktrees/
 artifacts/
+.adversarial-review-cache/
 .adversarial-review-cache/

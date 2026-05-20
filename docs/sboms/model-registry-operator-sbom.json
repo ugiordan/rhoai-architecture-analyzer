@@ -1,0 +1,492 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-05-20T07:20:35Z",
+    "tools": [
+      {
+        "vendor": "architecture-analyzer",
+        "name": "arch-analyzer",
+        "version": "0.2.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "model-registry-operator",
+      "version": "a783a98fcf371790dc769ed9d75f342d306b2c55",
+      "purl": "pkg:github/opendatahub-io/model-registry-operator@a783a98fcf371790dc769ed9d75f342d306b2c55",
+      "properties": [
+        {
+          "name": "arch-analyzer:repo",
+          "value": "opendatahub-io/model-registry-operator"
+        },
+        {
+          "name": "arch-analyzer:commit",
+          "value": "a783a98fcf371790dc769ed9d75f342d306b2c55"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "github.com/banzaicloud/k8s-objectmatcher",
+      "version": "v1.8.0",
+      "purl": "pkg:golang/github.com/banzaicloud/k8s-objectmatcher@v1.8.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/evanphx/json-patch/v5",
+      "version": "v5.9.11",
+      "purl": "pkg:golang/github.com/evanphx/json-patch/v5@v5.9.11",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/go-logr/logr",
+      "version": "v1.4.3",
+      "purl": "pkg:golang/github.com/go-logr/logr@v1.4.3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/onsi/ginkgo/v2",
+      "version": "v2.28.3",
+      "purl": "pkg:golang/github.com/onsi/ginkgo/v2@v2.28.3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/onsi/gomega",
+      "version": "v1.40.0",
+      "purl": "pkg:golang/github.com/onsi/gomega@v1.40.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "github.com/openshift/api",
+      "version": "v0.0.0-20260320151444-324a1bcb9f55",
+      "purl": "pkg:golang/github.com/openshift/api@v0.0.0-20260320151444-324a1bcb9f55",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "istio.io/client-go",
+      "version": "v1.29.2",
+      "purl": "pkg:golang/istio.io/client-go@v1.29.2",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/api",
+      "version": "v0.35.4",
+      "purl": "pkg:golang/k8s.io/api@v0.35.4",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/apiextensions-apiserver",
+      "version": "v0.35.4",
+      "purl": "pkg:golang/k8s.io/apiextensions-apiserver@v0.35.4",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/apimachinery",
+      "version": "v0.35.4",
+      "purl": "pkg:golang/k8s.io/apimachinery@v0.35.4",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/client-go",
+      "version": "v0.35.4",
+      "purl": "pkg:golang/k8s.io/client-go@v0.35.4",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "k8s.io/utils",
+      "version": "v0.0.0-20251219084037-98d557b7f1e7",
+      "purl": "pkg:golang/k8s.io/utils@v0.0.0-20251219084037-98d557b7f1e7",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sigs.k8s.io/controller-runtime",
+      "version": "v0.23.3",
+      "purl": "pkg:golang/sigs.k8s.io/controller-runtime@v0.23.3",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "sigs.k8s.io/yaml",
+      "version": "v1.6.0",
+      "purl": "pkg:golang/sigs.k8s.io/yaml@v1.6.0",
+      "scope": "required",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "go.mod"
+        },
+        {
+          "name": "arch-analyzer:ecosystem",
+          "value": "go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/ubi-minimal",
+      "version": "latest",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/ubi-minimal@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "65532:65532"
+        },
+        {
+          "name": "arch-analyzer:architecture",
+          "value": "multi-arch"
+        },
+        {
+          "name": "arch-analyzer:issue",
+          "value": "Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "registry.access.redhat.com/ubi9/ubi-minimal",
+      "purl": "pkg:docker/registry.access.redhat.com/ubi9/ubi-minimal@sha256:b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b9b10f42d7eba7ad4a6d5ef26b7d34fdc892b2ffe59b8d0372ec884008569eb6"
+        }
+      ],
+      "properties": [
+        {
+          "name": "arch-analyzer:source",
+          "value": "Dockerfile.konflux"
+        },
+        {
+          "name": "arch-analyzer:type",
+          "value": "dockerfile-base"
+        },
+        {
+          "name": "arch-analyzer:stages",
+          "value": "2"
+        },
+        {
+          "name": "arch-analyzer:user",
+          "value": "65532:65532"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/model-registry-operator",
+      "version": "latest",
+      "purl": "pkg:docker/quay.io/opendatahub/model-registry-operator@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "deployment-container"
+        },
+        {
+          "name": "arch-analyzer:deployment",
+          "value": "model-registry-operator-controller-manager"
+        },
+        {
+          "name": "arch-analyzer:container",
+          "value": "manager"
+        },
+        {
+          "name": "arch-analyzer:cpu-request",
+          "value": "100m"
+        },
+        {
+          "name": "arch-analyzer:memory-request",
+          "value": "256Mi"
+        },
+        {
+          "name": "arch-analyzer:memory-limit",
+          "value": "512Mi"
+        },
+        {
+          "name": "arch-analyzer:liveness-probe",
+          "value": "httpGet /healthz"
+        },
+        {
+          "name": "arch-analyzer:readiness-probe",
+          "value": "httpGet /readyz"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/odh-model-metadata-collection",
+      "version": "latest",
+      "purl": "pkg:docker/quay.io/opendatahub/odh-model-metadata-collection@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "operator-constant"
+        },
+        {
+          "name": "arch-analyzer:constant-name",
+          "value": "DefaultBenchmarkDataImage"
+        },
+        {
+          "name": "arch-analyzer:source",
+          "value": "internal/controller/config/defaults.go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/odh-model-metadata-collection",
+      "version": "latest",
+      "purl": "pkg:docker/quay.io/opendatahub/odh-model-metadata-collection@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "operator-constant"
+        },
+        {
+          "name": "arch-analyzer:constant-name",
+          "value": "DefaultCatalogDataImage"
+        },
+        {
+          "name": "arch-analyzer:source",
+          "value": "internal/controller/config/defaults.go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/openshift/origin-kube-rbac-proxy",
+      "version": "latest",
+      "purl": "pkg:docker/quay.io/openshift/origin-kube-rbac-proxy@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "operator-constant"
+        },
+        {
+          "name": "arch-analyzer:constant-name",
+          "value": "DefaultKubeRBACProxyImage"
+        },
+        {
+          "name": "arch-analyzer:source",
+          "value": "internal/controller/config/defaults.go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/openshift/origin-oauth-proxy",
+      "version": "latest",
+      "purl": "pkg:docker/quay.io/openshift/origin-oauth-proxy@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "operator-constant"
+        },
+        {
+          "name": "arch-analyzer:constant-name",
+          "value": "DefaultOAuthProxyImage"
+        },
+        {
+          "name": "arch-analyzer:source",
+          "value": "internal/controller/config/defaults.go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/sclorg/postgresql-16-c10s",
+      "version": "latest",
+      "purl": "pkg:docker/quay.io/sclorg/postgresql-16-c10s@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "operator-constant"
+        },
+        {
+          "name": "arch-analyzer:constant-name",
+          "value": "DefaultPostgresImage"
+        },
+        {
+          "name": "arch-analyzer:source",
+          "value": "internal/controller/config/defaults.go"
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "quay.io/opendatahub/model-registry",
+      "version": "latest",
+      "purl": "pkg:docker/quay.io/opendatahub/model-registry@latest",
+      "properties": [
+        {
+          "name": "arch-analyzer:type",
+          "value": "operator-constant"
+        },
+        {
+          "name": "arch-analyzer:constant-name",
+          "value": "DefaultRestImage"
+        },
+        {
+          "name": "arch-analyzer:source",
+          "value": "internal/controller/config/defaults.go"
+        }
+      ]
+    }
+  ]
+}
