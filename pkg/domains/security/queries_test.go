@@ -765,6 +765,8 @@ func TestQueryUncontrolledEgress_DedupAnnotationAndExternalCall(t *testing.T) {
 	}
 	if err := g.AddNode(fn); err != nil { t.Fatal(err) }
 	if err := g.AddNode(ec); err != nil { t.Fatal(err) }
+	// Connect function to external call via EdgeDataFlow (contains_call)
+	g.AddEdge(&graph.Edge{From: fn.ID, To: ec.ID, Kind: graph.EdgeDataFlow, Label: "contains_call"})
 
 	findings := queryUncontrolledEgress(g)
 	if len(findings) != 1 {

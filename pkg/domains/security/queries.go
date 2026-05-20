@@ -129,14 +129,17 @@ func queryCertAsCA(g *graph.CPG) []query.Finding {
 		if !sl.Annotations[AnnotGeneratesCert] {
 			continue
 		}
-		hasIsCA := containsField(sl.FieldNames, "IsCA")
+		// Check if IsCA field is set. Note: we can only check field presence,
+		// not the boolean value, since struct literal field values aren't stored.
+		// A cert with IsCA:false AND DNSNames is fine; this is a known FP source.
+		setsIsCA := containsField(sl.FieldNames, "IsCA")
 		hasDNSNames := containsField(sl.FieldNames, "DNSNames") || containsField(sl.FieldNames, "IPAddresses")
 
-		if hasIsCA && hasDNSNames {
+		if setsIsCA && hasDNSNames {
 			findings = append(findings, query.Finding{
 				RuleID:   "CGA-005",
 				Severity: "high",
-				Message:  fmt.Sprintf("Certificate template at %s:%d has IsCA:true but also sets DNSNames/IPAddresses (server cert indicators)", sl.File, sl.Line),
+				Message:  fmt.Sprintf("Certificate template at %s:%d sets IsCA and DNSNames/IPAddresses (verify IsCA is not true for server certs)", sl.File, sl.Line),
 				File:     sl.File,
 				Line:     sl.Line,
 				NodeID:   sl.ID,
@@ -495,8 +498,17 @@ func queryUncontrolledEgress(g *graph.CPG) []query.Finding {
 	// Also check ExternalCall nodes from the CPG builder.
 	// Skip if the parent function was already reported via annotation.
 	for _, ec := range g.NodesByKind(graph.NodeExternalCall) {
-		key := ec.File + ":" + ec.Name
-		if reported[key] {
+		// Find parent function to dedup against annotation-based findings.
+		parentKey := ""
+		for _, inEdge := range g.InEdges(ec.ID) {
+			if inEdge.Kind == graph.EdgeDataFlow {
+				if parentFn := g.GetNode(inEdge.From); parentFn != nil && parentFn.Kind == graph.NodeFunction {
+					parentKey = parentFn.File + ":" + parentFn.Name
+					break
+				}
+			}
+		}
+		if parentKey != "" && reported[parentKey] {
 			continue
 		}
 		findings = append(findings, query.Finding{

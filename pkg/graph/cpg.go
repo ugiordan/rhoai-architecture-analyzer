@@ -11,21 +11,23 @@ import (
 // ArchData is an optional enrichment sidecar, set once before queries run when
 // --with-arch is specified. It is not core graph data.
 type CPG struct {
-	mu        sync.RWMutex
-	nodes     map[string]*Node
-	kindIndex map[NodeKind][]*Node
-	outEdges  map[string][]*Edge
-	inEdges   map[string][]*Edge
-	ArchData  *arch.Data
+	mu              sync.RWMutex
+	nodes           map[string]*Node
+	kindIndex       map[NodeKind][]*Node
+	outEdges        map[string][]*Edge
+	inEdges         map[string][]*Edge
+	outEdgesByKind  map[string]map[EdgeKind][]*Edge // nodeID → kind → edges
+	ArchData        *arch.Data
 }
 
 // NewCPG creates an empty code property graph.
 func NewCPG() *CPG {
 	return &CPG{
-		nodes:     make(map[string]*Node),
-		kindIndex: make(map[NodeKind][]*Node),
-		outEdges:  make(map[string][]*Edge),
-		inEdges:   make(map[string][]*Edge),
+		nodes:          make(map[string]*Node),
+		kindIndex:      make(map[NodeKind][]*Node),
+		outEdges:       make(map[string][]*Edge),
+		inEdges:        make(map[string][]*Edge),
+		outEdgesByKind: make(map[string]map[EdgeKind][]*Edge),
 	}
 }
 
@@ -54,6 +56,20 @@ func (g *CPG) GetNode(id string) *Node {
 	return g.nodes[id]
 }
 
+// NodeCount returns the number of nodes without allocating a copy.
+func (g *CPG) NodeCount() int {
+	g.mu.RLock()
+	defer g.mu.RUnlock()
+	return len(g.nodes)
+}
+
+// KindCount returns the number of nodes of a specific kind without allocating.
+func (g *CPG) KindCount(kind NodeKind) int {
+	g.mu.RLock()
+	defer g.mu.RUnlock()
+	return len(g.kindIndex[kind])
+}
+
 func (g *CPG) Nodes() []*Node {
 	g.mu.RLock()
 	defer g.mu.RUnlock()
@@ -78,6 +94,10 @@ func (g *CPG) AddEdge(e *Edge) {
 	defer g.mu.Unlock()
 	g.outEdges[e.From] = append(g.outEdges[e.From], e)
 	g.inEdges[e.To] = append(g.inEdges[e.To], e)
+	if g.outEdgesByKind[e.From] == nil {
+		g.outEdgesByKind[e.From] = make(map[EdgeKind][]*Edge)
+	}
+	g.outEdgesByKind[e.From][e.Kind] = append(g.outEdgesByKind[e.From][e.Kind], e)
 }
 
 func (g *CPG) OutEdges(nodeID string) []*Edge {
@@ -99,15 +119,17 @@ func (g *CPG) InEdges(nodeID string) []*Edge {
 }
 
 // EdgesByKindFrom returns all edges of the given kind originating from a specific node.
+// Uses a compound index for O(1) lookup instead of linear scan.
 func (g *CPG) EdgesByKindFrom(kind EdgeKind, fromID string) []*Edge {
 	g.mu.RLock()
 	defer g.mu.RUnlock()
-	var result []*Edge
-	for _, e := range g.outEdges[fromID] {
-		if e.Kind == kind {
-			result = append(result, e)
-		}
+	kindMap := g.outEdgesByKind[fromID]
+	if kindMap == nil {
+		return nil
 	}
+	src := kindMap[kind]
+	result := make([]*Edge, len(src))
+	copy(result, src)
 	return result
 }
 
