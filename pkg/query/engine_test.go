@@ -60,6 +60,16 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 	}
 	if err := cpg.AddNode(handler); err != nil { t.Fatal(err) }
 
+	// Parameter node (TaintEngine creates EdgeTaint from parameter nodes)
+	param := &graph.Node{
+		ID:   "param1",
+		Kind: graph.NodeParameter,
+		Name: "req",
+	}
+	if err := cpg.AddNode(param); err != nil { t.Fatal(err) }
+	// Function contains parameter
+	cpg.AddEdge(&graph.Edge{From: "fn1", To: "param1", Kind: graph.EdgeDataFlow, Label: "has_parameter"})
+
 	extCall := &graph.Node{
 		ID:          "ext1",
 		Kind:        graph.NodeCallSite,
@@ -68,13 +78,13 @@ func TestQueryTaintToExternalSink(t *testing.T) {
 	}
 	if err := cpg.AddNode(extCall); err != nil { t.Fatal(err) }
 
-	// Pre-computed EdgeTaint edge (produced by TaintEngine)
+	// Pre-computed EdgeTaint edge (produced by TaintEngine: From=parameter, To=sink)
 	cpg.AddEdge(&graph.Edge{
-		From:  "fn1",
+		From:  "param1",
 		To:    "ext1",
 		Kind:  graph.EdgeTaint,
 		Label: "sec:calls_external",
-		Path:  []string{"fn1", "db_w", "db_r", "ext1"},
+		Path:  []string{"param1", "db_w", "db_r", "ext1"},
 	})
 
 	engine := NewEngine()

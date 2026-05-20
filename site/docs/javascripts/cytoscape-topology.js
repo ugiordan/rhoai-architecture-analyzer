@@ -2,6 +2,9 @@
 // Components shown as single nodes (not expanded subgraphs).
 // Services visible on click as tooltip detail.
 (function () {
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
   function initGraph(wrapper) {
     var dataEl = wrapper.querySelector("script[type='application/json']");
     if (!dataEl) return;
@@ -278,7 +281,7 @@
     cy.on("tap", "node", function (evt) {
       var node = evt.target;
       var d = node.data();
-      var html = '<strong style="font-size:13px;">' + d.shortLabel + "</strong>";
+      var html = '<strong style="font-size:13px;">' + esc(d.shortLabel) + "</strong>";
 
       if (d.nodeType === "component") {
         html += "<br><br>";
@@ -299,8 +302,8 @@
           svcs.forEach(function (svc) {
             html +=
               '<div style="padding:1px 0;"><span style="color:#2ecc71;font-weight:600;">&#9679;</span> ' +
-              svc.name;
-            if (svc.ports) html += ' <span style="opacity:0.6;">:' + svc.ports + "</span>";
+              esc(svc.name);
+            if (svc.ports) html += ' <span style="opacity:0.6;">:' + esc(svc.ports) + "</span>";
             html += "</div>";
           });
           html += "</div>";
@@ -332,15 +335,15 @@
               ';">' +
               dir +
               "</span> " +
-              other.replace(/_/g, "-") +
+              esc(other.replace(/_/g, "-")) +
               ' <span style="opacity:0.5;">(' +
-              e.data("edgeType") +
+              esc(e.data("edgeType")) +
               ")</span></div>";
           });
           html += "</div>";
         }
       } else if (d.nodeType === "external") {
-        html += "<br>Type: " + d.extType;
+        html += "<br>Type: " + esc(d.extType);
       }
 
       tooltip.innerHTML = html;
