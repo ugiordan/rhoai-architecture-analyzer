@@ -23,10 +23,10 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/ray-operator/config/manager/service.yaml) |
-| the-service | LoadBalancer | 8666/TCP | [`.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml) |
-| the-service | LoadBalancer | 8666/TCP | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml) |
-| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/ray-operator/config/webhook/service.yaml) |
+| kuberay-operator | ClusterIP | 8080/TCP | [`ray-operator/config/manager/service.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/ray-operator/config/manager/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml) |
+| the-service | LoadBalancer | 8666/TCP | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/service.yaml) |
+| webhook-service | ClusterIP | 443/TCP | [`ray-operator/config/webhook/service.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/ray-operator/config/webhook/service.yaml) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.

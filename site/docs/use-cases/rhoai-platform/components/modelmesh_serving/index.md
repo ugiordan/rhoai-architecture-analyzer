@@ -1,11 +1,11 @@
 # modelmesh-serving
 
-> **Architecture snapshot: 2026-05-19** (2026-05-19)
+> **Architecture snapshot: 2026-05-20** (2026-05-20)
 
 
 **Repository:** kserve/modelmesh-serving  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-19T04:07:42Z
+**Extracted:** 2026-05-20T04:08:09Z
 
 ## Summary
 
@@ -100,10 +100,10 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
 |-------|---------|------|-------|--------|------------------|-----------|--------|
-| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 559 | 0 | YAML | [`config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml) |
-| serving.kserve.io | v1alpha1 | Predictor | Namespaced | 40 | 0 | YAML + Go AST | [`config/crd/bases/serving.kserve.io_predictors.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/config/crd/bases/serving.kserve.io_predictors.yaml) |
-| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1140 | 0 | YAML | [`config/crd/bases/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/config/crd/bases/serving.kserve.io_servingruntimes.yaml) |
-| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6195 | 0 | YAML | [`config/crd/bases/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/modelmesh-serving/blob/c0ef1138c032614238b2ed61c999f2161e0c157c/config/crd/bases/serving.kserve.io_inferenceservices.yaml) |
+| serving.kserve.io | v1alpha1 | ClusterServingRuntime | Cluster | 559 | 0 | YAML | [`config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/4e16417034a9fc02561b6cdb0356d337805589b1/config/crd/bases/serving.kserve.io_clusterservingruntimes.yaml) |
+| serving.kserve.io | v1alpha1 | Predictor | Namespaced | 40 | 0 | YAML + Go AST | [`config/crd/bases/serving.kserve.io_predictors.yaml`](https://github.com/kserve/modelmesh-serving/blob/4e16417034a9fc02561b6cdb0356d337805589b1/config/crd/bases/serving.kserve.io_predictors.yaml) |
+| serving.kserve.io | v1alpha1 | ServingRuntime | Namespaced | 1140 | 0 | YAML | [`config/crd/bases/serving.kserve.io_servingruntimes.yaml`](https://github.com/kserve/modelmesh-serving/blob/4e16417034a9fc02561b6cdb0356d337805589b1/config/crd/bases/serving.kserve.io_servingruntimes.yaml) |
+| serving.kserve.io | v1beta1 | InferenceService | Namespaced | 6195 | 0 | YAML | [`config/crd/bases/serving.kserve.io_inferenceservices.yaml`](https://github.com/kserve/modelmesh-serving/blob/4e16417034a9fc02561b6cdb0356d337805589b1/config/crd/bases/serving.kserve.io_inferenceservices.yaml) |
 
 ## Dependencies
 

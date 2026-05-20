@@ -29,9 +29,9 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `.gopath-loader/pkg/mod/golang.org/x/net@v0.52.0/internal/quic/cmd/interop/Dockerfile` | martenseemann/quic-network-simulator-endpoint:latest | 2 |  |  | multi-arch |  | Unpinned base image: martenseemann/quic-network-simulator-endpoint:latest; Unpinned base image: martenseemann/quic-network-simulator-endpoint:latest; No USER directive found (defaults to root) |
 | `.gopath-loader/pkg/mod/golang.org/x/sys@v0.42.0/unix/linux/Dockerfile` | ubuntu:25.04 | 1 |  |  |  |  | No USER directive found (defaults to root) |
 | `docker/Dockerfile.apiserver` | gcr.io/distroless/static:nonroot | 2 | 65532:65532 |  | multi-arch |  |  |
-| `docker/Dockerfile.apiserver.konflux` | registry.access.redhat.com/ubi9/ubi-micro:latest | 2 | 1001:1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-micro:latest |
+| `docker/Dockerfile.apiserver.konflux` | registry.access.redhat.com/ubi9/ubi-minimal:9.7@sha256:d91be7cea9f03a757d69ad7fcdfcd7849dba820110e7980d5e2a1f46ed06ea3b | 2 | 1001:1001 |  | multi-arch |  |  |
 | `docker/Dockerfile.gc` | gcr.io/distroless/static:nonroot | 2 | 65532:65532 |  | multi-arch |  |  |
-| `docker/Dockerfile.gc.konflux` | registry.access.redhat.com/ubi9/ubi-micro:latest | 2 | 1001:1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-micro:latest |
+| `docker/Dockerfile.gc.konflux` | registry.access.redhat.com/ubi9/ubi-minimal:9.7@sha256:d91be7cea9f03a757d69ad7fcdfcd7849dba820110e7980d5e2a1f46ed06ea3b | 2 | 1001:1001 |  | multi-arch |  |  |
 | `docker/Dockerfile.processor` | gcr.io/distroless/static:nonroot | 2 | 65532:65532 |  | multi-arch |  |  |
-| `docker/Dockerfile.processor.konflux` | registry.access.redhat.com/ubi9/ubi-micro:latest | 2 | 1001:1001 |  | multi-arch |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi-micro:latest |
+| `docker/Dockerfile.processor.konflux` | registry.access.redhat.com/ubi9/ubi-minimal:9.7@sha256:d91be7cea9f03a757d69ad7fcdfcd7849dba820110e7980d5e2a1f46ed06ea3b | 2 | 1001:1001 |  | multi-arch |  |  |
 

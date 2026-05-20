@@ -1,11 +1,11 @@
 # eval-hub
 
-> **Architecture snapshot: 2026-05-19** (2026-05-19)
+> **Architecture snapshot: 2026-05-20** (2026-05-20)
 
 
 **Repository:** eval-hub/eval-hub  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-19T04:12:02Z
+**Extracted:** 2026-05-20T04:12:57Z
 
 ## Summary
 

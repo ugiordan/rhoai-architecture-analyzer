@@ -29,5 +29,5 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `.gopath-loader/pkg/mod/google.golang.org/grpc@v1.56.3/interop/xds/client/Dockerfile` | alpine | 2 |  |  |  |  | Unpinned base image: alpine; No USER directive found (defaults to root) |
 | `.gopath-loader/pkg/mod/google.golang.org/grpc@v1.56.3/interop/xds/server/Dockerfile` | alpine | 2 |  |  |  |  | Unpinned base image: alpine; No USER directive found (defaults to root) |
 | `Dockerfile` | registry.access.redhat.com/ubi9/ubi-micro:9.5 | 3 | ${USER} |  | multi-arch |  | Unpinned base image: develop |
-| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:12db9874bd753eb98b1ab3d840e75de5d6842ac0604fbd68c012adefe97140be | 2 | ${USER} |  | multi-arch |  |  |
+| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:24650313873554b6ba16c1a1b6b9f9142604f6ab735113e1695faf2dd07fdede | 2 | ${USER} |  | multi-arch |  |  |
 

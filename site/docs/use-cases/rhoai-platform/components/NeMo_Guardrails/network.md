@@ -17,7 +17,7 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| env-port-default | python-source | 1235/TCP | [`examples/deployment/gliner_server/src/gliner_server/server.py:51`](https://github.com/red-hat-data-services/NeMo-Guardrails/blob/488345c4a7b04768550f4da8b42493ce77acb6fc/examples/deployment/gliner_server/src/gliner_server/server.py#L51) |
+| env-port-default | python-source | 1235/TCP | [`examples/deployment/gliner_server/src/gliner_server/server.py:51`](https://github.com/red-hat-data-services/NeMo-Guardrails/blob/6a907ece509e1df4303cc7c8acd9d8184dbdba1f/examples/deployment/gliner_server/src/gliner_server/server.py#L51) |
 
 !!! warning "No Network Policies"
     No NetworkPolicy resources were found in the analyzed sources. Network policies may exist in overlays, Helm values, or cluster-level configurations not captured by static analysis.

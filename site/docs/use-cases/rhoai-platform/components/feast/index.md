@@ -1,11 +1,11 @@
 # feast
 
-> **Architecture snapshot: 2026-05-19** (2026-05-19)
+> **Architecture snapshot: 2026-05-20** (2026-05-20)
 
 
 **Repository:** feast-dev/feast  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-19T04:19:48Z
+**Extracted:** 2026-05-20T04:20:29Z
 
 ## Summary
 

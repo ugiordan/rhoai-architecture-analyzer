@@ -21,11 +21,11 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| data-science-pipelines-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/kustomize:config/overlays/odh) |
-| mariadb | mariadb | ? | ? | ? | [`.github/resources/mariadb/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/.github/resources/mariadb/deployment.yaml) |
-| minio | minio | ? | ? | ? | [`.github/resources/minio/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/.github/resources/minio/deployment.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/ba2d887a412d31e2f0afcebfad7fc71de3ac6521/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
+| data-science-pipelines-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/37e72e10bfdf354b91e5a39f36f232a34391bf7f/kustomize:config/overlays/odh) |
+| mariadb | mariadb | ? | ? | ? | [`.github/resources/mariadb/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/37e72e10bfdf354b91e5a39f36f232a34391bf7f/.github/resources/mariadb/deployment.yaml) |
+| minio | minio | ? | ? | ? | [`.github/resources/minio/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/37e72e10bfdf354b91e5a39f36f232a34391bf7f/.github/resources/minio/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/37e72e10bfdf354b91e5a39f36f232a34391bf7f/.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/37e72e10bfdf354b91e5a39f36f232a34391bf7f/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
 
 ## Build Security
 

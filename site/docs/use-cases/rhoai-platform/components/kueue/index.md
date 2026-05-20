@@ -1,11 +1,11 @@
 # kueue
 
-> **Architecture snapshot: 2026-05-19** (2026-05-19)
+> **Architecture snapshot: 2026-05-20** (2026-05-20)
 
 
 **Repository:** red-hat-data-services/kueue  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-19T04:12:39Z
+**Extracted:** 2026-05-20T04:13:34Z
 
 ## Summary
 
@@ -167,8 +167,8 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
 |-------|---------|------|-------|--------|------------------|-----------|--------|
-| visibility.kueue.x-k8s.io | v1beta1 | ClusterQueue | Namespaced | 18 | 0 | Go AST | [`/home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go`](https://github.com/red-hat-data-services/kueue/blob/7a770b9bc87bf35aca16a0642380e04ee8e0ff61//home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go) |
-| visibility.kueue.x-k8s.io | v1beta1 | LocalQueue | Namespaced | 18 | 0 | Go AST | [`/home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go`](https://github.com/red-hat-data-services/kueue/blob/7a770b9bc87bf35aca16a0642380e04ee8e0ff61//home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go) |
+| visibility.kueue.x-k8s.io | v1beta1 | ClusterQueue | Namespaced | 18 | 0 | Go AST | [`/home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go`](https://github.com/red-hat-data-services/kueue/blob/177ed8fe4bf51705afcdde36aa670f1c3c8bf1dd//home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go) |
+| visibility.kueue.x-k8s.io | v1beta1 | LocalQueue | Namespaced | 18 | 0 | Go AST | [`/home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go`](https://github.com/red-hat-data-services/kueue/blob/177ed8fe4bf51705afcdde36aa670f1c3c8bf1dd//home/runner/work/_temp/arch-analyzer-repos/kueue/apis/visibility/v1beta1/types.go) |
 
 ## Dependencies
 

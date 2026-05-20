@@ -18,10 +18,10 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
-| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/ray-operator/config/manager/manager.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/f4df72305aacee3d16dc37ef1f7aa672b16182d1/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/ray-operator/config/default-with-webhooks/manager_webhook_patch.yaml) |
+| kuberay-operator | kuberay-operator | ? | ? | ? | [`ray-operator/config/manager/manager.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/ray-operator/config/manager/manager.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/.gomod-cache/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml`](https://github.com/ray-project/kuberay/blob/923e422d3a7ba5713d151851551a653afb8fe7ee/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.33.1/artifacts/kustomization/deployment.yaml) |
 
 ## Build Security
 
@@ -50,6 +50,6 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `proto/Dockerfile` | golang:1.24.0-bullseye | 1 | 65532:65532 |  |  |  |  |
 | `ray-operator/Dockerfile` | gcr.io/distroless/base-debian12:nonroot | 2 | 65532:65532 |  |  |  |  |
 | `ray-operator/Dockerfile.buildx` | gcr.io/distroless/base-debian12:nonroot | 1 | 65532:65532 |  | multi-arch |  |  |
-| `ray-operator/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:12db9874bd753eb98b1ab3d840e75de5d6842ac0604fbd68c012adefe97140be | 2 | 65532:65532 |  | multi-arch |  |  |
+| `ray-operator/Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:24650313873554b6ba16c1a1b6b9f9142604f6ab735113e1695faf2dd07fdede | 2 | 65532:65532 |  | multi-arch |  |  |
 | `ray-operator/Dockerfile.rhoai` | registry.access.redhat.com/ubi9/ubi:latest | 2 | 65532:65532 |  |  |  | Unpinned base image: registry.access.redhat.com/ubi9/ubi:latest |
 

@@ -21,11 +21,11 @@ SecurityContext settings on pod and container specs. These control privilege esc
 
 | Deployment | Container | RunAsNonRoot | ReadOnlyFS | Privileged | Source |
 |------------|-----------|--------------|------------|------------|--------|
-| data-science-pipelines-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/1e6ce36e03d4d7e8ca3ab52e0026842e035c1ad2/kustomize:config/overlays/odh) |
-| mariadb | mariadb | ? | ? | ? | [`.github/resources/mariadb/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/1e6ce36e03d4d7e8ca3ab52e0026842e035c1ad2/.github/resources/mariadb/deployment.yaml) |
-| minio | minio | ? | ? | ? | [`.github/resources/minio/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/1e6ce36e03d4d7e8ca3ab52e0026842e035c1ad2/.github/resources/minio/deployment.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/1e6ce36e03d4d7e8ca3ab52e0026842e035c1ad2/.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
-| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/1e6ce36e03d4d7e8ca3ab52e0026842e035c1ad2/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
+| data-science-pipelines-operator-controller-manager | manager | ? | ? | ? | [`kustomize:config/overlays/odh`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/9ca71d78592a3ed510685ea5cc1c74f047bf5dc7/kustomize:config/overlays/odh) |
+| mariadb | mariadb | ? | ? | ? | [`.github/resources/mariadb/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/9ca71d78592a3ed510685ea5cc1c74f047bf5dc7/.github/resources/mariadb/deployment.yaml) |
+| minio | minio | ? | ? | ? | [`.github/resources/minio/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/9ca71d78592a3ed510685ea5cc1c74f047bf5dc7/.github/resources/minio/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/9ca71d78592a3ed510685ea5cc1c74f047bf5dc7/.gomod-cache/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
+| the-deployment | the-container | ? | ? | ? | [`.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml`](https://github.com/opendatahub-io/data-science-pipelines-operator/blob/9ca71d78592a3ed510685ea5cc1c74f047bf5dc7/.gopath-loader/pkg/mod/k8s.io/cli-runtime@v0.35.3/artifacts/kustomization/deployment.yaml) |
 
 ## Build Security
 
@@ -88,5 +88,5 @@ Dockerfile patterns and base image analysis. Covers supply chain security: base 
 | `.gopath-loader/pkg/mod/k8s.io/apiextensions-apiserver@v0.35.3/artifacts/simple-image/Dockerfile` | gcr.io/distroless/base-debian10:latest | 1 |  |  |  |  | Unpinned base image: gcr.io/distroless/base-debian10:latest; No USER directive found (defaults to root) |
 | `.gopath-loader/pkg/mod/sigs.k8s.io/kustomize/kyaml@v0.21.1/fn/framework/example/Dockerfile` | alpine:latest | 2 |  |  |  |  | Unpinned base image: alpine:latest; No USER directive found (defaults to root) |
 | `Dockerfile` | registry.access.redhat.com/ubi9/ubi-minimal:latest | 2 | ${USER}:${USER} |  | multi-arch | yes | Unpinned base image: registry.access.redhat.com/ubi9/ubi-minimal:latest |
-| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:12db9874bd753eb98b1ab3d840e75de5d6842ac0604fbd68c012adefe97140be | 2 | ${USER}:${USER} |  | multi-arch |  |  |
+| `Dockerfile.konflux` | registry.access.redhat.com/ubi9/ubi-minimal@sha256:24650313873554b6ba16c1a1b6b9f9142604f6ab735113e1695faf2dd07fdede | 2 | ${USER}:${USER} |  | multi-arch |  |  |
 

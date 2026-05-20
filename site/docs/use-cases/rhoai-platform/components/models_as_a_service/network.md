@@ -19,27 +19,27 @@ graph LR
 
 | Name | Type | Ports | Source |
 |------|------|-------|--------|
-| maas-api | ClusterIP | 8080/TCP, 9090/TCP | [`deployment/base/maas-api/core/service.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/core/service.yaml) |
-| maas-api | ClusterIP | 0/TCP, 8443/TCP | [`deployment/base/maas-api/overlays/tls/service-patch.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/overlays/tls/service-patch.yaml) |
-| payload-processing | ClusterIP | 9004/TCP | [`deployment/base/payload-processing/manager/service.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/payload-processing/manager/service.yaml) |
+| maas-api | ClusterIP | 8080/TCP, 9090/TCP | [`deployment/base/maas-api/core/service.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/core/service.yaml) |
+| maas-api | ClusterIP | 0/TCP, 8443/TCP | [`deployment/base/maas-api/overlays/tls/service-patch.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/overlays/tls/service-patch.yaml) |
+| payload-processing | ClusterIP | 9004/TCP | [`deployment/base/payload-processing/manager/service.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/payload-processing/manager/service.yaml) |
 
 ### Ingress / Routing
 
 | Kind | Name | Hosts | Paths | TLS | Source |
 |------|------|-------|-------|-----|--------|
-| DestinationRule | maas-api-backend-tls |  |  | no | [`deployment/base/maas-api/overlays/tls/destinationrule.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/overlays/tls/destinationrule.yaml) |
-| HTTPRoute | maas-api-route |  | /v1/models, /maas-api | no | [`deployment/base/maas-api/networking/httproute.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/networking/httproute.yaml) |
+| DestinationRule | maas-api-backend-tls |  |  | no | [`deployment/base/maas-api/overlays/tls/destinationrule.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/overlays/tls/destinationrule.yaml) |
+| HTTPRoute | maas-api-route |  | /v1/models, /maas-api | no | [`deployment/base/maas-api/networking/httproute.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/networking/httproute.yaml) |
 
 ### Network Policies
 
 | Name | Policy Types | Source |
 |------|-------------|--------|
-| maas-api-allow-monitoring | Ingress | [`deployment/base/maas-api/monitoring/networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/monitoring/networkpolicy.yaml) |
-| maas-api-cleanup-restrict | Egress, Ingress | [`deployment/base/maas-api/core/networkpolicy-cleanup.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/core/networkpolicy-cleanup.yaml) |
-| maas-api-cleanup-restrict |  | [`deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml) |
-| maas-authorino-allow | Ingress | [`deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml) |
-| maas-authorino-allow | Ingress | [`scripts/data/maas-authorino-networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/scripts/data/maas-authorino-networkpolicy.yaml) |
-| maas-controller-allow-monitoring | Ingress | [`deployment/base/maas-controller/monitoring/networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/f78fb77a2c4ad101c8950738645fc507262e8199/deployment/base/maas-controller/monitoring/networkpolicy.yaml) |
+| maas-api-allow-monitoring | Ingress | [`deployment/base/maas-api/monitoring/networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/monitoring/networkpolicy.yaml) |
+| maas-api-cleanup-restrict | Egress, Ingress | [`deployment/base/maas-api/core/networkpolicy-cleanup.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/core/networkpolicy-cleanup.yaml) |
+| maas-api-cleanup-restrict |  | [`deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/overlays/tls/networkpolicy-cleanup-patch.yaml) |
+| maas-authorino-allow | Ingress | [`deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-api/networking/maas-authorino-networkpolicy.yaml) |
+| maas-authorino-allow | Ingress | [`scripts/data/maas-authorino-networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/scripts/data/maas-authorino-networkpolicy.yaml) |
+| maas-controller-allow-monitoring | Ingress | [`deployment/base/maas-controller/monitoring/networkpolicy.yaml`](https://github.com/red-hat-data-services/models-as-a-service/blob/af47ca6cc90eb946b05396a8c53bb341715433b3/deployment/base/maas-controller/monitoring/networkpolicy.yaml) |
 
 ## Network Policy Graph
 

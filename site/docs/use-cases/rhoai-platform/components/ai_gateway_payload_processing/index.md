@@ -1,11 +1,11 @@
 # ai-gateway-payload-processing
 
-> **Architecture snapshot: 2026-05-19** (2026-05-19)
+> **Architecture snapshot: 2026-05-20** (2026-05-20)
 
 
 **Repository:** opendatahub-io/ai-gateway-payload-processing  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-19T04:18:41Z
+**Extracted:** 2026-05-20T04:19:22Z
 
 ## Summary
 
@@ -55,8 +55,8 @@ graph LR
 
 | Group | Version | Kind | Scope | Fields | Validation Rules | Discovery | Source |
 |-------|---------|------|-------|--------|------------------|-----------|--------|
-| inference.opendatahub.io | v1alpha1 | ExternalModel | Namespaced | 18 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalmodels.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/26b5dfef16a4b875a8cf40fde892b10f29b9bb43/config/crd/bases/inference.opendatahub.io_externalmodels.yaml) |
-| inference.opendatahub.io | v1alpha1 | ExternalProvider | Namespaced | 19 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalproviders.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/26b5dfef16a4b875a8cf40fde892b10f29b9bb43/config/crd/bases/inference.opendatahub.io_externalproviders.yaml) |
+| inference.opendatahub.io | v1alpha1 | ExternalModel | Namespaced | 23 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalmodels.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/cfe4df8b2bcfba56ffff6332e46e31a842ec0639/config/crd/bases/inference.opendatahub.io_externalmodels.yaml) |
+| inference.opendatahub.io | v1alpha1 | ExternalProvider | Namespaced | 20 | 0 | YAML | [`config/crd/bases/inference.opendatahub.io_externalproviders.yaml`](https://github.com/opendatahub-io/ai-gateway-payload-processing/blob/cfe4df8b2bcfba56ffff6332e46e31a842ec0639/config/crd/bases/inference.opendatahub.io_externalproviders.yaml) |
 
 ## Dependencies
 

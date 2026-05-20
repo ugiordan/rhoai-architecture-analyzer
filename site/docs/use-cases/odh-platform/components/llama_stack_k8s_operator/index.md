@@ -1,11 +1,11 @@
 # llama-stack-k8s-operator
 
-> **Architecture snapshot: 2026-05-19** (2026-05-19)
+> **Architecture snapshot: 2026-05-20** (2026-05-20)
 
 
 **Repository:** ogx-ai/llama-stack-k8s-operator  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-19T04:06:51Z
+**Extracted:** 2026-05-20T04:07:36Z
 
 ## Summary
 

@@ -1,11 +1,11 @@
 # caikit-nlp
 
-> **Architecture snapshot: 2026-05-19** (2026-05-19)
+> **Architecture snapshot: 2026-05-20** (2026-05-20)
 
 
 **Repository:** red-hat-data-services/caikit-nlp  
 **Analyzer:** arch-analyzer 0.2.0  
-**Extracted:** 2026-05-19T04:16:19Z
+**Extracted:** 2026-05-20T04:16:49Z
 
 ## Summary
 
