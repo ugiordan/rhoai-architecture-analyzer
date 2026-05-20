@@ -102,6 +102,9 @@ func escapeLabel(text string) string {
 
 // escapeMdCell escapes characters that break markdown table cells.
 func escapeMdCell(text string) string {
+	text = strings.ReplaceAll(text, "&", "&amp;")
+	text = strings.ReplaceAll(text, "<", "&lt;")
+	text = strings.ReplaceAll(text, ">", "&gt;")
 	text = strings.ReplaceAll(text, "|", "\\|")
 	text = strings.ReplaceAll(text, "\n", " ")
 	return text
@@ -152,8 +155,13 @@ func sourceLink(data map[string]interface{}, source string) string {
 			anchor = fmt.Sprintf("#L%s", possibleLine)
 		}
 	}
-	url := fmt.Sprintf("https://github.com/%s/blob/%s/%s%s", repo, sha, file, anchor)
-	return fmt.Sprintf("[`%s`](%s)", source, url)
+	// Escape markdown-significant chars in file paths to prevent link injection.
+	safeFile := strings.ReplaceAll(file, ")", "%29")
+	safeFile = strings.ReplaceAll(safeFile, "(", "%28")
+	url := fmt.Sprintf("https://github.com/%s/blob/%s/%s%s", repo, sha, safeFile, anchor)
+	safeSource := strings.ReplaceAll(source, "]", "\\]")
+	safeSource = strings.ReplaceAll(safeSource, "`", "")
+	return fmt.Sprintf("[`%s`](%s)", safeSource, url)
 }
 
 // GetStr is the exported version of getStr for use by CLI commands.

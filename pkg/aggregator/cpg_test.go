@@ -123,8 +123,8 @@ func TestAggregateCPGsCrossComponent(t *testing.T) {
 	}
 
 	// Should detect shared-crd cross-link
-	if platform.CrossEdges == 0 {
-		t.Error("expected cross-component edges for shared CRD")
+	if len(platform.CrossLinks) == 0 {
+		t.Error("expected cross-component links for shared CRD")
 	}
 
 	foundCRDLink := false

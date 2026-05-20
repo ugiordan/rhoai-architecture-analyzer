@@ -3,6 +3,7 @@ package renderer
 import (
 	"encoding/json"
 	"fmt"
+	"html"
 	"sort"
 	"strings"
 )
@@ -35,7 +36,7 @@ func renderHTMLBarChart(b *strings.Builder, title string, items []chartItem, max
 			color = "#f39c12" // orange
 		}
 		b.WriteString(fmt.Sprintf("<div style=\"display: flex; align-items: center; gap: 8px;\">\n", ))
-		b.WriteString(fmt.Sprintf("  <span style=\"min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;\">%s</span>\n", item.name))
+		b.WriteString(fmt.Sprintf("  <span style=\"min-width: 220px; text-align: right; font-size: 0.85em; white-space: nowrap;\">%s</span>\n", html.EscapeString(item.name)))
 		b.WriteString(fmt.Sprintf("  <div style=\"flex: 1; background: var(--md-default-fg-color--lightest); border-radius: 4px; height: 22px; position: relative;\">\n"))
 		b.WriteString(fmt.Sprintf("    <div style=\"width: %d%%; background: %s; height: 100%%; border-radius: 4px; min-width: 20px;\"></div>\n", pct, color))
 		b.WriteString(fmt.Sprintf("  </div>\n"))

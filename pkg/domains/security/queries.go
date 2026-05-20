@@ -313,13 +313,13 @@ func hasIngressNetworkPolicy(g *graph.CPG) bool {
 	for _, np := range g.ArchData.NetworkPolicies {
 		if len(np.PolicyTypes) == 0 {
 			// Per K8s spec, empty PolicyTypes defaults to Ingress-only.
-			if len(np.IngressRules) > 0 {
-				return true
-			}
-			continue
+			// An empty IngressRules means "deny all ingress" which is still a policy.
+			return true
 		}
 		for _, pt := range np.PolicyTypes {
-			if pt == "Ingress" && len(np.IngressRules) > 0 {
+			// A NetworkPolicy with Ingress type and zero rules is a valid
+			// "deny all ingress" policy per Kubernetes spec.
+			if pt == "Ingress" {
 				return true
 			}
 		}
@@ -328,14 +328,15 @@ func hasIngressNetworkPolicy(g *graph.CPG) bool {
 }
 
 // hasEgressNetworkPolicy checks whether the architecture data contains at least
-// one NetworkPolicy with Egress policy type and at least one egress rule.
+// one NetworkPolicy with Egress policy type. A policy with zero egress rules
+// is a valid "deny all egress" policy per Kubernetes spec.
 func hasEgressNetworkPolicy(g *graph.CPG) bool {
 	if g.ArchData == nil {
 		return false
 	}
 	for _, np := range g.ArchData.NetworkPolicies {
 		for _, pt := range np.PolicyTypes {
-			if pt == "Egress" && len(np.EgressRules) > 0 {
+			if pt == "Egress" {
 				return true
 			}
 		}

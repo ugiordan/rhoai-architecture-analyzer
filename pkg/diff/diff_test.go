@@ -208,7 +208,7 @@ func TestAnnotationMapChanges(t *testing.T) {
 	}
 }
 
-func TestSliceComparisonOrderIndependent(t *testing.T) {
+func TestParamReorderDetected(t *testing.T) {
 	base := makeSnapshot(3, []graph.Node{
 		{ID: "fn_aaa", Kind: graph.NodeFunction, Name: "foo", ParamTypes: []string{"int", "string"}},
 	}, nil)
@@ -220,8 +220,8 @@ func TestSliceComparisonOrderIndependent(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Compare failed: %v", err)
 	}
-	if len(d.Nodes.Modified) != 0 {
-		t.Errorf("expected 0 modified (order-independent), got %d", len(d.Nodes.Modified))
+	if len(d.Nodes.Modified) != 1 {
+		t.Errorf("expected 1 modified (param reorder is a breaking change), got %d", len(d.Nodes.Modified))
 	}
 }
 

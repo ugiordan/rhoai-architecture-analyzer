@@ -35,8 +35,12 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 	// walkForJSON is a helper that walks a directory for component-architecture.json files.
 	var walkForJSON func(dir string)
 	walkForJSON = func(dir string) {
-		filepath.Walk(dir, func(path string, fi os.FileInfo, walkErr error) error {
+		_ = filepath.Walk(dir, func(path string, fi os.FileInfo, walkErr error) error {
 			if walkErr != nil {
+				return nil
+			}
+			// Skip symlinks to prevent escaping the results directory boundary.
+			if fi.Mode()&os.ModeSymlink != 0 {
 				return nil
 			}
 			if !fi.IsDir() && fi.Name() == "component-architecture.json" {
@@ -81,9 +85,6 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 				jsonPaths = append(jsonPaths, entryPath)
 			}
 		}
-	}
-	if err != nil {
-		return nil, fmt.Errorf("walking results dir: %w", err)
 	}
 	sort.Strings(jsonPaths)
 

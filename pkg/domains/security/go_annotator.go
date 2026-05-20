@@ -233,8 +233,16 @@ func isFileWrite(name string) bool {
 
 func hasSecretArg(stringArgs, argTypes string) bool {
 	combined := strings.ToLower(stringArgs + " " + argTypes)
-	for _, w := range []string{"secret", "password", "key", "token", "credential"} {
+	// Use word-boundary-aware matching to avoid false positives
+	// ("key" matching "keyboard", "monkey", "MapKeyValue", etc.)
+	for _, w := range []string{"secret", "password", "apikey", "api_key", "token", "credential", "passw"} {
 		if strings.Contains(combined, w) {
+			return true
+		}
+	}
+	// Check for standalone "key" only when preceded by common secret prefixes.
+	for _, prefix := range []string{"_key", "-key", "secretkey", "privatekey", "sshkey", "authkey"} {
+		if strings.Contains(combined, prefix) {
 			return true
 		}
 	}

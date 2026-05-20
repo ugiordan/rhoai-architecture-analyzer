@@ -167,7 +167,18 @@ func mergeCPGs(snapshots []CPGSnapshot) *PlatformCPG {
 			case "SecretRef", "SecretMount", "SecretEnvFrom":
 				secretName, _ := n["name"].(string)
 				if secretName != "" {
-					secretUsers[secretName] = append(secretUsers[secretName], snap.Component)
+					// Deduplicate: only add component if not already present for this secret.
+					users := secretUsers[secretName]
+					alreadyPresent := false
+					for _, u := range users {
+						if u == snap.Component {
+							alreadyPresent = true
+							break
+						}
+					}
+					if !alreadyPresent {
+						secretUsers[secretName] = append(users, snap.Component)
+					}
 				}
 			}
 		}
@@ -301,7 +312,14 @@ func mergeCPGs(snapshots []CPGSnapshot) *PlatformCPG {
 	platform.ComponentCount = len(platform.Components)
 	platform.TotalNodes = len(platform.Nodes)
 	platform.TotalEdges = len(platform.Edges)
-	platform.CrossEdges = len(dedupedLinks)
+	// Count only links that were actually added as edges (those with node IDs).
+	crossEdgeCount := 0
+	for _, link := range dedupedLinks {
+		if link.FromNode != "" && link.ToNode != "" {
+			crossEdgeCount++
+		}
+	}
+	platform.CrossEdges = crossEdgeCount
 
 	return platform
 }

@@ -169,15 +169,26 @@ func (gp *GoParser) extractFunction(node *sitter.Node, src []byte, file string, 
 			child := params.Child(i)
 			if child != nil && child.Type() == "parameter_declaration" {
 				typeNode := child.ChildByFieldName("type")
+				typeName := ""
 				if typeNode != nil {
-					paramTypes = append(paramTypes, typeNode.Content(src))
+					typeName = typeNode.Content(src)
 				}
-				// Extract parameter names (identifiers before the type)
+				// Extract parameter names (identifiers before the type).
+				// For grouped declarations like "a, b int", replicate the
+				// type for each name to keep slices aligned.
+				nameCount := 0
 				for j := 0; j < int(child.ChildCount()); j++ {
 					nameChild := child.Child(j)
 					if nameChild != nil && nameChild.Type() == "identifier" {
 						paramNames = append(paramNames, nameChild.Content(src))
+						nameCount++
 					}
+				}
+				if nameCount == 0 {
+					nameCount = 1
+				}
+				for k := 0; k < nameCount; k++ {
+					paramTypes = append(paramTypes, typeName)
 				}
 			}
 		}

@@ -307,10 +307,10 @@ func compareNodes(base, head graph.Node) []FieldChange {
 	if !sortedEqual(base.Decorators, head.Decorators) {
 		addChange("decorators", base.Decorators, head.Decorators)
 	}
-	if !sortedEqual(base.ParamNames, head.ParamNames) {
+	if !sliceEqual(base.ParamNames, head.ParamNames) {
 		addChange("param_names", base.ParamNames, head.ParamNames)
 	}
-	if !sortedEqual(base.ParamTypes, head.ParamTypes) {
+	if !sliceEqual(base.ParamTypes, head.ParamTypes) {
 		addChange("param_types", base.ParamTypes, head.ParamTypes)
 	}
 	if !sortedEqual(base.FieldNames, head.FieldNames) {
@@ -326,6 +326,21 @@ func compareNodes(base, head graph.Node) []FieldChange {
 	}
 
 	return changes
+}
+
+func sliceEqual(a, b []string) bool {
+	if len(a) == 0 && len(b) == 0 {
+		return true
+	}
+	if len(a) != len(b) {
+		return false
+	}
+	for i := range a {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }
 
 func sortedEqual(a, b []string) bool {

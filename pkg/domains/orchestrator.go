@@ -2,6 +2,7 @@ package domains
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/ugiordan/architecture-analyzer/pkg/graph"
 	"github.com/ugiordan/architecture-analyzer/pkg/query"
@@ -125,13 +126,14 @@ func sortByDependency(domains []DomainAnalyzer) ([]DomainAnalyzer, error) {
 		inDegree[d.Name()] += len(d.Dependencies())
 	}
 
-	// Start with zero in-degree nodes
+	// Start with zero in-degree nodes (sorted for deterministic ordering).
 	var queue []string
 	for name, deg := range inDegree {
 		if deg == 0 {
 			queue = append(queue, name)
 		}
 	}
+	sort.Strings(queue)
 
 	var sorted []DomainAnalyzer
 	for len(queue) > 0 {
