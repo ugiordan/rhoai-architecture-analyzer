@@ -240,8 +240,8 @@ func (te *TaintEngine) traceFlowTargets(
 			return
 		}
 
-		// Check for sink
-		sinkAnn := te.matchSink(cpg, nodeID)
+		// Check for sink (use resolved node to avoid redundant GetNode)
+		sinkAnn := te.matchSinkNode(node)
 		if sinkAnn != "" {
 			pathCopy := make([]string, len(path))
 			copy(pathCopy, path)
@@ -895,6 +895,11 @@ func (te *TaintEngine) matchSink(cpg *graph.CPG, nodeID string) string {
 	if node == nil {
 		return ""
 	}
+	return te.matchSinkNode(node)
+}
+
+// matchSinkNode checks annotations on an already-resolved node.
+func (te *TaintEngine) matchSinkNode(node *graph.Node) string {
 	for _, s := range te.sinks {
 		if node.Annotations[s] {
 			return s

@@ -100,6 +100,7 @@ func parseStatusConditionsFile(fpath, repoPath string) ([]StatusCondition, map[s
 		// Process each const block: track current condition type for reason association.
 		var currentCondType string
 		var currentReasons []string
+		var orphanReasons []string
 
 		for _, spec := range genDecl.Specs {
 			vs, ok := spec.(*ast.ValueSpec)
@@ -127,15 +128,19 @@ func parseStatusConditionsFile(fpath, repoPath string) ([]StatusCondition, map[s
 				} else {
 					currentCondType = name
 				}
-				currentReasons = nil
+				// Attach any orphan reasons that appeared before this type.
+				currentReasons = orphanReasons
+				orphanReasons = nil
 			} else if isReason {
 				constNames[name] = true
+				reasonVal := name
+				if value != "" {
+					reasonVal = value
+				}
 				if currentCondType != "" {
-					if value != "" {
-						currentReasons = append(currentReasons, value)
-					} else {
-						currentReasons = append(currentReasons, name)
-					}
+					currentReasons = append(currentReasons, reasonVal)
+				} else {
+					orphanReasons = append(orphanReasons, reasonVal)
 				}
 			}
 		}

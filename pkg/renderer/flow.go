@@ -330,7 +330,7 @@ func BuildFlowGraph(data map[string]interface{}) FlowGraph {
 
 	// Assign stable edge IDs.
 	for i := range g.Edges {
-		g.Edges[i].ID = fmt.Sprintf("e%d", i)
+		g.Edges[i].ID = fmt.Sprintf("e-%s-%s-%s", g.Edges[i].From, g.Edges[i].To, g.Edges[i].Type)
 	}
 
 	if paths := buildFlowPaths(g); len(paths) > 0 {
