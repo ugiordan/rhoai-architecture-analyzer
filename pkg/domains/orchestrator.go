@@ -39,8 +39,12 @@ func (o *Orchestrator) AnnotateAll(cpg *graph.CPG, lang string, archData *Archit
 	for _, d := range o.sorted {
 		before := countAnnotations(cpg)
 
-		if err := d.Annotate(cpg, lang, archData); err != nil {
-			return fmt.Errorf("domain %q annotate: %w", d.Name(), err)
+		// Run annotators for all supported languages, not just the passed one.
+		// Each annotator self-filters by node language, so running all is safe.
+		for _, supported := range d.SupportedLanguages() {
+			if err := d.Annotate(cpg, supported, archData); err != nil {
+				return fmt.Errorf("domain %q annotate (%s): %w", d.Name(), supported, err)
+			}
 		}
 
 		o.annotCounts[d.Name()] = countAnnotations(cpg) - before

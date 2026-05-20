@@ -319,8 +319,22 @@ func matchesEndpoint(target, endpointKey string) bool {
 		return false
 	}
 	path := parts[1]
-	// Check if the call target references this path
-	return strings.Contains(target, path)
+	// Require the path to be at least 5 chars to avoid matching short
+	// paths like "/api" or "/" as substrings of unrelated targets.
+	if len(path) < 5 {
+		return false
+	}
+	// Check if the call target contains this path as a path segment
+	// (preceded by "/" or at start, followed by "/" or at end).
+	idx := strings.Index(target, path)
+	if idx < 0 {
+		return false
+	}
+	// Verify it's a path boundary, not a substring match.
+	atStart := idx == 0 || target[idx-1] == '/'
+	end := idx + len(path)
+	atEnd := end == len(target) || target[end] == '/' || target[end] == '?' || target[end] == '#'
+	return atStart && atEnd
 }
 
 func copyMapIface(m map[string]interface{}) map[string]interface{} {

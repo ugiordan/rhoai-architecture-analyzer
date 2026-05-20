@@ -55,25 +55,57 @@ func (e *Engine) QueryMissingAuth(cpg *graph.CPG) []Finding {
 	return findings
 }
 
-// QueryCrossStorageTaint queries pre-computed EdgeTaint edges from user input nodes to sinks.
+// QueryCrossStorageTaint queries pre-computed EdgeTaint edges from user input
+// to sinks. The TaintEngine creates EdgeTaint with From=parameterNodeID (not
+// functionNodeID), so we iterate all taint edges and resolve the parent
+// function via InEdges to check handles_user_input.
 func (e *Engine) QueryCrossStorageTaint(cpg *graph.CPG) []Finding {
 	var findings []Finding
-	for _, node := range cpg.Nodes() {
-		if node.Annotations == nil || !node.Annotations["handles_user_input"] {
+
+	// Build a set of function node IDs that handle user input.
+	userInputFns := map[string]bool{}
+	for _, node := range cpg.NodesByKind(graph.NodeFunction) {
+		if node.Annotations != nil && node.Annotations["handles_user_input"] {
+			userInputFns[node.ID] = true
+		}
+	}
+
+	// Find the parent function for each parameter node.
+	paramToFn := map[string]string{}
+	for _, node := range cpg.NodesByKind(graph.NodeParameter) {
+		for _, edge := range cpg.InEdges(node.ID) {
+			if edge.Kind == graph.EdgeDataFlow {
+				paramToFn[node.ID] = edge.From
+				break
+			}
+		}
+	}
+
+	// Iterate all taint edges (From=parameter, To=sink).
+	for _, edge := range cpg.Edges() {
+		if edge.Kind != graph.EdgeTaint {
 			continue
 		}
-		taintEdges := cpg.EdgesByKindFrom(graph.EdgeTaint, node.ID)
-		for _, edge := range taintEdges {
-			findings = append(findings, Finding{
-				RuleID:   "CGA-002",
-				Severity: "critical",
-				Message:  "Taint path from user input to sink: " + edge.Label,
-				File:     node.File,
-				Line:     node.Line,
-				NodeID:   node.ID,
-				Path:     edge.Path,
-			})
+		fnID := paramToFn[edge.From]
+		if fnID == "" {
+			fnID = edge.From
 		}
+		if !userInputFns[fnID] {
+			continue
+		}
+		fn := cpg.GetNode(fnID)
+		if fn == nil {
+			continue
+		}
+		findings = append(findings, Finding{
+			RuleID:   "CGA-002",
+			Severity: "critical",
+			Message:  "Taint path from user input to sink: " + edge.Label,
+			File:     fn.File,
+			Line:     fn.Line,
+			NodeID:   fn.ID,
+			Path:     edge.Path,
+		})
 	}
 	return findings
 }

@@ -19,20 +19,28 @@ func testingQueries() []query.Rule {
 
 // CGA-T01: Security-annotated functions with no test calling them
 func queryUntestedSecurityFunc(g *graph.CPG) []query.Finding {
+	// Build set of test function IDs.
+	testFnIDs := map[string]bool{}
+	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		if fn.Annotations[AnnotIsTestFunc] {
+			testFnIDs[fn.ID] = true
+		}
+	}
+
+	// Find functions called by test functions.
+	// EdgeCalls: CallSite → Function. EdgeDataFlow "contains_call": Function → CallSite.
+	// So: for each function, check InEdges for EdgeCalls from CallSites,
+	// then check if that CallSite's parent function (via InEdges EdgeDataFlow) is a test.
 	testedFns := make(map[string]bool)
 	for _, fn := range g.NodesByKind(graph.NodeFunction) {
-		if !fn.Annotations[AnnotIsTestFunc] {
-			continue
-		}
-		for _, edge := range g.OutEdges(fn.ID) {
-			if edge.Kind == graph.EdgeCalls {
-				target := g.GetNode(edge.To)
-				if target != nil && target.Kind == graph.NodeCallSite {
-					for _, callEdge := range g.OutEdges(target.ID) {
-						if callEdge.Kind == graph.EdgeCalls {
-							testedFns[callEdge.To] = true
-						}
-					}
+		for _, inEdge := range g.InEdges(fn.ID) {
+			if inEdge.Kind != graph.EdgeCalls {
+				continue
+			}
+			// inEdge.From is a CallSite. Find its parent function.
+			for _, parentEdge := range g.InEdges(inEdge.From) {
+				if parentEdge.Kind == graph.EdgeDataFlow && testFnIDs[parentEdge.From] {
+					testedFns[fn.ID] = true
 				}
 			}
 		}
@@ -59,25 +67,25 @@ func queryUntestedSecurityFunc(g *graph.CPG) []query.Finding {
 // Checks which test functions actually call the target function (via call edges)
 // and whether those specific tests use fake client vs envtest.
 func queryFakeOnlyIntegration(g *graph.CPG) []query.Finding {
-	// Build map: function ID -> set of test function IDs that call it
-	calledBy := make(map[string][]string)
-	for _, testFn := range g.NodesByKind(graph.NodeFunction) {
-		if !testFn.Annotations[AnnotIsTestFunc] {
-			continue
+	// Build set of test function IDs.
+	testFnIDs := map[string]bool{}
+	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		if fn.Annotations[AnnotIsTestFunc] {
+			testFnIDs[fn.ID] = true
 		}
-		for _, edge := range g.OutEdges(testFn.ID) {
-			if edge.Kind != graph.EdgeCalls {
+	}
+
+	// Build map: function ID -> set of test function IDs that call it.
+	// EdgeCalls: CallSite → Function. EdgeDataFlow: Function → CallSite.
+	calledBy := make(map[string][]string)
+	for _, fn := range g.NodesByKind(graph.NodeFunction) {
+		for _, inEdge := range g.InEdges(fn.ID) {
+			if inEdge.Kind != graph.EdgeCalls {
 				continue
 			}
-			target := g.GetNode(edge.To)
-			if target == nil {
-				continue
-			}
-			if target.Kind == graph.NodeCallSite {
-				for _, callEdge := range g.OutEdges(target.ID) {
-					if callEdge.Kind == graph.EdgeCalls {
-						calledBy[callEdge.To] = append(calledBy[callEdge.To], testFn.ID)
-					}
+			for _, parentEdge := range g.InEdges(inEdge.From) {
+				if parentEdge.Kind == graph.EdgeDataFlow && testFnIDs[parentEdge.From] {
+					calledBy[fn.ID] = append(calledBy[fn.ID], parentEdge.From)
 				}
 			}
 		}

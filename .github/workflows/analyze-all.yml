@@ -260,7 +260,7 @@ jobs:
       - name: Generate platform nav
         run: python3 scripts/generate-nav.py site/docs site/mkdocs.yml
 
-      - name: Commit generated platform docs to main
+      - name: Commit generated platform docs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -268,8 +268,13 @@ jobs:
           if git diff --cached --quiet; then
             echo "No platform doc changes to commit"
           else
+            BRANCH="chore/update-generated-platform-docs-$(date +%Y%m%d)"
+            git checkout -b "$BRANCH"
             git commit -m "chore: update generated platform docs [skip ci]"
-            git push origin main
+            git push origin "$BRANCH"
+            gh pr create --title "chore: update generated platform docs" \
+              --body "Auto-generated platform documentation update." \
+              --base main --head "$BRANCH" || true
           fi
 
       - name: Install MkDocs dependencies
