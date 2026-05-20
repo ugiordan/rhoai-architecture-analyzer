@@ -10,9 +10,7 @@ import (
 
 // ArchitectureData holds extracted architecture information that domain analyzers
 // can cross-reference. Nil when --with-arch is not specified.
-type ArchitectureData struct {
-	Raw map[string]interface{}
-}
+type ArchitectureData struct{}
 
 // DomainAnalyzer provides domain-specific code analysis capabilities.
 // Domains add annotations and edges to a shared CPG, then provide

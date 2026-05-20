@@ -388,7 +388,6 @@ func renderComponentRBACPage(data map[string]interface{}, component string) stri
 		b.WriteString("\n")
 	}
 
-	renderRBACSection(&b, data)
 	return b.String()
 }
 

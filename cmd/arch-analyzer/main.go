@@ -1366,7 +1366,7 @@ func cmdFullAnalysis(args []string) error {
 		if err := json.Unmarshal(raw, &data); err != nil {
 			fmt.Fprintf(os.Stderr, "Warning: failed to unmarshal architecture data: %v\n", err)
 		}
-		archData = &domains.ArchitectureData{Raw: data}
+		archData = &domains.ArchitectureData{}
 
 		parsed, parseErr := arch.Parse(data)
 		if parseErr != nil {
@@ -1782,7 +1782,7 @@ func prepareArchData(repoPath string, cpg *graph.CPG, org string) *domains.Archi
 		fmt.Fprintf(os.Stderr, "Warning: failed to unmarshal architecture data: %v\n", err)
 		return nil
 	}
-	archData := &domains.ArchitectureData{Raw: data}
+	archData := &domains.ArchitectureData{}
 
 	parsed, parseErr := arch.Parse(data)
 	if parseErr != nil {

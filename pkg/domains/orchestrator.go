@@ -82,10 +82,9 @@ func (o *Orchestrator) RunQueries(cpg *graph.CPG) ([]DomainResult, error) {
 	return results, nil
 }
 
-// Run executes all domain analyzers in dependency order, then runs their queries.
-// Backwards-compatible wrapper around AnnotateAll + RunQueries.
-// NOTE: this does not run the TaintEngine between annotation and query phases.
-// For taint-aware analysis, call AnnotateAll, then TaintEngine.Run, then RunQueries.
+// Deprecated: Run executes all domain analyzers but does NOT run the TaintEngine
+// between annotation and query phases. CGA-002 taint findings will be missing.
+// Use AnnotateAll + TaintEngine.Run + RunQueries instead (see runSecurityScan).
 func (o *Orchestrator) Run(cpg *graph.CPG, lang string, archData *ArchitectureData) ([]DomainResult, error) {
 	if err := o.AnnotateAll(cpg, lang, archData); err != nil {
 		return nil, err
