@@ -21,8 +21,6 @@ func NewSecurityAnnotator() *SecurityAnnotator {
 
 func (sa *SecurityAnnotator) Annotate(cpg *graph.CPG) {
 	for _, node := range cpg.Nodes() {
-		cpg.EnsureAnnotations(node.ID)
-
 		switch node.Kind {
 		case graph.NodeFunction:
 			sa.annotateFunction(node, cpg)

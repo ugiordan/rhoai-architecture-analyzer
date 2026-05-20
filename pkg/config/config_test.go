@@ -212,7 +212,7 @@ func TestSplitOrgRepo(t *testing.T) {
 	}{
 		{"opendatahub-io/dashboard", "opendatahub-io", "dashboard"},
 		{"kserve/kserve", "kserve", "kserve"},
-		{"standalone-repo", "opendatahub-io", "standalone-repo"},
+		{"standalone-repo", "", "standalone-repo"},
 	}
 	for _, tt := range tests {
 		got := splitOrgRepo(tt.input)

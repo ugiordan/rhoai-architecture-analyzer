@@ -39,7 +39,8 @@ func (e *Engine) QueryMissingAuth(cpg *graph.CPG) []Finding {
 		if fn.Annotations == nil {
 			continue
 		}
-		if fn.Annotations["handles_user_input"] &&
+		handlesInput := fn.Annotations["handles_user_input"] || fn.Annotations["sec:handles_request"]
+		if handlesInput &&
 			fn.Annotations["mutates_state"] &&
 			!fn.Annotations["has_auth"] {
 			findings = append(findings, Finding{

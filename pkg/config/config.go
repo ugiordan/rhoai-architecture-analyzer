@@ -3,6 +3,7 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"sort"
@@ -199,8 +200,11 @@ func expandPlatformOrgs(platCfg PlatformConfig) ([]RepoSpec, error) {
 				}
 			}
 		default:
-			// Try marshaling back to YAML and parsing as string list
-			yamlBytes, _ := yaml.Marshal(raw)
+			yamlBytes, mErr := yaml.Marshal(raw)
+			if mErr != nil {
+				log.Printf("WARN: skipping unrecognized org entry for %s: %v", org, mErr)
+				continue
+			}
 			var repos []string
 			if yaml.Unmarshal(yamlBytes, &repos) == nil {
 				for _, repo := range repos {
@@ -252,5 +256,5 @@ func splitOrgRepo(fullRepo string) RepoSpec {
 			return RepoSpec{Org: fullRepo[:i], Repo: fullRepo[i+1:]}
 		}
 	}
-	return RepoSpec{Org: "opendatahub-io", Repo: fullRepo}
+	return RepoSpec{Org: "", Repo: fullRepo}
 }

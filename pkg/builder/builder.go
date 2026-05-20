@@ -273,6 +273,11 @@ func (b *Builder) resolveCallEdges(cpg *graph.CPG) {
 		}
 
 		for _, target := range matched {
+			// Skip cross-language matches to avoid false positive edges.
+			if cs.Language != "" && target.Language != "" && cs.Language != target.Language {
+				continue
+			}
+
 			confidence := graph.ConfidenceCertain
 			targetDir := filepath.Dir(target.File)
 
