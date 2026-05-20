@@ -113,14 +113,14 @@
 | `registry.redhat.io` | 10 |
 | `(docker.io implicit)` | 9 |
 | `quay.io` | 8 |
-| `registry.ci.openshift.org` | 2 |
 | `nvcr.io` | 2 |
-| `registry.fedoraproject.org` | 1 |
+| `registry.ci.openshift.org` | 2 |
 | `mcr.microsoft.com` | 1 |
-| `vault.habana.ai` | 1 |
-| `docker.io` | 1 |
+| `registry.fedoraproject.org` | 1 |
 | `marketplace.gcr.io` | 1 |
 | `public.ecr.aws` | 1 |
+| `vault.habana.ai` | 1 |
+| `docker.io` | 1 |
 
 ## Multi-Architecture Support
 
