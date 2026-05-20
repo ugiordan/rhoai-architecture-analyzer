@@ -254,10 +254,15 @@ func isFeatureRelatedFunction(nameLower string) bool {
 // exists, not that a bounds check is necessarily missing. Severity is low (informational).
 func queryUncheckedVersionAccess(g *graph.CPG) []query.Finding {
 	var findings []query.Finding
+	seen := make(map[string]bool)
 	for _, cs := range g.NodesByKind(graph.NodeCallSite) {
 		if !cs.Annotations[AnnotVersionCheck] {
 			continue
 		}
+		if seen[cs.ID] {
+			continue
+		}
+		seen[cs.ID] = true
 		for _, edge := range g.InEdges(cs.ID) {
 			fn := g.GetNode(edge.From)
 			if fn == nil || fn.Kind != graph.NodeFunction {
@@ -271,6 +276,7 @@ func queryUncheckedVersionAccess(g *graph.CPG) []query.Finding {
 				Line:     cs.Line,
 				NodeID:   cs.ID,
 			})
+			break
 		}
 	}
 	return findings

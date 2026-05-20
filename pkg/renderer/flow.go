@@ -349,20 +349,6 @@ func buildFlowPaths(g FlowGraph) []FlowPath {
 		edgesByFrom[e.From] = append(edgesByFrom[e.From], e)
 	}
 
-	nodeByID := map[string]FlowNode{}
-	for _, n := range g.Nodes {
-		nodeByID[n.ID] = n
-	}
-
-	firstEdgeOfType := func(fromID, edgeType string) (FlowEdge, bool) {
-		for _, e := range edgesByFrom[fromID] {
-			if e.Type == edgeType {
-				return e, true
-			}
-		}
-		return FlowEdge{}, false
-	}
-
 	var paths []FlowPath
 
 	// Main request flow: trace from "client" through the network.
@@ -408,17 +394,12 @@ func buildFlowPaths(g FlowGraph) []FlowPath {
 			continue
 		}
 		var edges []string
-		// Client → ingress → webhook → service path
-		if e, ok := firstEdgeOfType("client", "route"); ok {
-			edges = append(edges, e.ID)
-		}
 		for _, e := range edgesByFrom[n.ID] {
 			if e.Type == "intercept" {
 				edges = append(edges, e.ID)
-				break
 			}
 		}
-		if len(edges) > 1 {
+		if len(edges) > 0 {
 			paths = append(paths, FlowPath{
 				Name:  n.Label + " validation",
 				Edges: edges,

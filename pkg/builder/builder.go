@@ -124,7 +124,10 @@ func (b *Builder) BuildFromDir(dir string) (*graph.CPG, error) {
 
 			for idx := range ch {
 				entry := files[idx]
-				info, err := os.Stat(entry.path)
+				info, err := os.Lstat(entry.path)
+				if err == nil && info.Mode()&os.ModeSymlink != 0 {
+					continue
+				}
 				if err != nil {
 					log.Printf("WARN: failed to stat %s: %v", entry.path, err)
 					continue

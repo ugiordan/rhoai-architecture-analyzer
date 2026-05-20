@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"gopkg.in/yaml.v3"
@@ -246,8 +247,16 @@ func findConsumers(dg *dependencyGraph, provider, resourceKey string) []consumer
 		}
 	}
 
+	// Sort by repo name for deterministic output.
+	repos := make([]string, 0, len(byRepo))
+	for r := range byRepo {
+		repos = append(repos, r)
+	}
+	sort.Strings(repos)
+
 	result := make([]consumerInfo, 0, len(byRepo))
-	for _, acc := range byRepo {
+	for _, r := range repos {
+		acc := byRepo[r]
 		result = append(result, consumerInfo{
 			repo:  acc.repo,
 			usage: strings.Join(acc.usages, "; "),
