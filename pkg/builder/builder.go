@@ -299,33 +299,45 @@ func (b *Builder) resolveCallEdges(cpg *graph.CPG) {
 			})
 		}
 
-		// Find containing function using file index
-		for _, fr := range fileFns[cs.File] {
+		// Find innermost containing function (smallest range that contains the call site)
+		var bestFn *fnRange
+		for i := range fileFns[cs.File] {
+			fr := &fileFns[cs.File][i]
 			if cs.Line >= fr.line && cs.Line <= fr.endLine {
-				cpg.AddEdge(&graph.Edge{
-					From:  fr.node.ID,
-					To:    cs.ID,
-					Kind:  graph.EdgeDataFlow,
-					Label: "contains_call",
-				})
-				break
+				if bestFn == nil || (fr.endLine-fr.line) < (bestFn.endLine-bestFn.line) {
+					bestFn = fr
+				}
 			}
+		}
+		if bestFn != nil {
+			cpg.AddEdge(&graph.Edge{
+				From:  bestFn.node.ID,
+				To:    cs.ID,
+				Kind:  graph.EdgeDataFlow,
+				Label: "contains_call",
+			})
 		}
 	}
 
 	// Link struct literals to containing functions
 	structLiterals := cpg.NodesByKind(graph.NodeStructLiteral)
 	for _, sl := range structLiterals {
-		for _, fr := range fileFns[sl.File] {
+		var bestFn2 *fnRange
+		for i := range fileFns[sl.File] {
+			fr := &fileFns[sl.File][i]
 			if sl.Line >= fr.line && sl.Line <= fr.endLine {
-				cpg.AddEdge(&graph.Edge{
-					From:  fr.node.ID,
-					To:    sl.ID,
-					Kind:  graph.EdgeDataFlow,
-					Label: "contains_struct",
-				})
-				break
+				if bestFn2 == nil || (fr.endLine-fr.line) < (bestFn2.endLine-bestFn2.line) {
+					bestFn2 = fr
+				}
 			}
+		}
+		if bestFn2 != nil {
+			cpg.AddEdge(&graph.Edge{
+				From:  bestFn2.node.ID,
+				To:    sl.ID,
+				Kind:  graph.EdgeDataFlow,
+				Label: "contains_struct",
+			})
 		}
 	}
 }
