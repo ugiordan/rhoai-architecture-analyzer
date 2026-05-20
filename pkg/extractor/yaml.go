@@ -244,7 +244,6 @@ func parseYAMLSafe(path string) []map[string]interface{} {
 	}
 
 	content := string(data)
-	hasHelmTemplates := strings.Contains(content, "{{") && strings.Contains(content, "}}")
 
 	var docs []map[string]interface{}
 	decoder := yaml.NewDecoder(strings.NewReader(content))
@@ -257,11 +256,6 @@ func parseYAMLSafe(path string) []map[string]interface{} {
 		if m, ok := doc.(map[string]interface{}); ok {
 			docs = append(docs, m)
 		}
-	}
-
-	if len(docs) == 0 && !hasHelmTemplates {
-		// Only warn for non-helm files that produced no docs
-		// (helm template files are expected to fail)
 	}
 
 	return docs

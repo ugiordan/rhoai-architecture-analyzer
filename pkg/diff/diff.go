@@ -73,11 +73,11 @@ type KindCounts struct {
 
 // Compare produces a GraphDiff from two snapshots.
 func Compare(base, head GraphSnapshot) (*GraphDiff, error) {
-	if base.SchemaVersion < 3 {
-		return nil, fmt.Errorf("base snapshot has schema_version %d, but stable IDs require schema_version >= 3", base.SchemaVersion)
+	if base.SchemaVersion < graph.SchemaVersion {
+		return nil, fmt.Errorf("base snapshot has schema_version %d, but stable IDs require schema_version >= %d", base.SchemaVersion, graph.SchemaVersion)
 	}
-	if head.SchemaVersion < 3 {
-		return nil, fmt.Errorf("head snapshot has schema_version %d, but stable IDs require schema_version >= 3", head.SchemaVersion)
+	if head.SchemaVersion < graph.SchemaVersion {
+		return nil, fmt.Errorf("head snapshot has schema_version %d, but stable IDs require schema_version >= %d", head.SchemaVersion, graph.SchemaVersion)
 	}
 
 	baseNodes, err := buildNodeMap(base.Nodes)

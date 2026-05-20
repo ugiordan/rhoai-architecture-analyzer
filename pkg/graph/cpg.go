@@ -7,6 +7,9 @@ import (
 	"github.com/ugiordan/architecture-analyzer/pkg/arch"
 )
 
+// SchemaVersion is the current graph schema version used when serializing.
+const SchemaVersion = 3
+
 // CPG is a thread-safe code property graph containing nodes and directed edges.
 // ArchData is an optional enrichment sidecar, set once before queries run when
 // --with-arch is specified. It is not core graph data.

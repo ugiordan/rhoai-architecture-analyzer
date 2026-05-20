@@ -866,7 +866,7 @@ func cmdGraph(args []string) error {
 	switch *format {
 	case "json":
 		output := map[string]interface{}{
-			"schema_version": 3,
+			"schema_version": graph.SchemaVersion,
 			"nodes":          cpg.Nodes(),
 			"edges":          cpg.Edges(),
 		}
@@ -1443,7 +1443,7 @@ func cmdFullAnalysis(args []string) error {
 
 		graphPath := filepath.Join(outDir, "code-graph.json")
 		graphData := map[string]interface{}{
-			"schema_version": 3,
+			"schema_version": graph.SchemaVersion,
 			"nodes":          cpg.Nodes(),
 			"edges":          cpg.Edges(),
 		}
