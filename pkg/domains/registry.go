@@ -3,18 +3,26 @@ package domains
 import (
 	"fmt"
 	"sort"
+	"sync"
 )
 
-var registry = map[string]DomainAnalyzer{}
+var (
+	registry  = map[string]DomainAnalyzer{}
+	registryMu sync.RWMutex
+)
 
 // Register adds a domain analyzer to the global registry.
 func Register(d DomainAnalyzer) {
+	registryMu.Lock()
+	defer registryMu.Unlock()
 	registry[d.Name()] = d
 }
 
 // Get returns the requested domain analyzers by name.
 // Returns an error if any requested domain is not registered.
 func Get(names []string) ([]DomainAnalyzer, error) {
+	registryMu.RLock()
+	defer registryMu.RUnlock()
 	var result []DomainAnalyzer
 	for _, name := range names {
 		d, ok := registry[name]
@@ -28,6 +36,8 @@ func Get(names []string) ([]DomainAnalyzer, error) {
 
 // All returns all registered domain analyzers sorted by name.
 func All() []DomainAnalyzer {
+	registryMu.RLock()
+	defer registryMu.RUnlock()
 	result := make([]DomainAnalyzer, 0, len(registry))
 	for _, d := range registry {
 		result = append(result, d)
@@ -41,6 +51,8 @@ func All() []DomainAnalyzer {
 // ResolveDependencies expands a list of domain names to include all transitive
 // dependencies. Returns an error if any dependency is not registered.
 func ResolveDependencies(names []string) ([]string, error) {
+	registryMu.RLock()
+	defer registryMu.RUnlock()
 	seen := make(map[string]bool)
 	var resolve func(name string) error
 	resolve = func(name string) error {
@@ -74,6 +86,8 @@ func ResolveDependencies(names []string) ([]string, error) {
 
 // Names returns the names of all registered domains sorted alphabetically.
 func Names() []string {
+	registryMu.RLock()
+	defer registryMu.RUnlock()
 	names := make([]string, 0, len(registry))
 	for name := range registry {
 		names = append(names, name)

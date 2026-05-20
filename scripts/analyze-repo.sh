@@ -95,7 +95,9 @@ if [ -f "${CLONE_DIR}/go.mod" ]; then
     (
         export GOMODCACHE="${CLONE_DIR}/.gomod-cache"
         export GOCACHE="${CLONE_DIR}/.gobuild-cache"
-        export GOFLAGS=""
+        export GOFLAGS="-modcacherw"
+        export GONOSUMCHECK=""
+        export GONOSUMDB=""
         cd "${CLONE_DIR}" && timeout 120 go mod download 2>&1
     ) || {
         echo "::warning::go mod download failed for ${REPO}, Go AST extraction will use fallback"

@@ -113,19 +113,21 @@ func pickOverlay(overlayDirs []string, prefs []string) string {
 // buildOverlay runs kustomize build on the given overlay directory and returns
 // parsed resources.
 func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
-	fSys := filesys.MakeFsOnDisk()
+	absRepo, absErr := filepath.Abs(repoPath)
+	if absErr != nil {
+		return nil, fmt.Errorf("kustomize build: cannot resolve repo path: %w", absErr)
+	}
+	resolvedRepo, resolveErr := filepath.EvalSymlinks(absRepo)
+	if resolveErr != nil {
+		resolvedRepo = absRepo
+	}
+
+	// Use boundedFS on all paths to prevent access outside the repo.
+	boundedFS := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: resolvedRepo}
 	opts := krusty.MakeDefaultOptions()
 	k := krusty.MakeKustomizer(opts)
-	resMap, err := k.Run(fSys, overlayDir)
+	resMap, err := k.Run(boundedFS, overlayDir)
 	if err != nil {
-		absRepo, absErr := filepath.Abs(repoPath)
-		if absErr != nil {
-			return nil, fmt.Errorf("kustomize build: cannot resolve repo path: %w", absErr)
-		}
-		resolvedRepo, resolveErr := filepath.EvalSymlinks(absRepo)
-		if resolveErr != nil {
-			resolvedRepo = absRepo
-		}
 		absOverlay, absErr := filepath.Abs(overlayDir)
 		if absErr != nil {
 			return nil, fmt.Errorf("kustomize build: cannot resolve overlay path: %w", absErr)
@@ -139,7 +141,6 @@ func buildOverlay(repoPath, overlayDir string) (*KustomizeBuildResult, error) {
 		}
 		opts.LoadRestrictions = 0
 		k = krusty.MakeKustomizer(opts)
-		boundedFS := &boundedFileSystem{inner: filesys.MakeFsOnDisk(), root: resolvedRepo}
 		resMap, err = k.Run(boundedFS, overlayDir)
 	}
 	if err != nil {

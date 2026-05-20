@@ -2,6 +2,7 @@ package extractor
 
 import (
 	"context"
+	"fmt"
 	"go/ast"
 	"go/token"
 	"go/types"
@@ -61,6 +62,13 @@ func loadGoPackages(repoPath string) *GoPackageSet {
 			return nil
 		}
 		log.Printf("[go_loader] go mod download failed (non-security): %v", err)
+	}
+
+	// Re-check for symlinks after go mod download (TOCTOU mitigation).
+	// A malicious go.mod replace directive could create symlinks outside the repo.
+	if err := checkRepoSymlinks(absRepo); err != nil {
+		log.Printf("[go_loader] symlink boundary violation after go mod download: %v", err)
+		return nil
 	}
 
 	// Load packages with 5min timeout
@@ -296,4 +304,24 @@ func exprString(expr ast.Expr) string {
 	default:
 		return "unknown"
 	}
+}
+
+// checkRepoSymlinks walks the repo directory and returns an error if any
+// symlink points outside the repo boundary.
+func checkRepoSymlinks(repoPath string) error {
+	return filepath.Walk(repoPath, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return nil
+		}
+		if info.Mode()&os.ModeSymlink != 0 {
+			target, evalErr := filepath.EvalSymlinks(path)
+			if evalErr != nil {
+				return fmt.Errorf("cannot resolve symlink %s: %w", path, evalErr)
+			}
+			if !strings.HasPrefix(target, repoPath) {
+				return fmt.Errorf("symlink %s escapes repo boundary: %s", path, target)
+			}
+		}
+		return nil
+	})
 }
