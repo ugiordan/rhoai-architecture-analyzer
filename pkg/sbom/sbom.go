@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"strings"
 	"time"
+
+	"github.com/ugiordan/architecture-analyzer/pkg/maputil"
 )
 
 // CycloneDX 1.5 types
@@ -64,10 +66,10 @@ type Property struct {
 
 // Generate produces a CycloneDX 1.5 BOM from component-architecture.json data.
 func Generate(data map[string]interface{}) *BOM {
-	component := getStr(data, "component", "unknown")
-	repo := getStr(data, "repo", "")
-	version := getStr(data, "analyzer_version", "")
-	commitSHA := getStr(data, "commit_sha", "")
+	component := maputil.GetStr(data, "component", "unknown")
+	repo := maputil.GetStr(data, "repo", "")
+	version := maputil.GetStr(data, "analyzer_version", "")
+	commitSHA := maputil.GetStr(data, "commit_sha", "")
 
 	bom := &BOM{
 		BOMFormat:   "CycloneDX",
@@ -93,12 +95,12 @@ func Generate(data map[string]interface{}) *BOM {
 	}
 
 	// Go module dependencies
-	deps := getMap(data, "dependencies")
+	deps := maputil.GetMap(data, "dependencies")
 	if deps != nil {
-		goMods := getSlice(deps, "go_modules")
+		goMods := maputil.GetSlice(deps, "go_modules")
 		for _, mod := range goMods {
-			module := getStr(mod, "module", "")
-			ver := getStr(mod, "version", "")
+			module := maputil.GetStr(mod, "module", "")
+			ver := maputil.GetStr(mod, "version", "")
 			if module == "" {
 				continue
 			}
@@ -117,11 +119,11 @@ func Generate(data map[string]interface{}) *BOM {
 		}
 
 		// Replace directives
-		replaces := getSlice(deps, "replace_directives")
+		replaces := maputil.GetSlice(deps, "replace_directives")
 		for _, rep := range replaces {
-			old := getStr(rep, "old", "")
-			newMod := getStr(rep, "new", "")
-			newVer := getStr(rep, "new_version", "")
+			old := maputil.GetStr(rep, "old", "")
+			newMod := maputil.GetStr(rep, "new", "")
+			newVer := maputil.GetStr(rep, "new_version", "")
 			if old == "" {
 				continue
 			}
@@ -143,10 +145,10 @@ func Generate(data map[string]interface{}) *BOM {
 	}
 
 	// Python dependencies
-	for _, dep := range getSlice(data, "python_deps") {
-		name := getStr(dep, "name", "")
-		ver := getStr(dep, "version", "")
-		source := getStr(dep, "source", "")
+	for _, dep := range maputil.GetSlice(data, "python_deps") {
+		name := maputil.GetStr(dep, "name", "")
+		ver := maputil.GetStr(dep, "version", "")
+		source := maputil.GetStr(dep, "source", "")
 		if name == "" {
 			continue
 		}
@@ -165,12 +167,12 @@ func Generate(data map[string]interface{}) *BOM {
 	}
 
 	// Dockerfile base images
-	for _, df := range getSlice(data, "dockerfiles") {
-		baseImg := getStr(df, "base_image", "")
-		path := getStr(df, "path", "")
-		user := getStr(df, "user", "")
-		stages := getInt(df, "stages")
-		fips := getBool(df, "fips_enabled")
+	for _, df := range maputil.GetSlice(data, "dockerfiles") {
+		baseImg := maputil.GetStr(df, "base_image", "")
+		path := maputil.GetStr(df, "path", "")
+		user := maputil.GetStr(df, "user", "")
+		stages := maputil.GetInt(df, "stages")
+		fips := maputil.GetBool(df, "fips_enabled", false)
 		if baseImg == "" || strings.HasPrefix(baseImg, "$") {
 			continue
 		}
@@ -195,10 +197,10 @@ func Generate(data map[string]interface{}) *BOM {
 		if fips {
 			props = append(props, Property{Name: "arch-analyzer:fips", Value: "true"})
 		}
-		for _, arch := range getStringSlice(df, "architectures") {
+		for _, arch := range maputil.GetStringSlice(df, "architectures") {
 			props = append(props, Property{Name: "arch-analyzer:architecture", Value: arch})
 		}
-		for _, issue := range getStringSlice(df, "issues") {
+		for _, issue := range maputil.GetStringSlice(df, "issues") {
 			props = append(props, Property{Name: "arch-analyzer:issue", Value: issue})
 		}
 
@@ -216,11 +218,11 @@ func Generate(data map[string]interface{}) *BOM {
 	}
 
 	// Container images from deployments
-	for _, dep := range getSlice(data, "deployments") {
-		depName := getStr(dep, "name", "")
-		for _, container := range getSlice(dep, "containers") {
-			img := getStr(container, "image", "")
-			containerName := getStr(container, "name", "")
+	for _, dep := range maputil.GetSlice(data, "deployments") {
+		depName := maputil.GetStr(dep, "name", "")
+		for _, container := range maputil.GetSlice(dep, "containers") {
+			img := maputil.GetStr(container, "image", "")
+			containerName := maputil.GetStr(container, "name", "")
 			if img == "" || strings.HasPrefix(img, "$") || strings.HasPrefix(img, "ko://") {
 				continue
 			}
@@ -240,7 +242,7 @@ func Generate(data map[string]interface{}) *BOM {
 			}
 
 			// Security context
-			sc := getMap(container, "security_context")
+			sc := maputil.GetMap(container, "security_context")
 			if sc != nil {
 				if v, ok := sc["runAsNonRoot"]; ok {
 					props = append(props, Property{Name: "arch-analyzer:runAsNonRoot", Value: fmt.Sprintf("%v", v)})
@@ -254,10 +256,10 @@ func Generate(data map[string]interface{}) *BOM {
 			}
 
 			// Resources
-			res := getMap(container, "resources")
+			res := maputil.GetMap(container, "resources")
 			if res != nil {
-				req := getMap(res, "requests")
-				lim := getMap(res, "limits")
+				req := maputil.GetMap(res, "requests")
+				lim := maputil.GetMap(res, "limits")
 				if req != nil {
 					if v, ok := req["cpu"]; ok {
 						props = append(props, Property{Name: "arch-analyzer:cpu-request", Value: fmt.Sprintf("%v", v)})
@@ -277,11 +279,11 @@ func Generate(data map[string]interface{}) *BOM {
 			}
 
 			// Probes
-			if lp := getMap(container, "liveness_probe"); lp != nil {
-				props = append(props, Property{Name: "arch-analyzer:liveness-probe", Value: fmt.Sprintf("%s %s", getStr(lp, "type", ""), getStr(lp, "path", ""))})
+			if lp := maputil.GetMap(container, "liveness_probe"); lp != nil {
+				props = append(props, Property{Name: "arch-analyzer:liveness-probe", Value: fmt.Sprintf("%s %s", maputil.GetStr(lp, "type", ""), maputil.GetStr(lp, "path", ""))})
 			}
-			if rp := getMap(container, "readiness_probe"); rp != nil {
-				props = append(props, Property{Name: "arch-analyzer:readiness-probe", Value: fmt.Sprintf("%s %s", getStr(rp, "type", ""), getStr(rp, "path", ""))})
+			if rp := maputil.GetMap(container, "readiness_probe"); rp != nil {
+				props = append(props, Property{Name: "arch-analyzer:readiness-probe", Value: fmt.Sprintf("%s %s", maputil.GetStr(rp, "type", ""), maputil.GetStr(rp, "path", ""))})
 			}
 
 			c := Component{
@@ -299,10 +301,10 @@ func Generate(data map[string]interface{}) *BOM {
 	}
 
 	// Operator image constants
-	for _, cfg := range getSlice(data, "operator_config") {
-		cat := getStr(cfg, "category", "")
-		name := getStr(cfg, "name", "")
-		value := getStr(cfg, "value", "")
+	for _, cfg := range maputil.GetSlice(data, "operator_config") {
+		cat := maputil.GetStr(cfg, "category", "")
+		name := maputil.GetStr(cfg, "name", "")
+		value := maputil.GetStr(cfg, "value", "")
 		if (cat != "image" && !strings.Contains(strings.ToLower(name), "image")) || value == "" {
 			continue
 		}
@@ -317,7 +319,7 @@ func Generate(data map[string]interface{}) *BOM {
 				Properties: []Property{
 					{Name: "arch-analyzer:type", Value: "operator-constant"},
 					{Name: "arch-analyzer:constant-name", Value: name},
-					{Name: "arch-analyzer:source", Value: getStr(cfg, "source", "")},
+					{Name: "arch-analyzer:source", Value: maputil.GetStr(cfg, "source", "")},
 				},
 			}
 			bom.Components = append(bom.Components, c)
@@ -351,110 +353,3 @@ func parseImageRef(ref string) (name, tag, digest string) {
 	return
 }
 
-// Helpers matching the renderer package pattern.
-func getStr(m map[string]interface{}, key, fallback string) string {
-	if m == nil {
-		return fallback
-	}
-	v, ok := m[key]
-	if !ok {
-		return fallback
-	}
-	s, ok := v.(string)
-	if !ok {
-		return fallback
-	}
-	return s
-}
-
-func getMap(m map[string]interface{}, key string) map[string]interface{} {
-	if m == nil {
-		return nil
-	}
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	mm, ok := v.(map[string]interface{})
-	if ok {
-		return mm
-	}
-	return nil
-}
-
-func getSlice(m map[string]interface{}, key string) []map[string]interface{} {
-	if m == nil {
-		return nil
-	}
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	switch typed := v.(type) {
-	case []map[string]interface{}:
-		return typed
-	case []interface{}:
-		out := make([]map[string]interface{}, 0, len(typed))
-		for _, item := range typed {
-			if mm, ok := item.(map[string]interface{}); ok {
-				out = append(out, mm)
-			}
-		}
-		return out
-	}
-	return nil
-}
-
-func getStringSlice(m map[string]interface{}, key string) []string {
-	if m == nil {
-		return nil
-	}
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	switch typed := v.(type) {
-	case []string:
-		return typed
-	case []interface{}:
-		out := make([]string, 0, len(typed))
-		for _, item := range typed {
-			if s, ok := item.(string); ok {
-				out = append(out, s)
-			}
-		}
-		return out
-	}
-	return nil
-}
-
-func getInt(m map[string]interface{}, key string) int {
-	if m == nil {
-		return 0
-	}
-	v, ok := m[key]
-	if !ok {
-		return 0
-	}
-	switch n := v.(type) {
-	case float64:
-		return int(n)
-	case int:
-		return n
-	case int64:
-		return int(n)
-	}
-	return 0
-}
-
-func getBool(m map[string]interface{}, key string) bool {
-	if m == nil {
-		return false
-	}
-	v, ok := m[key]
-	if !ok {
-		return false
-	}
-	b, ok := v.(bool)
-	return ok && b
-}

@@ -7,6 +7,8 @@ import (
 	"sort"
 	"strings"
 	"unicode"
+
+	"github.com/ugiordan/architecture-analyzer/pkg/maputil"
 )
 
 // Renderer produces a diagram string from architecture data.
@@ -175,92 +177,11 @@ func GetSlice(m map[string]interface{}, key string) []map[string]interface{} {
 }
 
 // helper to extract a string from a map with a default.
-func getStr(m map[string]interface{}, key, fallback string) string {
-	if v, ok := m[key]; ok {
-		if s, ok := v.(string); ok {
-			return s
-		}
-	}
-	return fallback
-}
-
-// helper to extract a slice of maps from a map.
-func getSlice(m map[string]interface{}, key string) []map[string]interface{} {
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	switch typed := v.(type) {
-	case []map[string]interface{}:
-		return typed
-	case []interface{}:
-		out := make([]map[string]interface{}, 0, len(typed))
-		for _, item := range typed {
-			if mm, ok := item.(map[string]interface{}); ok {
-				out = append(out, mm)
-			}
-		}
-		return out
-	}
-	return nil
-}
-
-// helper to extract a map from a map.
-func getMap(m map[string]interface{}, key string) map[string]interface{} {
-	if v, ok := m[key]; ok {
-		if mm, ok := v.(map[string]interface{}); ok {
-			return mm
-		}
-	}
-	return nil
-}
-
-// helper to extract a string slice from a map value.
-func getStringSlice(m map[string]interface{}, key string) []string {
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	switch typed := v.(type) {
-	case []string:
-		return typed
-	case []interface{}:
-		out := make([]string, 0, len(typed))
-		for _, item := range typed {
-			if s, ok := item.(string); ok {
-				out = append(out, s)
-			}
-		}
-		return out
-	}
-	return nil
-}
-
-// helper to get an int from a map.
-func getInt(m map[string]interface{}, key string) int {
-	v, ok := m[key]
-	if !ok {
-		return 0
-	}
-	switch n := v.(type) {
-	case int:
-		return n
-	case float64:
-		return int(n)
-	case int64:
-		return int(n)
-	}
-	return 0
-}
-
-// helper to get a bool from a map, with a default.
-func getBool(m map[string]interface{}, key string, fallback bool) bool {
-	v, ok := m[key]
-	if !ok {
-		return fallback
-	}
-	if b, ok := v.(bool); ok {
-		return b
-	}
-	return fallback
-}
+// Package-local wrappers around maputil for backward compatibility.
+// All renderer code uses these lowercase names; they delegate to the shared package.
+func getStr(m map[string]interface{}, key, fallback string) string { return maputil.GetStr(m, key, fallback) }
+func getSlice(m map[string]interface{}, key string) []map[string]interface{} { return maputil.GetSlice(m, key) }
+func getMap(m map[string]interface{}, key string) map[string]interface{} { return maputil.GetMap(m, key) }
+func getStringSlice(m map[string]interface{}, key string) []string { return maputil.GetStringSlice(m, key) }
+func getInt(m map[string]interface{}, key string) int { return maputil.GetInt(m, key) }
+func getBool(m map[string]interface{}, key string, fallback bool) bool { return maputil.GetBool(m, key, fallback) }

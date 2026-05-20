@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"sort"
 	"strings"
+
+	"github.com/ugiordan/architecture-analyzer/pkg/maputil"
 )
 
 // GenerateImageReport produces a comprehensive image and container analysis
@@ -17,11 +19,11 @@ func GenerateImageReport(components map[string]map[string]interface{}) string {
 	totalDep := 0
 	totalContainers := 0
 	for _, data := range components {
-		totalDF += len(getSlice(data, "dockerfiles"))
-		deps := getSlice(data, "deployments")
+		totalDF += len(maputil.GetSlice(data, "dockerfiles"))
+		deps := maputil.GetSlice(data, "deployments")
 		totalDep += len(deps)
 		for _, dep := range deps {
-			totalContainers += len(getSlice(dep, "containers"))
+			totalContainers += len(maputil.GetSlice(dep, "containers"))
 		}
 	}
 
@@ -48,7 +50,7 @@ func GenerateImageReport(components map[string]map[string]interface{}) string {
 
 // GenerateSingleComponentReport produces a report for a single component.
 func GenerateSingleComponentReport(data map[string]interface{}) string {
-	name := getStr(data, "component", "unknown")
+	name := maputil.GetStr(data, "component", "unknown")
 	return GenerateImageReport(map[string]map[string]interface{}{name: data})
 }
 
@@ -59,15 +61,15 @@ func writeGPUSection(b *strings.Builder, components map[string]map[string]interf
 
 	found := false
 	for _, name := range names {
-		for _, df := range getSlice(components[name], "dockerfiles") {
-			baseImg := getStr(df, "base_image", "")
-			path := getStr(df, "path", "")
+		for _, df := range maputil.GetSlice(components[name], "dockerfiles") {
+			baseImg := maputil.GetStr(df, "base_image", "")
+			path := maputil.GetStr(df, "path", "")
 			cudaVer, accel, notes := classifyGPU(baseImg, path)
 			if accel == "" {
 				continue
 			}
 			found = true
-			for _, issue := range getStringSlice(df, "issues") {
+			for _, issue := range maputil.GetStringSlice(df, "issues") {
 				notes = append(notes, issue)
 			}
 			b.WriteString(fmt.Sprintf("| %s | `%s` | `%s` | %s | %s | %s |\n",
@@ -133,8 +135,8 @@ func writeRegistrySection(b *strings.Builder, components map[string]map[string]i
 
 	registries := map[string]int{}
 	for _, data := range components {
-		for _, df := range getSlice(data, "dockerfiles") {
-			img := getStr(df, "base_image", "")
+		for _, df := range maputil.GetSlice(data, "dockerfiles") {
+			img := maputil.GetStr(df, "base_image", "")
 			if strings.Contains(img, "/") {
 				reg := strings.SplitN(img, "/", 2)[0]
 				if strings.Contains(reg, ".") || strings.Contains(reg, ":") {
@@ -172,8 +174,8 @@ func writeMultiArchSection(b *strings.Builder, components map[string]map[string]
 
 	count := 0
 	for _, data := range components {
-		for _, df := range getSlice(data, "dockerfiles") {
-			if len(getStringSlice(df, "architectures")) > 0 {
+		for _, df := range maputil.GetSlice(data, "dockerfiles") {
+			if len(maputil.GetStringSlice(df, "architectures")) > 0 {
 				count++
 			}
 		}
@@ -183,12 +185,12 @@ func writeMultiArchSection(b *strings.Builder, components map[string]map[string]
 	b.WriteString("|-----------|-----------|---------------|--------|------|\n")
 
 	for _, name := range names {
-		for _, df := range getSlice(components[name], "dockerfiles") {
-			archs := getStringSlice(df, "architectures")
+		for _, df := range maputil.GetSlice(components[name], "dockerfiles") {
+			archs := maputil.GetStringSlice(df, "architectures")
 			if len(archs) > 0 {
-				user := getStr(df, "user", "(not set)")
+				user := maputil.GetStr(df, "user", "(not set)")
 				b.WriteString(fmt.Sprintf("| %s | `%s` | %s | %d | `%s` |\n",
-					name, getStr(df, "path", ""), strings.Join(archs, ", "), getInt(df, "stages"), user))
+					name, maputil.GetStr(df, "path", ""), strings.Join(archs, ", "), maputil.GetInt(df, "stages"), user))
 			}
 		}
 	}
@@ -201,8 +203,8 @@ func writeDockerfileIssuesSection(b *strings.Builder, components map[string]map[
 	issuesByType := map[string]int{}
 	total := 0
 	for _, data := range components {
-		for _, df := range getSlice(data, "dockerfiles") {
-			for _, issue := range getStringSlice(df, "issues") {
+		for _, df := range maputil.GetSlice(data, "dockerfiles") {
+			for _, issue := range maputil.GetStringSlice(df, "issues") {
 				total++
 				key := issue
 				if idx := strings.Index(issue, ":"); idx > 0 && idx < 30 {
@@ -230,9 +232,9 @@ func writeDockerfileIssuesSection(b *strings.Builder, components map[string]map[
 
 	b.WriteString("\n| Component | Dockerfile | Issue |\n|-----------|-----------|-------|\n")
 	for _, name := range names {
-		for _, df := range getSlice(components[name], "dockerfiles") {
-			for _, issue := range getStringSlice(df, "issues") {
-				b.WriteString(fmt.Sprintf("| %s | `%s` | %s |\n", name, getStr(df, "path", ""), issue))
+		for _, df := range maputil.GetSlice(components[name], "dockerfiles") {
+			for _, issue := range maputil.GetStringSlice(df, "issues") {
+				b.WriteString(fmt.Sprintf("| %s | `%s` | %s |\n", name, maputil.GetStr(df, "path", ""), issue))
 			}
 		}
 	}
@@ -244,10 +246,10 @@ func writeSecurityContextSection(b *strings.Builder, components map[string]map[s
 
 	totalC, missingSC := 0, 0
 	for _, data := range components {
-		for _, dep := range getSlice(data, "deployments") {
-			for _, c := range getSlice(dep, "containers") {
+		for _, dep := range maputil.GetSlice(data, "deployments") {
+			for _, c := range maputil.GetSlice(dep, "containers") {
 				totalC++
-				if getMap(c, "security_context") == nil {
+				if maputil.GetMap(c, "security_context") == nil {
 					missingSC++
 				}
 			}
@@ -259,28 +261,28 @@ func writeSecurityContextSection(b *strings.Builder, components map[string]map[s
 	b.WriteString("|-----------|-----------|-----------|:-----------:|:---------:|:---------:|:--------:|\n")
 
 	for _, name := range names {
-		for _, dep := range getSlice(components[name], "deployments") {
-			for _, c := range getSlice(dep, "containers") {
-				sc := getMap(c, "security_context")
+		for _, dep := range maputil.GetSlice(components[name], "deployments") {
+			for _, c := range maputil.GetSlice(dep, "containers") {
+				sc := maputil.GetMap(c, "security_context")
 				if sc == nil {
 					b.WriteString(fmt.Sprintf("| %s | %s | %s | - | - | - | **NONE** |\n",
-						name, getStr(dep, "name", ""), getStr(c, "name", "")))
+						name, maputil.GetStr(dep, "name", ""), maputil.GetStr(c, "name", "")))
 					continue
 				}
 				ran := fmtBoolField(sc, "runAsNonRoot")
 				rofs := fmtBoolField(sc, "readOnlyRootFilesystem")
 				priv := fmtBoolFieldInverse(sc, "privileged")
-				caps := getMap(sc, "capabilities")
+				caps := maputil.GetMap(sc, "capabilities")
 				drop := "**No**"
 				if caps != nil {
-					for _, d := range getStringSlice(caps, "drop") {
+					for _, d := range maputil.GetStringSlice(caps, "drop") {
 						if d == "ALL" {
 							drop = "Yes"
 						}
 					}
 				}
 				b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s | %s | %s |\n",
-					name, getStr(dep, "name", ""), getStr(c, "name", ""), ran, rofs, priv, drop))
+					name, maputil.GetStr(dep, "name", ""), maputil.GetStr(c, "name", ""), ran, rofs, priv, drop))
 			}
 		}
 	}
@@ -292,10 +294,10 @@ func writeResourceLimitsSection(b *strings.Builder, components map[string]map[st
 
 	totalC, noLimits := 0, 0
 	for _, data := range components {
-		for _, dep := range getSlice(data, "deployments") {
-			for _, c := range getSlice(dep, "containers") {
+		for _, dep := range maputil.GetSlice(data, "deployments") {
+			for _, c := range maputil.GetSlice(dep, "containers") {
 				totalC++
-				if getMap(c, "resources") == nil {
+				if maputil.GetMap(c, "resources") == nil {
 					noLimits++
 				}
 			}
@@ -307,18 +309,18 @@ func writeResourceLimitsSection(b *strings.Builder, components map[string]map[st
 	b.WriteString("|-----------|-----------|-----------|---------|---------|---------|--------|\n")
 
 	for _, name := range names {
-		for _, dep := range getSlice(components[name], "deployments") {
-			for _, c := range getSlice(dep, "containers") {
-				res := getMap(c, "resources")
+		for _, dep := range maputil.GetSlice(components[name], "deployments") {
+			for _, c := range maputil.GetSlice(dep, "containers") {
+				res := maputil.GetMap(c, "resources")
 				if res == nil {
 					b.WriteString(fmt.Sprintf("| %s | %s | %s | **-** | **-** | **-** | **-** |\n",
-						name, getStr(dep, "name", ""), getStr(c, "name", "")))
+						name, maputil.GetStr(dep, "name", ""), maputil.GetStr(c, "name", "")))
 					continue
 				}
-				req := getMap(res, "requests")
-				lim := getMap(res, "limits")
+				req := maputil.GetMap(res, "requests")
+				lim := maputil.GetMap(res, "limits")
 				b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s | %s | %s |\n",
-					name, getStr(dep, "name", ""), getStr(c, "name", ""),
+					name, maputil.GetStr(dep, "name", ""), maputil.GetStr(c, "name", ""),
 					mapVal(req, "cpu"), mapVal(lim, "cpu"), mapVal(req, "memory"), mapVal(lim, "memory")))
 			}
 		}
@@ -332,13 +334,13 @@ func writeHealthProbeSection(b *strings.Builder, components map[string]map[strin
 	totalC := 0
 	noLiveness, noReadiness := 0, 0
 	for _, data := range components {
-		for _, dep := range getSlice(data, "deployments") {
-			for _, c := range getSlice(dep, "containers") {
+		for _, dep := range maputil.GetSlice(data, "deployments") {
+			for _, c := range maputil.GetSlice(dep, "containers") {
 				totalC++
-				if getMap(c, "liveness_probe") == nil {
+				if maputil.GetMap(c, "liveness_probe") == nil {
 					noLiveness++
 				}
-				if getMap(c, "readiness_probe") == nil {
+				if maputil.GetMap(c, "readiness_probe") == nil {
 					noReadiness++
 				}
 			}
@@ -350,20 +352,20 @@ func writeHealthProbeSection(b *strings.Builder, components map[string]map[strin
 	b.WriteString("|-----------|-----------|-----------|----------|----------|\n")
 
 	for _, name := range names {
-		for _, dep := range getSlice(components[name], "deployments") {
-			for _, c := range getSlice(dep, "containers") {
-				lp := getMap(c, "liveness_probe")
-				rp := getMap(c, "readiness_probe")
+		for _, dep := range maputil.GetSlice(components[name], "deployments") {
+			for _, c := range maputil.GetSlice(dep, "containers") {
+				lp := maputil.GetMap(c, "liveness_probe")
+				rp := maputil.GetMap(c, "readiness_probe")
 				liveness := "**MISSING**"
 				readiness := "**MISSING**"
 				if lp != nil {
-					liveness = fmt.Sprintf("`%s %s`", getStr(lp, "type", ""), getStr(lp, "path", ""))
+					liveness = fmt.Sprintf("`%s %s`", maputil.GetStr(lp, "type", ""), maputil.GetStr(lp, "path", ""))
 				}
 				if rp != nil {
-					readiness = fmt.Sprintf("`%s %s`", getStr(rp, "type", ""), getStr(rp, "path", ""))
+					readiness = fmt.Sprintf("`%s %s`", maputil.GetStr(rp, "type", ""), maputil.GetStr(rp, "path", ""))
 				}
 				b.WriteString(fmt.Sprintf("| %s | %s | %s | %s | %s |\n",
-					name, getStr(dep, "name", ""), getStr(c, "name", ""), liveness, readiness))
+					name, maputil.GetStr(dep, "name", ""), maputil.GetStr(c, "name", ""), liveness, readiness))
 			}
 		}
 	}
@@ -376,15 +378,15 @@ func writeSidecarSection(b *strings.Builder, components map[string]map[string]in
 	b.WriteString("|-----------|-----------|------|----------|\n")
 
 	for _, name := range names {
-		for _, dep := range getSlice(components[name], "deployments") {
-			containers := getSlice(dep, "containers")
+		for _, dep := range maputil.GetSlice(components[name], "deployments") {
+			containers := maputil.GetSlice(dep, "containers")
 			if len(containers) > 1 {
 				var cNames []string
 				for _, c := range containers {
-					cNames = append(cNames, getStr(c, "name", ""))
+					cNames = append(cNames, maputil.GetStr(c, "name", ""))
 				}
 				b.WriteString(fmt.Sprintf("| %s | %s | `%s` | %s |\n",
-					name, getStr(dep, "name", ""), cNames[0],
+					name, maputil.GetStr(dep, "name", ""), cNames[0],
 					strings.Join(wrapBackticks(cNames[1:]), ", ")))
 			}
 		}
@@ -397,8 +399,8 @@ func writeDeploymentIssuesSection(b *strings.Builder, components map[string]map[
 
 	issues := map[string]int{}
 	for _, data := range components {
-		for _, dep := range getSlice(data, "deployments") {
-			for _, issue := range getStringSlice(dep, "issues") {
+		for _, dep := range maputil.GetSlice(data, "deployments") {
+			for _, issue := range maputil.GetStringSlice(dep, "issues") {
 				issues[issue]++
 			}
 		}
@@ -426,14 +428,14 @@ func writeImageConstantsSection(b *strings.Builder, components map[string]map[st
 	b.WriteString("|-----------|----------|---------------|\n")
 
 	for _, name := range names {
-		for _, cfg := range getSlice(components[name], "operator_config") {
-			cat := getStr(cfg, "category", "")
-			cname := getStr(cfg, "name", "")
+		for _, cfg := range maputil.GetSlice(components[name], "operator_config") {
+			cat := maputil.GetStr(cfg, "category", "")
+			cname := maputil.GetStr(cfg, "name", "")
 			if cat != "image" && !strings.Contains(strings.ToLower(cname), "image") {
 				continue
 			}
 			b.WriteString(fmt.Sprintf("| %s | `%s` | `%s` |\n",
-				name, cname, truncate(getStr(cfg, "value", ""), 70)))
+				name, cname, truncate(maputil.GetStr(cfg, "value", ""), 70)))
 		}
 	}
 	b.WriteString("\n")
@@ -502,97 +504,4 @@ func wrapBackticks(ss []string) []string {
 		out[i] = "`" + s + "`"
 	}
 	return out
-}
-
-func getStr(m map[string]interface{}, key, fallback string) string {
-	if m == nil {
-		return fallback
-	}
-	v, ok := m[key]
-	if !ok {
-		return fallback
-	}
-	s, ok := v.(string)
-	if !ok {
-		return fallback
-	}
-	return s
-}
-
-func getMap(m map[string]interface{}, key string) map[string]interface{} {
-	if m == nil {
-		return nil
-	}
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	mm, ok := v.(map[string]interface{})
-	if ok {
-		return mm
-	}
-	return nil
-}
-
-func getSlice(m map[string]interface{}, key string) []map[string]interface{} {
-	if m == nil {
-		return nil
-	}
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	switch typed := v.(type) {
-	case []map[string]interface{}:
-		return typed
-	case []interface{}:
-		out := make([]map[string]interface{}, 0, len(typed))
-		for _, item := range typed {
-			if mm, ok := item.(map[string]interface{}); ok {
-				out = append(out, mm)
-			}
-		}
-		return out
-	}
-	return nil
-}
-
-func getStringSlice(m map[string]interface{}, key string) []string {
-	if m == nil {
-		return nil
-	}
-	v, ok := m[key]
-	if !ok {
-		return nil
-	}
-	switch typed := v.(type) {
-	case []string:
-		return typed
-	case []interface{}:
-		out := make([]string, 0, len(typed))
-		for _, item := range typed {
-			if s, ok := item.(string); ok {
-				out = append(out, s)
-			}
-		}
-		return out
-	}
-	return nil
-}
-
-func getInt(m map[string]interface{}, key string) int {
-	if m == nil {
-		return 0
-	}
-	v, ok := m[key]
-	if !ok {
-		return 0
-	}
-	switch n := v.(type) {
-	case float64:
-		return int(n)
-	case int:
-		return n
-	}
-	return 0
 }
