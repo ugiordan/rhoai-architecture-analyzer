@@ -49,14 +49,14 @@ func (a *PythonAnnotator) classifyTrust(g *graph.CPG) {
 		if ep.Language != "python" {
 			continue
 		}
-		ep.TrustLevel = graph.TrustUntrusted
+		g.SetTrustLevel(ep.ID, graph.TrustUntrusted)
 		// Check if the handler function has auth decorators
 		if fn, ok := fnIndex[fnKey{ep.Name, ep.File}]; ok {
 			for _, dec := range fn.Decorators {
 				if strings.Contains(dec, "login_required") || strings.Contains(dec, "requires_auth") ||
 					strings.Contains(dec, "jwt_required") || strings.Contains(dec, "permission_required") ||
 					strings.Contains(dec, "token_required") || strings.Contains(dec, "auth_required") {
-					ep.TrustLevel = graph.TrustSemiTrusted
+					g.SetTrustLevel(ep.ID, graph.TrustSemiTrusted)
 					break
 				}
 			}

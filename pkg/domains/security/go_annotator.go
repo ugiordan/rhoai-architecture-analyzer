@@ -41,7 +41,7 @@ func (a *GoAnnotator) classifyTrust(g *graph.CPG) {
 		if ep.Language != "go" {
 			continue
 		}
-		ep.TrustLevel = graph.TrustUntrusted
+		g.SetTrustLevel(ep.ID, graph.TrustUntrusted)
 	}
 
 	for _, fn := range g.NodesByKind(graph.NodeFunction) {
@@ -52,19 +52,19 @@ func (a *GoAnnotator) classifyTrust(g *graph.CPG) {
 
 		// Admission webhook handlers are semi-trusted (authenticated by API server)
 		if strings.Contains(paramTypes, "admission.Request") || strings.Contains(paramTypes, "AdmissionReview") {
-			fn.TrustLevel = graph.TrustSemiTrusted
+			g.SetTrustLevel(fn.ID, graph.TrustSemiTrusted)
 			continue
 		}
 
 		// Controller Reconcile functions are trusted (internal loop)
 		if fn.Name == "Reconcile" && (strings.Contains(paramTypes, "ctrl.Request") || strings.Contains(paramTypes, "reconcile.Request")) {
-			fn.TrustLevel = graph.TrustTrusted
+			g.SetTrustLevel(fn.ID, graph.TrustTrusted)
 			continue
 		}
 
 		// Init/setup functions are trusted
 		if fn.Name == "init" || fn.Name == "main" || fn.Name == "SetupWithManager" {
-			fn.TrustLevel = graph.TrustTrusted
+			g.SetTrustLevel(fn.ID, graph.TrustTrusted)
 			continue
 		}
 	}

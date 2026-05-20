@@ -147,6 +147,17 @@ func (g *CPG) EdgesByKindFrom(kind EdgeKind, fromID string) []*Edge {
 	return result
 }
 
+// SetTrustLevel sets the trust level on a node in a thread-safe manner.
+func (g *CPG) SetTrustLevel(nodeID string, level TrustLevel) {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+	n, ok := g.nodes[nodeID]
+	if !ok {
+		return
+	}
+	n.TrustLevel = level
+}
+
 // SetAnnotation sets an annotation on a node in a thread-safe manner.
 func (g *CPG) SetAnnotation(nodeID string, key string, value bool) {
 	g.mu.Lock()

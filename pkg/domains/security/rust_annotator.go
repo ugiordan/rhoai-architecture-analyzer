@@ -45,7 +45,7 @@ func (a *RustAnnotator) classifyTrust(g *graph.CPG) {
 		if ep.Language != "rust" {
 			continue
 		}
-		ep.TrustLevel = graph.TrustUntrusted
+		g.SetTrustLevel(ep.ID, graph.TrustUntrusted)
 	}
 }
 

@@ -37,7 +37,7 @@ func (a *TypeScriptAnnotator) classifyTrust(g *graph.CPG) {
 		if ep.Language != "typescript" {
 			continue
 		}
-		ep.TrustLevel = graph.TrustUntrusted
+		g.SetTrustLevel(ep.ID, graph.TrustUntrusted)
 	}
 }
 
