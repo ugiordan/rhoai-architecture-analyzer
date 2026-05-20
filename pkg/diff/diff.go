@@ -316,6 +316,9 @@ func compareNodes(base, head graph.Node) []FieldChange {
 	if !sortedEqual(base.FieldNames, head.FieldNames) {
 		addChange("field_names", base.FieldNames, head.FieldNames)
 	}
+	if !sliceEqual(base.Members, head.Members) {
+		addChange("members", base.Members, head.Members)
+	}
 
 	// Map comparisons
 	if !reflect.DeepEqual(base.Annotations, head.Annotations) {

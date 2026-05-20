@@ -70,6 +70,17 @@ func (g *CPG) KindCount(kind NodeKind) int {
 	return len(g.kindIndex[kind])
 }
 
+// AnnotationCount returns the total number of annotations without allocating a node copy.
+func (g *CPG) AnnotationCount() int {
+	g.mu.RLock()
+	defer g.mu.RUnlock()
+	count := 0
+	for _, n := range g.nodes {
+		count += len(n.Annotations)
+	}
+	return count
+}
+
 func (g *CPG) Nodes() []*Node {
 	g.mu.RLock()
 	defer g.mu.RUnlock()

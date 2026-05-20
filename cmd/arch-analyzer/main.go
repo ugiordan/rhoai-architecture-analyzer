@@ -1066,10 +1066,26 @@ func filterByKind(d *diff.GraphDiff, kinds map[string]bool) {
 	}
 	d.Nodes.Modified = filtered
 
+	// Filter edges to only include those connecting filtered nodes.
+	nodeIDs := make(map[string]bool)
+	for _, n := range d.Nodes.Added {
+		nodeIDs[n.ID] = true
+	}
+	for _, n := range d.Nodes.Removed {
+		nodeIDs[n.ID] = true
+	}
+	for _, mc := range d.Nodes.Modified {
+		nodeIDs[mc.After.ID] = true
+	}
+	d.Edges.Added = filterEdgesForNodes(d.Edges.Added, nodeIDs)
+	d.Edges.Removed = filterEdgesForNodes(d.Edges.Removed, nodeIDs)
+
 	// Recompute summary
 	d.Summary.NodesAdded = len(d.Nodes.Added)
 	d.Summary.NodesRemoved = len(d.Nodes.Removed)
 	d.Summary.NodesModified = len(d.Nodes.Modified)
+	d.Summary.EdgesAdded = len(d.Edges.Added)
+	d.Summary.EdgesRemoved = len(d.Edges.Removed)
 	d.Summary.ByKind = make(map[string]diff.KindCounts)
 	d.Summary.ByLanguage = make(map[string]diff.KindCounts)
 	for _, n := range d.Nodes.Added {
@@ -1084,6 +1100,16 @@ func filterByKind(d *diff.GraphDiff, kinds map[string]bool) {
 		incFilterCount(d.Summary.ByKind, string(mc.After.Kind), "modified")
 		incFilterCount(d.Summary.ByLanguage, mc.After.Language, "modified")
 	}
+}
+
+func filterEdgesForNodes(edges []graph.Edge, nodeIDs map[string]bool) []graph.Edge {
+	var result []graph.Edge
+	for _, e := range edges {
+		if nodeIDs[e.From] || nodeIDs[e.To] {
+			result = append(result, e)
+		}
+	}
+	return result
 }
 
 func incFilterCount(m map[string]diff.KindCounts, key, op string) {
@@ -1749,10 +1775,12 @@ func prepareArchData(repoPath string, cpg *graph.CPG, org string) *domains.Archi
 	raw, mErr := json.Marshal(archResult)
 	if mErr != nil {
 		fmt.Fprintf(os.Stderr, "Warning: failed to marshal architecture data: %v\n", mErr)
+		return nil
 	}
 	var data map[string]interface{}
 	if err := json.Unmarshal(raw, &data); err != nil {
 		fmt.Fprintf(os.Stderr, "Warning: failed to unmarshal architecture data: %v\n", err)
+		return nil
 	}
 	archData := &domains.ArchitectureData{Raw: data}
 

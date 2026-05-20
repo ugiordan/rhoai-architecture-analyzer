@@ -271,7 +271,7 @@ func detectOrg(repoPath string) string {
 		}
 	}
 
-	return "opendatahub-io"
+	return ""
 }
 
 // detectHEAD reads the current commit SHA from .git/HEAD.

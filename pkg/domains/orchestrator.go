@@ -94,11 +94,7 @@ func (o *Orchestrator) Run(cpg *graph.CPG, lang string, archData *ArchitectureDa
 }
 
 func countAnnotations(cpg *graph.CPG) int {
-	count := 0
-	for _, n := range cpg.Nodes() {
-		count += len(n.Annotations)
-	}
-	return count
+	return cpg.AnnotationCount()
 }
 
 // sortByDependency performs a topological sort of domain analyzers using Kahn's algorithm.

@@ -470,7 +470,7 @@ func Aggregate(resultsDir string) (map[string]interface{}, error) {
 	}
 
 	result := map[string]interface{}{
-		"platform":           "OpenShift AI",
+		"platform":           "Platform",
 		"aggregated_at":      time.Now().UTC().Format(time.RFC3339),
 		"components":         compNamesIface,
 		"component_count":    len(dedupedComponents),

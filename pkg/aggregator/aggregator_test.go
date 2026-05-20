@@ -20,8 +20,8 @@ func TestAggregate_EmptyDir(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if result["platform"] != "OpenShift AI" {
-		t.Error("platform should be 'OpenShift AI'")
+	if result["platform"] != "Platform" {
+		t.Error("platform should be 'Platform'")
 	}
 	if result["component_count"] != 0 {
 		t.Error("component_count should be 0 for empty dir")
